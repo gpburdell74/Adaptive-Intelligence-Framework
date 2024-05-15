@@ -1,0 +1,12 @@
+#bin and obj Folders
+
+Debug/
+Release/
+/bin/
+/obj/
+bin/
+obj/
+.vs/
+/.vs/
+
+
