@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Text16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Text16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PrimaryKey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PrimaryKey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Parse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Parse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Server16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Server16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewConnection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewConnection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Server 161" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Server 16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Query" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Query.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Script16I" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Script16I.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Server 16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Server 16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpDel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SpDel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Column16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Column16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ValidationMessagePasswordRequired" xml:space="preserve">
+    <value>A password value must be specified.</value>
+    <comment>Connection Validation Message</comment>
+  </data>
+  <data name="Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AuthTypeSqlServer" xml:space="preserve">
+    <value>SQL Server Authentication</value>
+    <comment>Authentication Type drop-down list value.</comment>
+  </data>
+  <data name="Database TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Database TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Parse16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Parse16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SaveAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SaveAll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ConnectMessageFailure" xml:space="preserve">
+    <value>Could not connect to SQL Server</value>
+    <comment>Message Box Text</comment>
+  </data>
+  <data name="Db16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Db16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CloseButton_Image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseButton.Image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewSolution" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewSolution.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ConnectTitleSuccess" xml:space="preserve">
+    <value>Connection Success</value>
+    <comment>Message Box Title</comment>
+  </data>
+  <data name="CloseAllDocs16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseAllDocs16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Stop_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Stop_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StoredProc TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StoredProc TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ValidationMessageUserIdRequired" xml:space="preserve">
+    <value>A user name or ID value must be specified.</value>
+    <comment>Connection Validation Message</comment>
+  </data>
+  <data name="Exec16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Exec16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MissingStoredProc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MissingStoredProc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Folder16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Folder16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Table16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Table16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Connect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Connect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PKey16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PKey16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ValidationMessageServerNameRequired" xml:space="preserve">
+    <value>A server name or address must be specified.</value>
+    <comment>Connection Validation Message</comment>
+  </data>
+  <data name="StoredProc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StoredProc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Key16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Key16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ValidationMessagePoolInstance" xml:space="preserve">
+    <value>At least one pool instance must be specified.</value>
+    <comment>Connection Validation Message</comment>
+  </data>
+  <data name="Disconnect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Disconnect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ConnectTitleError" xml:space="preserve">
+    <value>Connection Failed</value>
+    <comment>Message Box Title</comment>
+  </data>
+  <data name="AuthTypeWindows" xml:space="preserve">
+    <value>Windows Authentication</value>
+    <comment>Authentication Type drop-down list value.</comment>
+  </data>
+  <data name="Folder16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Folder16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Connect1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Connect1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Execute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Execute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Disconnect TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Disconnect TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Script16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Script16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Table16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Table16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PKey16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PKey16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Database" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Database.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Index16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Index16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ConnectMessageSuccess" xml:space="preserve">
+    <value>Connection to SQL Server successful.</value>
+    <comment>Message Box Text</comment>
+  </data>
+  <data name="ValidationMessageSelectDb" xml:space="preserve">
+    <value>Select a database or uncheck the item to default to [master].</value>
+    <comment>Connection Validation Message</comment>
+  </data>
+  <data name="Key16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Key16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Server" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Server.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Column" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Column.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Server16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Server16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Index16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Index16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Exec 16 TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Exec 16 TP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Filter2HS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Filter2HS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CancellingText" xml:space="preserve">
+    <value>Canceling...</value>
+  </data>
+  <data name="CancelText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CloseText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ExecuteSqlFailedMessage" xml:space="preserve">
+    <value>The execution of the SQL command or statement failed.</value>
+  </data>
+  <data name="ExecuteSqlFailedTitle" xml:space="preserve">
+    <value>SQL Query Failed</value>
+  </data>
+  <data name="ExecuteSqlSuccessMessage" xml:space="preserve">
+    <value>The SQL command was executed successfully.</value>
+  </data>
+  <data name="ExecuteSqlSuccessTitle" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="NewQueryTitle" xml:space="preserve">
+    <value>[New Query]</value>
+  </data>
+  <data name="OpenSqlFileDefaultExt" xml:space="preserve">
+    <value>sql</value>
+  </data>
+  <data name="OpenSqlFileFilter" xml:space="preserve">
+    <value>SQL Query Files (*.sql)|*.sql</value>
+  </data>
+  <data name="OpenSqlFileTitle" xml:space="preserve">
+    <value>Open SQL Query</value>
+  </data>
+  <data name="ParseSqlSuccessMessage" xml:space="preserve">
+    <value>The SQL command was parsed successfully.</value>
+  </data>
+  <data name="ReadyText" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="SaveSqlFileTitle" xml:space="preserve">
+    <value>Save SQL Query As</value>
+  </data>
+  <data name="SpNameDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="SpNameGetAll" xml:space="preserve">
+    <value>GetAll</value>
+  </data>
+  <data name="SpNameGetById" xml:space="preserve">
+    <value>GetById</value>
+  </data>
+  <data name="SpNameGetForCustomer" xml:space="preserve">
+    <value>GetForCustomer</value>
+  </data>
+  <data name="SpNameInsert" xml:space="preserve">
+    <value>Insert</value>
+  </data>
+  <data name="SpNameUpdate" xml:space="preserve">
+    <value>Update</value>
+  </data>
+</root>

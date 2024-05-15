@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Authors>Sam Jones</Authors>
+    <Version>0.0.1</Version>
+    <Title>Adaptive Intelligence SQL Server Client Library</Title>
+    <Company>Adaptive Intelligence</Company>
+    <Product>Adaptive Intelligence Framework</Product>
+    <Description>Class Library for accessing SQL Server.</Description>
+    <Copyright>Copyright © 2024 by Sam Jones.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+    <PackageIcon>AI.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Raw Resources\AI.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="171.30.0" />
+    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="161.9109.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

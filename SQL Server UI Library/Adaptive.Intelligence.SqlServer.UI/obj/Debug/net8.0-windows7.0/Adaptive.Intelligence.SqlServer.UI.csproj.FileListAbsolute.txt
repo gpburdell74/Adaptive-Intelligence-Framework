@@ -1,0 +1,51 @@
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.deps.json
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.dll
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.pdb
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.dll
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.dll
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.pdb
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.UI.pdb
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.pdb
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.csproj.AssemblyReference.cache
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.DatabaseToolbox.resources
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.DatabaseTreeView.resources
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.SqlQueryEditorDialog.resources
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.SqlServerConnectionDialog.resources
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.Properties.Resources.resources
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.csproj.GenerateResource.cache
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.GeneratedMSBuildEditorConfig.editorconfig
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.AssemblyInfoInputs.cache
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.AssemblyInfo.cs
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.csproj.CoreCompileInputs.cache
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.sourcelink.json
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.AAB18B71.Up2Date
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.dll
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\refint\Adaptive.Intelligence.SqlServer.UI.dll
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.pdb
+D:\Adaptive Intelligence\Framework\C#\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\ref\Adaptive.Intelligence.SqlServer.UI.dll
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.deps.json
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.dll
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.pdb
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.dll
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.dll
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.pdb
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.Shared.UI.pdb
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\bin\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.pdb
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.csproj.AssemblyReference.cache
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.DatabaseToolbox.resources
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.DatabaseTreeView.resources
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.SqlQueryEditorDialog.resources
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.SqlServerConnectionDialog.resources
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.Properties.Resources.resources
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.csproj.GenerateResource.cache
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.GeneratedMSBuildEditorConfig.editorconfig
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.AssemblyInfoInputs.cache
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.AssemblyInfo.cs
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.csproj.CoreCompileInputs.cache
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.AAB18B71.Up2Date
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.dll
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\refint\Adaptive.Intelligence.SqlServer.UI.dll
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\Adaptive.Intelligence.SqlServer.UI.pdb
+D:\Adaptive.Intelligence\Framework\SQL Server UI Library\Adaptive.Intelligence.SqlServer.UI\obj\Debug\net8.0-windows7.0\ref\Adaptive.Intelligence.SqlServer.UI.dll

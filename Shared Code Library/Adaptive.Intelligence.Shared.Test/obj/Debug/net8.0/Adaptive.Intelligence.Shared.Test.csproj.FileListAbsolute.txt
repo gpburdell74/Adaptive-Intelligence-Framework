@@ -1,0 +1,215 @@
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\CoverletSourceRootsMapping_Adaptive.Intelligence.Shared.Test
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\testhost.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\testhost.exe
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.runner.visualstudio.testadapter.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.runner.reporters.netcoreapp10.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.runner.utility.netcoreapp10.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.deps.json
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.runtimeconfig.json
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.pdb
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Castle.Core.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.CoreUtilities.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.PlatformAbstractions.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.CommunicationUtilities.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.CrossPlatEngine.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.Utilities.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.VisualStudio.TestPlatform.Common.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\NSubstitute.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\System.CodeDom.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.abstractions.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.assert.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.core.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.execution.dotnet.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.pdb
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.csproj.AssemblyReference.cache
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.GeneratedMSBuildEditorConfig.editorconfig
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.AssemblyInfoInputs.cache
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.AssemblyInfo.cs
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.csproj.CoreCompileInputs.cache
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.sourcelink.json
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.218946B8.Up2Date
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\refint\Adaptive.Intelligence.Shared.Test.dll
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.pdb
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.genruntimeconfig.cache
+D:\Adaptive Intelligence\Framework\C#\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\ref\Adaptive.Intelligence.Shared.Test.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\CoverletSourceRootsMapping_Adaptive.Intelligence.Shared.Test
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\testhost.exe
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\testhost.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.runner.visualstudio.testadapter.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.runner.reporters.netcoreapp10.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.runner.utility.netcoreapp10.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.deps.json
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.runtimeconfig.json
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.Test.pdb
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Castle.Core.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.CoreUtilities.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.PlatformAbstractions.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.CommunicationUtilities.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.CrossPlatEngine.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.TestPlatform.Utilities.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Microsoft.VisualStudio.TestPlatform.Common.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\NSubstitute.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\System.CodeDom.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.abstractions.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.assert.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.core.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\xunit.execution.dotnet.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CoreUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\cs\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\de\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\es\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\fr\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\it\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ja\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ko\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pl\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\pt-BR\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\ru\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\tr\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hans\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\bin\Debug\net8.0\Adaptive.Intelligence.Shared.pdb
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.csproj.AssemblyReference.cache
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.GeneratedMSBuildEditorConfig.editorconfig
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.AssemblyInfoInputs.cache
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.AssemblyInfo.cs
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.csproj.CoreCompileInputs.cache
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.218946B8.Up2Date
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\refint\Adaptive.Intelligence.Shared.Test.dll
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.pdb
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\Adaptive.Intelligence.Shared.Test.genruntimeconfig.cache
+D:\Adaptive.Intelligence\Framework\Shared Code Library\Adaptive.Intelligence.Shared.Test\obj\Debug\net8.0\ref\Adaptive.Intelligence.Shared.Test.dll

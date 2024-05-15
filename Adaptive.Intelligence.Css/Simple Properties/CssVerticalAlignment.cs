@@ -1,0 +1,168 @@
+﻿using Adaptive.Intelligence.Shared;
+using System.Text;
+
+namespace Adaptive.Intelligence.Css
+{
+	/// <summary>
+	/// Represents a CSS text-alignment property.
+	/// </summary>
+	/// <seealso cref="DisposableObjectBase" />
+	public sealed class CssVerticalAlignment : DisposableObjectBase, ICssProperty
+	{
+		#region Private Member Declarations        
+		/// <summary>
+		/// The position specification.
+		/// </summary>
+		private VerticalAlignment? _alignment;
+		/// <summary>
+		/// The unit specification, if present.
+		/// </summary>
+		private FloatWithUnit? _unit;
+		#endregion
+
+		#region Constructor / Dispose Methods        
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CssVerticalAlignment"/> class.
+		/// </summary>
+		/// <remarks>
+		/// This is the default constructor.
+		/// </remarks>
+		public CssVerticalAlignment()
+		{
+
+		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CssVerticalAlignment"/> class.
+		/// </summary>
+		/// <param name="alignmentValue">
+		/// A <see cref="VerticalAlignment"/> enumerated value, or <b>null</b> if not set.
+		/// </param>
+		public CssVerticalAlignment(VerticalAlignment? alignmentValue)
+		{
+			_alignment = alignmentValue;
+		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CssVerticalAlignment"/> class.
+		/// </summary>
+		/// <param name="alignmentValue">
+		/// A <see cref="VerticalAlignment"/> enumerated value, or <b>null</b> if not set.
+		/// </param>
+		public CssVerticalAlignment(FloatWithUnit? unit)
+		{
+			_alignment = VerticalAlignment.IsUnit;
+			_unit = unit;
+		}
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		/// <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
+		/// <b>false</b> to release only unmanaged resources.</param>
+		protected override void Dispose(bool disposing)
+		{
+			_alignment = null;
+			base.Dispose(disposing);
+		}
+		#endregion
+
+		#region Public Properties		
+		/// <summary>
+		/// Gets or sets a value indicating whether the contents of the property can/should be rendered.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if the property can/should be rendered; otherwise, <c>false</c>.
+		/// </value>
+		public bool CanRender
+		{
+			get
+			{
+				bool renderable = false;
+
+				if (_alignment != null && _alignment != VerticalAlignment.NotSpecified)
+				{
+					if (_alignment.Value == VerticalAlignment.IsUnit && _unit == null)
+						renderable = false;
+					else
+						renderable = true;
+				}
+
+				return renderable;
+			}
+		}
+		/// <summary>
+		/// Gets or sets the position value.
+		/// </summary>
+		/// <value>
+		/// A <see cref="CssPosition"/> enumerated value, or <b>null</b> if not set.
+		/// </value>
+		public VerticalAlignment? Alignment
+		{
+			get => _alignment;
+			set => _alignment = value;
+		}
+		/// <summary>
+		/// Gets or sets the unit.
+		/// </summary>
+		/// <value>
+		/// A <see cref="FloatWithUnit"/> instance if specified; otherwise, <b>null</b>.
+		/// </value>
+		public FloatWithUnit? Unit
+		{
+			get => _unit;
+			set => _unit = value;
+		}
+		#endregion
+
+		#region Public Methods / Functions		
+		/// <summary>
+		/// Resets the content of the property and sets it to an "un-set" state.
+		/// </summary>
+		public void Clear()
+		{
+			_unit?.Dispose();
+
+			_alignment = null;
+			_unit = null;
+		}
+		/// <summary>
+		/// Parses the CSS content for the instance.
+		/// </summary>
+		/// <param name="cssDefinition">
+		/// A string containing the raw CSS definition / code defining the item.
+		/// </param>
+		public void ParseCss(string? cssDefinition)
+		{
+			Clear();
+			if (!string.IsNullOrEmpty(cssDefinition))
+			{
+				_alignment = VerticalAlignmentConverter.FromText(cssDefinition);
+				if (_alignment == VerticalAlignment.IsUnit)
+					_unit = FloatWithUnit.Parse(cssDefinition);
+			}
+		}
+		/// <summary>
+		/// Converts to css.
+		/// </summary>
+		/// <returns>
+		/// A string contianing the CSS code to be used for the item being represented.
+		/// </returns>
+		public string ToCss()
+		{
+			StringBuilder builder = new StringBuilder();
+
+			if (_alignment != null && _alignment.Value != VerticalAlignment.NotSpecified)
+			{
+				builder.Append(CssPropertyNames.VerticalAlign + CssLiterals.CssSeparator + CssLiterals.Space);
+
+				if (_alignment.Value == VerticalAlignment.IsUnit)
+					builder.Append(_unit.ToString());
+				else
+					builder.Append(VerticalAlignmentConverter.ToText(_alignment.Value));
+
+				builder.Append(CssLiterals.CssTerminator);
+			}
+
+			return builder.ToString();
+		}
+		#endregion
+	}
+}

@@ -1,0 +1,96 @@
+﻿namespace Adaptive.Intelligence.Shared
+{
+	/// <summary>
+	/// Provides extension methods for <see cref="Array"/> instances.
+	/// </summary>
+	public static class ArrayExtensions
+	{
+		/// <summary>
+		/// Determines whether the specified array is null or empty.
+		/// </summary>
+		/// <param name="array">The array.</param>
+		/// <returns>
+		///   <c>true</c> if the array is null or empty; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsNullOrEmpty(Array? array)
+		{
+			return (array == null || array.Length == 0);
+		}
+		/// <summary>
+		/// Clears the array.
+		/// </summary>
+		/// <param name="arrayToClear">
+		/// The array to clear.
+		/// </param>
+		public static void ClearArray(this Array? arrayToClear)
+		{
+			if (arrayToClear != null)
+				Array.Clear(arrayToClear, 0, arrayToClear.Length);
+		}
+		/// <summary>
+		/// Compares the length and contents of one array to another.
+		/// </summary>
+		/// <param name="firstArray">
+		/// The first <see cref="Array"/> to be compared.
+		/// </param>
+		/// <param name="secondArray">
+		/// The second <see cref="Array"/> to be compared.
+		/// </param>
+		/// <returns>
+		///  A value that indicates the relative order of the objects being compared. The
+		//     return value has these meanings:
+		//
+		//     Value – Meaning
+		//     Less than zero – This instance precedes obj in the sort order.
+		//     Zero – This instance occurs in the same position in the sort order as obj.
+		//     Greater than zero – This instance follows obj in the sort order.
+		/// </returns>
+		public static int Compare(this Array? firstArray, Array? secondArray)
+		{
+			int result;
+
+			if (firstArray == null && secondArray == null)
+				result = 0;
+			else if (firstArray == null)
+				result = -1;
+			else if (secondArray == null)
+				result =  1;
+			else
+			{
+				int firstLen = firstArray.Length;
+				int secondLen = secondArray.Length;
+
+				if (firstLen < secondLen)
+					result = -1;
+				else if (secondLen > firstLen)
+					result = 1;
+				else
+				{
+					result = 0;
+					int pos = 0;
+					bool match = true;
+					do
+					{
+
+						match = (firstArray.GetValue(pos) == secondArray.GetValue(pos));
+						if (!match)
+						{
+							object? left = firstArray.GetValue(pos);
+							object? right = secondArray.GetValue(pos);
+							if (left is IComparable && left != null && right != null)
+							{
+								IComparable leftCompare = (IComparable)left;
+								IComparable rightCompare = (IComparable)right;
+								result = leftCompare.CompareTo(rightCompare);
+							}
+							else
+								result = -1;
+						}
+						pos++;
+					} while (pos < firstLen && match);
+				}
+			}
+			return result;
+		}
+	}
+}

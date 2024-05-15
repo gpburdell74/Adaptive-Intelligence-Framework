@@ -1,0 +1,45 @@
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.deps.json
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.pdb
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.dll
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.pdb
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.csproj.AssemblyReference.cache
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.AdvancedLabel.resources
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.SectionTitleHeader.resources
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.RatingControl.resources
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.PasswordTextBox.resources
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.Dialogs.StandardMessageBox.resources
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.Properties.Resources.resources
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.csproj.GenerateResource.cache
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.GeneratedMSBuildEditorConfig.editorconfig
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.AssemblyInfoInputs.cache
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.AssemblyInfo.cs
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.csproj.CoreCompileInputs.cache
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.sourcelink.json
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.4D765C02.Up2Date
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\refint\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.pdb
+D:\Adaptive Intelligence\Framework\C#\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\ref\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.deps.json
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.pdb
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.dll
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\bin\Debug\net8.0-windows\Adaptive.Intelligence.Shared.pdb
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.csproj.AssemblyReference.cache
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.AdvancedLabel.resources
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.SectionTitleHeader.resources
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.RatingControl.resources
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.PasswordTextBox.resources
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.Dialogs.StandardMessageBox.resources
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.Properties.Resources.resources
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.csproj.GenerateResource.cache
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.GeneratedMSBuildEditorConfig.editorconfig
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.AssemblyInfoInputs.cache
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.AssemblyInfo.cs
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.csproj.CoreCompileInputs.cache
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.4D765C02.Up2Date
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\refint\Adaptive.Intelligence.Shared.UI.dll
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\Adaptive.Intelligence.Shared.UI.pdb
+D:\Adaptive.Intelligence\Framework\Shared UI Code Library\Adaptive.Intelligence.Shared.UI\obj\Debug\net8.0-windows\ref\Adaptive.Intelligence.Shared.UI.dll

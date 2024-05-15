@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="Controls\Bases\AdaptiveControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Combo Box\AdvancedComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\DriveItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\DriveListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Labels\AdvancedLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Buttons\AIButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Drawing\LineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Labels\SectionTitleHeader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Bases\ThreadAwareControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Labels\VerticalLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\List View\ColumnSortListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Panels\DialogHeaderControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\RatingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\SimpleGaugeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Text Boxes\IntegerTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Text Boxes\PasswordTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Text Boxes\PhoneNumberTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Tree View\AdaptiveTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Dialogs\AdaptiveDialogBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Message Box\StandardMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,162 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Adaptive.Intelligence\\Framework\\Adaptive.Intelligence.Css\\Adaptive.Intelligence.Css.csproj": {}
+  },
+  "projects": {
+    "D:\\Adaptive.Intelligence\\Framework\\Adaptive.Intelligence.Css\\Adaptive.Intelligence.Css.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Adaptive.Intelligence\\Framework\\Adaptive.Intelligence.Css\\Adaptive.Intelligence.Css.csproj",
+        "projectName": "Adaptive.Intelligence.Css",
+        "projectPath": "D:\\Adaptive.Intelligence\\Framework\\Adaptive.Intelligence.Css\\Adaptive.Intelligence.Css.csproj",
+        "packagesPath": "C:\\Users\\gpbur\\.nuget\\packages\\",
+        "outputPath": "D:\\Adaptive.Intelligence\\Framework\\Adaptive.Intelligence.Css\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\gpbur\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Adaptive.Intelligence\\Framework\\Shared Code Library\\Adaptive.Intelligence.Shared\\Adaptive.Intelligence.Shared.csproj": {
+                "projectPath": "D:\\Adaptive.Intelligence\\Framework\\Shared Code Library\\Adaptive.Intelligence.Shared\\Adaptive.Intelligence.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Adaptive.Intelligence\\Framework\\Shared Code Library\\Adaptive.Intelligence.Shared\\Adaptive.Intelligence.Shared.csproj": {
+      "version": "0.0.1",
+      "restore": {
+        "projectUniqueName": "D:\\Adaptive.Intelligence\\Framework\\Shared Code Library\\Adaptive.Intelligence.Shared\\Adaptive.Intelligence.Shared.csproj",
+        "projectName": "Adaptive.Intelligence.Shared",
+        "projectPath": "D:\\Adaptive.Intelligence\\Framework\\Shared Code Library\\Adaptive.Intelligence.Shared\\Adaptive.Intelligence.Shared.csproj",
+        "packagesPath": "C:\\Users\\gpbur\\.nuget\\packages\\",
+        "outputPath": "D:\\Adaptive.Intelligence\\Framework\\Shared Code Library\\Adaptive.Intelligence.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\gpbur\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "System.CodeDom": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "xunit.extensibility.core": {
+              "target": "Package",
+              "version": "[2.8.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
