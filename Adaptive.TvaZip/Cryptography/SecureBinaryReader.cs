@@ -1,15 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Adaptive.Intelligence.Shared;
+using Adaptive.Intelligence.Shared.IO;
+using Adaptive.Intelligence.Shared.Security;
 
-namespace Adaptive.Intelligence.Shared.IO
+namespace Adaptive.Taz.Cryptography
 {
 	/// <summary>
-	/// Provides a mechanism for reading binary data from a stream where the instance tracks its own exceptions.	
+	/// Provides a mechanism for reading encrypted binary data from a stream where the instance tracks its own exceptions.	
 	/// </summary>
 	/// <seealso cref="ExceptionTrackingBase" />
-	/// <seealso cref="ISafeBinaryReader" />
-	public sealed class SafeBinaryReader : ExceptionTrackingBase, ISafeBinaryReader
+	/// <seealso cref="ISafeBinaryWriter" />
+	public sealed class SecureBinaryReader : ExceptionTrackingBase, ISafeBinaryReader
 	{
-		#region Private Member Declarations		
+		#region Private Member Declarations				
+		/// <summary>
+		/// The key manager instance.
+		/// </summary>
+		private KeyManager? _keyManager;
+		/// <summary>
+		/// The AES cryptography provider.
+		/// </summary>
+		private AesProvider? _aes;
 		/// <summary>
 		/// The underlying reader instance.
 		/// </summary>
@@ -26,25 +36,35 @@ namespace Adaptive.Intelligence.Shared.IO
 
 		#region Constructor / Dispose Methods		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SafeBinaryReader"/> class.
+		/// Initializes a new instance of the <see cref="SecureBinaryWriter"/> class.
 		/// </summary>
-		/// <param name="sourceStream">
-		/// The <see cref="Stream"/> to be read from.
+		/// <param name="manager">
+		/// The reference to the <see cref="KeyManager"/> instance used to manage the encryption keys.
 		/// </param>
-		public SafeBinaryReader(Stream sourceStream)
+		/// <param name="sourceStream">
+		/// The output <see cref="Stream"/> to be read from.
+		/// </param>
+		public SecureBinaryReader(KeyManager manager, Stream sourceStream)
 		{
+			_keyManager = manager;
+			_aes = manager.CreateAesProvider();
 			_sourceStream = sourceStream;
 			_reader = new BinaryReader(sourceStream);
 			_readerLocal = true;
 		}
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SafeBinaryReader"/> class.
+		/// Initializes a new instance of the <see cref="SecureBinaryWriter"/> class.
 		/// </summary>
+		/// <param name="manager">
+		/// The reference to the <see cref="KeyManager"/> instance used to manage the encryption keys.
+		/// </param>
 		/// <param name="reader">
 		/// The <see cref="BinaryReader"/> instance to be used.
 		/// </param>
-		public SafeBinaryReader(BinaryReader reader)
+		public SecureBinaryReader(KeyManager manager, BinaryReader reader)
 		{
+			_keyManager = manager;
+			_aes = manager.CreateAesProvider();
 			_reader = reader;
 			_sourceStream = reader.BaseStream;
 			_readerLocal = false;
@@ -58,10 +78,13 @@ namespace Adaptive.Intelligence.Shared.IO
 		{
 			if (!IsDisposed && disposing)
 			{
+				_aes?.Dispose();
 				if (_readerLocal)
 					_reader?.Dispose();
 			}
 
+			_aes = null;
+			_keyManager = null;
 			_reader = null;
 			_sourceStream = null;
 			base.Dispose(disposing);
@@ -72,6 +95,7 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// <returns>
 		/// A task that represents the asynchronous dispose operation.
 		/// </returns>
+		/// <exception cref="System.NotImplementedException"></exception>
 		public async ValueTask DisposeAsync()
 		{
 			Dispose(true);
@@ -80,7 +104,7 @@ namespace Adaptive.Intelligence.Shared.IO
 
 		#region Public Properties		
 		/// <summary>
-		/// Returns the stream associated with the reader. 
+		/// Returns the stream associated with the reader.
 		/// </summary>
 		/// <value>
 		/// The underlying <see cref="Stream" /> that is being read from.
@@ -96,7 +120,7 @@ namespace Adaptive.Intelligence.Shared.IO
 		{
 			get
 			{
-				return (_sourceStream != null && _reader != null && _sourceStream.CanRead);
+				return (_sourceStream != null && _reader != null && _keyManager != null && _aes != null && _sourceStream.CanRead);
 			}
 		}
 		/// <summary>
@@ -118,40 +142,12 @@ namespace Adaptive.Intelligence.Shared.IO
 		{
 			try
 			{
+				_aes?.Dispose();
 				_reader?.Close();
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
-			}
-		}
-		/// <summary>
-		/// Reads the byte array into the specified buffer.
-		/// </summary>
-		/// <param name="buffer">
-		/// The byte array buffer to read data into.
-		/// </param>
-		/// <param name="startIndex">
-		/// The ordinal index of the array at which to start writing.
-		/// </param>
-		/// <param name="numberOfBytes">
-		/// An integer specifying the number of bytes to be read.
-		/// </param>
-		public void Read(byte[] buffer, int startIndex, int numberOfBytes)
-		{
-			// Load the source content.
-			byte[]? sourceData = ReadBytes(numberOfBytes);
-			if (sourceData != null && sourceData.Length > 0)
-			{
-				// Copy to the provided array.
-				try
-				{
-					Array.Copy(sourceData, 0, buffer, startIndex, numberOfBytes);
-				}
-				catch (Exception ex)
-				{
-					Exceptions?.Add(ex);
-				}
 			}
 		}
 		/// <summary>
@@ -177,6 +173,19 @@ namespace Adaptive.Intelligence.Shared.IO
 			return newPosition;
 		}
 		/// <summary>
+		/// Reads the byte array into the specified buffer.
+		/// </summary>
+		/// <param name="buffer">The byte array buffer to read data into.</param>
+		/// <param name="startIndex">The ordinal index of the array at which to start writing.</param>
+		/// <param name="numberOfBytes">An integer specifying the number of bytes to be read.</param>
+		/// <exception cref="System.NotImplementedException">
+		/// This method cannot be implemented in this application.
+		/// </exception>
+		public void Read(byte[] buffer, int startIndex, int numberOfBytes)
+		{
+			throw new NotImplementedException();
+		}
+		/// <summary>
 		/// Reads the next boolean value from the <see cref="Stream" />.
 		/// </summary>
 		/// <returns>
@@ -187,10 +196,14 @@ namespace Adaptive.Intelligence.Shared.IO
 			bool value = false;
 			try
 			{
-				if (_reader != null)
-					value = _reader.ReadBoolean();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<bool>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
@@ -207,8 +220,12 @@ namespace Adaptive.Intelligence.Shared.IO
 			byte value = 0;
 			try
 			{
-				if (_reader != null)
-					value = _reader.ReadByte();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<byte>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -227,8 +244,12 @@ namespace Adaptive.Intelligence.Shared.IO
 			sbyte value = 0;
 			try
 			{
-				if (_reader != null)
-					value = _reader.ReadSByte();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<sbyte>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -248,59 +269,16 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public byte[]? ReadByteArray()
 		{
-			byte[]? data = null;
-			int length = 0;
+			byte[]? value = null;
 			try
 			{
-				if (_reader != null)
-				{
-					// Read the length indicator.
-					length = ReadInt32();
-
-					if (length > 0)
-						data = _reader.ReadBytes(length);
-				}
+				value = ReadNextEncryptedArray();
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return data;
-		}
-		/// <summary>
-		/// Reads the next byte array value from the <see cref="Stream"/>.
-		/// </summary>
-		/// <remarks>
-		/// This method expects a null indictor value, then a length indicator, and then the data.
-		/// </remarks>
-		/// <returns>
-		/// The <see cref="byte"/> array that was read.
-		/// </returns>
-		public byte[]? ReadNullableByteArray()
-		{
-			byte[]? data = null;
-			try
-			{
-				if (_reader != null)
-				{
-					// Read the null indicator.
-					bool isNull = _reader.ReadBoolean();
-
-					if (!isNull)
-					{
-						// Read the length indicator.
-						int length = _reader.ReadInt32();
-
-						if (length > 0)
-							data = _reader.ReadBytes(length);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Exceptions?.Add(ex);
-			}
-			return data;
+			return value;
 		}
 		/// <summary>
 		/// Reads a byte array from the <see cref="Stream"/>.
@@ -313,17 +291,16 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public byte[]? ReadBytes(int count)
 		{
-			byte[]? data = null;
+			byte[]? value = null;
 			try
 			{
-				if (_reader != null)
-					data = _reader.ReadBytes(count);
+				value = ReadNextEncryptedArray();
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return data;
+			return value;
 		}
 		/// <summary>
 		/// Reads a character from the <see cref="Stream"/>.
@@ -336,8 +313,12 @@ namespace Adaptive.Intelligence.Shared.IO
 			char value = (char)0;
 			try
 			{
-				if (_reader != null)
-					value = _reader.ReadChar();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<char>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -357,20 +338,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public char[]? ReadCharArray()
 		{
-			char[]? data = null;
+			char[]? value = null;
 			try
 			{
-				if (_reader != null)
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
 				{
-					int length = _reader.ReadInt32();
-					data = _reader.ReadChars(length);
+					value = Translate<char[]>(data);
+					ByteArrayUtil.Clear(data);
 				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return data;
+			return value;
 		}
 		/// <summary>
 		/// Reads a character array from the <see cref="Stream"/>.
@@ -383,17 +365,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public char[]? ReadCharArray(int count)
 		{
-			char[]? data = null;
+			char[]? value = null;
 			try
 			{
-				if (_reader != null)
-					data = _reader.ReadChars(count);
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<char[]>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return data;
+			return value;
 		}
 		/// <summary>
 		/// Reads the specified date/time value from the stream.
@@ -407,14 +393,10 @@ namespace Adaptive.Intelligence.Shared.IO
 		public DateTime ReadDateTime()
 		{
 			DateTime dateValue = DateTime.MinValue;
-
 			try
 			{
-				if (_reader != null)
-				{
-					long fileTime = _reader.ReadInt64();
-					dateValue = DateTime.FromFileTime(fileTime);
-				}
+				long fileTime = ReadInt64();
+				dateValue = DateTime.FromFileTime(fileTime);
 			}
 			catch (Exception ex)
 			{
@@ -433,8 +415,12 @@ namespace Adaptive.Intelligence.Shared.IO
 			double value = 0;
 			try
 			{
-				if (_reader != null)
-					value = _reader.ReadDouble();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<double>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -453,8 +439,12 @@ namespace Adaptive.Intelligence.Shared.IO
 			decimal value = 0;
 			try
 			{
-				if (_reader != null)
-					value = _reader.ReadDecimal();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<decimal>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -470,17 +460,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public short ReadInt16()
 		{
-			short returns = 0;
+			short value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadInt16();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<short>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the specified unsigned short integer returns from the stream.
@@ -491,17 +485,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public ushort ReadUInt16()
 		{
-			ushort returns = 0;
+			ushort value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadUInt16();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<ushort>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the specified integer returns from the stream.
@@ -512,17 +510,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public int ReadInt32()
 		{
-			int returns = 0;
+			int value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadInt32();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<int>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the specified unsigned integer returns from the stream.
@@ -533,17 +535,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public uint ReadUInt32()
 		{
-			uint returns = 0;
+			uint value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadUInt32();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<uint>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the specified long integer returns from the stream.
@@ -554,17 +560,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public long ReadInt64()
 		{
-			long returns = 0;
+			long value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadInt64();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<long>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the specified unsigned long integer returns from the stream.
@@ -575,17 +585,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public ulong ReadUInt64()
 		{
-			ulong returns = 0;
+			ulong value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadUInt64();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<ulong>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the single-precision returns from the stream.
@@ -596,17 +610,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public float ReadSingle()
 		{
-			float returns = 0;
+			float value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadSingle();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<float>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the specified Half returns from the stream.
@@ -617,17 +635,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public Half ReadHalf()
 		{
-			Half returns = Half.MinValue;
+			Half value = Half.MinValue;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadHalf();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<Half>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the string.
@@ -635,17 +657,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// <returns></returns>
 		public string? ReadString()
 		{
-			string? returns = null;
+			string? value = null;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.ReadString();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<string>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the integer from the stream as a 7-bit encoded returns.
@@ -655,17 +681,21 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public int Read7BitEncodedInt32()
 		{
-			int returns = 0;
+			int value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.Read7BitEncodedInt();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<int>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
 		}
 		/// <summary>
 		/// Reads the long integer from the stream as a 7-bit encoded returns.
@@ -675,17 +705,166 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public long Read7BitEncodedInt64()
 		{
-			long returns = 0;
+			long value = 0;
 			try
 			{
-				if (_reader != null)
-					returns = _reader.Read7BitEncodedInt64();
+				byte[]? data = ReadNextEncryptedArray();
+				if (data != null)
+				{
+					value = Translate<long>(data);
+					ByteArrayUtil.Clear(data);
+				}
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
-			return returns;
+			return value;
+		}
+		#endregion
+
+		#region Private Member Declarations		
+		/// <summary>
+		/// Translates the provided byte array to a specified data type.
+		/// </summary>
+		/// <typeparam name="T">
+		/// The data type of the data to be translated.	
+		/// </typeparam>
+		/// <param name="value">
+		/// A byte array containing the representation of the value.
+		/// </param>
+		/// <returns>
+		/// The instance of <typeparamref name="T"/> that was translated.
+		/// </returns>
+		private T? Translate<T>(byte[] value)
+		{
+			T? returnContent = default(T);
+			if (typeof(T) == typeof(string))
+				returnContent = (T)(object)string.Empty;
+			object? converted = null;
+
+
+			switch (returnContent)
+			{
+				case bool boolValue:
+					converted = BitConverter.ToBoolean(value);
+					break;
+
+				case byte byteValue:
+					converted = value[0];
+					break;
+
+				case byte[] byteArray:
+					converted = ByteArrayUtil.CopyToNewArray(value);
+					break;
+
+				case sbyte sbyteValue:
+					converted = (sbyte)value[0];
+					break;
+
+				case char charValue:
+					converted = BitConverter.ToChar(value);
+					break;
+
+				case char[] charArray:
+					List<char> list = new List<char>();
+					MemoryStream ms = new MemoryStream(value);
+					BinaryReader reader = new BinaryReader(ms);
+					do
+					{
+						char c = reader.ReadChar();
+						list.Add(c);
+					} while (ms.Position < ms.Length);
+
+					converted = list.ToArray();
+					list.Clear();
+					reader.Dispose();
+					ms.Dispose();
+					break;
+
+				case short shortValue:
+					converted = BitConverter.ToInt16(value);
+					break;
+
+				case ushort ushortValue:
+					converted = BitConverter.ToUInt16(value);
+					break;
+
+				case int intValue:
+					converted = BitConverter.ToInt32(value);
+					break;
+
+				case uint uintValue:
+					converted = BitConverter.ToUInt32(value);
+					break;
+
+				case long longValue:
+					converted = BitConverter.ToInt64(value);
+					break;
+
+				case ulong ulongValue:
+					converted = BitConverter.ToUInt64(value);
+					break;
+
+				case float floatValue:
+					converted = BitConverter.ToSingle(value);
+					break;
+
+				case double doubleValue:
+					converted = BitConverter.ToDouble(value);
+					break;
+
+				case decimal decimalValue:
+					converted = SafeConverter.DecimalFromArrray(value);
+					break;
+
+				case string stringValue:
+					converted = System.Text.Encoding.UTF8.GetString(value);
+					break;
+			}
+			returnContent = (T)converted;
+			return returnContent;
+		}
+		/// <summary>
+		/// Reads the next encrypted byte array.
+		/// </summary>
+		/// <remarks>
+		/// This assumes the byte array is preceeded with an integer length indicator.
+		/// </remarks>
+		/// <returns>
+		/// An encrypted byte array from the data store.
+		/// </returns>
+		public byte[]? ReadNextEncryptedArray()
+		{
+			byte[]? clearContent = null;
+
+			if (_reader != null && _aes != null)
+			{
+				int length = _reader.ReadInt32();
+				if (length > 0)
+				{
+					byte[] encrypted = _reader.ReadBytes(length);
+					clearContent = _aes.Decrypt(encrypted);
+					ByteArrayUtil.Clear(encrypted);
+				}
+			}
+			return clearContent;
+		}
+		/// <summary>
+		/// Sets the writer to use the key variant for the encryption keys.
+		/// </summary>
+		public void SetForKeyVariant()
+		{
+			_aes?.Dispose();
+			_aes = _keyManager.CreateAesProviderForVariant();
+		}
+		/// <summary>
+		/// Sets the writer to use the standard key data for the encryption keys.
+		/// </summary>
+		public void SetForKeyStandard()
+		{
+			_aes?.Dispose();
+			_aes = _keyManager.CreateAesProvider();
 		}
 		#endregion
 	}

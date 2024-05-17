@@ -1,0 +1,9 @@
+Tutus Archivium
+
+Secure = Tutuss 
+Archive = Archivium
+
+Compress = Pressio
+ZIP File = ZIP File
+
+Tutus Archivium ex Minora Tabularia		(Safe Archives from Smaller Files)

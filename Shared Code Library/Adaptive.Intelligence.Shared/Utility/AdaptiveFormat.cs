@@ -7,6 +7,9 @@ namespace Adaptive.Intelligence.Shared
 	/// </summary>
 	public static class AdaptiveFormat
 	{
+		private const long GBSize = 1048576 * 1024;
+		private const long MBSize = 1048576;
+		private const long KBSize = 1024;
 		/// <summary>
 		/// Formats the boolean value as a string.
 		/// </summary>
@@ -23,6 +26,37 @@ namespace Adaptive.Intelligence.Shared
 				return Constants.TrueFormatted;
 			else
 				return Constants.FalseFormatted;
+		}
+		/// <summary>
+		/// Formats the size value as a value of bytes.
+		/// </summary>
+		/// <param name="numberOfBytes">
+		/// The number of bytes.
+		/// </param>
+		/// <returns>
+		/// A formatted string that auto-determines whether to return the value in GB, MB, KB, or bytes.
+		/// </returns>
+		public static string FormatByteString(long numberOfBytes)
+		{
+			string data = numberOfBytes.ToString();
+
+			if (numberOfBytes >= GBSize)
+			{
+				data = ((float)numberOfBytes / GBSize).ToString("###,###,###,##0.0 GB");
+			}
+			else if (numberOfBytes > MBSize)
+			{
+				data = ((float)numberOfBytes / MBSize).ToString("###,###,###,##0.0 MB");
+			}
+			else if (numberOfBytes > 1048576)
+			{
+				data = ((float)numberOfBytes / MBSize).ToString("###,###,###,##0.0 KB");
+			}
+			else
+			{
+				data += "byte(s)";
+			}
+			return data;
 		}
 		/// <summary>
 		/// Formats the date value as a string.

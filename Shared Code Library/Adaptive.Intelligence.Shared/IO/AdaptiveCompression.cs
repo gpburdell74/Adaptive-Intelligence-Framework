@@ -123,7 +123,6 @@ namespace Adaptive.Intelligence.Shared.IO
 
 			return result;
 		}
-
 		/// <summary>
 		/// Decompresses the specified data array.
 		/// </summary>
@@ -146,6 +145,34 @@ namespace Adaptive.Intelligence.Shared.IO
 				GZipStream? decompressionStream = CreateDecompressionStream(inStream);
 				if (decompressionStream != null)
 					result = DecompressContent(decompressionStream);
+			}
+			return result;
+		}
+		/// <summary>
+		/// Decompresses the specified data array and writes it to the destination stream.
+		/// </summary>
+		/// <param name="sourceContent">
+		/// A byte array containing the compressed data.
+		/// </param>
+		/// <returns>
+		/// A byte array containing the uncompressed data.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">sourceContent</exception>
+		public static byte[]? Decompress(byte[] sourceContent, Stream destinationStream)
+		{
+			if (sourceContent == null)
+				throw new ArgumentNullException(nameof(sourceContent));
+
+			byte[]? result = null;
+
+			using (MemoryStream inStream = new MemoryStream(sourceContent))
+			{
+				GZipStream? decompressionStream = CreateDecompressionStream(inStream);
+				if (decompressionStream != null)
+				{
+					destinationStream.Write(DecompressContent(decompressionStream));
+					destinationStream.Flush();
+				}
 			}
 			return result;
 		}

@@ -1,13 +1,29 @@
-﻿namespace Adaptive.Intelligence.Shared.IO
+﻿using Adaptive.Intelligence.Shared;
+using Adaptive.Intelligence.Shared.IO;
+using Adaptive.Intelligence.Shared.Security;
+
+namespace Adaptive.Taz.Cryptography
 {
 	/// <summary>
-	/// Provides a mechanism for writing binary data to a stream where the instance tracks its own exceptions.	
+	/// Provides a mechanism for writing encrypted binary data to a stream where the instance tracks its own exceptions.	
 	/// </summary>
 	/// <seealso cref="ExceptionTrackingBase" />
 	/// <seealso cref="ISafeBinaryWriter" />
-	public sealed class SafeBinaryWriter : ExceptionTrackingBase, ISafeBinaryWriter
+	public sealed class SecureBinaryWriter : ExceptionTrackingBase, ISafeBinaryWriter
 	{
-		#region Private Member Declarations		
+		#region Private Member Declarations				
+		/// <summary>
+		/// The AES cryptography provider.
+		/// </summary>
+		private AesProvider? _aes;
+		/// <summary>
+		/// The key manager instance.
+		/// </summary>
+		private KeyManager? _keyManager;
+		/// <summary>
+		/// The reference to the stream to be written to.
+		/// </summary>
+		private Stream? _outputStream;
 		/// <summary>
 		/// The underlying writer instance.
 		/// </summary>
@@ -16,53 +32,42 @@
 		/// A flag indicating whether the writer instance's scope is local.
 		/// </summary>
 		private bool _writerLocal;
-		/// <summary>
-		/// The reference to the stream to be written to.
-		/// </summary>
-		private Stream? _outputStream;
 		#endregion
 
 		#region Constructor / Dispose Methods		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SafeBinaryWriter"/> class.
+		/// Initializes a new instance of the <see cref="SecureBinaryWriter"/> class.
 		/// </summary>
+		/// <param name="manager">
+		/// The reference to the <see cref="KeyManager"/> instance used to manage the encryption keys.
+		/// </param>
 		/// <param name="outputStream">
 		/// The output <see cref="Stream"/> to be written to.
 		/// </param>
-		public SafeBinaryWriter(Stream outputStream)
+		public SecureBinaryWriter(KeyManager manager, Stream outputStream)
 		{
+			_keyManager = manager;
+			_aes = manager.CreateAesProvider();
 			_outputStream = outputStream;
 			_writer = new BinaryWriter(outputStream);
 			_writerLocal = true;
 		}
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SafeBinaryWriter"/> class.
+		/// Initializes a new instance of the <see cref="SecureBinaryWriter"/> class.
 		/// </summary>
+		/// <param name="manager">
+		/// The reference to the <see cref="KeyManager"/> instance used to manage the encryption keys.
+		/// </param>
 		/// <param name="writer">
 		/// The <see cref="BinaryWriter"/> instance to be used.
 		/// </param>
-		public SafeBinaryWriter(BinaryWriter writer)
+		public SecureBinaryWriter(KeyManager manager, BinaryWriter writer)
 		{
+			_keyManager = manager;
+			_aes = manager.CreateAesProvider();
 			_writer = writer;
 			_outputStream = writer.BaseStream;
 			_writerLocal = false;
-		}
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources.
-		/// </summary>
-		/// <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
-		/// <b>false</b> to release only unmanaged resources.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (!IsDisposed && disposing)
-			{
-				if (_writerLocal)
-					_writer?.Dispose();
-			}
-
-			_writer = null;
-			_outputStream = null;
-			base.Dispose(disposing);
 		}
 		/// <summary>
 		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.
@@ -74,6 +79,27 @@
 		public async ValueTask DisposeAsync()
 		{
 			Dispose(true);
+		}
+
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		/// <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
+		/// <b>false</b> to release only unmanaged resources.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (!IsDisposed && disposing)
+			{
+				_aes?.Dispose();
+				if (_writerLocal)
+					_writer?.Dispose();
+			}
+
+			_aes = null;
+			_keyManager = null;
+			_writer = null;
+			_outputStream = null;
+			base.Dispose(disposing);
 		}
 		#endregion
 
@@ -97,7 +123,7 @@
 		{
 			get
 			{
-				return (_outputStream != null && _writer != null && _outputStream.CanWrite);
+				return (_outputStream != null && _writer != null && _keyManager != null && _aes != null && _outputStream.CanWrite);
 			}
 		}
 		/// <summary>
@@ -106,7 +132,7 @@
 		/// <value>
 		/// The <see cref="BinaryWriter" /> instance being used to do the writing.
 		/// </value>
-		public BinaryWriter Writer => _writer;
+		public BinaryWriter? Writer => _writer;
 		#endregion
 
 		#region Public Methods / Functions		
@@ -119,6 +145,7 @@
 		{
 			try
 			{
+				_aes?.Dispose();
 				_writer?.Close();
 			}
 			catch (Exception ex)
@@ -164,6 +191,24 @@
 			return newPosition;
 		}
 		/// <summary>
+		/// Sets the writer to use the standard key data for the encryption keys.
+		/// </summary>
+		public void SetForKeyStandard()
+		{
+			_aes?.Dispose();
+			_aes = _keyManager.CreateAesProvider();
+		}
+
+		/// <summary>
+		/// Sets the writer to use the key variant for the encryption keys.
+		/// </summary>
+		public void SetForKeyVariant()
+		{
+			_aes?.Dispose();
+			_aes = _keyManager.CreateAesProviderForVariant();
+		}
+
+		/// <summary>
 		/// Writes a boolean to this stream. A single byte is written to the stream
 		/// with the value 0 representing false or the value 1 representing true.
 		/// </summary>
@@ -174,7 +219,7 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
@@ -192,7 +237,7 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
@@ -210,7 +255,7 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
@@ -229,7 +274,7 @@
 		{
 			try
 			{
-				_writer?.Write(buffer);
+				WriteEncrypted(buffer);
 			}
 			catch (Exception ex)
 			{
@@ -254,13 +299,17 @@
 		{
 			try
 			{
-				_writer?.Write(buffer, index, count);
+				byte[] subBuffer = new byte[count];
+				Array.Copy(buffer, index, subBuffer, 0, count);
+				WriteEncrypted(subBuffer);
+				Array.Clear(subBuffer, 0, subBuffer.Length);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes a character to this stream. The current position of the stream is
 		/// advanced by two.
@@ -273,13 +322,14 @@
 		{
 			try
 			{
-				_writer?.Write(ch);
+				WriteEncrypted(ch);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes a character array to this stream.
 		/// This default implementation calls the Write(Object, int, int)
@@ -292,13 +342,14 @@
 		{
 			try
 			{
-				_writer?.Write(chars);
+				WriteEncrypted(chars);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes a section of a character array to this stream.
 		/// This default implementation calls the Write(Object, int, int)
@@ -317,13 +368,17 @@
 		{
 			try
 			{
-				_writer?.Write(chars, index, count);
+				char[] subBuffer = new char[count];
+				Array.Copy(chars, index, subBuffer, 0, count);
+				WriteEncrypted(subBuffer);
+				Array.Clear(subBuffer, 0, subBuffer.Length);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the specified double value to the stream.
 		/// </summary>
@@ -334,13 +389,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the specified date/time value to the stream.  The value is converted to a filetime vlaue and written
 		/// as a long integer.
@@ -353,13 +409,14 @@
 			try
 			{
 				long value = dateTime.ToFileTime();
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the specified decimal value to the stream.
 		/// </summary>
@@ -370,13 +427,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the specified short integer value to the stream.
 		/// </summary>
@@ -387,13 +445,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the specified unsigned short integer value to the stream.
 		/// </summary>
@@ -404,13 +463,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the specified integer value to the stream.
 		/// </summary>
@@ -421,13 +481,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the specified unsigned integer value to the stream.
 		/// </summary>
@@ -438,13 +499,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes an eight-byte signed integer to this stream. The current position
 		/// of the stream is advanced by eight.
@@ -456,13 +518,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes an eight-byte unsigned integer to this stream. The current
 		/// position of the stream is advanced by eight.
@@ -474,13 +537,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes a float to this stream. The current position of the stream is
 		/// advanced by four.
@@ -492,13 +556,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes a half to this stream. The current position of the stream is
 		/// advanced by two.
@@ -510,13 +575,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes a length-prefixed string to this stream in the BinaryWriter's
 		/// current Encoding. This method first writes the length of the string as
@@ -526,17 +592,18 @@
 		/// <param name="value">
 		/// The <see cref="string"/> value to be written.
 		/// </param>
-		public void Write(string? value)
+		public void Write(string value)
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the content of the read-only span of bytes to the stream.
 		/// </summary>
@@ -547,13 +614,14 @@
 		{
 			try
 			{
-				_writer?.Write(buffer);
+				WriteEncrypted(buffer.ToArray());
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the content of the read-only span of chars to the stream.
 		/// </summary>
@@ -564,55 +632,14 @@
 		{
 			try
 			{
-				_writer?.Write(chars);
+				WriteEncrypted(chars.ToArray());
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
-		/// <summary>
-		/// Writes the byte array to the stream.
-		/// </summary>
-		/// <remarks>
-		/// This method writes a null/not null indicator, then, if the data is not <see langword="null"/>, then writes the <see cref="int"/> length indicator, and
-		/// then, if present, writes the byte array.
-		/// </remarks>
-		/// <param name="data">
-		/// A byte array containing the data to be written, or <b>null</b>.
-		/// </param>
-		public void WriteByteArray(byte[]? data)
-		{
-			if (_writer != null)
-			{
-				bool isNull = (data == null);
-				int length = 0;
-				if (data != null)
-					length = data.Length;
 
-				try
-				{
-					// Write the boolean null indicator.
-					_writer.Write(isNull);
-
-					// Continue if not null.
-					if (!isNull)
-					{
-						// Write the length indicator.
-						_writer.Write(length);
-
-						// Write the byte array, if data is present.
-						if (length > 0)	
-							_writer.Write(data, 0, length);
-					}
-					_writer.Flush();
-				}
-				catch (Exception ex)
-				{
-					Exceptions?.Add(ex);
-				}
-			}
-		}
 		/// <summary>
 		/// Writes the integer to the strea as a 7-bit encoded value.
 		/// </summary>
@@ -623,13 +650,14 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
 			}
 		}
+
 		/// <summary>
 		/// Writes the long integer to the strea as a 7-bit encoded value.
 		/// </summary>
@@ -640,11 +668,157 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				WriteEncrypted(value);
 			}
 			catch (Exception ex)
 			{
 				Exceptions?.Add(ex);
+			}
+		}
+
+		/// <summary>
+		/// Writes the byte array to the stream.
+		/// </summary>
+		/// <param name="data">A byte array containing the data to be written, or <b>null</b>.</param>
+		/// <remarks>
+		/// This method writes a null/not null indicator, then, if the data is not <see langword="null" />, then writes the <see cref="T:System.Int32" /> length indicator, and
+		/// then, if present, writes the byte array.
+		/// </remarks>
+		public void WriteByteArray(byte[]? data)
+		{
+			if (data == null)
+				WriteEncrypted<bool>(true);
+			else
+			{
+				WriteEncrypted(false);
+				WriteEncrypted(data);
+			}
+		}
+		#endregion
+
+		#region Private Methods / Functions
+		/// <summary>
+		/// Translates the provided data type to a byte array.
+		/// </summary>
+		/// <typeparam name="T">
+		/// The data type of the data to be translated.	
+		/// </typeparam>
+		/// <param name="value">
+		/// The data value.
+		/// </param>
+		/// <returns>
+		/// A byte array representing the data value.
+		/// </returns>
+		private byte[]? GetBytes<T>(T value)
+		{
+			byte[]? returnContent = null;
+
+			switch (value)
+			{
+				case bool boolValue:
+					returnContent = BitConverter.GetBytes(boolValue);
+					break;
+
+				case byte byteValue:
+					returnContent = new byte[] { byteValue };
+					break;
+
+				case byte[] byteArray:
+					returnContent = ByteArrayUtil.CopyToNewArray(byteArray);
+					break;
+
+				case sbyte sbyteValue:
+					returnContent = new byte[] { (byte)sbyteValue };
+					break;
+
+				case char charValue:
+					returnContent = BitConverter.GetBytes(charValue);
+					break;
+
+				case char[] charArray:
+					MemoryStream ms = new MemoryStream();
+					foreach (char c in charArray)
+					{
+						ms.Write(BitConverter.GetBytes(c));
+					}
+					returnContent = ms.ToArray();
+					ms.Dispose();
+					break;
+
+				case short shortValue:
+					returnContent = BitConverter.GetBytes(shortValue);
+					break;
+
+				case ushort ushortValue:
+					returnContent = BitConverter.GetBytes(ushortValue);
+					break;
+
+				case int intValue:
+					returnContent = BitConverter.GetBytes(intValue);
+					break;
+
+				case uint uintValue:
+					returnContent = BitConverter.GetBytes(uintValue);
+					break;
+
+				case long longValue:
+					returnContent = BitConverter.GetBytes(longValue);
+					break;
+
+				case ulong ulongValue:
+					returnContent = BitConverter.GetBytes(ulongValue);
+					break;
+
+				case float floatValue:
+					returnContent = BitConverter.GetBytes(floatValue);
+					break;
+
+				case double doubleValue:
+					returnContent = BitConverter.GetBytes(doubleValue);
+					break;
+
+				case decimal decimalValue:
+					returnContent = SafeConverter.DecimalToArrray(decimalValue);
+					break;
+
+				case string stringValue:
+					returnContent = System.Text.Encoding.UTF8.GetBytes(stringValue);
+					break;
+			}
+
+			return returnContent;
+		}
+		/// <summary>
+		/// Encrypts the provided value, and then writes the encrypted byte array content to the stream.
+		/// </summary>
+		/// <remarks>
+		/// Each array is prefixed with an integer value indicating the length of the array.
+		/// </remarks>
+		/// <typeparam name="T">
+		/// The data type of the value being encrypted and written.
+		/// </typeparam>
+		/// <param name="value">
+		/// The value to be encrypted and written.
+		/// </param>
+		private void WriteEncrypted<T>(T value)
+		{
+			if (_writer != null && _aes != null)
+			{
+				byte[]? data = GetBytes<T>(value);
+				if (data == null || data.Length == 0)
+					_writer.Write((int)0);
+				else
+				{
+					byte[]? encrypted = _aes.Encrypt(data);
+					if (encrypted != null)
+					{
+						_writer.Write((int)encrypted.Length);
+						_writer.Write(encrypted);
+						_writer.Flush();
+						ByteArrayUtil.Clear(encrypted);
+					}
+					ByteArrayUtil.Clear(data);
+				}
 			}
 		}
 		#endregion

@@ -1,13 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Test_Console</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Adaptive.TvaZip\Adaptive.Taz.csproj" />
     <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+    <ProjectReference Include="..\SQL Server Library\Adaptive.Intelligence.SqlServer\Adaptive.Intelligence.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

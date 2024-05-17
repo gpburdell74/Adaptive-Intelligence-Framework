@@ -31,7 +31,7 @@
 		/// <value>
 		/// The <see cref="BinaryWriter"/> instance being used to do the writing.
 		/// </value>
-		BinaryWriter Writer { get; }
+		BinaryWriter? Writer { get; }
 		#endregion
 
 		#region Methods / Functions
@@ -171,7 +171,7 @@
 		/// an encoded unsigned integer with variable length, and then writes that many characters
 		/// to the stream.
 		/// </summary>
-		void Write(string value);
+		void Write(string? value);
 		/// <summary>
 		/// Writes the content of the read-only span of bytes to the stream.
 		/// </summary>
@@ -186,6 +186,17 @@
 		/// The <see cref="ReadOnlySpan{T}"/> of <see cref="char"/> containing the data to be written.
 		/// </param>
 		void Write(ReadOnlySpan<char> chars);
+		/// <summary>
+		/// Writes the byte array to the stream.
+		/// </summary>
+		/// <remarks>
+		/// This method writes a null/not null indicator, then, if the data is not <see langword="null"/>, then writes the <see cref="int"/> length indicator, and
+		/// then, if present, writes the byte array.
+		/// </remarks>
+		/// <param name="data">
+		/// A byte array containing the data to be written, or <b>null</b>.
+		/// </param>
+		void WriteByteArray(byte[]? data);
 		/// <summary>
 		/// Writes the integer to the strea as a 7-bit encoded value.
 		/// </summary>
