@@ -304,11 +304,11 @@ namespace Adaptive.Taz
 			if (data != null && data.Length == FileSpecConstants.FileHeaderLength)
 			{
 				header = new TazFileHeader(
-					data[0], data[1], data[2],          // Application indictor.
-					BitConverter.ToInt32(data, 3),     // Major version # (int32)
-					BitConverter.ToInt32(data, 7),     // Minor version # (int32)
-					data[11],                           // File Type indicator.
-					BitConverter.ToInt64(data, 12)    // Directory start position.
+					data[0], data[1], data[2],      // Application indictor.
+					BitConverter.ToInt32(data, 3),  // Major version # (int32)
+					BitConverter.ToInt32(data, 7),  // Minor version # (int32)
+					data[11],                       // File Type indicator.
+					BitConverter.ToInt64(data, 12)	// Directory start position.
 				);
 			}
 			ByteArrayUtil.Clear(data);
@@ -325,10 +325,11 @@ namespace Adaptive.Taz
 		/// </param>
 		public static void WriteHeader(TazFileHeader header, ISafeBinaryWriter writer)
 		{
-			if (writer != null)
+			// Ensure that the header is always written as clear content.
+			if (writer != null && writer.Writer != null)
 			{
-				writer.Write(header.ToBytes());
-				writer.Flush();
+				writer.Writer.Write(header.ToBytes());
+				writer.Writer.Flush();
 			}
 		}
 		#endregion

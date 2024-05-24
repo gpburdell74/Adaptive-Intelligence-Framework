@@ -47,21 +47,24 @@ namespace Adaptive.Taz
 		public void FromBytes(byte[] data)
 		{
 			Clear();
-			MemoryStream ms = new MemoryStream(data);
-			BinaryReader reader = new BinaryReader(ms);
-
-			int entryCount = reader.ReadInt32();
-			for(int count = 0; count < entryCount; count++)
+			if (data.Length > 0)
 			{
-				int length = reader.ReadInt32();
-				byte[] entryContent = reader.ReadBytes(length);
-				TazDirectoryEntry entry = new TazDirectoryEntry(entryContent);
-				Add(entry);
-				ByteArrayUtil.Clear(entryContent);
-			}
+				MemoryStream ms = new MemoryStream(data);
+				BinaryReader reader = new BinaryReader(ms);
 
-			reader.Dispose();
-			ms.Dispose();
+				int entryCount = reader.ReadInt32();
+				for (int count = 0; count < entryCount; count++)
+				{
+					int length = reader.ReadInt32();
+					byte[] entryContent = reader.ReadBytes(length);
+					TazDirectoryEntry entry = new TazDirectoryEntry(entryContent);
+					Add(entry);
+					ByteArrayUtil.Clear(entryContent);
+				}
+
+				reader.Dispose();
+				ms.Dispose();
+			}
 		}
 		/// <summary>
 		/// Converts the content of the current instance to a byte array.

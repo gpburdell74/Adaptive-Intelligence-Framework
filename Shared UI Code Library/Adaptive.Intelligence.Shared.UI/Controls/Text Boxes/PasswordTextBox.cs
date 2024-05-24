@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+
 namespace Adaptive.Intelligence.Shared.UI
 {
     /// <summary>
@@ -58,6 +59,18 @@ namespace Adaptive.Intelligence.Shared.UI
                 }
             }
         }
+		/// <summary>
+		/// Gets or sets a value indicating whether only numeric characters are allowed in the text box.
+		/// </summary>
+		/// <value>
+		/// <b>true</b> if only numeric characters are allowed in the text box; otherwise, <b>false</b>.
+		/// the focus.
+		/// </value>
+		[Localizable(true)]
+        [DefaultValue(false)]
+        [Description("Indicates whether only numeric characters are allowed in the text box.")]
+        [Category("Behavior")]
+        public bool NumericOnly { get; set; }
 		/// <summary>
 		/// Gets or sets the text that is displayed when the control has no text and does not have the focus.
 		/// </summary>
@@ -126,8 +139,10 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             ViewHideButton.Click += HandleViewHideClicked;
             PasswordText.TextChanged += HandleTextChanged;
+            PasswordText.KeyPress += HandleKeyPress;
 
-            ViewHideButton.LostFocus += HandleLostFocus;
+
+			ViewHideButton.LostFocus += HandleLostFocus;
             PasswordText.LostFocus += HandleLostFocus;
         }
         /// <summary>
@@ -137,8 +152,9 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             ViewHideButton.Click -= HandleViewHideClicked;
             PasswordText.TextChanged -= HandleTextChanged;
+			PasswordText.KeyPress -= HandleKeyPress;
 
-            ViewHideButton.LostFocus -= HandleLostFocus;
+			ViewHideButton.LostFocus -= HandleLostFocus;
             PasswordText.LostFocus -= HandleLostFocus;
         }
         #endregion
@@ -185,6 +201,19 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             OnTextChanged(e);
         }
-        #endregion
-    }
+		/// <summary>
+		/// Handles the event when a key is pressed in the text box.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
+		private void HandleKeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (NumericOnly)
+            {
+				if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+					e.Handled = true;
+			}
+        }
+		#endregion
+	}
 }

@@ -86,6 +86,8 @@
 	public static class FileSpecConstants
 	{
 		#region Public Static and Constants
+
+		#region File Format Constants
 		/// <summary>
 		/// Specifies the first three bytes for a TAZ file. 
 		/// </summary>
@@ -138,11 +140,47 @@
 		/// </summary>
 		public const byte ClearTypeIndicator = (byte)42;
 
-
 		/// <summary>
 		/// The minimum user PIN size (as a string).
 		/// </summary>
 		public const int MinPinSize = 6;
+		#endregion
+
+		#region File Naming Constants		
+		/// <summary>
+		/// The extension for clear archive files.
+		/// </summary>
+		public const string ExtensionTaz = "taz";
+		/// <summary>
+		/// The extension for secure archive files.
+		/// </summary>
+		public const string ExtensionSecure = "secure";
+		/// <summary>
+		/// The extension for secure archive files.
+		/// </summary>
+		public const string ExtensionTazSecure = "taz.secure";
+		/// <summary>
+		/// The default clear extension.
+		/// </summary>
+		public const string DefaultClearExtension = ExtensionTaz;
+		/// <summary>
+		/// The default secure extension.
+		/// </summary>
+		public const string DefaultSecureExtension = ExtensionTaz;
+		/// <summary>
+		/// The file filter for opening any TAZ file.
+		/// </summary>
+		public const string FileFilter = "TAZ Files (*.taz)|*.taz|TAZ Secure Files (*.taz.secure)|*.taz.secure|All Files (*.*)|*.*";
+		/// <summary>
+		/// The file filter for opening a clear TAZ file.
+		/// </summary>
+		public const string FileFilterClearOnly = "TAZ Files (*.taz)|*.taz|All Files (*.*)|*.*";
+		/// <summary>
+		/// The file filter for opening a secure TAZ file.
+		/// </summary>
+		public const string FileFilterSecureOnly = "TAZ Secure Files (*.taz.secure)|*.taz.secure|All Files (*.*)|*.*";
+		#endregion
+
 		#endregion
 	}
 }

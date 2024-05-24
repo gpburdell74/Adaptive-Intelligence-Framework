@@ -111,6 +111,9 @@ namespace Adaptive.Taz
 			// Create the key manager.
 			_keyManager = new KeyManager();
 			_keyManager.SetForUser(userId, password, userPIN);
+
+			// Header for the secure file.
+			_header = new TazFileHeader(true);
 		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PKXFile"/> class.
@@ -132,6 +135,9 @@ namespace Adaptive.Taz
 			// Create the key manager.
 			_keyManager = new KeyManager();
 			_keyManager.SetForUser(userId, password, userPIN);
+
+			// Header for the secure file.
+			_header = new TazFileHeader(true);
 		}
 		/// <summary>
 		/// Releases unmanaged and - optionally - managed resources.
@@ -181,6 +187,42 @@ namespace Adaptive.Taz
 			get => _fileName;
 			set => _fileName = value;
 		}
+		/// <summary>
+		/// Gets a value indicating whether the file is open.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if the file data has been loaded; otherwise, <c>false</c>.
+		/// </value>
+		public bool IsOpen
+		{
+			get => (_header != null && _directory != null);
+		}
+		/// <summary>
+		/// Gets a value indicating whether the current archive is an encrypted archive.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if the current archive is an encrypted; otherwise, <c>false</c>.
+		/// </value>
+		public bool IsSecure
+		{
+			get => _header != null && _header.IsSecureFile;
+		}
+		/// <summary>
+		/// Gets the path of the file.
+		/// </summary>
+		/// <value>
+		/// A string containing the file path.
+		/// </value>
+		public string? Path
+		{
+			get
+			{
+				if (_fileName == null)
+					return null;
+				else
+					return System.IO.Path.GetDirectoryName(_fileName);
+			}
+		}
 		#endregion
 
 		#region Public Methods / Functions
@@ -194,11 +236,11 @@ namespace Adaptive.Taz
 		/// An <see cref="IEnumerable{T}"/> of <see cref="string"/> containing the fully-qualified path and name of the
 		/// files to be archived.
 		/// </param>
-		public async Task CreateArchiveAsync(string pathAndFileName, IEnumerable<string> listOfFiles)
+		public async Task CreateArchiveAsync(string pathAndFileName, IEnumerable<string>? listOfFiles)
 		{
 			OnCreateArchiveStart();
 			// Validate.
-			if (!string.IsNullOrEmpty(pathAndFileName) && listOfFiles != null)
+			if (!string.IsNullOrEmpty(pathAndFileName))
 			{
 				// Store the file name. 
 				_fileName = pathAndFileName;
@@ -211,8 +253,11 @@ namespace Adaptive.Taz
 					// Write the file header so we start in the right place.
 					writer.WriteHeader(_header);
 
-					// Compress each specified source file and write the compressed data to the archive file.
-					await CompressAndWriteFilesAsync(writer, listOfFiles).ConfigureAwait(false);
+					if (listOfFiles != null && listOfFiles.Count() > 0)
+					{
+						// Compress each specified source file and write the compressed data to the archive file.
+						await CompressAndWriteFilesAsync(writer, listOfFiles).ConfigureAwait(false);
+					}
 
 					// Write the directory and close the file.
 					OnDirectoryWriteStart();
@@ -438,7 +483,57 @@ namespace Adaptive.Taz
 		}
 		#endregion
 
-		#region Public Static Methods / Functions 
+		#region Public Static Methods / Functions 		
+		/// <summary>
+		/// Determines whether the specified file is a TAZ file.
+		/// </summary>
+		/// <param name="pathAndFileName">
+		/// A string containing the fully-qualified path and name of the file.
+		/// </param>
+		/// <returns>
+		///   <c>true</c> if the specified file is a TAZ file; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsTazFile(string? pathAndFileName)
+		{
+			bool isTazFile = false;
+
+			if (string.IsNullOrEmpty(pathAndFileName))
+				return false;
+			else if (!SafeIO.FileExists(pathAndFileName))
+				return false;
+			else
+			{
+				TazFileHeader header = TazFileHeader.ReadFromClosedFile(pathAndFileName);
+				isTazFile = header.IsTazFile;
+				header.Dispose();
+			}
+			return isTazFile;
+		}
+		/// <summary>
+		/// Determines whether the specified file is an encrypted TAZ file.
+		/// </summary>
+		/// <param name="pathAndFileName">
+		/// A string containing the fully-qualified path and name of the file.
+		/// </param>
+		/// <returns>
+		///   <c>true</c> if the specified file is an encrypted TAZ file; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsTazSecureFile(string? pathAndFileName)
+		{
+			bool isSecureTazFile = false;
+
+			if (string.IsNullOrEmpty(pathAndFileName))
+				return false;
+			else if (!SafeIO.FileExists(pathAndFileName))
+				return false;
+			else
+			{
+				TazFileHeader header = TazFileHeader.ReadFromClosedFile(pathAndFileName);
+				isSecureTazFile = header.IsTazFile && header.IsSecureFile;
+				header.Dispose();
+			}
+			return isSecureTazFile;
+		}
 		#endregion
 
 		#region Private Methods / Functions		

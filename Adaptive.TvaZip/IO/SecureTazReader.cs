@@ -236,7 +236,8 @@ namespace Adaptive.Taz.IO
 				// Move to the start of the file.
 				_sourceStream.Seek(0, SeekOrigin.Begin);
 
-				byte[] headerData = _reader.ReadByteArray();
+				// Read the header data (always in the clear).
+				byte[] headerData = _reader.Reader.ReadBytes(FileSpecConstants.FileHeaderLength);
 				
 				header = new TazFileHeader(true);
 				header.FromBytes(headerData);
