@@ -62,7 +62,7 @@
 
 				if (firstLen < secondLen)
 					result = -1;
-				else if (secondLen > firstLen)
+				else if (firstLen > secondLen)
 					result = 1;
 				else
 				{
@@ -82,6 +82,8 @@
 								IComparable leftCompare = (IComparable)left;
 								IComparable rightCompare = (IComparable)right;
 								result = leftCompare.CompareTo(rightCompare);
+								if (result == 0)
+									match = true;
 							}
 							else
 								result = -1;
