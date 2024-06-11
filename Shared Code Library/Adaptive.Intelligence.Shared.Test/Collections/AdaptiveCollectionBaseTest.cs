@@ -1,12 +1,4 @@
-﻿using Adaptive.Intelligence.Shared.Logging;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Adaptive.Intelligence.Shared.Collections
+﻿namespace Adaptive.Intelligence.Shared.Collections
 {
 	/// <summary>
 	/// Since the class being tested is abstract...
