@@ -91,21 +91,45 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <value>
         /// A <see cref="SqlColumnCollection"/> containing the column definitions.
         /// </value>
-        public SqlColumnCollection? Columns => _columns;
+        public SqlColumnCollection Columns
+        {
+            get
+            {
+                if (_columns == null)
+                    _columns = new SqlColumnCollection();
+                return _columns;
+            }
+        }
         /// <summary>
         /// Gets the reference to the list of foreign keys defined on the table.
         /// </summary>
         /// <value>
         /// A <see cref="SqlColumnCollection"/> containing the column definitions.
         /// </value>
-        public SqlForeignKeyCollection? ForeignKeys => _foreignKeys;
+        public SqlForeignKeyCollection ForeignKeys
+        {
+            get
+            {
+                if (_foreignKeys == null)
+                    _foreignKeys = new SqlForeignKeyCollection();
+                return _foreignKeys;
+            }
+        }
         /// <summary>
         /// Gets the reference to the list of indexes defined on the table.
         /// </summary>
         /// <value>
         /// A <see cref="SqlColumnCollection"/> containing the column definitions.
         /// </value>
-        public SqlIndexCollection? Indexes => _indexes;
+        public SqlIndexCollection Indexes
+        {
+            get
+            {
+                if (_indexes == null)
+                    _indexes = new SqlIndexCollection();
+                return _indexes;
+            }
+        }
         /// <summary>
         /// Gets the reference to the index that is the primary key.
         /// </summary>
@@ -139,7 +163,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A string containing the SQL script, if successful; otherwise, returns <b>false</b>.
         /// </returns>
-        public async Task<string> GenerateCreateScriptAsync(SqlDataProvider provider)
+        public async Task<string?> GenerateCreateScriptAsync(SqlDataProvider provider)
         {
             if (TableName != null)
             {

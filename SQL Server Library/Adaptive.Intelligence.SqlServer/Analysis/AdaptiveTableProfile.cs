@@ -302,7 +302,15 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// <value>
         /// A <see cref="SqlQueryParameterCollection" /> instance containing the query parameter definitions.
         /// </value>
-        public SqlQueryParameterCollection? QueryParameters => _queryParameters;
+        public SqlQueryParameterCollection QueryParameters
+        {
+            get
+            {
+                if (_queryParameters == null)
+                    _queryParameters = new SqlQueryParameterCollection();
+                return _queryParameters;
+            }
+        }
         /// <summary>
         /// Gets the reference to the list of join definitions to be used when rendering a SELECT query
         /// for this table.
@@ -311,7 +319,15 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// A <see cref="ReferencedTableJoinCollection" /> containing the join definition instances used to define and help
         /// render SQL JOIN statements.
         /// </value>
-        public ReferencedTableJoinCollection? ReferencedTableJoins => _referencedTableJoins;
+        public ReferencedTableJoinCollection ReferencedTableJoins
+        {
+            get
+            {
+                if (_referencedTableJoins == null)
+                    _referencedTableJoins = new ReferencedTableJoinCollection();
+                return _referencedTableJoins;
+            }
+        }
         /// <summary>
         /// Gets or sets the string value used to reference the table and its objects in singular form,
         /// e.g. "Customer" for a Customer or Customers table.
@@ -337,7 +353,15 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// allows the user to specify which columns are queried for when querying directly on this table.  This is different
         /// from the content in the <see cref="SubJoinQueryFieldsToUse" /> property.
         /// </remarks>
-        public List<string>? StandardQueryFieldsToUse => _standardQueryFieldsToUse;
+        public List<string> StandardQueryFieldsToUse
+        {
+            get
+            {
+                if (_standardQueryFieldsToUse == null)
+                    _standardQueryFieldsToUse = new List<string>();
+                return _standardQueryFieldsToUse;
+            }
+        }
         /// <summary>
         /// Gets the reference to the list of standard stored procedures that have been defined for the table.
         /// </summary>
@@ -489,7 +513,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// <value>
         /// A string specifying the name of the edit (update) stored procedure.
         /// </value>
-        public string UpdateStoredProcedureName
+        public string? UpdateStoredProcedureName
         {
             get => _updateSpName;
             set => _updateSpName = value;
@@ -500,7 +524,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// <value>
         /// A string specifying the name of the delete (or marked deleted) stored procedure.
         /// </value>
-        public string DeleteStoredProcedureName
+        public string? DeleteStoredProcedureName
         {
             get => _deleteSpName;
             set => _deleteSpName = value;
@@ -578,7 +602,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
 
                     success = true;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLog.LogException(ex);
                 }
@@ -640,7 +664,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                     success = true;
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLog.LogException(ex);
                 }

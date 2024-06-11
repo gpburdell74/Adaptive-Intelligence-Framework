@@ -102,7 +102,15 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
         /// <value>
         /// A <see cref="SqlCodeSelectListItemExpressionCollection"/> instance containing the list of items to be selected.
         /// </value>
-        public SqlCodeSelectListItemExpressionCollection? SelectItemsList => _selectItemsList;
+        public SqlCodeSelectListItemExpressionCollection SelectItemsList
+        {
+            get
+            {
+                if (_selectItemsList == null)
+                    _selectItemsList = new SqlCodeSelectListItemExpressionCollection();
+                return _selectItemsList;
+            }
+        }
         /// <summary>
         /// Gets or sets the top number of rows to return.
         /// </summary>

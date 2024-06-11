@@ -272,10 +272,14 @@ namespace Adaptive.Intelligence.SqlServer
         /// DECLARE keyword.
         /// </summary>
         public const string SqlDeclare = "DECLARE";
-        /// <summary>
-        /// DISTINCT keyword.
-        /// </summary>
-        public const string SqlDistinct = "DISTINCT";
+		/// <summary>
+		/// DELETE keyword.
+		/// </summary>
+		public const string SqlDelete = "DELETE";
+		/// <summary>
+		/// DISTINCT keyword.
+		/// </summary>
+		public const string SqlDistinct = "DISTINCT";
         /// <summary>
         /// END keyword.
         /// </summary>

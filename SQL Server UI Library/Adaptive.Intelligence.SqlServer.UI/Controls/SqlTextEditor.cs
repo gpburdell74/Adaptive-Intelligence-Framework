@@ -28,7 +28,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </summary>
         public SqlTextEditor()
         {
-            this.Cursor = Cursors.IBeam;
+            Cursor = Cursors.IBeam;
         }
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control" /> and its child controls and optionally releases the managed resources.
@@ -43,7 +43,16 @@ namespace Adaptive.Intelligence.SqlServer.UI
         }
         #endregion
 
-        #region Public Properties        
+        #region Public Properties
+        public new bool Enabled
+        {
+            get => base.Enabled;
+            set
+            {
+                base.Enabled = value;
+                Invalidate();
+            }
+        }
         /// <summary>
         /// Gets or sets the name of the file the SQL query is to be stored in.
         /// </summary>
@@ -54,11 +63,17 @@ namespace Adaptive.Intelligence.SqlServer.UI
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string FileName
         {
-            get => _fileName;
+            get
+            {
+                if (_fileName == null)
+                    return string.Empty;
+                else
+                    return _fileName;
+            }
             set
             {
                 _fileName = value;
-                Text = Constants.OpenBracket + _fileName + Constants.CloseBracket;
+
             }
         }
         /// <summary>
@@ -74,6 +89,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
             set
             {
                 Text = value;
+                Invalidate();
                 OnTextChanged(EventArgs.Empty);
             }
         }

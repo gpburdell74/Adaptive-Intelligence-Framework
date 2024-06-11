@@ -8,7 +8,6 @@ using Adaptive.Intelligence.SqlServer.ORM;
 using Adaptive.Intelligence.SqlServer.Schema;
 using Adaptive.SqlServer.Client;
 using Microsoft.Data.SqlClient;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.CodeDom;
 using System.Collections.Specialized;
 using System.Data;
@@ -16,11 +15,11 @@ using System.Text;
 
 namespace Adaptive.Intelligence.SqlServer
 {
-    /// <summary>
-    /// Provides a central container for SQL Server operations within an application.
-    /// </summary>
-    /// <seealso cref="Adaptive.Intelligence.Shared.DisposableObjectBase" />
-    public sealed class ContextOperations : DisposableObjectBase, ICloneable
+	/// <summary>
+	/// Provides a central container for SQL Server operations within an application.
+	/// </summary>
+	/// <seealso cref="DisposableObjectBase" />
+	public sealed class ContextOperations : DisposableObjectBase
     {
         #region Public Events        
         /// <summary>
@@ -41,11 +40,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// <summary>
         /// The database connection, schema and meta data information container.
         /// </summary>
-        private DatabaseInfo? _dbInfo;
-        /// <summary>
-        /// The SQL code DOM generator instance.
-        /// </summary>
-        private AdaptiveSqlCodeDomGenerator? _codeDom;
+        private DatabaseInfoCollection? _dbInfoList;
         /// <summary>
         /// The maintenance processor instance.
         /// </summary>
@@ -69,14 +64,15 @@ namespace Adaptive.Intelligence.SqlServer
         /// </remarks>
         public ContextOperations()
         {
-        }
+            _connectString = new SqlConnectionStringBuilder();
+		}
         /// <summary>
         /// Initializes a new instance of the <see cref="ContextOperations"/> class.
         /// </summary>
         /// <remarks>
         /// This is the default constructor.
         /// </remarks>
-        public ContextOperations(string connectionString)
+        public ContextOperations(string connectionString) : this()
         {
             _connectString = new SqlConnectionStringBuilder(connectionString);
         }
@@ -88,16 +84,14 @@ namespace Adaptive.Intelligence.SqlServer
         {
             if (!IsDisposed && disposing)
             {
-                _codeDom?.Dispose();
-                _dbInfo?.Dispose();
+                _dbInfoList?.Clear();
                 _maintenanceProcessor?.Dispose();
                 _connectString?.Clear();
             }
 
             _connectString = null;
             _maintenanceProcessor = null;
-            _codeDom = null;
-            _dbInfo = null;
+            _dbInfoList = null;
             base.Dispose(disposing);
         }
         #endregion
@@ -109,52 +103,70 @@ namespace Adaptive.Intelligence.SqlServer
         /// <value>
         ///   <b>true</b> if connected; otherwise, <b>false</b>.
         /// </value>
-        public bool IsConnected => _dbInfo != null;
+        public bool IsConnected => _dbInfoList != null;
         /// <summary>
         /// Gets the connection string builder instance.
         /// </summary>
         /// <value>
         /// The <see cref="SqlConnectionStringBuilder"/> instance used to connect to SQL Server.
         /// </value>
-        public SqlConnectionStringBuilder ConnectionString => _connectString;
+        public SqlConnectionStringBuilder ConnectionString
+        {
+            get
+            {
+                if (_connectString == null)
+                    _connectString = new SqlConnectionStringBuilder();
+                return _connectString;
+            }
+        }
+        #endregion
+
+        #region Public Methods / Functions
         /// <summary>
         /// Gets the reference to the database connection, schema and metadata information container.
         /// </summary>
         /// <value>
         /// An <see cref="DatabaseInfo"/> instance, or <b>null</b>.
         /// </value>
-        public DatabaseInfo? DbInfo => _dbInfo;
-        #endregion
+        public DatabaseInfo? GetDbInfo(string databaseName)
+        {
+            if (_dbInfoList == null)
+                return null;
+            else
+                return _dbInfoList[databaseName];
+        }
 
-        #region Public Methods / Functions
-
-        #region C# Code DOM Operations
-        /// <summary>
-        /// Creates the data definition class.
-        /// </summary>
-        /// <param name="table">
-        /// The <see cref="SqlTable"/> instance to create the data definition for.
+    	#region C# Code DOM Operations
+	    /// <summary>
+	    /// Creates the data definition class.
+	    /// </summary>
+        /// <param name="databaseName">
+        /// The name of the database in which the table is contained.
         /// </param>
-        /// <param name="nameSpace">
-        /// A string containing the namespace value to include the new class in.
-        /// </param>
-        /// <param name="parentClass">
-        /// A string containing the name of the parent class the new instance derives from, or <b>null</b>.
-        /// </param>
-        /// <param name="disposable">
-        /// A value indicating whether the new class is a <see cref="IDisposable"/> instance.
-        /// </param>
-        /// <returns>
-        /// A string containing the C# code for the new class.
-        /// </returns>
-        public string? CreateDataDefinitionClass(SqlTable? table, string nameSpace, string? parentClass, bool disposable)
+	    /// <param name="table">
+	    /// The <see cref="SqlTable"/> instance to create the data definition for.
+	    /// </param>
+	    /// <param name="nameSpace">
+	    /// A string containing the namespace value to include the new class in.
+	    /// </param>
+	    /// <param name="parentClass">
+	    /// A string containing the name of the parent class the new instance derives from, or <b>null</b>.
+	    /// </param>
+	    /// <param name="disposable">
+	    /// A value indicating whether the new class is a <see cref="IDisposable"/> instance.
+	    /// </param>
+	    /// <returns>
+	    /// A string containing the C# code for the new class.
+	    /// </returns>
+	    public string? CreateDataDefinitionClass(string databaseName, SqlTable? table, string nameSpace, string? parentClass, bool disposable)
         {
             string? generatedCode = null;
 
-            if (table != null && _dbInfo != null)
+            DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+            if (table != null && dbInfo != null)
             {
                 // Capture the object references and name values.
-                AdaptiveTableProfile? profile = _dbInfo.GetTableProfile(table.TableName);
+                AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.TableName);
                 if (profile != null)
                 {
                     // Create the namespace container.
@@ -164,7 +176,7 @@ namespace Adaptive.Intelligence.SqlServer
                     string className = profile.DataDefinitionClassName!;
 
                     // Create the list of properties to be defined on the data definition class.
-                    PropertyProfileCollection? propertyList = SqlCodeDomFactory.GeneratePropertyProfiles(_dbInfo, table.Columns, profile);
+                    PropertyProfileCollection? propertyList = SqlCodeDomFactory.GeneratePropertyProfiles(dbInfo, table.Columns, profile);
 
                     // Create the class definition.
                     //
@@ -242,23 +254,27 @@ namespace Adaptive.Intelligence.SqlServer
 
             return generatedCode;
         }
-        /// <summary>
-        /// Creates the data access class.
-        /// </summary>
-        /// <param name="table">
-        /// The <see cref="SqlTable"/> instance to create the data access class for.
-        /// </param>
-        /// <returns>
-        /// A string containing the C# code for the new class.
-        /// </returns>
-        public string? CreateDataAccessClass(SqlTable? table)
+		/// <summary>
+		/// Creates the data access class.
+		/// </summary>
+		/// <param name="databaseName">
+		/// The name of the database in which the table is contained.
+		/// </param>
+		/// <param name="table">
+		/// The <see cref="SqlTable"/> instance to create the data access class for.
+		/// </param>
+		/// <returns>
+		/// A string containing the C# code for the new class.
+		/// </returns>
+		public string? CreateDataAccessClass(string databaseName, SqlTable? table)
         {
             string? generatedCode = null;
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
 
-            if (_dbInfo != null && table != null)
+			if (dbInfo != null && table != null)
             {
-                AdaptiveTableProfile? profile = _dbInfo.GetTableProfile(table.TableName);
-                DataAccessClassBuilder builder = new DataAccessClassBuilder(_dbInfo, table, profile, "Data.Access");
+                AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.TableName);
+                DataAccessClassBuilder builder = new DataAccessClassBuilder(dbInfo, table, profile, "Data.Access");
                 generatedCode = builder.GenerateDataAccessClass();
                 builder.Dispose();
             }   
@@ -406,13 +422,14 @@ namespace Adaptive.Intelligence.SqlServer
         /// <param name="passCount">
         /// An integer specifying the number of passes to perform.
         /// </param>
-        public async Task PerformDatabaseMaintenanceAsync(int passCount)
+        public async Task PerformDatabaseMaintenanceAsync(string databaseName, int passCount)
         {
-            if (_dbInfo != null)
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (dbInfo != null)
             {
                 if (_maintenanceProcessor == null)
                 {
-                    _maintenanceProcessor = new GeneralMaintenanceProcessor(_dbInfo.Provider);
+                    _maintenanceProcessor = new GeneralMaintenanceProcessor(dbInfo.Provider);
                     _maintenanceProcessor.NumberOfPasses = passCount;
                     _maintenanceProcessor.StatusUpdate += HandleStatusUpdate;
 
@@ -430,74 +447,48 @@ namespace Adaptive.Intelligence.SqlServer
                 }
             }
         }
-        /// <summary>
-        /// Attempts to connect to the specified database.
-        /// </summary>
-        /// <param name="connectionString">
-        /// A string containing the SQL Server connection information.
-        /// </param>
-        /// <returns></returns>
-        public async Task<bool> ConnectToDatabaseAsync(string connectionString)
+		/// <summary>
+		/// Connects to the specified SQL Server.
+		/// </summary>
+		/// <param name="connectionString">
+		/// A string containing the SQL Server connection information.
+		/// </param>
+		/// <returns>
+        /// <b>true</b> if the operation completes successfully; otherwise, returns <b>false</b>.
+        /// </returns>
+		public async Task<bool> ConnectToSqlServerAsync(string connectionString)
         {
             bool success = false;
 
-            if (!_connecting)
+            // Connect to the master database and get a list of databases.
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
+            builder.InitialCatalog = "master";
+			Schema.SqlServer newServer = new Schema.SqlServer(builder.DataSource);
+            List<string>? dbList = await newServer.LoadDatabaseNamesAsync(builder.ToString());
+            if (dbList != null)
             {
-                success = await ConnectToDatabaseAsync(new SqlConnectionStringBuilder(connectionString)).ConfigureAwait(false);
-            }
-            return success;
-        }
-        /// <summary>
-        /// Attempts to connect to the specified database.
-        /// </summary>
-        /// <param name="connectionString">
-        /// The <see cref="SqlConnectionStringBuilder"/> instance containing the SQL Server connection information.
-        /// </param>
-        /// <returns></returns>
-        public async Task<bool> ConnectToDatabaseAsync(SqlConnectionStringBuilder connectionString)
-        {
-            bool success = false;
+                _dbInfoList = new DatabaseInfoCollection();
+				// Iterate over the list of databases and connect to each one.
 
-            if (!_connecting)
-            {
-                // Connect to the specified database.
-                _connecting = true;
-                _dbInfo = new DatabaseInfo();
-                _dbInfo.StatusUpdate += HandleStatusUpdate;
-                _connectString = connectionString;
-
-                success = await _dbInfo.ConnectAsync(connectionString.ToString()).ConfigureAwait(false);
-
-                if (!success)
+				foreach (string dbName in dbList)
                 {
-                    _dbInfo.StatusUpdate -= HandleStatusUpdate;
-                    _dbInfo.Dispose();
-                    _dbInfo = null;
-                    OnDisconnected(EventArgs.Empty);
+                    builder.InitialCatalog = dbName;
+					DatabaseInfo info = new DatabaseInfo();
+                    await info.ConnectAsync(builder.ToString()).ConfigureAwait(false);
+                    _dbInfoList.Add(info);
                 }
-                else
-                {
-                    // Create the Code DOM generator and store the database references and information globally.
-                    _codeDom = new AdaptiveSqlCodeDomGenerator(_dbInfo.TableData);
-                    OnConnnected(EventArgs.Empty);
-                }
-                _connecting = false;
             }
-            return success;
+
+			return success;
         }
         /// <summary>
         /// Disconnects from the database if connected.
         /// </summary>
         public void Disconnect()
         {
-            _codeDom?.Dispose();
-            _codeDom = null;
-
-            if (_dbInfo != null)
+            if (_dbInfoList != null)
             {
-                _dbInfo.StatusUpdate -= HandleStatusUpdate;
-                _dbInfo.Dispose();
-                _dbInfo = null;
+                _dbInfoList.Clear();
                 _connecting = false;
                 _connectString?.Clear();
                 _connectString = null;
@@ -513,55 +504,70 @@ namespace Adaptive.Intelligence.SqlServer
         /// <returns>
         /// <b>true</b> if the operation executes successfully; otherwise, returns <b>false</b>.
         /// </returns>
-        public async Task<bool> DropProcedureAsync(SqlStoredProcedure procedure)
+        public async Task<bool> DropProcedureAsync(string databaseName, SqlStoredProcedure procedure)
         {
             bool success = false;
 
-            if (_dbInfo != null && _dbInfo.Provider != null)
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (dbInfo != null && dbInfo.Provider != null)
             {
-                _dbInfo.Provider.ClearExceptions();
+				dbInfo.Provider.ClearExceptions();
 
                 // Create and execute the DROP PROCEDURE statement.
                 string sql = "DROP PROCEDURE [" + procedure.Name + "]";
-                IOperationalResult<int> result = await _dbInfo.Provider.ExecuteSqlAsync(sql).ConfigureAwait(false);
+                IOperationalResult<int> result = await dbInfo.Provider.ExecuteSqlAsync(sql).ConfigureAwait(false);
                 success = result.Success;
                 result.Dispose();
             }
 
             return success;
         }
-
-        public async Task<DataTable?> GetDataTableAsync(string? sqlQuery)
+		/// <summary>
+		/// Gets the data table object populated with the data result from the query.
+		/// </summary>
+		/// <param name="databaseName">
+        /// A string containing the name of the database.
+        /// </param>
+		/// <param name="sqlQuery">
+        /// A string containing the SQL SELECT query to execute.
+        /// </param>
+		/// <returns>
+        /// A <see cref="DataTable"/> containing the data, if successful; otherwise, returns <b>null</b>.
+        /// </returns>
+		public async Task<DataTable?> GetDataTableAsync(string databaseName, string? sqlQuery)
         {
             DataTable? table = null;
 
-            if (sqlQuery != null)
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (sqlQuery != null)
             {
-                IOperationalResult<DataTable> result = await _dbInfo.Provider.FillDataTableAsync(sqlQuery).ConfigureAwait(false);
+                IOperationalResult<DataTable> result = await dbInfo.Provider.FillDataTableAsync(sqlQuery).ConfigureAwait(false);
                 if (result.Success)
                     table = result.DataContent;
                 result.Dispose();
             }
-
             return table;
-                
         }
-        /// <summary>
-        /// Executes the SQL query text.
-        /// </summary>
-        /// <param name="sqlQuery">
-        /// A string containing the SQL query text to be executed.
-        /// </param>
-        /// <returns>
-        /// A <see cref="UserSqlExecutionResult"/> instances describing the result of the operation.
-        /// </returns>
-        public async Task<UserSqlExecutionResult> ExecuteQueryAsync(string? sqlQuery)
+		/// <summary>
+		/// Executes the SQL query text.
+		/// </summary>
+		/// <param name="databaseName">
+		/// A string containing the name of the database.
+		/// </param>
+		/// <param name="sqlQuery">
+		/// A string containing the SQL query text to be executed.
+		/// </param>
+		/// <returns>
+		/// A <see cref="UserSqlExecutionResult"/> instances describing the result of the operation.
+		/// </returns>
+		public async Task<UserSqlExecutionResult> ExecuteQueryAsync(string databaseName, string? sqlQuery)
         {
             UserSqlExecutionResult result = new UserSqlExecutionResult();
 
-            if (sqlQuery != null && _dbInfo != null && _dbInfo.Provider != null)
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (sqlQuery != null && dbInfo != null && dbInfo.Provider != null)
             { 
-                SqlQueryErrorCollection? errorList = await _dbInfo.Provider.ExecuteUserSqlAsync(sqlQuery).ConfigureAwait(false);
+                SqlQueryErrorCollection? errorList = await dbInfo.Provider.ExecuteUserSqlAsync(sqlQuery).ConfigureAwait(false);
                 if (errorList == null)
                 {
                     // Everything worked.
@@ -573,31 +579,35 @@ namespace Adaptive.Intelligence.SqlServer
                     result.Error = true;
                     result.Success = false;
                     result.Errors = errorList;
-                    if (_dbInfo.Provider.HasExceptions)
+                    if (dbInfo.Provider.HasExceptions)
                     {
-                        if (_dbInfo.Provider.Exceptions != null && _dbInfo.Provider.Exceptions.Count > 0)
-                            result.Message = _dbInfo.Provider.Exceptions[0].Message;
+                        if (dbInfo.Provider.Exceptions != null && dbInfo.Provider.Exceptions.Count > 0)
+                            result.Message = dbInfo.Provider.Exceptions[0].Message;
                     }
                 }
             }
             return result;
         }
-        /// <summary>
-        /// Parses the SQL query text, to ensure it can be executed successfully.
-        /// </summary>
-        /// <param name="sqlQuery">
-        /// A string containing the SQL query text to be parsed.
-        /// </param>
-        /// <returns>
-        /// A <see cref="UserSqlExecutionResult"/> instances describing the result of the operation.
-        /// </returns>
-        public async Task<UserSqlExecutionResult> ParseQueryAsync(string? sqlQuery)
+		/// <summary>
+		/// Parses the SQL query text, to ensure it can be executed successfully.
+		/// </summary>
+		/// <param name="databaseName">
+		/// A string containing the name of the database.
+		/// </param>
+		/// <param name="sqlQuery">
+		/// A string containing the SQL query text to be parsed.
+		/// </param>
+		/// <returns>
+		/// A <see cref="UserSqlExecutionResult"/> instances describing the result of the operation.
+		/// </returns>
+		public async Task<UserSqlExecutionResult> ParseQueryAsync(string databaseName, string? sqlQuery)
         {
             UserSqlExecutionResult result = new UserSqlExecutionResult();
 
-            if (_dbInfo != null && _dbInfo.Provider != null)
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (dbInfo != null && dbInfo.Provider != null)
             {
-                SqlQueryErrorCollection? errorList = await _dbInfo.Provider.ParseSqlAsync(sqlQuery)
+                SqlQueryErrorCollection? errorList = await dbInfo.Provider.ParseSqlAsync(sqlQuery)
                     .ConfigureAwait(false);
 
                 if (errorList == null)
@@ -611,7 +621,7 @@ namespace Adaptive.Intelligence.SqlServer
                     result.Error = true;
                     result.Success = false;
                     result.Errors = errorList;
-                    result.Message = _dbInfo.Provider.ExceptionMessages;
+                    result.Message = dbInfo.Provider.ExceptionMessages;
                 }
             }
             return result;
@@ -633,106 +643,173 @@ namespace Adaptive.Intelligence.SqlServer
         /// <remarks>
         /// This is used to generate a stored procedure for deleting a record in the table.
         /// </remarks>
+        /// <param name="databaseName">
+        /// A string containing the name of the database to operate in.
+        /// </param>
         /// <param name="table">
         /// The <see cref="SqlTable"/> instance to create the stored procedure for.
         /// </param>
         /// <returns>
         /// A string containing the SQL query text.
         /// </returns>
-        public string CreateDeleteStoredProcedureText(SqlTable table)
-        {
-            SqlCodeCreateStoredProcedureStatement statement =
-                _codeDom.CreateDeleteStoredProcedure(table, true);
-            string sql = statement.ToString();
-            statement.Dispose();
-            return sql;
-        }
-        /// <summary>
-        /// Creates the SQL query text for the GetAllRecords() stored procedure.
-        /// </summary>
-        /// <remarks>
-        /// This is used to generate the get all records stored procedure for the table in the
-        /// standard EasyVote CRUD operations.
-        /// </remarks>
-        /// <param name="table">
-        /// The <see cref="SqlTable"/> instance to create the stored procedure for.
-        /// </param>
-        /// <returns>
-        /// A string containing the SQL query text.
-        /// </returns>
-        public string? CreateGetAllStoredProcedureText(SqlTable? table)
+        public string? CreateDeleteStoredProcedureText(string databaseName, SqlTable? table)
         {
             if (table == null)
                 return null;
 
-            SqlCodeCreateStoredProcedureStatement statement =
-                _codeDom.CreateGetAllStoredProcedure(table, table.TableName + "GetAll");
-            string sql = statement.ToString();
-            statement.Dispose();
+            string sql = string.Empty;
+
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+            if (dbInfo != null)
+            {
+                AdaptiveSqlCodeDomGenerator codeDom = new AdaptiveSqlCodeDomGenerator(dbInfo.TableData);
+                SqlCodeCreateStoredProcedureStatement? statement = codeDom.CreateDeleteStoredProcedure(table, true);
+                if (statement != null)
+                {
+                    sql = statement.ToString();
+                    statement.Dispose();
+                }
+                codeDom.Dispose();
+            }
             return sql;
         }
-        /// <summary>
-        /// Creates the SQL query text for the GetById() stored procedure.
-        /// </summary>
-        /// <remarks>
-        /// This is used to generate the get by id stored procedure for the table in the
-        /// standard EasyVote CRUD operations.
-        /// </remarks>
-        /// <param name="table">
-        /// The <see cref="SqlTable"/> instance to create the stored procedure for.
-        /// </param>
-        /// <returns>
-        /// A string containing the SQL query text.
-        /// </returns>
-        public string CreateGetByIdProcedureText(SqlTable table)
+		/// <summary>
+		/// Creates the SQL query text for the GetAllRecords() stored procedure.
+		/// </summary>
+		/// <remarks>
+		/// This is used to generate a stored procedure for reading all records in a table.
+		/// </remarks>
+		/// <param name="databaseName">
+		/// A string containing the name of the database to operate in.
+		/// </param>
+		/// <param name="table">
+		/// The <see cref="SqlTable"/> instance to create the stored procedure for.
+		/// </param>
+		/// <returns>
+		/// A string containing the SQL query text.
+		/// </returns>
+		public string? CreateGetAllStoredProcedureText(string databaseName, SqlTable? table)
         {
-            SqlCodeCreateStoredProcedureStatement statement =
-                _codeDom.CreateGetByIdStoredProcedure(table);
-            string sql = statement.ToString();
-            statement.Dispose();
-            return sql;
+            if (table == null)
+                return null;
+
+			string sql = string.Empty;
+
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (dbInfo != null)
+			{
+				AdaptiveSqlCodeDomGenerator codeDom = new AdaptiveSqlCodeDomGenerator(dbInfo.TableData);
+                SqlCodeCreateStoredProcedureStatement? statement = codeDom.CreateGetAllStoredProcedure(table);
+				if (statement != null)
+				{
+					sql = statement.ToString();
+					statement.Dispose();
+				}
+				codeDom.Dispose();
+			}
+			return sql;
         }
-        /// <summary>
-        /// Creates the SQL query text for the Insert() stored procedure.
-        /// </summary>
-        /// <remarks>
-        /// This is used to generate the Insert stored procedure for the table in the
-        /// standard EasyVote CRUD operations.
-        /// </remarks>
-        /// <param name="table">
-        /// The <see cref="SqlTable"/> instance to create the stored procedure for.
-        /// </param>
-        /// <returns>
-        /// A string containing the SQL query text.
-        /// </returns>
-        public string CreateInsertStoredProcedureText(SqlTable table)
+		/// <summary>
+		/// Creates the SQL query text for the GetById() stored procedure.
+		/// </summary>
+		/// <remarks>
+		/// This is used to generate a stored procedure for reading a record from a table by ID value.
+		/// </remarks>
+		/// <param name="databaseName">
+		/// A string containing the name of the database to operate in.
+		/// </param>
+		/// <param name="table">
+		/// The <see cref="SqlTable"/> instance to create the stored procedure for.
+		/// </param>
+		/// <returns>
+		/// A string containing the SQL query text.
+		/// </returns>
+		public string? CreateGetByIdProcedureText(string databaseName, SqlTable? table)
         {
-            SqlCodeCreateStoredProcedureStatement statement =
-                _codeDom.CreateInsertStoredProcedure(table);
-            string sql = statement.ToString();
-            statement.Dispose();
-            return sql;
+			if (table == null)
+				return null;
+
+			string sql = string.Empty;
+
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (dbInfo != null)
+			{
+				AdaptiveSqlCodeDomGenerator codeDom = new AdaptiveSqlCodeDomGenerator(dbInfo.TableData);
+                SqlCodeCreateStoredProcedureStatement? statement = codeDom.CreateGetByIdStoredProcedure(table);
+				if (statement != null)
+				{
+					sql = statement.ToString();
+					statement.Dispose();
+				}
+				codeDom.Dispose();
+			}
+			return sql;
         }
-        /// <summary>
-        /// Creates the SQL query text for the Update() stored procedure.
-        /// </summary>
-        /// <remarks>
-        /// This is used to generate the Update stored procedure for the table in the
-        /// standard EasyVote CRUD operations.
-        /// </remarks>
-        /// <param name="table">
-        /// The <see cref="SqlTable"/> instance to create the stored procedure for.
-        /// </param>
-        /// <returns>
-        /// A string containing the SQL query text.
-        /// </returns>
-        public string CreateUpdateStoredProcedureText(SqlTable table)
+		/// <summary>
+		/// Creates the SQL query text for the Insert() stored procedure.
+		/// </summary>
+		/// <remarks>
+		/// This is used to generate a stored procedure for inserting a record into a table.
+		/// </remarks>
+		/// <param name="table">
+		/// The <see cref="SqlTable"/> instance to create the stored procedure for.
+		/// </param>
+		/// <returns>
+		/// A string containing the SQL query text.
+		/// </returns>
+		public string? CreateInsertStoredProcedureText(string databaseName, SqlTable table)
         {
-            SqlCodeCreateStoredProcedureStatement statement =
-                _codeDom.CreateUpdateStoredProcedure(table);
-            string sql = statement.ToString();
-            statement.Dispose();
-            return sql;
+			if (table == null)
+				return null;
+
+			string sql = string.Empty;
+
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (dbInfo != null)
+			{
+				AdaptiveSqlCodeDomGenerator codeDom = new AdaptiveSqlCodeDomGenerator(dbInfo.TableData);
+				SqlCodeCreateStoredProcedureStatement? statement = codeDom.CreateInsertStoredProcedure(table);
+				if (statement != null)
+				{
+					sql = statement.ToString();
+					statement.Dispose();
+				}
+				codeDom.Dispose();
+			}
+			return sql;
+        }
+		/// <summary>
+		/// Creates the SQL query text for the Update() stored procedure.
+		/// </summary>
+		/// <remarks>
+		/// This is used to generate a stored procedure for updating a record in a table.
+		/// </remarks>
+		/// <param name="table">
+		/// The <see cref="SqlTable"/> instance to create the stored procedure for.
+		/// </param>
+		/// <returns>
+		/// A string containing the SQL query text.
+		/// </returns>
+		public string? CreateUpdateStoredProcedureText(string databaseName, SqlTable table)
+        {
+			if (table == null)
+				return null;
+
+			string sql = string.Empty;
+
+			DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+			if (dbInfo != null)
+			{
+				AdaptiveSqlCodeDomGenerator codeDom = new AdaptiveSqlCodeDomGenerator(dbInfo.TableData);
+				SqlCodeCreateStoredProcedureStatement? statement = codeDom.CreateUpdateStoredProcedure(table);
+				if (statement != null)
+				{
+					sql = statement.ToString();
+					statement.Dispose();
+				}
+				codeDom.Dispose();
+			}
+			return sql;
         }
         /// <summary>
         /// Generates the T-SQL script for creating the table.
@@ -743,11 +820,17 @@ namespace Adaptive.Intelligence.SqlServer
         /// <returns>
         /// A string containing the SQL script, if successful; otherwise, returns <b>false</b>.
         /// </returns>
-        public async Task<string> GenerateCreateScriptAsync(SqlTable table)
+        public async Task<string?> GenerateCreateScriptAsync(string databaseName, SqlTable table)
         {
-            SqlDataProvider provider = SqlDataProviderFactory.CreateProvider(_dbInfo.ConnectionString);
-            string script = await table.GenerateCreateScriptAsync(provider);
-            provider.Dispose();
+            string? script = null;
+            DatabaseInfo? dbInfo = GetDbInfo(databaseName);
+            if (dbInfo != null && dbInfo.ConnectionString != null)
+            {
+                SqlDataProvider provider = SqlDataProviderFactory.CreateProvider(dbInfo.ConnectionString);
+                script = await table.GenerateCreateScriptAsync(provider).ConfigureAwait(false);
+                provider.Dispose();
+            }
+
             return script;
         }
         #endregion
@@ -762,7 +845,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// <returns>
         /// A string containing the text, if successful; otherwise, returns <b>null</b>.
         /// </returns>
-        public string LoadSqlFile(string fileName)
+        public string? LoadSqlFile(string fileName)
         {
             return SafeIO.ReadTextFromFile(fileName, false);
         }
@@ -774,7 +857,15 @@ namespace Adaptive.Intelligence.SqlServer
         /// </returns>
         public bool SaveProfiles()
         {
-            return _dbInfo.TableData.Profiles.Save();
+            bool success = true;
+            if (_dbInfoList != null)
+            {
+                foreach (DatabaseInfo dbInfo in _dbInfoList)
+                {
+                    success = success && dbInfo.TableData.Profiles.Save();
+                }
+            }
+            return success;
         }
         /// <summary>
         /// Saves the table profile content to a local file.
@@ -782,20 +873,28 @@ namespace Adaptive.Intelligence.SqlServer
         /// <returns>
         /// <b>true</b> if the operation is successful; otherwise, <b>false</b>.
         /// </returns>
-        public Task<bool> SaveProfilesAsync()
+        public async Task<bool> SaveProfilesAsync()
         {
-            return _dbInfo.TableData.Profiles.SaveAsync();
-        }
-        /// <summary>
-        /// Saves the SQL query text to the specified file.
-        /// </summary>
-        /// <param name="fileName">
-        /// A string containing the fully-qualified path and name of the file to read.
-        /// </param>
-        /// <param name="sql">
-        /// A string containing the text, if successful; otherwise, returns <b>null</b>.
-        /// </param>
-        public void SaveSqlFile(string fileName, string sql)
+			bool success = true;
+			if (_dbInfoList != null)
+			{
+				foreach (DatabaseInfo dbInfo in _dbInfoList)
+				{
+                    success = success && await dbInfo.TableData.Profiles.SaveAsync().ConfigureAwait(false);
+				}
+			}
+			return success;
+		}
+		/// <summary>
+		/// Saves the SQL query text to the specified file.
+		/// </summary>
+		/// <param name="fileName">
+		/// A string containing the fully-qualified path and name of the file to read.
+		/// </param>
+		/// <param name="sql">
+		/// A string containing the text, if successful; otherwise, returns <b>null</b>.
+		/// </param>
+		public void SaveSqlFile(string fileName, string sql)
         {
             if (SafeIO.FileExists(fileName))
                 SafeIO.DeleteFile(fileName);
@@ -824,19 +923,24 @@ namespace Adaptive.Intelligence.SqlServer
         /// </returns>
         public async Task<StoredProcedureAnalysisResult> AnalyzeStoredProceduresAsync(string leftDatabase, string rightDatabase)
         {
-            StoredProcedureAnalysisResult result = new StoredProcedureAnalysisResult();
+            DatabaseInfo? leftDbInfo = GetDbInfo(leftDatabase);
+			DatabaseInfo? rightDbInfo = GetDbInfo(leftDatabase);
+			StoredProcedureAnalysisResult result = new StoredProcedureAnalysisResult();
 
-            // Download the content of all the stored procedures in each database.
-            OnStatusUpdate(new ProgressUpdateEventArgs($"Reading Procedures From {leftDatabase}", null, 0));
-            result.PrimaryDatabaseProcedures = await _dbInfo.DownloadAllStoredProceduresAsync(leftDatabase);
+            if (leftDbInfo != null && rightDbInfo != null)
+            {
+                // Download the content of all the stored procedures in each database.
+                OnStatusUpdate(new ProgressUpdateEventArgs($"Reading Procedures From {leftDatabase}", null, 0));
+                result.PrimaryDatabaseProcedures = await leftDbInfo.DownloadAllStoredProceduresAsync(leftDatabase);
 
-            OnStatusUpdate(new ProgressUpdateEventArgs($"Reading Procedures From {rightDatabase}", null, 0));
-            result.SecondaryDatabaseProcedures = await _dbInfo.DownloadAllStoredProceduresAsync(rightDatabase);
+                OnStatusUpdate(new ProgressUpdateEventArgs($"Reading Procedures From {rightDatabase}", null, 0));
+                result.SecondaryDatabaseProcedures = await rightDbInfo.DownloadAllStoredProceduresAsync(rightDatabase);
 
-            OnStatusUpdate(new ProgressUpdateEventArgs("Analyzing...", null, 0));
-            result.Analyze(leftDatabase, rightDatabase);
+                OnStatusUpdate(new ProgressUpdateEventArgs("Analyzing...", null, 0));
+                result.Analyze(leftDatabase, rightDatabase);
+            }
+
             return result;
-
         }
         #endregion
 
@@ -877,31 +981,6 @@ namespace Adaptive.Intelligence.SqlServer
         private void OnDisconnected(EventArgs e)
         {
             Disconnected?.Invoke(this, e);
-        }
-        #endregion
-
-        #region Public Clone Methods
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        public ContextOperations Clone()
-        {
-            ContextOperations ops = new ContextOperations();
-            ops.ConnectToDatabaseAsync(_connectString.ToString());
-            return ops;
-        }
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
         #endregion
     }

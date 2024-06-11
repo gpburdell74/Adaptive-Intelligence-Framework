@@ -582,6 +582,44 @@ namespace Adaptive.Intelligence.Shared
 
 			return success;
 		}
+		/// <summary>
+		/// Renders the hour value in a 12-hour format.
+		/// </summary>
+		/// <param name="hour">
+		/// The hour value in military time (0 - 23) format.
+		/// </param>
+		/// <returns>
+		/// A string for displaying the hour value.
+		/// </returns>
+		public static string RenderHourText(int hour)
+		{
+			string hourText;
+
+			if (hour == 0)
+				hourText = "12";
+			else if (hour < 13)
+				hourText = hour.ToString();
+			else
+				hourText = (hour - 12).ToString();
+
+			return hourText;
+		}
+		/// <summary>
+		/// Renders the AM or PM value based on the hour.
+		/// </summary>
+		/// <param name="hour">
+		/// The hour value in military time (0 - 23) format.
+		/// </param>
+		/// <returns>
+		/// A string containing the AM or PM value.
+		/// </returns>
+		public static string RenderAmPm(int hour)
+		{
+			if (hour < 12)
+				return "AM";
+			else
+				return "PM";
+		}
 		#endregion
 
 		#region Private Methods / Functions

@@ -29,6 +29,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// The file name for the query.
         /// </summary>
         private string? _fileName;
+		/// <summary>
+		/// The name of the database to operate in.
+		/// </summary>
+		private string? _databaseName;
         /// <summary>
         /// The operations instance.
         /// </summary>
@@ -45,7 +49,8 @@ namespace Adaptive.Intelligence.SqlServer.UI
         public SqlQueryEditorDialog()
         {
             InitializeComponent();
-            InnerSetText(Adaptive.Intelligence.SqlServer.UI.Properties.Resources.NewQueryTitle);
+            _databaseName = "master";
+			InnerSetText(Properties.Resources.NewQueryTitle);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlQueryEditorDialog"/> class.
@@ -57,9 +62,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
         {
             InitializeComponent();
             _operations = new ContextOperations();
-            _operations.ConnectToDatabaseAsync(connectionString);
+            _databaseName = connectionString.InitialCatalog;
+			_operations.ConnectToSqlServerAsync(connectionString.ToString());
 
-            InnerSetText(Adaptive.Intelligence.SqlServer.UI.Properties.Resources.NewQueryTitle);
+            InnerSetText(Properties.Resources.NewQueryTitle);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlQueryEditorDialog"/> class.
@@ -67,17 +73,21 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// <param name="operations">
         /// A <see cref="ContextOperations"/> instance used to perform SQL tasks.
         /// </param>
+        /// <param name="databaseName">
+        /// A string containing the name of the database to operate in.
+        /// </param>
         /// <param name="caption">
         /// A string containing the caption for the dialog.
         /// </param>
         /// <param name="sql">
         /// A string containing the SQL Query text.
         /// </param>
-        public SqlQueryEditorDialog(ContextOperations operations, string caption, string sql)
+        public SqlQueryEditorDialog(ContextOperations operations, string databaseName, string caption, string sql)
         {
             InitializeComponent();
             _operations = operations;
-            InnerSetText(caption);
+            _databaseName = databaseName;
+			InnerSetText(caption);
             Editor.SqlQuery = sql;
         }
         /// <summary>
@@ -93,12 +103,28 @@ namespace Adaptive.Intelligence.SqlServer.UI
 
             _operations = null;
             _fileName = null;
-            components = null;
+            _databaseName = null;
+			components = null;
             base.Dispose(disposing);
         }
-        #endregion
+		#endregion
 
-        #region Public Properties        
+		#region Public Properties
+		/// <summary>
+		/// Gets the name of the database the query is to be executed in.   
+		/// </summary>
+		/// <value>
+		/// A string containing the name of the database.
+		/// </value>
+		public string DatabaseName
+        {
+            get
+            {
+                if (_databaseName == null)
+                    _databaseName = string.Empty;
+                return _databaseName;
+			}
+        }
         /// <summary>
         /// Gets or sets the name of the file the query is loaded from and/or saved to.
         /// </summary>
@@ -155,8 +181,11 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </summary>
         protected override void AssignEventHandlers()
         {
-            _operations.Connected += HandleSqlConnected;
-            _operations.Disconnected += HandleSqlDisconnected;
+            if (_operations != null)
+            {
+                _operations.Connected += HandleSqlConnected;
+                _operations.Disconnected += HandleSqlDisconnected;
+            }
 
             SaveButton.Click += HandleSaveClicked;
             ExecuteButton.Click += HandleExecuteClicked;
@@ -166,12 +195,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
             QueryMenuExecute.Click += HandleExecuteClicked;
 
             Editor.TextChanged += HandleGenericControlChange;
-            ResultsGrid.DataError += ResultsGrid_DataError;
-        }
-
-        private void ResultsGrid_DataError(object? sender, DataGridViewDataErrorEventArgs e)
-        {
-            e.Cancel = true;
+            ResultsGrid.DataError += HandleResultsGridDataError;
         }
 
         /// <summary>
@@ -179,8 +203,11 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </summary>
         protected override void RemoveEventHandlers()
         {
-            _operations.Connected -= HandleSqlConnected;
-            _operations.Disconnected -= HandleSqlDisconnected;
+            if (_operations != null)
+            {
+                _operations.Connected -= HandleSqlConnected;
+                _operations.Disconnected -= HandleSqlDisconnected;
+            }
 
             SaveButton.Click -= HandleSaveClicked;
             ExecuteButton.Click -= HandleExecuteClicked;
@@ -190,7 +217,8 @@ namespace Adaptive.Intelligence.SqlServer.UI
             QueryMenuExecute.Click -= HandleExecuteClicked;
 
             Editor.TextChanged -= HandleGenericControlChange;
-        }
+			ResultsGrid.DataError -= HandleResultsGridDataError;
+		}
         /// <summary>
         /// Sets the state of the UI controls before the data content is loaded.
         /// </summary>
@@ -311,13 +339,23 @@ namespace Adaptive.Intelligence.SqlServer.UI
         {
             SetState();
         }
-        #endregion
+		/// <summary>
+		/// Handles the results grid data error.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="DataGridViewDataErrorEventArgs"/> instance containing the event data.</param>
+		private void HandleResultsGridDataError(object? sender, DataGridViewDataErrorEventArgs e)
+		{
+			e.Cancel = true;
+		}
 
-        #region Private Methods / Functions        
-        /// <summary>
-        /// Starts the execution of the contained SQL Statements/queries.
-        /// </summary>
-        private async Task StartExecuteAsync()
+		#endregion
+
+		#region Private Methods / Functions        
+		/// <summary>
+		/// Starts the execution of the contained SQL Statements/queries.
+		/// </summary>
+		private async Task StartExecuteAsync()
         {
             if (_operations != null)
             {
@@ -326,69 +364,81 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 string sql = Editor.Text;
                 
                 // Ensure the query is good.
-                UserSqlExecutionResult parseResult = await _operations.ParseQueryAsync(sql).ConfigureAwait(false);
+                UserSqlExecutionResult parseResult = await _operations.ParseQueryAsync(_databaseName, sql).ConfigureAwait(false);
                 if (parseResult.Success)
                 {
-                    List<TSqlStatement> statements = SqlDataProvider.GetStatements(sql);
+                    List<TSqlStatement>? statements = SqlDataProvider.GetStatements(sql);
                     StringBuilder messagesText = new StringBuilder();
-
-                    foreach (TSqlStatement snippet in statements)
+                    if (statements != null)
                     {
-                        if (snippet is SelectStatement)
+                        foreach (TSqlStatement snippet in statements)
                         {
-                            string queryString = sql.Substring(snippet.StartOffset, snippet.FragmentLength);
-                            DataTable table = await _operations.GetDataTableAsync(queryString).ConfigureAwait(false);
-
-                            ContinueInMainThread(() =>
+                            if (snippet is SelectStatement)
                             {
-                                ResultsGrid.SuspendLayout();
-                                ResultsGrid.DataSource = table;
-                                ResultsGrid.ResumeLayout();
+                                string queryString = sql.Substring(snippet.StartOffset, snippet.FragmentLength);
+                                DataTable? table = await _operations.GetDataTableAsync(_databaseName, queryString).ConfigureAwait(false);
 
-                                ResultsPage.Visible = true;
-                                QueryTabs.Visible = true;
+                                ContinueInMainThread(() =>
+                                {
+                                    ResultsGrid.SuspendLayout();
+                                    ResultsGrid.DataSource = table;
+                                    ResultsGrid.ResumeLayout();
 
-                                SetState();
-                                SetPostLoadState();
-                            });
-                        }
-                        else
-                        {
-                            
+                                    ResultsPage.Visible = true;
+                                    QueryTabs.Visible = true;
 
-                            string queryString = sql.Substring(snippet.StartOffset, snippet.FragmentLength);
-                            UserSqlExecutionResult result = await _operations.ExecuteQueryAsync(queryString).ConfigureAwait(false);
-                            if (result.Success)
-                            {
-                                messagesText.AppendLine("Query Executed Successfully.");
-                                messagesText.AppendLine();
+                                    SetState();
+                                    SetPostLoadState();
+                                });
                             }
                             else
                             {
-                                if (result.Errors != null)
+                                string queryString = sql.Substring(snippet.StartOffset, snippet.FragmentLength);
+                                UserSqlExecutionResult result = await _operations.ExecuteQueryAsync(_databaseName, queryString).ConfigureAwait(false);
+                                ContinueInMainThread(() =>
                                 {
-                                    messagesText.AppendLine("Query Execution Failed.");
-                                    messagesText.AppendLine("ERROR: " + result.Errors[0].ToString());
-                                    messagesText.AppendLine();
-                                }
-                            }
-                            
-                        }
-                    }
+                                    if (result.Success)
+                                    {
+                                        messagesText.AppendLine("Query Executed Successfully.");
+                                        messagesText.AppendLine();
+                                    }
+                                    else
+                                    {
+                                        if (result.Errors != null)
+                                        {
+                                            messagesText.AppendLine("Query Execution Failed.");
+                                            messagesText.AppendLine("ERROR: " + result.Errors[0].ToString());
+                                            messagesText.AppendLine();
 
-                    SetMessages(messagesText);
+                                            QueryTabs.SelectedTab = MessagesPage;
+                                            MessagesPage.BringToFront();
+
+
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                        SetMessages(messagesText);
+                    }
                 }
                 else
                 {
                     StringBuilder messageBuilder = new StringBuilder();
-                    foreach(SqlQueryError error in parseResult.Errors)
+                    if (parseResult != null && parseResult.Errors != null)
                     {
-                        messageBuilder.AppendLine(error.Message);
-                        messageBuilder.AppendLine();    
+                        foreach (SqlQueryError error in parseResult.Errors)
+                        {
+                            messageBuilder.AppendLine(error.Message);
+                            messageBuilder.AppendLine();
+                        }
+                        SetMessages(messageBuilder);
                     }
-                    SetMessages(messageBuilder);
                 }
             }
+
+            ContinueInMainThread(SetPostLoadState);
         }
         /// <summary>
         /// Starts the text parsing of the contained SQL Statement/query.
@@ -399,7 +449,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
             {
                 MessagesText.Text = string.Empty;
 
-                UserSqlExecutionResult result = await _operations.ParseQueryAsync(Editor.Text).ConfigureAwait(false);
+                UserSqlExecutionResult result = await _operations.ParseQueryAsync(_databaseName, Editor.Text).ConfigureAwait(false);
 
                 ContinueInMainThread(() =>
                 {

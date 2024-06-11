@@ -62,7 +62,6 @@ namespace Adaptive.Intelligence.Shared.IO
 					_reader?.Dispose();
 			}
 
-			_reader = null;
 			_sourceStream = null;
 			base.Dispose(disposing);
 		}

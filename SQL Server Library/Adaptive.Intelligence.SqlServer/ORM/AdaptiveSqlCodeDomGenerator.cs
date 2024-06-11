@@ -2,15 +2,14 @@
 using Adaptive.Intelligence.SqlServer.Analysis;
 using Adaptive.Intelligence.SqlServer.CodeDom;
 using Adaptive.Intelligence.SqlServer.Schema;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace Adaptive.Intelligence.SqlServer.ORM
 {
-    /// <summary>
-    /// Provides methods and functions for generating SQL code DOM objects to represent specific statements.
-    /// </summary>
-    /// <seealso cref="DisposableObjectBase" />
-    public sealed class AdaptiveSqlCodeDomGenerator : DisposableObjectBase
+	/// <summary>
+	/// Provides methods and functions for generating SQL code DOM objects to represent specific statements.
+	/// </summary>
+	/// <seealso cref="DisposableObjectBase" />
+	public sealed class AdaptiveSqlCodeDomGenerator : DisposableObjectBase
     {
         #region Private Member Declarations
         /// <summary>
@@ -37,9 +36,6 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// <b>false</b> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
-            if (!IsDisposed && disposing)
-                _metaData?.Dispose();
-
             _metaData = null;
             base.Dispose(disposing);
         }
@@ -62,34 +58,37 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
         /// the GetAll stored procedure for the table.
         /// </returns>
-        public SqlCodeCreateStoredProcedureStatement CreateDeleteStoredProcedure(SqlTable table, bool hardDelete)
+        public SqlCodeCreateStoredProcedureStatement? CreateDeleteStoredProcedure(SqlTable table, bool hardDelete)
         {
+            SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
+
             // Find the profile for the table.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
-
-            // Create the statement object.
-            SqlCodeCreateStoredProcedureStatement storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
-                profile.DeleteStoredProcedureName);
-
-            // Add the ID parameter.
-            // @Id  NVARCHAR(128)
-            storedProcedureStatement.Parameters.Add(
-                new SqlCodeParameterDefinitionExpression(TSqlConstants.StandardParameterId,
-                    new SqlCodeDataTypeSpecificationExpression(SqlDataTypes.NVarCharOrSysName, 128, false)));
-
-            if (!hardDelete)
+            AdaptiveTableProfile? profile = FindProfile(table);
+            if (profile != null)
             {
-                // Add the UPDATE statement.  (Deleted = 1)
-                SqlCodeUpdateStatement deleteStatement = GenerateSoftDeleteStatement(table);
-                storedProcedureStatement.Statements.Add(deleteStatement);
-            }
-            else
-            {
-                SqlCodeDeleteStatement hardDeleteStatement = GenerateHardDeleteStatement(table);
-                storedProcedureStatement.Statements.Add(hardDeleteStatement);
-            }
+                // Create the statement object.
+                storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
+                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    profile.DeleteStoredProcedureName);
 
+                // Add the ID parameter.
+                // @Id  NVARCHAR(128)
+                storedProcedureStatement.Parameters.Add(
+                    new SqlCodeParameterDefinitionExpression(TSqlConstants.StandardParameterId,
+                        new SqlCodeDataTypeSpecificationExpression(SqlDataTypes.NVarCharOrSysName, 128, false)));
+
+                if (!hardDelete)
+                {
+                    // Add the UPDATE statement.  (Deleted = 1)
+                    SqlCodeUpdateStatement deleteStatement = GenerateSoftDeleteStatement(table);
+                    storedProcedureStatement.Statements.Add(deleteStatement);
+                }
+                else
+                {
+                    SqlCodeDeleteStatement hardDeleteStatement = GenerateHardDeleteStatement(table);
+                    storedProcedureStatement.Statements.Add(hardDeleteStatement);
+                }
+            }
             return storedProcedureStatement;
         }
         /// <summary>
@@ -109,20 +108,28 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
         /// the GetAll stored procedure for the table.
         /// </returns>
-        public SqlCodeCreateStoredProcedureStatement CreateGetAllStoredProcedure(SqlTable table, string procedureName)
+        public SqlCodeCreateStoredProcedureStatement? CreateGetAllStoredProcedure(SqlTable table)
         {
-            // Create the statement object.
-            // CREATE PROCEDURE [dbo].[<tableName>GetById]
-            // AS
-            //   BEGIN
-            SqlCodeCreateStoredProcedureStatement storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner), procedureName);
+            SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
 
-            // Add the SELECT statement.
-            SqlCodeSelectStatement selectStatement = GenerateSelectAllStatement(table);
-            if (storedProcedureStatement.Statements != null)
-                storedProcedureStatement.Statements.Add(selectStatement);
+			// Find the profile for the table.
+			AdaptiveTableProfile? profile = FindProfile(table);
+            if (profile != null)
+            {
 
+                // Create the statement object.
+                // CREATE PROCEDURE [dbo].[<tableName>GetById]
+                // AS
+                //   BEGIN
+                storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
+                            new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                            profile.GetAllStoredProcedureName);
+
+                // Add the SELECT statement.
+                SqlCodeSelectStatement selectStatement = GenerateSelectAllStatement(table);
+                if (storedProcedureStatement.Statements != null)
+                    storedProcedureStatement.Statements.Add(selectStatement);
+            }
             return storedProcedureStatement;
         }
         /// <summary>
@@ -139,27 +146,30 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
         /// the GetAll stored procedure for the table.
         /// </returns>
-        public SqlCodeCreateStoredProcedureStatement CreateGetByIdStoredProcedure(SqlTable table)
+        public SqlCodeCreateStoredProcedureStatement? CreateGetByIdStoredProcedure(SqlTable table)
         {
-            // Find the profile for the table.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
+            SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
+			
+			// Find the profile for the table.
+			AdaptiveTableProfile? profile = FindProfile(table);
+            if (profile != null)
+            {
+                // Create the statement object.
+                // CREATE PROCEDURE [dbo].[<tableName>GetById]
+                storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
+                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    profile.GetByIdStoredProcedureName);
 
-            // Create the statement object.
-            // CREATE PROCEDURE [dbo].[<tableName>GetById]
-            SqlCodeCreateStoredProcedureStatement storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
-                profile.GetByIdStoredProcedureName);
+                // Add the ID parameter.
+                // @Id NVARCHAR(128)
+                storedProcedureStatement.Parameters.Add(
+                    new SqlCodeParameterDefinitionExpression(TSqlConstants.StandardParameterId,
+                        new SqlCodeDataTypeSpecificationExpression(SqlDataTypes.NVarCharOrSysName, 128, false)));
 
-            // Add the ID parameter.
-            // @Id NVARCHAR(128)
-            storedProcedureStatement.Parameters.Add(
-                new SqlCodeParameterDefinitionExpression(TSqlConstants.StandardParameterId,
-                    new SqlCodeDataTypeSpecificationExpression(SqlDataTypes.NVarCharOrSysName, 128, false)));
-
-            // Add the SELECT statement.
-            SqlCodeSelectStatement selectStatement = GenerateSelectByIdStatement(table);
-            storedProcedureStatement.Statements.Add(selectStatement);
-
+                // Add the SELECT statement.
+                SqlCodeSelectStatement selectStatement = GenerateSelectByIdStatement(table);
+                storedProcedureStatement.Statements.Add(selectStatement);
+            }
             return storedProcedureStatement;
         }
         /// <summary>
@@ -176,70 +186,73 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
         /// the GetAll stored procedure for the table.
         /// </returns>
-        public SqlCodeCreateStoredProcedureStatement CreateInsertStoredProcedure(SqlTable table)
+        public SqlCodeCreateStoredProcedureStatement? CreateInsertStoredProcedure(SqlTable table)
         {
+            SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
 
-            // Find the profile for the table.
-            AdaptiveTableProfile profile = _metaData[table.TableName]!;
+			// Find the profile for the table.
+			AdaptiveTableProfile ? profile = FindProfile(table);
 
-            // Create the statement object.
-            // CREATE PROCEDURE [dbo].[<tableName>Insert]
-            SqlCodeCreateStoredProcedureStatement storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
-                profile.InsertStoredProcedureName);
-
-            // Add the parameters.
-            //
-            // Create a parameter for each of the columns that will be inserted.
-            foreach (SqlQueryParameter queryParam in profile.QueryParameters)
+            if (profile != null)
             {
-                // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
+                // Create the statement object.
+                // CREATE PROCEDURE [dbo].[<tableName>Insert]
+                storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
+                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    profile.InsertStoredProcedureName);
 
+                // Add the parameters.
+                //
+                // Create a parameter for each of the columns that will be inserted.
+                foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
-                    storedProcedureStatement.Parameters.Add(
-                        new SqlCodeParameterDefinitionExpression(queryParam.ParameterName,
-                            new SqlCodeDataTypeSpecificationExpression((SqlDataTypes)queryParam.TypeId, queryParam.MaxLength,
-                                    queryParam.IsNullable, queryParam.Precision, queryParam.Scale, false)));
+                    // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
+
+                    {
+                        storedProcedureStatement.Parameters.Add(
+                            new SqlCodeParameterDefinitionExpression(queryParam.ParameterName,
+                                new SqlCodeDataTypeSpecificationExpression((SqlDataTypes)queryParam.TypeId, queryParam.MaxLength,
+                                        queryParam.IsNullable, queryParam.Precision, queryParam.Scale, false)));
+                    }
                 }
+
+                // AS
+                //   BEGIN
+                //
+                //      DECLARE @Id NVARCHAR(128) = NEWID()
+                //
+                SqlCodeVariableDeclarationStatement variable = new SqlCodeVariableDeclarationStatement(
+                    new SqlCodeVariableDefinitionExpression(TSqlConstants.StandardParameterId,
+                        new SqlCodeDataTypeSpecificationExpression(SqlDataTypes.NVarCharOrSysName, 128, false)),
+                    new SqlCodeFunctionCallExpression(TSqlConstants.SqlSysFunctionNewId, null));
+
+                storedProcedureStatement.Statements.Add(variable);
+                storedProcedureStatement.Statements.Add(new SqlCodeLiteralStatement(string.Empty));
+
+                // Add the INSERT statement.
+                SqlCodeInsertStatement insertStatement = GenerateInsertStatement(table);
+                storedProcedureStatement.Statements.Add(insertStatement);
+
+                //
+                //  SELECT @Id
+                //
+                // END
+
+                SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
+                if (selectStatement.SelectClause != null)
+                {
+                    selectStatement.SelectClause.SelectItemsList.Add(
+                        new SqlCodeSelectListItemExpression(
+                            new SqlCodeVariableReferenceExpression(TSqlConstants.StandardParameterId)));
+                }
+                if (selectStatement.FromClause != null)
+                    selectStatement.FromClause.SourceTable = null;
+
+                storedProcedureStatement.Statements.Add(selectStatement);
             }
-
-            // AS
-            //   BEGIN
-            //
-            //      DECLARE @Id NVARCHAR(128) = NEWID()
-            //
-            SqlCodeVariableDeclarationStatement variable = new SqlCodeVariableDeclarationStatement(
-                new SqlCodeVariableDefinitionExpression(TSqlConstants.StandardParameterId,
-                    new SqlCodeDataTypeSpecificationExpression(SqlDataTypes.NVarCharOrSysName, 128, false)),
-                new SqlCodeFunctionCallExpression(TSqlConstants.SqlSysFunctionNewId, null));
-
-            storedProcedureStatement.Statements.Add(variable);
-            storedProcedureStatement.Statements.Add(new SqlCodeLiteralStatement(string.Empty));
-
-            // Add the INSERT statement.
-            SqlCodeInsertStatement insertStatement = GenerateInsertStatement(table);
-            storedProcedureStatement.Statements.Add(insertStatement);
-
-            //
-            //  SELECT @Id
-            //
-            // END
-
-            SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
-            if (selectStatement.SelectClause != null)
-            {
-                selectStatement.SelectClause.SelectItemsList.Add(
-                    new SqlCodeSelectListItemExpression(
-                        new SqlCodeVariableReferenceExpression(TSqlConstants.StandardParameterId)));
-            }
-            if (selectStatement.FromClause != null)
-                selectStatement.FromClause.SourceTable = null;
-
-            storedProcedureStatement.Statements.Add(selectStatement);
-
             return storedProcedureStatement;
         }
 		/// <summary>
@@ -256,45 +269,51 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
 		/// the GetAll stored procedure for the table.
 		/// </returns>
-		public SqlCodeCreateStoredProcedureStatement CreateUpdateStoredProcedure(SqlTable table)
+		public SqlCodeCreateStoredProcedureStatement? CreateUpdateStoredProcedure(SqlTable table)
         {
-            // Find the profile for the table.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
+            SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
 
-            // Create the statement object.
-            // CREATE PROCEDURE [dbo].[<tableName>Update]
-            SqlCodeCreateStoredProcedureStatement storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
-                profile.UpdateStoredProcedureName);
+			// Find the profile for the table.
+			AdaptiveTableProfile ? profile = FindProfile(table);
 
-            // Create a parameter for each of the columns that will be inserted.
-            foreach (SqlQueryParameter queryParam in profile.QueryParameters)
+            if (profile != null)
             {
-                // Ignore the CreatedAt, UpdatedAt, and Deleted columns.
-                if (queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                    !queryParam.IsVersion)
+                // Create the statement object.
+                // CREATE PROCEDURE [dbo].[<tableName>Update]
+                storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
+                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    profile.UpdateStoredProcedureName);
+
+                // Create a parameter for each of the columns that will be inserted.
+                foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
-                    storedProcedureStatement.Parameters.Add(
-                        new SqlCodeParameterDefinitionExpression(queryParam.ParameterName,
-                            new SqlCodeDataTypeSpecificationExpression((SqlDataTypes)queryParam.TypeId, queryParam.MaxLength,
-                                    queryParam.IsNullable, queryParam.Precision, queryParam.Scale, false)));
+                    // Ignore the CreatedAt, UpdatedAt, and Deleted columns.
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                        !queryParam.IsVersion)
+                    {
+                        storedProcedureStatement.Parameters.Add(
+                            new SqlCodeParameterDefinitionExpression(queryParam.ParameterName,
+                                new SqlCodeDataTypeSpecificationExpression((SqlDataTypes)queryParam.TypeId, queryParam.MaxLength,
+                                        queryParam.IsNullable, queryParam.Precision, queryParam.Scale, false)));
+                    }
                 }
+
+                // AS
+                //   BEGIN
+                //      UPDATE [dbo].[TableName]
+                //          SET
+                storedProcedureStatement.Statements.Add(GenerateUpdateStatement(table));
+
+                //
+                // SELECT ... by ID statement.
+                //
+                //
+                // END
+                storedProcedureStatement.Statements.Add(GenerateSelectByIdStatement(table));
             }
 
-            // AS
-            //   BEGIN
-            //      UPDATE [dbo].[TableName]
-            //          SET
-            storedProcedureStatement.Statements.Add(GenerateUpdateStatement(table));
-
-            //
-            // SELECT ... by ID statement.
-            //
-            //
-            // END
-            storedProcedureStatement.Statements.Add(GenerateSelectByIdStatement(table));
             return storedProcedureStatement;
         }
         #endregion
@@ -312,37 +331,41 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </returns>
         public SqlCodeSelectStatement GenerateSelectAllStatement(SqlTable table)
         {
-            // Find the profile for the table.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
+			SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
 
-            // Render the select Statement - since this is a select all query, limit the return to the TOP 10000 rows.
-            SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
-            selectStatement.SelectClause.TopValue = 10000;
+			// Find the profile for the table.
+			AdaptiveTableProfile? profile = FindProfile(table);
 
-            // Set the list of fields/columns to query for from the table itself.
-            SetPrimaryTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
+            if (profile != null)
+            {
+                // Render the select Statement - since this is a select all query, limit the return to the TOP 10000 rows.
+                selectStatement.SelectClause.TopValue = 10000;
 
-            // For each of the tables to be joined on, add the list of fields/columns from each of the joined tables.
-            if (profile.ReferencedTableJoins.Count > 0)
-                SetJoinTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
+                // Set the list of fields/columns to query for from the table itself.
+                SetPrimaryTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
 
-            // Add a separator line.
-            selectStatement.SelectClause.SelectItemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
+                // For each of the tables to be joined on, add the list of fields/columns from each of the joined tables.
+                if (profile.ReferencedTableJoins.Count > 0)
+                    SetJoinTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
 
-            // Now Create the FROM Clause.
-            SetFromClause(selectStatement.FromClause, profile);
+                // Add a separator line.
+                selectStatement.SelectClause.SelectItemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
 
-            // And finally, the WHERE clause.
-            //
-            // WHERE
-            //      [Deleted] = 0
-            selectStatement.WhereClause.Conditions.Add(
-                new SqlCodeConditionListExpression(
-                    new SqlCodeConditionExpression(
-                        new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnDeleted),
-                        new SqlCodeLiteralExpression(TSqlConstants.BitValueFalse),
-                        SqlComparisonOperator.EqualTo),
-                    SqlConditionOperator.NotSpecified));
+                // Now Create the FROM Clause.
+                SetFromClause(selectStatement.FromClause, profile);
+
+                // And finally, the WHERE clause.
+                //
+                // WHERE
+                //      [Deleted] = 0
+                selectStatement.WhereClause.Conditions.Add(
+                    new SqlCodeConditionListExpression(
+                        new SqlCodeConditionExpression(
+                            new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnDeleted),
+                            new SqlCodeLiteralExpression(TSqlConstants.BitValueFalse),
+                            SqlComparisonOperator.EqualTo),
+                        SqlConditionOperator.NotSpecified));
+            }
             return selectStatement;
         }
         /// <summary>
@@ -357,37 +380,41 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </returns>
         public SqlCodeSelectStatement GenerateSelectByIdStatement(SqlTable table)
         {
+			// Render the select Statement.
+			SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
+
             // Find the profile for the table.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
+            AdaptiveTableProfile? profile = FindProfile(table);
+            if (profile != null)
+            {
 
-            // Render the select Statement.
-            SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
 
-            // Set the list of fields/columns to query for from the table itself.
-            SetPrimaryTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
+                // Set the list of fields/columns to query for from the table itself.
+                SetPrimaryTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
 
-            // For each of the tables to be joined on, add the list of fields/columns from each of the joined tables.
-            if (profile.ReferencedTableJoins.Count > 0)
-                SetJoinTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
+                // For each of the tables to be joined on, add the list of fields/columns from each of the joined tables.
+                if (profile.ReferencedTableJoins.Count > 0)
+                    SetJoinTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
 
-            // Add a separator line.
-            selectStatement.SelectClause.SelectItemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
+                // Add a separator line.
+                selectStatement.SelectClause.SelectItemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
 
-            // Now Create the FROM Clause.
-            SetFromClause(selectStatement.FromClause, profile);
+                // Now Create the FROM Clause.
+                SetFromClause(selectStatement.FromClause, profile);
 
-            // And finally, the WHERE clause.
-            //
-            // WHERE
-            //      [Id] = @Id
-            selectStatement.WhereClause.Conditions.Add(
-                new SqlCodeConditionListExpression(
-                    new SqlCodeConditionExpression(
-                        new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnId),
-                        new SqlCodeParameterReferenceExpression(TSqlConstants.StandardParameterId),
-                        SqlComparisonOperator.EqualTo),
-                    SqlConditionOperator.NotSpecified));
+                // And finally, the WHERE clause.
+                //
+                // WHERE
+                //      [Id] = @Id
+                selectStatement.WhereClause.Conditions.Add(
+                    new SqlCodeConditionListExpression(
+                        new SqlCodeConditionExpression(
+                            new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnId),
+                            new SqlCodeParameterReferenceExpression(TSqlConstants.StandardParameterId),
+                            SqlComparisonOperator.EqualTo),
+                        SqlConditionOperator.NotSpecified));
 
+            }
             return selectStatement;
         }
         /// <summary>
@@ -402,48 +429,53 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </returns>
         public SqlCodeInsertStatement GenerateInsertStatement(SqlTable table)
         {
-            // Get the profile.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
-
             // INSERT INTO [dbo].[TableName]
-            SqlCodeInsertStatement insertStatement = new SqlCodeInsertStatement(
-                new SqlCodeTableReferenceExpression(profile.TableName));
+            SqlCodeInsertStatement insertStatement = new SqlCodeInsertStatement();
 
-            //      ([Id],
-            insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnId));
-
-            // [column], [column], ...
-            // Create a parameter for each of the columns that will be inserted.
-            foreach (SqlQueryParameter queryParam in profile.QueryParameters)
+            // Get the profile.
+            AdaptiveTableProfile? profile = FindProfile(table);
+            if (profile != null)
             {
-                // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
-                {
-                    insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(queryParam.ColumnName));
-                }
-            }
-            //      [Deleted])
-            insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnDeleted));
+                // INSERT INTO [dbo].[TableName]
+                insertStatement = new SqlCodeInsertStatement(
+                    new SqlCodeTableReferenceExpression(profile.TableName));
 
-            //  VALUES
-            //      (@Id,
-            insertStatement.ValuesList.Add(new SqlCodeVariableReferenceExpression(TSqlConstants.StandardParameterId));
+                //      ([Id],
+                insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnId));
 
-            // @[column], @[column] ...
-            foreach (SqlQueryParameter queryParam in profile.QueryParameters)
-            {
-                // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
+                // [column], [column], ...
+                // Create a parameter for each of the columns that will be inserted.
+                foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
-                    insertStatement.ValuesList.Add(new SqlCodeParameterReferenceExpression(queryParam.ColumnName));
+                    // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
+                    {
+                        insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(queryParam.ColumnName));
+                    }
                 }
+                //      [Deleted])
+                insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnDeleted));
+
+                //  VALUES
+                //      (@Id,
+                insertStatement.ValuesList.Add(new SqlCodeVariableReferenceExpression(TSqlConstants.StandardParameterId));
+
+                // @[column], @[column] ...
+                foreach (SqlQueryParameter queryParam in profile.QueryParameters)
+                {
+                    // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                        queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
+                    {
+                        insertStatement.ValuesList.Add(new SqlCodeParameterReferenceExpression(queryParam.ColumnName));
+                    }
+                }
+                //   ..., 0)
+                insertStatement.ValuesList.Add(new SqlCodeLiteralExpression(TSqlConstants.BitValueFalse));
             }
-            //   ..., 0)
-            insertStatement.ValuesList.Add(new SqlCodeLiteralExpression(TSqlConstants.BitValueFalse));
             return insertStatement;
         }
         /// <summary>
@@ -520,29 +552,33 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </returns>
         public SqlCodeUpdateStatement GenerateSoftDeleteStatement(SqlTable table)
         {
-            // Get the table profile.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
+            SqlCodeUpdateStatement updateStatement = new SqlCodeUpdateStatement();
 
-            // UPDATE [dbo].[TableName]
-            //   SET
-            SqlCodeUpdateStatement updateStatement = new SqlCodeUpdateStatement(
-                new SqlCodeTableReferenceExpression(profile.TableName));
+			// Get the table profile.
+			AdaptiveTableProfile ? profile = FindProfile(table);
+            if (profile != null)
+            {
+                // UPDATE [dbo].[TableName]
+                //   SET
+                updateStatement = new SqlCodeUpdateStatement(
+                   new SqlCodeTableReferenceExpression(profile.TableName));
 
-            // [Deleted] = 1
-            updateStatement.UpdateColumnList.Add(
-                new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnDeleted),
-                new SqlCodeLiteralExpression(TSqlConstants.BitValueTrue));
+                // [Deleted] = 1
+                updateStatement.UpdateColumnList.Add(
+                    new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnDeleted),
+                    new SqlCodeLiteralExpression(TSqlConstants.BitValueTrue));
 
-            //  WHERE
-            //      [Id] = @Id
-            updateStatement.WhereClause = new SqlCodeWhereClause();
-            updateStatement.WhereClause.Conditions.Add(
-                new SqlCodeConditionListExpression(
-                    new SqlCodeConditionExpression(
-                        new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnId),
-                        new SqlCodeParameterReferenceExpression(TSqlConstants.StandardParameterId),
-                        SqlComparisonOperator.EqualTo),
-                    SqlConditionOperator.NotSpecified));
+                //  WHERE
+                //      [Id] = @Id
+                updateStatement.WhereClause = new SqlCodeWhereClause();
+                updateStatement.WhereClause.Conditions.Add(
+                    new SqlCodeConditionListExpression(
+                        new SqlCodeConditionExpression(
+                            new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnId),
+                            new SqlCodeParameterReferenceExpression(TSqlConstants.StandardParameterId),
+                            SqlComparisonOperator.EqualTo),
+                        SqlConditionOperator.NotSpecified));
+            }
 
             return updateStatement;
         }
@@ -671,6 +707,25 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 }
             }
         }
-        #endregion
-    }
+		/// <summary>
+		/// Finds the table profile for the specified table.
+		/// </summary>
+		/// <param name="table">
+		/// The <see cref="SqlTable"/> instance to find the profile information for.
+        /// </param>
+		/// <returns>
+        /// The <see cref="AdaptiveTableProfile"/> instance, or <b>null</b>.
+        /// </returns>
+		private AdaptiveTableProfile? FindProfile(SqlTable? table)
+        {
+            AdaptiveTableProfile? profile = null;
+         
+            // Find the profile for the table.
+            if (_metaData != null && table != null)
+                profile = _metaData[table.TableName];
+
+            return profile;
+        }
+		#endregion
+	}
 }

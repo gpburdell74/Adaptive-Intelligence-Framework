@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 {
@@ -140,13 +141,14 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 SafeWriteTabs();
                 SafeWrite(RenderCreateProcedureOpenStatement(statement.Owner, statement.Name));
                 SafeWriteLine();
-                SafeIndent();
-
+                
                 // Write the parameter list
                 //
                 // @ParamName       type definition
                 int len = statement.Parameters.Count;
-                for (int count = 0; count < len; count++)
+                if (len > 0)
+					SafeIndent();
+				for (int count = 0; count < len; count++)
                 {
                     SafeWriteTabs();
                     _expressionWriter.WriteParameterDefinitionExpression(statement.Parameters[count]);
@@ -155,7 +157,8 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                         SafeWrite(", ");
                     SafeWriteLine();
                 }
-                SafeUnIndent();
+                if (len > 0)
+                    SafeUnIndent();
 
                 // AS
                 SafeWriteTabs();
@@ -471,6 +474,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     WriteUpdateStatement(updateStatement);
                     break;
 
+                case SqlCodeDeleteStatement deleteStatement:
+                    WriteDeleteStatement(deleteStatement);
+                    break;
+
                 case SqlCodeVariableDeclarationStatement variableDeclareStatement:
                     WriteVariableDeclarationStatement(variableDeclareStatement);
                     break;
@@ -518,7 +525,11 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     await WriteUpdateStatementAsync(updateStatement);
                     break;
 
-                default:
+                case SqlCodeDeleteStatement deleteStatement:
+                    await WriteDeleteStatementAsync(deleteStatement);
+                    break;
+
+				default:
                     throw new ArgumentOutOfRangeException(
                         nameof(statement),
                         @"Statement type is not yet supported.");
@@ -561,15 +572,109 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 // WHERE
                 if (statement.WhereClause != null && _clauseWriter != null)
                     _clauseWriter.WriteWhereClause(statement.WhereClause);
-            }
+			}
         }
-        /// <summary>
-        /// Writes the SQL UPDATE statement.
-        /// </summary>
-        /// <param name="statement">
-        /// The <see cref="SqlCodeUpdateStatement"/> instance to be rendered and written.
-        /// </param>
-        public async Task WriteUpdateStatementAsync(SqlCodeUpdateStatement? statement)
+		/// <summary>
+		/// Writes the SQL DELETE statement.
+		/// </summary>
+		/// <param name="statement">
+		/// The <see cref="SqlCodeUpdateStatement"/> instance to be rendered and written.
+		/// </param>
+		/// <param name="hardDelete">
+		/// A value indicating whether to generate a hard DELETE statement.
+		/// </param>
+		public void WriteDeleteStatement(SqlCodeDeleteStatement? statement, bool hardDelete = false)
+        {
+            if (hardDelete)
+                WriteHardDeleteStatement(statement);
+            else
+                WriteSoftDeleteStatement(statement);
+        }
+		/// <summary>
+		/// Writes the SQL DELETE statement.
+		/// </summary>
+		/// <param name="statement">
+		/// The <see cref="SqlCodeUpdateStatement"/> instance to be rendered and written.
+		/// </param>
+		/// <param name="hardDelete">
+		/// A value indicating whether to generate a hard DELETE statement.
+		/// </param>
+		public async Task WriteDeleteStatementAsync(SqlCodeDeleteStatement? statement, bool hardDelete = false)
+		{
+            await Task.Yield();
+			if (hardDelete)
+				WriteHardDeleteStatement(statement);
+			else
+				WriteSoftDeleteStatement(statement);
+		}
+		/// <summary>
+		/// Writes a hard SQL DELETE statement.
+		/// </summary>
+		/// <param name="statement">
+		/// The <see cref="SqlCodeUpdateStatement"/> instance to be rendered and written.
+		/// </param>
+		public void WriteHardDeleteStatement(SqlCodeDeleteStatement? statement)
+		{
+			if (statement != null && _expressionWriter != null)
+			{
+				// DELETE FROM [dbo].[TableName]
+				SafeWriteTabs();
+				SafeWrite(RenderDelete());
+
+				// FROM  (with or without JOINS) ...
+				_clauseWriter?.WriteFromClause(statement.FromClause, true);
+
+				// WHERE ...
+				if (statement.WhereClause != null && _clauseWriter != null)
+					_clauseWriter.WriteWhereClause(statement.WhereClause);
+			}
+		}
+		/// <summary>
+		/// Writes a hard SQL DELETE statement.
+		/// </summary>
+		/// <param name="statement">
+		/// The <see cref="SqlCodeUpdateStatement"/> instance to be rendered and written.
+		/// </param>
+		public void WriteSoftDeleteStatement(SqlCodeDeleteStatement? statement)
+		{
+            if (statement != null && _expressionWriter != null)
+            {
+                // UPDATE [dbo].[TableName]
+                //   SET
+                SafeWriteTabs();
+                SafeWrite(RenderUpdate());
+                SafeWrite(Constants.Space);
+                _expressionWriter.WriteTableReferenceExpression(statement.FromClause.SourceTable);
+                SafeWriteLine();
+				// SET
+				SafeWriteTabs();
+                SafeWrite(Constants.Space + Constants.Space);
+				SafeWrite(RenderSet());
+                SafeWriteLine();
+                SafeIndent();
+
+				//     [Deleted] = 0
+				SafeWriteTabs();
+				SqlCodeAssignmentExpression assignExpression = new SqlCodeAssignmentExpression(
+                    new SqlCodeColumnNameExpression("Deleted"),
+                    new SqlCodeLiteralExpression("0"));
+                _expressionWriter.WriteAssignmentExpression(assignExpression);
+                SafeUnIndent();
+                SafeWriteLine();
+				SafeWriteLine();
+
+				// WHERE
+				if (statement.WhereClause != null && _clauseWriter != null)
+                    _clauseWriter.WriteWhereClause(statement.WhereClause);
+            }
+		}
+		/// <summary>
+		/// Writes the SQL UPDATE statement.
+		/// </summary>
+		/// <param name="statement">
+		/// The <see cref="SqlCodeUpdateStatement"/> instance to be rendered and written.
+		/// </param>
+		public async Task WriteUpdateStatementAsync(SqlCodeUpdateStatement? statement)
         {
             if (statement != null && _expressionWriter != null)
             {

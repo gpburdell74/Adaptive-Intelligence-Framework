@@ -242,13 +242,17 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// <param name="expression">
         /// The <see cref="SqlCodeConditionListExpression"/> instance to be rendered.
         /// </param>
-        public void WriteConditionListExpression(SqlCodeConditionListExpression? expression)
+        public void WriteConditionListExpression(SqlCodeConditionListExpression? expression, bool useParens = true)
         {
             if (CanWrite && expression != null && expression.Expression != null)
             {
-                SafeWrite(OpenParenthesis);
+                if (useParens)
+                    SafeWrite(OpenParenthesis);
+
                 WriteConditionExpression(expression.Expression);
-                SafeWrite(CloseParenthesis);
+
+                if (useParens)
+                    SafeWrite(CloseParenthesis);
 
                 if (expression.Operator != SqlConditionOperator.NotSpecified)
                 {
@@ -744,7 +748,6 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 // DATETIMEOFFSET(7) or
                 // BIT
                 WriteDataTypeExpression(expression.DataTypeExpression);
-                SafeWriteLine();
             }
         }
         /// <summary>

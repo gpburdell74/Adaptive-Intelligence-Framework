@@ -70,23 +70,50 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
             reader.Dispose();
             return errorList;
         }
-        public static List<TSqlStatement> GetStatements(string sqlQuery)
+        /// <summary>
+        /// Gets the list of SQL statements from the provided query string.
+        /// </summary>
+        /// <param name="sqlQuery">
+        /// A string containing the SQL query code.
+        /// </param>
+        /// <returns>
+        /// A <see cref="List{T}"/> of <see cref="TSqlStatement"/> instances if successful. 
+        /// Otherwise, returns <b>null</b>. 
+        /// </returns>
+        public static List<TSqlStatement>? ParseStatements(string sqlQuery)
         {
-            List<TSqlStatement> parsedStatements = null;
+            List<TSqlStatement>? parsedStatements = null;
 
+            // Create reader and parser instances.
             StringReader reader = new StringReader(sqlQuery);
             TSql120Parser parser = new TSql120Parser(true);
-            
-            StatementList statements = parser.ParseStatementList(reader, out IList<ParseError> list);
-            int length = statements.Statements.Count;
 
-            parsedStatements = new List<TSqlStatement>();
-            for (int count = 0; count < length; count++)
+            TSqlFragment? sqlFragment = null;
+            TSqlScript? sqlScript = null;
+
+            // Try to parse the content.
+            try
             {
-                parsedStatements.Add(statements.Statements[count]);
+                sqlFragment = parser.Parse(reader, out IList<ParseError> list);
+                sqlScript = sqlFragment as TSqlScript;
+            }
+            catch(Exception ex)
+            {
+                // TODO: Error logging.
+			}
+
+            if (sqlScript != null && sqlScript.Batches.Count > 0)
+            {
+                IList<TSqlStatement> statementList = sqlScript.Batches[0].Statements;
+                if (statementList.Count > 0)
+                {
+                    parsedStatements = new List<TSqlStatement>();
+                    parsedStatements.AddRange(statementList);
+                }
             }
 
             reader.Dispose();
+
             return parsedStatements;
         }
         /// <summary>

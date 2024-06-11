@@ -256,6 +256,32 @@
 			return new List<DateTime> { startDate.AddDays(interval) };
 		}
 		/// <summary>
+		/// Generates a <see cref="DateTime"/> instance for each day in the specified date range, inclusive.
+		/// </summary>
+		/// <param name="startDate">
+		/// The <see cref="DateTime"/> instance representing the start date.
+		/// </param>
+		/// <param name="endDate">
+		/// The <see cref="DateTime"/> specifying the end date.
+		/// </param>
+		/// <returns>
+		/// A <see cref="List{T}"/> of <see cref="DateTime"/> instances, one for each day in the specified range.
+		/// </returns>
+		public static List<DateTime> GenerateRangeInstances(this DateTime startDate, DateTime endDate)
+		{
+			List<DateTime> dateList = new List<DateTime>();
+
+			DateTime dateValue = startDate.Date;
+
+			do
+			{
+				dateList.Add(dateValue);
+				dateValue = dateValue.AddDays(1);
+			} while (dateValue.Date <= endDate.Date);
+
+			return dateList;
+		}
+		/// <summary>
 		/// Generates the specific date.
 		/// </summary>
 		/// <param name="dateValue">

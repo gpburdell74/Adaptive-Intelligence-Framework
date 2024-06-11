@@ -60,12 +60,16 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// <param name="fromClause">
         /// The <see cref="SqlCodeFromClause"/> instance to be rendered and written.
         /// </param>
-        public void WriteFromClause(SqlCodeFromClause? fromClause)
+        public void WriteFromClause(SqlCodeFromClause? fromClause, bool onSameLine = false)
         {
             if (fromClause != null && fromClause.SourceTable != null && _expressionWriter != null)
             {
                 // FROM [source table expression]
-                SafeWriteTabs();
+                if (onSameLine)
+                    SafeWrite(Constants.Space);
+                else
+                    SafeWriteTabs();
+
                 SafeWrite(RenderFrom() + Constants.Space);
                 _expressionWriter.WriteTableReferenceExpression(fromClause.SourceTable);
 
@@ -383,13 +387,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                 // [(] <condition> <operator> <condition> [)] [AND|OR]
 
+                bool useParens = whereClause.Conditions.Count > 1;  
                 foreach (SqlCodeConditionListExpression expression in whereClause.Conditions)
                 {
                     SafeWriteTabs();
-                    _expressionWriter.WriteConditionListExpression(expression);
+                    _expressionWriter.WriteConditionListExpression(expression, useParens);
                     SafeWriteLine();
                 }
-                SafeWriteLine();
                 SafeUnIndent();
             }
         }

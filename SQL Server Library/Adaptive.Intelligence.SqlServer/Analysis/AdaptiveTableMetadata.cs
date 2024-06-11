@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.SqlServer.Schema;
 using Adaptive.SqlServer.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Adaptive.Intelligence.SqlServer.Analysis
 {
@@ -90,14 +91,30 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// <value>
         /// A <see cref="SqlDataTypeCollection"/> instance containing the data type definitions.
         /// </value>
-        public SqlDataTypeCollection? DataTypes => _dataTypes;
-        /// <summary>
-        /// Gets the reference to the list of table profiles.
-        /// </summary>
-        /// <value>
-        /// A <see cref="SqlDataTypeCollection"/> instance containing the table profile definitions.
-        /// </value>
-        public AdaptiveTableProfileCollection? Profiles => _profiles;
+        public SqlDataTypeCollection DataTypes
+		{
+			get
+			{
+				if (_dataTypes == null)
+					_dataTypes = new SqlDataTypeCollection();
+				return _dataTypes;
+			}
+		}
+		/// <summary>
+		/// Gets the reference to the list of table profiles.
+		/// </summary>
+		/// <value>
+		/// A <see cref="SqlDataTypeCollection"/> instance containing the table profile definitions.
+		/// </value>
+		public AdaptiveTableProfileCollection Profiles
+        {
+            get
+            {
+                if (_profiles == null)
+                    _profiles = new AdaptiveTableProfileCollection();
+                return _profiles;
+            }
+        }
         /// <summary>
         /// Gets the <see cref="AdaptiveTableProfile"/> with the specified table name.
         /// </summary>
@@ -110,11 +127,11 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// <returns>
         /// The <see cref="AdaptiveTableProfile"/> instance for the table, or <b>null</b>.
         /// </returns>
-        public AdaptiveTableProfile? this[string tableName]
+        public AdaptiveTableProfile? this[string? tableName]
         {
             get
             {
-                if (_profiles == null)
+                if (tableName == null || _profiles == null)
                     return null;
                 else
                     return _profiles[tableName];
@@ -231,7 +248,23 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
 
                     if (string.IsNullOrEmpty(profile.StoredProcedureNamePrefix))
                         profile.StoredProcedureNamePrefix = table.TableName;
-                }
+
+                    if (string.IsNullOrEmpty(profile.GetAllStoredProcedureName))
+                        profile.GetAllStoredProcedureName = profile.StoredProcedureNamePrefix + "GetAll";
+
+                    if (string.IsNullOrEmpty(profile.GetByIdStoredProcedureName))
+						profile.GetByIdStoredProcedureName = profile.StoredProcedureNamePrefix + "GetById";
+
+					if (string.IsNullOrEmpty(profile.InsertStoredProcedureName))
+						profile.InsertStoredProcedureName = profile.StoredProcedureNamePrefix + "Insert";
+
+					if (string.IsNullOrEmpty(profile.UpdateStoredProcedureName))
+						profile.UpdateStoredProcedureName = profile.StoredProcedureNamePrefix + "Update";
+
+					if (string.IsNullOrEmpty(profile.DeleteStoredProcedureName))
+						profile.DeleteStoredProcedureName = profile.StoredProcedureNamePrefix + "Delete";
+
+				}
             }
         }
         #endregion

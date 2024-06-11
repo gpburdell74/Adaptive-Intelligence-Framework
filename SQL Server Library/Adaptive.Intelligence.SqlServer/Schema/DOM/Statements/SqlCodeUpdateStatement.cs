@@ -91,7 +91,15 @@
         /// <value>
         /// The <see cref="SqlCodeAssignmentExpressionCollection"/> instance containing the list.
         /// </value>
-        public SqlCodeAssignmentExpressionCollection? UpdateColumnList => _updateColumnList;
+        public SqlCodeAssignmentExpressionCollection UpdateColumnList
+        {
+            get
+            {
+                if (_updateColumnList == null)
+                    _updateColumnList = new SqlCodeAssignmentExpressionCollection();
+                return _updateColumnList;
+            }
+        }
         /// <summary>
         /// Gets the reference to the WHERE clause for the update statement.
         /// </summary>

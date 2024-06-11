@@ -2452,12 +2452,22 @@ namespace Adaptive.SqlServer.Client
 
 			return result;
 		}
-        public static List<TSqlStatement>? GetStatements(string? sqlQuery)
+		/// <summary>
+		/// Gets the list of SQL statements from the provided query string.
+		/// </summary>
+		/// <param name="sqlQuery">
+		/// A string containing the SQL query code.
+		/// </param>
+		/// <returns>
+		/// A <see cref="List{T}"/> of <see cref="TSqlStatement"/> instances if successful. 
+		/// Otherwise, returns <b>null</b>. 
+		/// </returns>
+		public static List<TSqlStatement>? GetStatements(string? sqlQuery)
 		{
 			if (sqlQuery == null)
 				return null;
 			else
-				return NativeTSqlCodeDom.GetStatements(sqlQuery);
+				return NativeTSqlCodeDom.ParseStatements(sqlQuery);
 		}
         /// <summary>
         /// Determines whether the specified SQL query has a select statement.
@@ -2473,7 +2483,6 @@ namespace Adaptive.SqlServer.Client
 				return false;
 
             return NativeTSqlCodeDom.HasSelectStatement(sql);
-
         }
         /// <summary>
         /// Attempts to execute the supplied SQL statement.

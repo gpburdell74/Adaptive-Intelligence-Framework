@@ -432,6 +432,27 @@ namespace Adaptive.Intelligence.Shared.UI
 
 		#region Public Methods / Functions
 		/// <summary>
+		/// Sets the graphics object to draw items at high-quality value.
+		/// </summary>
+		/// <param name="g">
+		/// The <see cref="Graphics"/> instance to use.
+		/// </param>
+		protected void SetGraphicsQuality(Graphics g)
+		{
+			try
+			{
+
+				g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+				g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			}
+			catch
+			{
+			}
+		}       
+		/// <summary>
 		/// Sets the display state for the controls on the dialog based on
 		/// current conditions.
 		/// </summary>

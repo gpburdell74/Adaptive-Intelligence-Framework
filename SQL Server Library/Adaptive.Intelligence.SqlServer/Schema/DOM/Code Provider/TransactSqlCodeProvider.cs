@@ -336,6 +336,16 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 			return TSqlConstants.SqlDeclare;
 		}
 		/// <summary>
+		/// Renders the DELETE keyword when defining a variable or memory table type.
+		/// </summary>
+		/// <returns>
+		/// A string containing the rendered keyword.
+		/// </returns>
+		public string RenderDelete()
+		{
+			return TSqlConstants.SqlDelete;
+		}
+		/// <summary>
 		/// Renders the start of a FROM clause of a SQL statement.
 		/// </summary>
 		/// <returns>

@@ -60,28 +60,50 @@
             _whereClause = null;
             base.Dispose(disposing);
         }
-        #endregion
+		#endregion
 
-        #region Public Properties
+		#region Public Properties
+		/// <summary>
+		/// Gets the reference to the FROM clause instance.
+		/// </summary>
+		/// <value>
+		/// A <see cref="SqlCodeFromClause"/> instance.
+		/// </value>
+		public SqlCodeFromClause FromClause
+        {
+            get
+            {
+                if (_fromClause == null)
+                    _fromClause = new SqlCodeFromClause();
+                return _fromClause;
+            }
+        }
         /// <summary>
-        /// The FROM clause.
+        /// Gets the reference to the WHERE clause instance.
         /// </summary>
-        public SqlCodeFromClause? FromClause => _fromClause;
-        /// <summary>
-        /// The WHERE clause.
-        /// </summary>
-        public SqlCodeWhereClause? WhereClause => _whereClause;
-        #endregion
+        /// <value>
+        /// A <see cref="SqlCodeWhereClause"/> instance.
+        /// </value>
+        public SqlCodeWhereClause WhereClause
+		{
+			get
+			{
+				if (_whereClause == null)
+					_whereClause = new SqlCodeWhereClause();
+				return _whereClause;
+			}
+		}
 
+		#endregion
 
-        #region Public Methods / Functions
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        public override SqlCodeDeleteStatement Clone()
+		#region Public Methods / Functions
+		/// <summary>
+		/// Creates a new object that is a copy of the current instance.
+		/// </summary>
+		/// <returns>
+		/// A new object that is a copy of this instance.
+		/// </returns>
+		public override SqlCodeDeleteStatement Clone()
         {
             return new SqlCodeDeleteStatement(_fromClause, _whereClause);
         }

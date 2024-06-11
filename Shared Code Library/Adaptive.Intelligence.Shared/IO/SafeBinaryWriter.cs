@@ -106,7 +106,7 @@
 		/// <value>
 		/// The <see cref="BinaryWriter" /> instance being used to do the writing.
 		/// </value>
-		public BinaryWriter Writer => _writer;
+		public BinaryWriter? Writer => _writer;
 		#endregion
 
 		#region Public Methods / Functions		
@@ -530,7 +530,8 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				if (value != null)
+					_writer?.Write(value);
 			}
 			catch (Exception ex)
 			{

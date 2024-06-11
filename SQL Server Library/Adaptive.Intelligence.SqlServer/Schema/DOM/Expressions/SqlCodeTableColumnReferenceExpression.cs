@@ -38,7 +38,7 @@
         /// <param name="columnName">
         /// A string containing the column name.
         /// </param>
-        public SqlCodeTableColumnReferenceExpression(string tableName, string columnName) :
+        public SqlCodeTableColumnReferenceExpression(string? tableName, string columnName) :
             this(new SqlCodeTableNameExpression(tableName), new SqlCodeColumnNameExpression(columnName))
         {
         }

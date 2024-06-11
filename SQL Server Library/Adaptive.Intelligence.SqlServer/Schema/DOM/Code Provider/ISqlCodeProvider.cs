@@ -169,6 +169,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 		/// </returns>
 		string RenderDeclare();
 		/// <summary>
+		/// Renders the DELETE keyword when deleting data.
+		/// </summary>
+		/// <returns>
+		/// A string containing the rendered DELETE keyword.
+		/// </returns>
+		string RenderDelete();
+		/// <summary>
 		/// Renders the start of a FROM clause of a SQL statement.
 		/// </summary>
 		/// <returns>

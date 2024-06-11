@@ -311,8 +311,24 @@ namespace Adaptive.Intelligence.SqlServer
                 info.DatabaseName = builder.InitialCatalog;
                 info.UserName = builder.UserID;
                 info.Password = builder.Password;
+                info.TrustServerCertificate = builder.TrustServerCertificate;
+                switch(builder.Authentication)
+                {
+                    case SqlAuthenticationMethod.SqlPassword:
+						info.Authentication = SqlConnectionInfo.AuthenticationMethod.SqlPassword;
+						break;
 
-                ServerConnection serverConnection = new ServerConnection(info);
+                    case SqlAuthenticationMethod.ActiveDirectoryPassword:
+                        info.Authentication = SqlConnectionInfo.AuthenticationMethod.ActiveDirectoryPassword;
+                        break;
+
+					case SqlAuthenticationMethod.ActiveDirectoryIntegrated:
+						info.Authentication = SqlConnectionInfo.AuthenticationMethod.ActiveDirectoryIntegrated;
+						break;
+
+				}
+
+				ServerConnection serverConnection = new ServerConnection(info);
                 builder.Clear();
 
                 server = new Server(serverConnection);

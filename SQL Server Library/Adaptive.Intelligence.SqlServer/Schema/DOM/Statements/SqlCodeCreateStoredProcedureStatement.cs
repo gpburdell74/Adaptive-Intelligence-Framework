@@ -126,24 +126,42 @@
         /// <value>
         /// A <see cref="SqlCodeParameterDefinitionExpressionCollection"/> containing the parameter definitions.
         /// </value>
-        public SqlCodeParameterDefinitionExpressionCollection? Parameters => _parameters;
+        public SqlCodeParameterDefinitionExpressionCollection Parameters
+        {
+            get
+            {
+                if (_parameters == null)
+                    _parameters = new SqlCodeParameterDefinitionExpressionCollection();
+
+                return _parameters;
+            }
+        }
         /// <summary>
         /// Gets the reference to the list of statements that define the stored procedure.
         /// </summary>
         /// <value>
         /// A <see cref="SqlCodeStatementCollection"/> containing the statement definitions.
         /// </value>
-        public SqlCodeStatementCollection? Statements => _statements;
-        #endregion
+        public SqlCodeStatementCollection Statements
+		{
+			get
+			{
+				if (_statements == null)
+					_statements = new SqlCodeStatementCollection();
 
-        #region Public Methods / Functions
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        public override SqlCodeCreateStoredProcedureStatement Clone()
+				return _statements;
+			}
+		}
+		#endregion
+
+		#region Public Methods / Functions
+		/// <summary>
+		/// Creates a new object that is a copy of the current instance.
+		/// </summary>
+		/// <returns>
+		/// A new object that is a copy of this instance.
+		/// </returns>
+		public override SqlCodeCreateStoredProcedureStatement Clone()
         {
             SqlCodeCreateStoredProcedureStatement item = new SqlCodeCreateStoredProcedureStatement(_owner, _name);
             if (_parameters != null)
@@ -161,6 +179,5 @@
             return item;
         }
         #endregion
-
     }
 }

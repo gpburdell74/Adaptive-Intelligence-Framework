@@ -21,8 +21,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         {
             foreach (SqlForeignKey fk in foreignKeyList)
             {
-                SqlTable table = tableList.FirstOrDefault(t => t.TableName == fk.ParentTableName);
-                table?.ForeignKeys.Add(fk);
+                SqlTable? table = tableList.FirstOrDefault(t => t.TableName == fk.ParentTableName);
+                if (table != null && table.ForeignKeys != null)
+                    table.ForeignKeys.Add(fk);
             }
         }
         /// <summary>
@@ -197,9 +198,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlStoredProcedureCollection"/> containing the list.
         /// </returns>
-        public static SqlStoredProcedureCollection GetProcedures(SqlDataProvider provider)
+        public static SqlStoredProcedureCollection? GetProcedures(SqlDataProvider provider)
         {
-            SqlStoredProcedureCollection result;
+            SqlStoredProcedureCollection? result = null;
 
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
@@ -383,9 +384,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlTableTypeCollection"/> containing the user-defined table definition instances.
         /// </returns>
-        public static async Task<SqlTableTypeCollection> GetTableTypesAsync(SqlDataProvider provider)
+        public static async Task<SqlTableTypeCollection?> GetTableTypesAsync(SqlDataProvider provider)
         {
-            SqlTableTypeCollection result;
+            SqlTableTypeCollection? result = null;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = await da.GetTableTypesAsync().ConfigureAwait(false);

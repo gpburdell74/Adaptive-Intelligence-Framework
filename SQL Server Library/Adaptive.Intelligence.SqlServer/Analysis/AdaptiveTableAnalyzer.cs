@@ -101,8 +101,12 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 int len = _tables.Count;
                 foreach (SqlTable table in _tables)
                 {
-                    ProgressUpdate?.BeginInvoke(this, new
-                        ProgressUpdateEventArgs(table.TableName, string.Empty, Adaptive.Math.Percent(count,len)), null, null);
+                    ProgressUpdate?.Invoke(
+                        this,
+                        new ProgressUpdateEventArgs(
+                            table.TableName, string.Empty,
+                            Adaptive.Math.Percent(count, len)));
+
                     await AnalyzeTableForQueryCreationAsync(provider, table).ConfigureAwait(false);
                     count++;
                 }
@@ -119,10 +123,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// </param>
         public void AnalyzeTableForQueryCreation(SqlDataProvider provider, SqlTable table)
         {
-            if (table.TableName == "DeploymentPackageItemSeals")
-                System.Diagnostics.Debug.WriteLine("X");
-
-            AdaptiveTableProfile profile = _profiles[table.TableName];
+            AdaptiveTableProfile profile = _profiles![table.TableName!]!;
             profile.TableReference = table;
             profile.QualifiedName = "[dbo].[" + table.TableName + "]";
 

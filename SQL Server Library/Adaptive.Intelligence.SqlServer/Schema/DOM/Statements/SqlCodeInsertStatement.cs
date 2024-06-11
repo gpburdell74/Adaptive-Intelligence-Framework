@@ -75,14 +75,23 @@
         /// <value>
         /// A <see cref="SqlCodeColumnNameExpressionCollection"/> instance containing the column name list.
         /// </value>
-        public SqlCodeColumnNameExpressionCollection? InsertColumnList => _columnsToUse;
-        /// <summary>
-        /// Gets or sets the reference to the table expression indicating the table to insert data into.
-        /// </summary>
-        /// <value>
-        /// A <see cref="SqlCodeTableReferenceExpression"/> specifying the table.
-        /// </value>
-        public SqlCodeTableReferenceExpression? Table
+        public SqlCodeColumnNameExpressionCollection InsertColumnList
+		{
+			get
+			{
+                if (_columnsToUse == null)
+                    _columnsToUse = new SqlCodeColumnNameExpressionCollection();
+				return _columnsToUse;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the reference to the table expression indicating the table to insert data into.
+		/// </summary>
+		/// <value>
+		/// A <see cref="SqlCodeTableReferenceExpression"/> specifying the table.
+		/// </value>
+		public SqlCodeTableReferenceExpression? Table
         {
             get => _tableToInsert;
             set
@@ -104,7 +113,15 @@
         /// <value>
         /// A <see cref="SqlCodeExpressionCollection"/> instance expressions defining the values.
         /// </value>
-        public SqlCodeExpressionCollection? ValuesList => _values;
+        public SqlCodeExpressionCollection ValuesList
+        {
+            get
+            {
+                if (_values == null)
+                    _values = new SqlCodeExpressionCollection();
+                return _values;
+            }
+        }
         #endregion
 
         #region Public Methods / Functions

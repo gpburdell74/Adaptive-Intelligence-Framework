@@ -81,6 +81,16 @@ namespace Adaptive.Intelligence.Shared.UI
 		[Browsable(false),
 		 DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		protected new bool DesignMode => UIConstants.InDesignMode() || base.DesignMode;
+
+		public new bool Enabled
+		{
+			get => base.Enabled;
+			set
+			{
+				base.Enabled = value;
+				Invalidate();
+			}
+		}
 		#endregion
 
 		#region Protected Method Overrides

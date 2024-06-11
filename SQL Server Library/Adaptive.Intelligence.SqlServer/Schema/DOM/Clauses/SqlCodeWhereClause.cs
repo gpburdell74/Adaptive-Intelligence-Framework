@@ -63,7 +63,15 @@
         /// <value>
         /// A <see cref="SqlCodeJoinClauseCollection"/> containing the join clause instances.
         /// </value>
-        public SqlCodeConditionListExpressionCollection? Conditions => _conditions;
+        public SqlCodeConditionListExpressionCollection Conditions
+        {
+            get
+            {
+                if (_conditions == null)
+                    _conditions = new SqlCodeConditionListExpressionCollection();
+                return _conditions;
+            }
+        }
         #endregion
 
         #region Public Methods / Functions

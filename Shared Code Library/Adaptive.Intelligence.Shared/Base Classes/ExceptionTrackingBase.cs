@@ -48,9 +48,18 @@ namespace Adaptive.Intelligence.Shared
 		/// Gets the reference to the list of exceptions that have been caught.
 		/// </summary>
 		/// <value>
-		/// A <see cref="List{T}"/> of <see cref="Exception"/> instances.
+		/// An <see cref="ExceptionCollection"/> containing the list of exceptions.
 		/// </value>
-		public ExceptionCollection? Exceptions => _exceptionList?.Clone();
+		public ExceptionCollection Exceptions
+		{
+			get
+			{
+				if (_exceptionList == null)
+					return new ExceptionCollection();
+				else
+					return _exceptionList.Clone();
+			}
+		}
         /// <summary>
         /// Gets the messages from all the captured exceptions as a string.
         /// </summary>

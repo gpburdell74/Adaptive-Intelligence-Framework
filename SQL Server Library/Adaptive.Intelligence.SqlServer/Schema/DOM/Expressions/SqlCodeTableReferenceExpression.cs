@@ -41,7 +41,7 @@
         /// <param name="tableName">
         /// A string specifying the name of the table.
         /// </param>
-        public SqlCodeTableReferenceExpression(string tableName) : this(TSqlConstants.DefaultDatabaseOwner, tableName, null)
+        public SqlCodeTableReferenceExpression(string? tableName) : this(TSqlConstants.DefaultDatabaseOwner, tableName, null)
         {
         }
         /// <summary>
@@ -53,7 +53,7 @@
         /// <param name="aliasName">
         /// A string specifying the alias to use for this table.
         /// </param>
-        public SqlCodeTableReferenceExpression(string tableName, string? aliasName) : this(TSqlConstants.DefaultDatabaseOwner, tableName, aliasName)
+        public SqlCodeTableReferenceExpression(string? tableName, string? aliasName) : this(TSqlConstants.DefaultDatabaseOwner, tableName, aliasName)
         {
         }
         /// <summary>
@@ -68,7 +68,7 @@
         /// <param name="aliasName">
         /// A string specifying the alias to use for this table.
         /// </param>
-        public SqlCodeTableReferenceExpression(string? ownerName, string tableName, string? aliasName)
+        public SqlCodeTableReferenceExpression(string? ownerName, string? tableName, string? aliasName)
         {
             if (string.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException(nameof(tableName));

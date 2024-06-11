@@ -84,6 +84,9 @@ namespace Adaptive.Intelligence.SqlServer.UI
             ConnectButton.Click += HandleConnectClicked;
             CloseButton.Click += HandleCloseClicked;
 
+            // Lists.
+            AuthTypeList.SelectedIndexChanged += HandleGenericControlChange;
+            
             // Entries.
             ServerText.LostFocus += HandleConnectionInfoChanged;
             UserIdText.LostFocus += HandleConnectionInfoChanged;
@@ -92,18 +95,22 @@ namespace Adaptive.Intelligence.SqlServer.UI
             // Check box.
             DbCheck.CheckedChanged += HandleDbCheckChanged;
         }
-        /// <summary>
-        /// Removes the event handlers for the controls on the dialog.
-        /// </summary>
-        protected override void RemoveEventHandlers()
+
+		/// <summary>
+		/// Removes the event handlers for the controls on the dialog.
+		/// </summary>
+		protected override void RemoveEventHandlers()
         {
             // Buttons.
             TestButton.Click -= HandleTestClicked;
             ConnectButton.Click -= HandleConnectClicked;
             CloseButton.Click -= HandleCloseClicked;
 
-            // Entries.
-            ServerText.LostFocus -= HandleConnectionInfoChanged;
+			// Lists.
+			AuthTypeList.SelectedIndexChanged -= HandleGenericControlChange;
+
+			// Entries.
+			ServerText.LostFocus -= HandleConnectionInfoChanged;
             UserIdText.LostFocus -= HandleConnectionInfoChanged;
             PasswordText.LostFocus -= HandleConnectionInfoChanged;
 
@@ -260,7 +267,8 @@ namespace Adaptive.Intelligence.SqlServer.UI
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
             {
                 DataSource = ServerText.Text,
-                Authentication = SqlAuthenticationMethod.ActiveDirectoryIntegrated
+                Authentication = SqlAuthenticationMethod.ActiveDirectoryIntegrated,
+                TrustServerCertificate=true
             };
             SetFromOptions(builder);
             return builder;

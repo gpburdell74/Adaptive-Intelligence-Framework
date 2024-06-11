@@ -73,21 +73,45 @@
         /// <value>
         /// A <see cref="SqlCodeFromClause"/> defining the tables to query on.
         /// </value>
-        public SqlCodeFromClause? FromClause => _fromClause;
-        /// <summary>
-        /// Gets or sets the reference to the select list clause of the statement.
-        /// </summary>
-        /// <value>
-        /// A <see cref="SqlCodeSelectClause"/> defining the items to be selected.
-        /// </value>
-        public SqlCodeSelectClause? SelectClause => _selectClause;
+        public SqlCodeFromClause FromClause
+		{
+			get
+			{
+				if (_fromClause == null)
+					_fromClause = new SqlCodeFromClause();
+				return _fromClause;
+			}
+		}
+		/// <summary>
+		/// Gets or sets the reference to the select list clause of the statement.
+		/// </summary>
+		/// <value>
+		/// A <see cref="SqlCodeSelectClause"/> defining the items to be selected.
+		/// </value>
+		public SqlCodeSelectClause SelectClause
+        {
+            get
+            {
+                if (_selectClause == null)
+                    _selectClause = new SqlCodeSelectClause();
+                return _selectClause;
+            }
+        }
         /// <summary>
         /// Gets or sets the reference to the WHERE clause of the statement.
         /// </summary>
         /// <value>
         /// A <see cref="SqlCodeWhereClause"/> defining the conditions for the query.
         /// </value>
-        public SqlCodeWhereClause? WhereClause => _whereClause;
+        public SqlCodeWhereClause WhereClause
+        {
+            get
+            {
+                if (_whereClause == null)
+                    _whereClause = new SqlCodeWhereClause();
+                return _whereClause;
+            }
+        }
         #endregion
 
         #region Public Methods / Functions

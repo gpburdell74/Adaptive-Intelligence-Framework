@@ -4,16 +4,15 @@ using Adaptive.Intelligence.SqlServer.Schema;
 using Adaptive.SqlServer.Client;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Smo;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.Collections.Specialized;
 
 namespace Adaptive.Intelligence.SqlServer
 {
-    /// <summary>
-    /// Contains the current database information and other context data.
-    /// </summary>
-    /// <seealso cref="DisposableObjectBase" />
-    public sealed class DatabaseInfo : DisposableObjectBase
+	/// <summary>
+	/// Contains the current database information and other context data.
+	/// </summary>
+	/// <seealso cref="DisposableObjectBase" />
+	public sealed class DatabaseInfo : DisposableObjectBase
     {
         #region Public Events
         /// <summary>
@@ -160,7 +159,15 @@ namespace Adaptive.Intelligence.SqlServer
         /// <value>
         /// A <see cref="AdaptiveTableMetadata"/> instance containing the table information.
         /// </value>
-        public AdaptiveTableMetadata? TableData => _tableData;
+        public AdaptiveTableMetadata TableData
+        {
+            get
+            {
+                if (_tableData == null)
+                    _tableData = new AdaptiveTableMetadata(null);
+                return _tableData;
+            }
+        }
         #endregion
 
         #region Public Methods / Functions
@@ -240,8 +247,12 @@ namespace Adaptive.Intelligence.SqlServer
                 _db = new SqlDatabase(_databaseName);
                 if (_databaseName != "master")
                 {
+                    // Load the DB Schema.
                     await _db.LoadSchemaAsync(_provider).ConfigureAwait(false);
+
+                    // Create / load the table meta data as needed.
                     _tableData = new AdaptiveTableMetadata(_db);
+                    await _tableData.StartAnalysisAsync(_provider).ConfigureAwait(false);
                 }
 
                 // Initialize the SMO instances.
