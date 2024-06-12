@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Adaptive.Intelligence.Shared.Tests
+namespace Adaptive.Intelligence.Shared.Tests.Attributes
 {
 	public class ExportIgnoreAttributeTests
 	{

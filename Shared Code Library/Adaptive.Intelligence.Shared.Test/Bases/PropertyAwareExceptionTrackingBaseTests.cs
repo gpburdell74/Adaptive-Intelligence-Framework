@@ -1,9 +1,6 @@
-using System.ComponentModel;
-using Xunit;
-
-namespace Adaptive.Intelligence.Shared.Test
+namespace Adaptive.Intelligence.Shared.Tests.Bases
 {
-    public class PropertyAwareExceptionTrackingBaseTests
+	public class PropertyAwareExceptionTrackingBaseTests
     {
         // Test to ensure the PropertyChanged event is raised correctly
         [Fact]

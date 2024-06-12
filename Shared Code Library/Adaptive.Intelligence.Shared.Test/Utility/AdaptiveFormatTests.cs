@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests
+﻿namespace Adaptive.Intelligence.Shared.Tests.Utility
 {
 	public class AdaptiveFormatTests
 	{

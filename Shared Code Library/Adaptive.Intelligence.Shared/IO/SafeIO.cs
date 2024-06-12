@@ -148,12 +148,14 @@ namespace Adaptive.Intelligence.Shared.IO
 
 					await outStream.FlushAsync().ConfigureAwait(false);
 					decompressStream.Close();
-					outStream.Dispose();
+					await outStream.DisposeAsync();
 				}
-				inStream.Dispose();
+				await inStream.DisposeAsync();
 
 				if (success && deleteOriginal)
 					DeleteFile(inputFile);
+				else if (!success)
+					DeleteFile(outputFile);
 			}
 			return success;
 		}

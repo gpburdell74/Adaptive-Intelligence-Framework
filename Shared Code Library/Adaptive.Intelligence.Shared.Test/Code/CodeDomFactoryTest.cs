@@ -1,7 +1,7 @@
 ﻿using Adaptive.Intelligence.Shared.Code;
 using System.CodeDom;
 
-namespace Adaptive.Intelligence.Shared.Tests
+namespace Adaptive.Intelligence.Shared.Tests.CodeDom
 {
     /// <summary>
     /// Unit Tests for the <see cref="CodeDomFactory"/> class.

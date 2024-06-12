@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Adaptive.Intelligence.Shared.Security;
-
-namespace Adaptive.Intelligence.Shared.Security.Tests
+﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security.PasswordAnalysis
 {
-    /// <summary>
-    /// Unit Tests for the <see cref="PasswordAnalyzer"/> class.
-    /// </summary>
-    public class PasswordAnalyzerTests
+	/// <summary>
+	/// Unit Tests for the <see cref="PasswordAnalyzer"/> class.
+	/// </summary>
+	public class PasswordAnalyzerTests
     {
         [Fact]
         public void VerifyPasswordAndCalculateStrengthExecutes()

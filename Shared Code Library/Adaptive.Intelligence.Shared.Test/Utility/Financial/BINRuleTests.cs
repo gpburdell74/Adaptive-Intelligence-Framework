@@ -1,12 +1,8 @@
-using Xunit;
-using Adaptive.Intelligence.Shared;
-using System;
 using Adaptive.Intelligence.Shared.IO;
-using NSubstitute.Exceptions;
 
-namespace Adaptive.Intelligence.Shared.Test
+namespace Adaptive.Intelligence.Shared.Tests.Utility.Financial
 {
-    public class BINRuleTests
+	public class BINRuleTests
     {
         [Fact]
         public void Dispose_ShouldClearProperties()
