@@ -1,7 +1,4 @@
-﻿using Xunit;
-using Adaptive.Intelligence.Shared;
-
-namespace Adaptive.Intelligence.Shared.Tests
+﻿namespace Adaptive.Intelligence.Shared.Tests
 {
 	public class USAddressTests
 	{

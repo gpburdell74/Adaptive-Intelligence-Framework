@@ -34,25 +34,14 @@
 		/// </remarks>
 		public bool ConvertBack(string convertedValue)
 		{
-			bool returnValue = false;
-
-			if (!string.IsNullOrEmpty(convertedValue))
-			{
-				convertedValue = convertedValue.ToLower();
-				switch (convertedValue)
-				{
-					case Constants.TrueValueYes:
-					case Constants.TrueValueSi:
-					case Constants.TrueValueTrue:
-					case Constants.TrueValueBT:
-					case Constants.TrueValueBY:
-					case Constants.TrueValueMinus1:
-					case Constants.TrueValueOK:
-						returnValue = true;
-						break;
-				}
-			}
-			return returnValue;
+			// Directly return true if the convertedValue matches any of the truthy constants.
+			return (string.Equals(convertedValue, Constants.TrueValueYes, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(convertedValue, Constants.TrueValueSi, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(convertedValue, Constants.TrueValueTrue, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(convertedValue, Constants.TrueValueBT, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(convertedValue, Constants.TrueValueBY, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(convertedValue, Constants.TrueValueMinus1, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(convertedValue, Constants.TrueValueOK, StringComparison.OrdinalIgnoreCase));
 		}
 	}
 }

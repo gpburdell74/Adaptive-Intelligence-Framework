@@ -8,80 +8,80 @@
 			// Arrange
 			bool value = true;
 			string expected = "Yes";
-			
+
 			// Act
 			string actual = AdaptiveFormat.FormatBoolean(value);
-			
+
 			// Assert
 			Assert.Equal(expected, actual);
 		}
-		
+
 		[Fact]
 		public void FormatBoolean_False_ReturnsNo()
 		{
 			// Arrange
 			bool value = false;
 			string expected = "No";
-			
+
 			// Act
 			string actual = AdaptiveFormat.FormatBoolean(value);
-			
+
 			// Assert
 			Assert.Equal(expected, actual);
 		}
-		
+
 		[Fact]
 		public void FormatByteString_GreaterThanGBSize_ReturnsGB()
 		{
 			// Arrange
 			long numberOfBytes = 1048576 * 1024 + 1;
 			string expected = "1.0 GB";
-			
+
 			// Act
 			string actual = AdaptiveFormat.FormatByteString(numberOfBytes);
-			
+
 			// Assert
 			Assert.Equal(expected, actual);
 		}
-		
+
 		[Fact]
 		public void FormatByteString_GreaterThanMBSize_ReturnsMB()
 		{
 			// Arrange
 			long numberOfBytes = 1048576 + 1;
 			string expected = "1.0 MB";
-			
+
 			// Act
 			string actual = AdaptiveFormat.FormatByteString(numberOfBytes);
-			
+
 			// Assert
 			Assert.Equal(expected, actual);
 		}
-		
+
 		[Fact]
 		public void FormatByteString_GreaterThanKBSize_ReturnsKB()
 		{
 			// Arrange
 			long numberOfBytes = 1024 + 1;
 			string expected = "1.0 KB";
-			
+
 			// Act
 			string actual = AdaptiveFormat.FormatByteString(numberOfBytes);
-			
+
 			// Assert
 			Assert.Equal(expected, actual);
 		}
-		
+
 		[Fact]
 		public void FormatByteString_LessThanKBSize_ReturnsBytes()
 		{
 			// Arrange
 			long numberOfBytes = 1;
 			string expected = "1 byte(s)";
-			
+
 			// Act
 			string actual = AdaptiveFormat.FormatByteString(numberOfBytes);
-			
+
 			// Assert
 			Assert.Equal(expected, actual);
 		}
@@ -93,10 +93,10 @@
 			string line1 = null;
 			string line2 = null;
 			string expected = "";
-			
+
 			// Act
 			string actual = AdaptiveFormat.FormatAddress(line1, line2);
-			
+
 			// Assert
 			Assert.Equal(expected, actual);
 		}
