@@ -582,6 +582,24 @@ namespace Adaptive.Intelligence.SqlServer.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are unsaved changes.  Save this file?.
+        /// </summary>
+        public static string SaveChangesMessage {
+            get {
+                return ResourceManager.GetString("SaveChangesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Changes?.
+        /// </summary>
+        public static string SaveChangesTitle {
+            get {
+                return ResourceManager.GetString("SaveChangesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save SQL Query As.
         /// </summary>
         public static string SaveSqlFileTitle {

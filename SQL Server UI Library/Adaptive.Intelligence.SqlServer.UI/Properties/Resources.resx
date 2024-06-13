@@ -372,4 +372,12 @@
   <data name="SpNameUpdate" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="SaveChangesMessage" xml:space="preserve">
+    <value>There are unsaved changes.  Save this file?</value>
+    <comment>Save Message</comment>
+  </data>
+  <data name="SaveChangesTitle" xml:space="preserve">
+    <value>Save Changes?</value>
+    <comment>Save Message Title</comment>
+  </data>
 </root>
