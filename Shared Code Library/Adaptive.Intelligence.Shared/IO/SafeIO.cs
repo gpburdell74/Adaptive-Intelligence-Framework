@@ -3,7 +3,7 @@ using Adaptive.Intelligence.Shared.Properties;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Security;
-
+	
 namespace Adaptive.Intelligence.Shared.IO
 {
 	/// <summary>
@@ -479,6 +479,35 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 
 			return result;
+		}
+		/// <summary>
+		/// Gets the application path.
+		/// </summary>
+		/// <returns>
+		/// A string containing the path the current application or module is running from.
+		/// </returns>
+		public static string? GetAppPath()
+		{
+			string? path = null;
+			
+			try
+			{
+				System.Diagnostics.Process? selfProcess = System.Diagnostics.Process.GetCurrentProcess();
+				if (selfProcess != null)
+				{
+					if (selfProcess.MainModule != null)
+					{
+						path = selfProcess.MainModule.FileName;
+						path = System.IO.Path.GetDirectoryName(path);
+					}
+					selfProcess.Dispose();
+				}
+			}
+			catch (Exception ex)
+			{
+				ExceptionLog.LogException(ex);
+			}
+			return path;
 		}
 		/// <summary>
 		/// Returns the names of subdirectories (including their paths) in the specified directory.

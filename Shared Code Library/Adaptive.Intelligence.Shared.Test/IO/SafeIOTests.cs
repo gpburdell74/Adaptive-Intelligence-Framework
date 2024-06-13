@@ -238,6 +238,20 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
 		}
 		#endregion
 
+		#region GetAppPath Tests
+
+		[Fact]
+		public void GetAppPath_ReturnsValidPath()
+		{
+			// Act
+			var appPath = SafeIO.GetAppPath();
+
+			// Assert
+			Assert.NotNull(appPath);
+			Assert.True(Directory.Exists(appPath));
+		}
+		#endregion
+
 		[Fact]
 		public void FileExists_FileDoesNotExist_ReturnsFalse()
 		{

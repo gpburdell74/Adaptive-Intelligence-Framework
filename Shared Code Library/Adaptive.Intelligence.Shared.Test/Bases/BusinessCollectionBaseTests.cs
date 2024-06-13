@@ -1,6 +1,4 @@
-﻿using NSubstitute;
-
-namespace Adaptive.Intelligence.Shared.Tests.Bases
+﻿namespace Adaptive.Intelligence.Shared.Tests.Bases
 {
 	public class BusinessCollectionBaseTests
 	{

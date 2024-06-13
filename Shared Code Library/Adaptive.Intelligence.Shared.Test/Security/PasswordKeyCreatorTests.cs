@@ -5,13 +5,10 @@
 		private const string StandardUserId = "aleph_beta_17433";
 		private const string StandardPwd = "872.11.X.Q";
 
-		private const string SimpleUserId = "abcde";
-		private const string SimplePwd = "1234";
-
 		[Fact]
 		public void CanCreateTest()
 		{
-			byte[]? pkey= PasswordKeyCreator.CreatePrimaryKeyData(StandardUserId, StandardPwd);
+			byte[]? pkey = PasswordKeyCreator.CreatePrimaryKeyData(StandardUserId, StandardPwd);
 			Assert.NotNull(pkey);
 			Assert.Equal(48, pkey.Length);
 

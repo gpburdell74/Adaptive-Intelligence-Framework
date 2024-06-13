@@ -18,7 +18,7 @@
 			Assert.NotNull(provider);
 
 			provider.Dispose();
-			provider.Dispose(); 
+			provider.Dispose();
 			provider.Dispose();
 			provider.GenerateNewKey();
 			provider.Dispose();
@@ -44,7 +44,7 @@
 			Assert.NotNull(decrypted);
 			Assert.Equal(originalData.Length, decrypted.Length);
 
-			for(int count = 0; count < originalData.Length; count++)
+			for (int count = 0; count < originalData.Length; count++)
 			{
 				Assert.Equal(originalData[count], decrypted[count]);
 			}
@@ -117,7 +117,7 @@
 			Assert.NotNull(keyIv);
 			Assert.Equal(64, keyIv.Length);
 
-			byte[]? keyData  = Convert.FromBase64String(keyIv);
+			byte[]? keyData = Convert.FromBase64String(keyIv);
 			provider.Dispose();
 		}
 
@@ -149,11 +149,11 @@
 
 		private static byte[] GetRandomBytes(int length)
 		{
-			byte[] data  = new byte[length];
+			byte[] data = new byte[length];
 			Random.Shared.NextBytes(data);
 			return data;
 		}
 
-		
+
 	}
 }

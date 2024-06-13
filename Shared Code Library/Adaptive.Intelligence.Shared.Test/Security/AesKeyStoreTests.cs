@@ -205,14 +205,14 @@
 
 			AesKeyStore? storeB = storeA.Clone();
 			Assert.NotNull(storeB);
-			
+
 			storeA.Dispose();
 			storeA = null;
 
 			Assert.Equal(key, storeB.Key);
 			Assert.Equal(iv, storeB.IV);
 
-			
+
 			storeB.Dispose();
 		}
 		[Fact]
