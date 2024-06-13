@@ -1,6 +1,4 @@
-﻿using Adaptive.Intelligence.Shared.Code;
-
-namespace Adaptive.Intelligence.Shared.Tests
+﻿namespace Adaptive.Intelligence.Shared.Tests.Extensions
 {
 	/// <summary>
 	/// Unit Tests for the <see cref="ArrayExtensions"/> class.
@@ -131,8 +129,8 @@ namespace Adaptive.Intelligence.Shared.Tests
 		[Fact]
 		public void ByteArrayCompareLengthTest()
 		{
-			byte[] a = new byte[3] { 1,2,3};
-			byte[] b = new byte[4] { 4,5,6,7};
+			byte[] a = new byte[3] { 1, 2, 3 };
+			byte[] b = new byte[4] { 4, 5, 6, 7 };
 			byte[] c = new byte[5] { 8, 9, 10, 11, 12 };
 
 			int compResult = ArrayExtensions.Compare(a, b);

@@ -95,7 +95,7 @@ namespace Adaptive.Intelligence.Shared
 					(char.IsNumber(ZipPlus4[0])) &&
 					(char.IsNumber(ZipPlus4[1])) &&
 					(char.IsNumber(ZipPlus4[2])) &&
-					(char.IsNumber(ZipPlus4[3])) && 
+					(char.IsNumber(ZipPlus4[3])) &&
 					(char.IsNumber(ZipPlus4[4]))
 					);
 			}

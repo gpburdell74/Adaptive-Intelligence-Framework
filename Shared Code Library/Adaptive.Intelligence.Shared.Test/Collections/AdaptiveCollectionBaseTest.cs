@@ -1,9 +1,5 @@
-﻿namespace Adaptive.Intelligence.Shared.Collections
+﻿namespace Adaptive.Intelligence.Shared.Tests.Collections
 {
-	/// <summary>
-	/// Since the class being tested is abstract...
-	/// </summary>
-	/// <seealso cref="Adaptive.Intelligence.Shared.AdaptiveCollectionBase&lt;System.Int32&gt;" />
 	public sealed class TestCollection : AdaptiveCollectionBase<int>
 	{
 		public TestCollection() : base()

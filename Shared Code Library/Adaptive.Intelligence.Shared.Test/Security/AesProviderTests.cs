@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Adaptive.Intelligence.Shared.Security.Tests
+﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security
 {
 	public class AesProviderTests
 	{
@@ -24,7 +18,7 @@ namespace Adaptive.Intelligence.Shared.Security.Tests
 			Assert.NotNull(provider);
 
 			provider.Dispose();
-			provider.Dispose(); 
+			provider.Dispose();
 			provider.Dispose();
 			provider.GenerateNewKey();
 			provider.Dispose();
@@ -50,7 +44,7 @@ namespace Adaptive.Intelligence.Shared.Security.Tests
 			Assert.NotNull(decrypted);
 			Assert.Equal(originalData.Length, decrypted.Length);
 
-			for(int count = 0; count < originalData.Length; count++)
+			for (int count = 0; count < originalData.Length; count++)
 			{
 				Assert.Equal(originalData[count], decrypted[count]);
 			}
@@ -123,7 +117,7 @@ namespace Adaptive.Intelligence.Shared.Security.Tests
 			Assert.NotNull(keyIv);
 			Assert.Equal(64, keyIv.Length);
 
-			byte[]? keyData  = Convert.FromBase64String(keyIv);
+			byte[]? keyData = Convert.FromBase64String(keyIv);
 			provider.Dispose();
 		}
 
@@ -155,11 +149,11 @@ namespace Adaptive.Intelligence.Shared.Security.Tests
 
 		private static byte[] GetRandomBytes(int length)
 		{
-			byte[] data  = new byte[length];
+			byte[] data = new byte[length];
 			Random.Shared.NextBytes(data);
 			return data;
 		}
 
-		
+
 	}
 }

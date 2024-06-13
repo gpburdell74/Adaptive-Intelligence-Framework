@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Adaptive.Intelligence.Shared.Security.Tests
+﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security
 {
 	public class AesKeyStoreTests
 	{
@@ -211,14 +205,14 @@ namespace Adaptive.Intelligence.Shared.Security.Tests
 
 			AesKeyStore? storeB = storeA.Clone();
 			Assert.NotNull(storeB);
-			
+
 			storeA.Dispose();
 			storeA = null;
 
 			Assert.Equal(key, storeB.Key);
 			Assert.Equal(iv, storeB.IV);
 
-			
+
 			storeB.Dispose();
 		}
 		[Fact]

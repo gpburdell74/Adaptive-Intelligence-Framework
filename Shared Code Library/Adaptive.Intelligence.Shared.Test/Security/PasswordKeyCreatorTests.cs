@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Adaptive.Intelligence.Shared.Security.Tests
+﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security
 {
 	public class PasswordKeyCreatorTests
 	{
 		private const string StandardUserId = "aleph_beta_17433";
 		private const string StandardPwd = "872.11.X.Q";
 
-		private const string SimpleUserId = "abcde";
-		private const string SimplePwd = "1234";
-
 		[Fact]
 		public void CanCreateTest()
 		{
-			byte[]? pkey= PasswordKeyCreator.CreatePrimaryKeyData(StandardUserId, StandardPwd);
+			byte[]? pkey = PasswordKeyCreator.CreatePrimaryKeyData(StandardUserId, StandardPwd);
 			Assert.NotNull(pkey);
 			Assert.Equal(48, pkey.Length);
 

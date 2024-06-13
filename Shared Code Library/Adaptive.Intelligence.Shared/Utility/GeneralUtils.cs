@@ -3,6 +3,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
+using Humanizer;
+using Humanizer.Localisation;
+using Humanizer.Inflections;
+using Humanizer.Configuration;
+using Humanizer.Bytes;
 
 namespace Adaptive.Intelligence.Shared
 {
@@ -100,6 +105,42 @@ namespace Adaptive.Intelligence.Shared
 			}
 
 			return list;
+		}
+		/// <summary>
+		/// Gets the plural English-language word for the specified English word in singular form.
+		/// </summary>
+		/// <param name="word">
+		/// A string containing the singular form of the English word.
+		/// </param>
+		/// <returns>
+		/// A string containing the plural form of the provided word.
+		/// </returns>
+		public static string GetPluralEnglishForm(string word)
+		{
+			if (!string.IsNullOrEmpty(word))
+			{
+				return word.Pluralize();
+			}
+			else
+				return string.Empty;
+		}
+		/// <summary>
+		/// Gets the singular English-language word for the specified English word in plural form.
+		/// </summary>
+		/// <param name="word">
+		/// A string containing the singular form of the English word.
+		/// </param>
+		/// <returns>
+		/// A string containing the plural form of the provided word.
+		/// </returns>
+		public static string GetSingleEnglishForm(string? word)
+		{
+			if (!string.IsNullOrEmpty(word))
+			{
+				return word.Singularize();
+			}
+			else
+				return string.Empty;
 		}
 		/// <summary>
 		/// Optionally pluralizes the text according to English rules.

@@ -1,16 +1,16 @@
 ﻿using Adaptive.Intelligence.Shared;
+using Adaptive.Intelligence.SqlServer.ORM;
 using Adaptive.Intelligence.SqlServer.Schema;
 using Adaptive.SqlServer.Client;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Adaptive.Intelligence.SqlServer.Analysis
 {
-    /// <summary>
-    /// Provides a central provider for containing the Schema data, profile, and other metadata content
-    /// describing the tables in an Adaptive SQL Server database.
-    /// </summary>
-    /// <seealso cref="DisposableObjectBase" />
-    public sealed class AdaptiveTableMetadata : DisposableObjectBase
+	/// <summary>
+	/// Provides a central provider for containing the Schema data, profile, and other metadata content
+	/// describing the tables in an Adaptive SQL Server database.
+	/// </summary>
+	/// <seealso cref="DisposableObjectBase" />
+	public sealed class AdaptiveTableMetadata : DisposableObjectBase
     {
         #region Public Events
         /// <summary>
@@ -176,12 +176,12 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 analyzer.ProgressUpdate += HandleProgressUpdate;
                 await analyzer.AnalyzeTablesForQueryCreationAsync(provider).ConfigureAwait(false);
                 analyzer.ProgressUpdate -= HandleProgressUpdate;
+
                 SetMetaData(analyzer);
                 analyzer.Dispose();
 
                 await _profiles.SaveAsync().ConfigureAwait(false);
             }
-
         }
         #endregion
 
@@ -193,7 +193,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// <param name="e">The <see cref="ProgressUpdateEventArgs"/> instance containing the event data.</param>
         private void HandleProgressUpdate(object sender, ProgressUpdateEventArgs e)
         {
-            ProgressUpdate?.BeginInvoke(this, e, null, null);
+            ProgressUpdate?.Invoke(this, e);
         }
         #endregion
 
@@ -214,28 +214,18 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
 
                     // Separate the singular from the plural, where possible.
                     if (string.IsNullOrEmpty(profile.SingularName))
-                    {
-                        if (table.TableName!.EndsWith("History"))
-                            profile.SingularName = table.TableName;
-                        else
-                        {
-                            if (table.TableName.EndsWith("es"))
-                                profile.SingularName = table.TableName.Substring(0, table.TableName.Length - 2);
-                            else
-                                profile.SingularName = table.TableName.Substring(0, table.TableName.Length - 1);
-                        }
-                    }
-
+                        profile.SingularName = GeneralUtils.GetSingleEnglishForm(table.TableName);
+                    
                     string singleName = profile.SingularName;
 
                     if (string.IsNullOrEmpty(profile.DataAccessClassName))
-                        profile.DataAccessClassName = singleName + "DataAccess";
+                        profile.DataAccessClassName = singleName + OrmDatabaseOptions.Current.DataAccessClassSuffix; 
 
                     if (string.IsNullOrEmpty(profile.DataDefinitionClassName))
                         profile.DataDefinitionClassName = singleName;
 
                     if (string.IsNullOrEmpty(profile.Description))
-                        profile.Description = table.TableName + " Table";
+                        profile.Description = table.TableName + OrmDatabaseOptions.Current.TableNameSuffix; 
 
                     if (string.IsNullOrEmpty(profile.FriendlyName))
                         profile.FriendlyName = table.TableName;
@@ -244,30 +234,40 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                         profile.PluralName = table.TableName;
 
                     if (string.IsNullOrEmpty(profile.QualifiedName))
-                        profile.QualifiedName = "[dbo].[" + table.TableName + "]";
+                        profile.QualifiedName =
+                            OrmDatabaseOptions.Current.DefaultQualifiedOwner +
+                            OrmDatabaseOptions.Current.QualifiedNameSeparatorOpen +
+                            table.TableName +
+                            OrmDatabaseOptions.Current.QualifiedNameSeperatorClose;
 
                     if (string.IsNullOrEmpty(profile.StoredProcedureNamePrefix))
-                        profile.StoredProcedureNamePrefix = table.TableName;
+                    {
+                        if (OrmDatabaseOptions.Current.UseTableNamesForStoredProcedureNames)
+                            profile.StoredProcedureNamePrefix = table.TableName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.GetAllStoredProcedureName))
-                        profile.GetAllStoredProcedureName = profile.StoredProcedureNamePrefix + "GetAll";
+                        profile.GetAllStoredProcedureName = profile.StoredProcedureNamePrefix +
+                            OrmDatabaseOptions.Current.RetrieveAllRecordsStoredProcedureName;
 
                     if (string.IsNullOrEmpty(profile.GetByIdStoredProcedureName))
-						profile.GetByIdStoredProcedureName = profile.StoredProcedureNamePrefix + "GetById";
+                        profile.GetByIdStoredProcedureName = profile.StoredProcedureNamePrefix +
+                            OrmDatabaseOptions.Current.RetrieveRecordByIdStoredProcedureName;
 
-					if (string.IsNullOrEmpty(profile.InsertStoredProcedureName))
-						profile.InsertStoredProcedureName = profile.StoredProcedureNamePrefix + "Insert";
+                    if (string.IsNullOrEmpty(profile.InsertStoredProcedureName))
+                        profile.InsertStoredProcedureName = profile.StoredProcedureNamePrefix +
+                            OrmDatabaseOptions.Current.InsertStoredProcedureName;
 
 					if (string.IsNullOrEmpty(profile.UpdateStoredProcedureName))
-						profile.UpdateStoredProcedureName = profile.StoredProcedureNamePrefix + "Update";
+						profile.UpdateStoredProcedureName = profile.StoredProcedureNamePrefix +
+							OrmDatabaseOptions.Current.UpdateStoredProcedureName; 
 
 					if (string.IsNullOrEmpty(profile.DeleteStoredProcedureName))
-						profile.DeleteStoredProcedureName = profile.StoredProcedureNamePrefix + "Delete";
-
+						profile.DeleteStoredProcedureName = profile.StoredProcedureNamePrefix +
+							OrmDatabaseOptions.Current.DeleteStoredProcedureName; 
 				}
             }
         }
         #endregion
-
     }
 }
