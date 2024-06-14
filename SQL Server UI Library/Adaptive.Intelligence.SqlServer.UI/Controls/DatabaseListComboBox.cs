@@ -176,7 +176,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 }
                 result.Dispose();
                 provider.Dispose();
-            }
+
+                ContinueInMainThread(AssignDataContentToControls);
+
+			}
         }
         #endregion
     }

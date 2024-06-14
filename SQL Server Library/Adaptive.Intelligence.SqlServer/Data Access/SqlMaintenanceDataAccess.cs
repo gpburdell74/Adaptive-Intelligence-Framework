@@ -330,8 +330,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             // Execute.
             if (!string.IsNullOrEmpty(tableName))
             {
+                Exceptions.Clear();
                 int result = await ExecuteSqlAsync(string.Format(SqlUpdateStats, tableName)).ConfigureAwait(false);
-                return result > TSqlConstants.ExecuteFailed;
+                return (Exceptions.Count == 0);
             }
             else
                 return false;
