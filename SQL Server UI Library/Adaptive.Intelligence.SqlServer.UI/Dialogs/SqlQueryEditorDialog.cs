@@ -420,6 +420,44 @@ namespace Adaptive.Intelligence.SqlServer.UI
 
 		#endregion
 
+		#region Public Methods / Functions		
+		/// <summary>
+		/// Loads the specified SQL file content into the dialog.
+		/// </summary>
+		/// <param name="fileName">
+		/// A string containing the fully-qualified path and name of the file.</param>
+		public void LoadSqlFile(string fileName)
+		{
+			Shared.IO.TextFile file = new Shared.IO.TextFile(fileName);
+			if (file.OpenForRead())
+			{
+				_fileName = fileName;
+				Editor.Text = file.ReadAll();
+				file.Close();
+
+				// We just loaded, so...
+				Text = _fileName;
+				_saved = true;
+			}
+			file.Dispose();
+			Invalidate();
+			SetState();
+
+		}
+		/// <summary>
+		/// Attempts to save the contents of this dialog.
+		/// </summary>
+		public void Save()
+		{
+			SetPreLoadState();
+
+			SqlQueryEventArgs eventArgs = new SqlQueryEventArgs(Editor.Text, _fileName);
+			OnSaveQueryClick(eventArgs);
+
+			SetPostLoadState();
+		}
+		#endregion
+
 		#region Private Methods / Functions        
 		/// <summary>
 		/// Starts the execution of the contained SQL Statements/queries.
