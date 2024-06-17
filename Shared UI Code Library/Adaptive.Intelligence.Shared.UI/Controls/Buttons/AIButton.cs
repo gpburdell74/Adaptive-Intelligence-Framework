@@ -8,7 +8,7 @@ namespace Adaptive.Intelligence.Shared.UI
 	/// <summary>
 	/// Provides a customizable button implementation.
 	/// </summary>
-	public sealed class AIButton : Button
+	public class AIButton : Button
 	{
 		#region Private Member Declarations
 

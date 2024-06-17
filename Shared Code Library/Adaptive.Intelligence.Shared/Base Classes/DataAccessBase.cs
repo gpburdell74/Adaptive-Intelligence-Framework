@@ -33,7 +33,6 @@ namespace Adaptive.Intelligence.Shared
 		private static int _queriesRunning;
 		#endregion
 
-
 		#region Static Event Methods
 		/// <summary>
 		/// Called when a remote query starts to raise the <see cref="AsyncQueryStarted"/> event.
