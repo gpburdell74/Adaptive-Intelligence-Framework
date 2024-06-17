@@ -1,17 +1,15 @@
-﻿using Microsoft.Win32;
-
-namespace Adaptive.Intelligence.Shared
+﻿namespace Adaptive.Intelligence.Shared
 {
 	/// <summary>
 	/// Provides constants definitions for the application.
 	/// </summary>
 	public static class Constants
 	{
-        #region Character Constants		
-        /// <summary>
-        /// The backspace character.
-        /// </summary>
-        public const char BackspaceChar = (char)8;
+		#region Character Constants		
+		/// <summary>
+		/// The backspace character.
+		/// </summary>
+		public const char BackspaceChar = (char)8;
 		/// <summary>
 		/// The backward slash string.
 		/// </summary>
@@ -52,37 +50,37 @@ namespace Adaptive.Intelligence.Shared
 		/// The single quote character.
 		/// </summary>
 		public const char SingleQuoteChar = '\'';
-        /// <summary>
-        /// The tab character.
-        /// </summary>
-        public const char TabChar = '\t';
-        #endregion
+		/// <summary>
+		/// The tab character.
+		/// </summary>
+		public const char TabChar = '\t';
+		#endregion
 
-        #region Single-Character String Constants				
-        /// <summary>
-        /// The "@" character.
-        /// </summary>
-        public const string At = "@";
+		#region Single-Character String Constants				
+		/// <summary>
+		/// The "@" character.
+		/// </summary>
+		public const string At = "@";
 		/// <summary>
 		/// The backward slash string.
 		/// </summary>
 		public const string Backslash = "\\";
-        /// <summary>
-        /// The carriage return string.
-        /// </summary>
-        public const string CarriageReturn = "\r";
-        /// <summary>
-        /// The close bracket string.
-        /// </summary>
-        public const string CloseBracket = "]";
-        /// <summary>
-        /// The close curly bracket string.
-        /// </summary>
-        public const string CloseCurlyBracket = "}";
 		/// <summary>
-        /// The close parenthesis string.
-        /// </summary>
-        public const string CloseParen = ")";
+		/// The carriage return string.
+		/// </summary>
+		public const string CarriageReturn = "\r";
+		/// <summary>
+		/// The close bracket string.
+		/// </summary>
+		public const string CloseBracket = "]";
+		/// <summary>
+		/// The close curly bracket string.
+		/// </summary>
+		public const string CloseCurlyBracket = "}";
+		/// <summary>
+		/// The close parenthesis string.
+		/// </summary>
+		public const string CloseParen = ")";
 		/// <summary>
 		/// The colon string.
 		/// </summary>
@@ -95,10 +93,10 @@ namespace Adaptive.Intelligence.Shared
 		/// The comma string with a trailing space.
 		/// </summary>
 		public const string CommaWithSpace = ", ";
-        /// <summary>
-        /// The carriage-return and linefeed string.
-        /// </summary>
-        public const string CrLf = "\r\n";
+		/// <summary>
+		/// The carriage-return and linefeed string.
+		/// </summary>
+		public const string CrLf = "\r\n";
 		/// <summary>
 		/// The dash string.
 		/// </summary>
@@ -111,26 +109,26 @@ namespace Adaptive.Intelligence.Shared
 		/// The equals sign.
 		/// </summary>
 		public const string EqualsSign = "=";
-        /// <summary>
-        /// The linefeed string.
-        /// </summary>
-        public const string Linefeed = "\n";
+		/// <summary>
+		/// The linefeed string.
+		/// </summary>
+		public const string Linefeed = "\n";
 		/// <summary>
 		/// The percent sign.
 		/// </summary>
 		public const string PercentSign = "%";
-        /// <summary>
-        /// The open bracket string.
-        /// </summary>
-		public const string OpenBracket = "[";
-        /// <summary>
-        /// The open curly bracket string.
-        /// </summary>
-        public const string OpenCurlyBracket = "{";
 		/// <summary>
-        /// The open parenthesis string.
-        /// </summary>
-        public const string OpenParen = "(";
+		/// The open bracket string.
+		/// </summary>
+		public const string OpenBracket = "[";
+		/// <summary>
+		/// The open curly bracket string.
+		/// </summary>
+		public const string OpenCurlyBracket = "{";
+		/// <summary>
+		/// The open parenthesis string.
+		/// </summary>
+		public const string OpenParen = "(";
 		/// <summary>
 		/// The semi colon string.
 		/// </summary>
@@ -147,14 +145,14 @@ namespace Adaptive.Intelligence.Shared
 		/// The space string.
 		/// </summary>
 		public const string Space = " ";
-        /// <summary>
-        /// The tab string.
-        /// </summary>
-        public const string Tab = "\t";
-        /// <summary>
-        /// A string of two spaces.
-        /// </summary>
-        public const string TwoSpaces = "  ";
+		/// <summary>
+		/// The tab string.
+		/// </summary>
+		public const string Tab = "\t";
+		/// <summary>
+		/// A string of two spaces.
+		/// </summary>
+		public const string TwoSpaces = "  ";
 		#endregion
 
 		#region True/False Constants
@@ -238,7 +236,7 @@ namespace Adaptive.Intelligence.Shared
 		/// <summary>
 		/// The "NULL" text.
 		/// </summary>
-		public const string NullText  = "NULL";
+		public const string NullText = "NULL";
 		/// <summary>
 		/// The numeric zero value.
 		/// </summary>

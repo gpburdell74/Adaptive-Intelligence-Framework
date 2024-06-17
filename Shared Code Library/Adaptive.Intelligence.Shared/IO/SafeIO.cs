@@ -1011,7 +1011,6 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			return result;
 		}
-
 		#endregion
 	}
 }
