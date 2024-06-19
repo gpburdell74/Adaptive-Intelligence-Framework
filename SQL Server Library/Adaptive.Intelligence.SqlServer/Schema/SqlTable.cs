@@ -138,6 +138,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// </value>
         public SqlIndex? PrimaryKey => _primaryKey;
         /// <summary>
+        /// Gets the name of the schema for the table.
+        /// </summary>
+        /// <value>
+        /// A string containing the schema name, or <b>null</b> if not specified.
+        /// </value>
+        public string? Schema {get; set;}
+        /// <summary>
         /// Gets or sets the SQL Server table object ID value.
         /// </summary>
         /// <value>
@@ -150,7 +157,11 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <value>
         /// A string containing the name of the table.
         /// </value>
-        public string? TableName { get; set; }
+        public string? TableName 
+        { 
+            get; 
+            set; 
+        }
         #endregion
 
         #region Public Methods / Functions

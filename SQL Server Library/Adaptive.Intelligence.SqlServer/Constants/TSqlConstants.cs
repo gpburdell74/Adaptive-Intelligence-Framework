@@ -454,6 +454,10 @@ namespace Adaptive.Intelligence.SqlServer
 		/// <summary>
 		/// The SQL parameter object identifier parameter name.
 		/// </summary>
+		public const string SqlParamId = "@Id";
+		/// <summary>
+		/// The SQL parameter object identifier parameter name.
+		/// </summary>
 		public const string SqlParamObjectId = "@ObjectId";
 		/// <summary>
 		/// A basic query to read the database schema.

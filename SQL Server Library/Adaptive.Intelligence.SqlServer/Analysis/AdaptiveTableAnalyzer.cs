@@ -125,7 +125,14 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         {
             AdaptiveTableProfile profile = _profiles![table.TableName!]!;
             profile.TableReference = table;
-            profile.QualifiedName = "[dbo].[" + table.TableName + "]";
+            
+            string schema;
+            if (string.IsNullOrEmpty(table.Schema))
+                schema = "dbo";
+			else
+				schema = table.Schema;
+
+            profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
 
             // Clear.
             profile.KeyFieldNames?.Clear();
@@ -195,8 +202,15 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             {
                 AdaptiveTableProfile profile = _profiles[table.TableName];
                 profile.TableReference = table;
-                profile.QualifiedName = "[dbo].[" + table.TableName + "]";
 
+				string schema;
+				if (string.IsNullOrEmpty(table.Schema))
+					schema = "dbo";
+				else
+					schema = table.Schema;
+
+				profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
+				
                 // Clear.
                 profile.KeyFieldNames?.Clear();
                 profile.ReferencedTableJoins?.Clear();

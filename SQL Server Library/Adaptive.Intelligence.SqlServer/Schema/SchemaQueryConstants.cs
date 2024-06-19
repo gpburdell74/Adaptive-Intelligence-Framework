@@ -1,4 +1,8 @@
-﻿namespace Adaptive.Intelligence.SqlServer.Schema
+﻿// Ignore Spelling: Sql
+
+using Adaptive.Intelligence.SqlServer.Properties;
+
+namespace Adaptive.Intelligence.SqlServer.Schema
 {
     /// <summary>
     /// Provides the constants for standard SQL Server queries used to retrieve the schema information for a specified database.
@@ -101,29 +105,7 @@
         /// <summary>
         /// Contains the query to retrieve the list of tables and table columns.
         /// </summary>
-        public const string GetTablesAndColumnsSql =
-            "SELECT  " +
-            "	[TableColumns].[object_id]		tableObjectId, " +
-            "	[Tables].[name]					tableName,  " +
-            "	[TableColumns].[column_id]		columnId, " +
-            "	[TableColumns].[name]			columnName, " +
-            "	[TableColumns].[user_type_id]	typeId, " +
-            "	[TableColumns].[max_length]		[maxLength], " +
-            "	[TableColumns].[precision]		[precision], " +
-            "	[TableColumns].[scale]			[scale], " +
-            "	[TableColumns].[is_nullable]	isNullable, " +
-            "	[TableColumns].[is_identity]	isIdentity, " +
-            "	[TableColumns].[is_computed]	isComputed, " +
-            "   [TableColumns].[is_ansi_padded]	isPadded " +
-            "FROM " +
-            "	sys.columns [TableColumns] " +
-            "		INNER JOIN sys.tables [Tables] " +
-            "			ON	[TableColumns].[object_id] = [Tables].[object_id] AND " +
-            "				[Tables].[type] = 'U' AND " +
-            "				[Tables].[is_ms_shipped] = 0 " +
-            "ORDER BY " +
-            "	[Tables].[name], " +
-            "	[TableColumns].[column_Id] ";
+        public static string GetTablesAndColumnsSql = Resources.TSqlGetTableColumnsQuery;
         #endregion
 
         #region Get Table Types SQL

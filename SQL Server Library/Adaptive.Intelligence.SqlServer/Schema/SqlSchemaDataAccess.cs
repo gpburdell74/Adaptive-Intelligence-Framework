@@ -416,6 +416,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                     SqlTableColumnRecord record = new SqlTableColumnRecord();
                     int index = 0;
                     record.TableObjectId = reader.GetInt32(index++);
+                    record.SchemaName = reader.GetString(index++);
                     record.TableName = reader.GetString(index++);
                     record.ColumnId = reader.GetInt32(index++);
                     record.ColumnName = reader.GetString(index++);
@@ -435,6 +436,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                     {
                         table = new SqlTable
                         {
+                            Schema = record.SchemaName,
                             TableName = record.TableName,
                             TableObjectId = record.TableObjectId
                         };

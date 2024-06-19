@@ -247,6 +247,27 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT  
+        ///	[TableColumns].[object_id]			TableObjectId, 
+        ///	SCHEMA_NAME([Tables].[schema_id])	SchemaName,
+        ///	[Tables].[name]						TableName,  
+        ///	[TableColumns].[column_id]			ColumnId,
+        ///	[TableColumns].[name]				ColumnName,
+        ///	[TableColumns].[user_type_id]		TypeId, 
+        ///	[TableColumns].[max_length]			[MaxLength], 
+        ///	[TableColumns].[precision]			[Precision], 
+        ///	[TableColumns].[scale]				[Scale],
+        ///	[TableColumns].[is_nullable]		IsNullable, 
+        ///	[TableColumns].[is_identity]		IsIdentity, 
+        ///	[TableColumns].[is_computed]		 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TSqlGetTableColumnsQuery {
+            get {
+                return ResourceManager.GetString("TSqlGetTableColumnsQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT 
         ///   [database_id]		[DatabaseId], 
         ///   [object_id]			[ObjectId], 

@@ -1,4 +1,7 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿// Ignore Spelling: Sql
+// Ignore Spelling: ORM
+
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.SqlServer.Analysis;
 using Adaptive.Intelligence.SqlServer.CodeDom;
 using Adaptive.Intelligence.SqlServer.Schema;
@@ -68,7 +71,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             {
                 // Create the statement object.
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                     profile.DeleteStoredProcedureName);
 
                 // Add the ID parameter.
@@ -122,7 +125,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 // AS
                 //   BEGIN
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                            new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                            new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                             profile.GetAllStoredProcedureName);
 
                 // Add the SELECT statement.
@@ -157,7 +160,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 // Create the statement object.
                 // CREATE PROCEDURE [dbo].[<tableName>GetById]
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                     profile.GetByIdStoredProcedureName);
 
                 // Add the ID parameter.
@@ -198,7 +201,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 // Create the statement object.
                 // CREATE PROCEDURE [dbo].[<tableName>Insert]
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                     profile.InsertStoredProcedureName);
 
                 // Add the parameters.
@@ -279,7 +282,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 // Create the statement object.
                 // CREATE PROCEDURE [dbo].[<tableName>Update]
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
-                    new SqlCodeDatabaseNameOwnerNameExpression(TSqlConstants.DefaultDatabaseOwner),
+                    new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                     profile.UpdateStoredProcedureName);
 
                 // Create a parameter for each of the columns that will be inserted.
@@ -434,7 +437,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             {
                 // INSERT INTO [dbo].[TableName]
                 insertStatement = new SqlCodeInsertStatement(
-                    new SqlCodeTableReferenceExpression(profile.TableName));
+                    new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName));
 
                 //      ([Id],
                 insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnId));
@@ -482,46 +485,54 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// A <see cref="SqlCodeInsertStatement"/> containing the model for creating
         /// the UPDATE statement.
         /// </returns>
-        public SqlCodeUpdateStatement GenerateUpdateStatement(SqlTable table)
+        public SqlCodeUpdateStatement? GenerateUpdateStatement(SqlTable table)
         {
-            // Get the table profile.
-            AdaptiveTableProfile profile = _metaData[table.TableName];
+            SqlCodeUpdateStatement? updateStatement = null;
 
-            // UPDATE [dbo].[TableName]
-            //   SET
-            SqlCodeUpdateStatement updateStatement = new SqlCodeUpdateStatement(
-                new SqlCodeTableReferenceExpression(profile.TableName));
-
-            // [column] = @parameter,
-            // [column] = @parameter,
-            // [column] = @parameter,
-            // ...
-            //
-            // Create an assignment pair for each of the columns that will be updated.
-            foreach (SqlQueryParameter queryParam in profile.QueryParameters)
+            if (_metaData != null)
             {
-                // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                if (queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnId &&
-                    !queryParam.IsVersion)
+                // Get the table profile.
+                AdaptiveTableProfile? profile = _metaData[table.TableName];
+                if (profile != null)
                 {
-                    updateStatement.UpdateColumnList.Add(
-                        new SqlCodeColumnNameExpression(queryParam.ColumnName),
-                        new SqlCodeParameterReferenceExpression(queryParam.ColumnName));
+                    // UPDATE [dbo].[TableName]
+                    //   SET
+                    updateStatement = new SqlCodeUpdateStatement(
+                        new SqlCodeTableReferenceExpression(
+                            profile.TableName));
+
+                    // [column] = @parameter,
+                    // [column] = @parameter,
+                    // [column] = @parameter,
+                    // ...
+                    //
+                    // Create an assignment pair for each of the columns that will be updated.
+                    foreach (SqlQueryParameter queryParam in profile.QueryParameters)
+                    {
+                        // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
+                        if (queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                            queryParam.ColumnName != TSqlConstants.StandardColumnId &&
+                            !queryParam.IsVersion)
+                        {
+                            updateStatement.UpdateColumnList.Add(
+                                new SqlCodeColumnNameExpression(queryParam.ColumnName),
+                                new SqlCodeParameterReferenceExpression(queryParam.ColumnName));
+                        }
+                    }
+
+                    //  WHERE
+                    //      [Id] = @Id
+                    updateStatement.WhereClause = new SqlCodeWhereClause();
+                    updateStatement.WhereClause.Conditions.Add(
+                        new SqlCodeConditionListExpression(
+                            new SqlCodeConditionExpression(
+                                new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnId),
+                                new SqlCodeParameterReferenceExpression(TSqlConstants.StandardParameterId),
+                                SqlComparisonOperator.EqualTo),
+                            SqlConditionOperator.NotSpecified));
+
                 }
             }
-
-            //  WHERE
-            //      [Id] = @Id
-            updateStatement.WhereClause = new SqlCodeWhereClause();
-            updateStatement.WhereClause.Conditions.Add(
-                new SqlCodeConditionListExpression(
-                    new SqlCodeConditionExpression(
-                        new SqlCodeTableColumnReferenceExpression(table.TableName, TSqlConstants.StandardColumnId),
-                        new SqlCodeParameterReferenceExpression(TSqlConstants.StandardParameterId),
-                        SqlComparisonOperator.EqualTo),
-                    SqlConditionOperator.NotSpecified));
-
             return updateStatement;
         }
         /// <summary>
@@ -549,7 +560,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 // UPDATE [dbo].[TableName]
                 //   SET
                 updateStatement = new SqlCodeUpdateStatement(
-                   new SqlCodeTableReferenceExpression(profile.TableName));
+                   new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName));
 
                 // [Deleted] = 1
                 updateStatement.UpdateColumnList.Add(
@@ -589,8 +600,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             // DELETE
             SqlCodeDeleteStatement statement = new SqlCodeDeleteStatement();
 
-            // FROM [dbo].[table]
-            statement.FromClause.SourceTable = new SqlCodeTableReferenceExpression(table.TableName!);
+			// FROM [dbo].[table]
+            statement.FromClause.SourceTable = new SqlCodeTableReferenceExpression(table.Schema, table.TableName!);
 
             // WHERE
             //      [table].[Id] = @Id
@@ -598,7 +609,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 new SqlCodeConditionListExpression(
                         new SqlCodeConditionExpression(
                         new SqlCodeTableColumnReferenceExpression(table.TableName!, TSqlConstants.StandardColumnId),
-                        new SqlCodeVariableReferenceExpression("@Id"),
+                        new SqlCodeVariableReferenceExpression(TSqlConstants.SqlParamId),
                         SqlComparisonOperator.EqualTo),
                         SqlConditionOperator.NotSpecified));
 
@@ -638,31 +649,39 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         }
         private void SetJoinTableItemsToQueryFor(SqlCodeSelectListItemExpressionCollection itemsList, AdaptiveTableProfile profile, SqlTable table)
         {
-            // For each table that is being joined to, generate a list of columns to query for.
-            foreach (ReferencedTableJoin item in profile.ReferencedTableJoins)
+            if (_metaData != null)
             {
-                SqlTable referencedTable = item.ReferencedTable;
-                AdaptiveTableProfile referencedProfile = _metaData[referencedTable.TableName];
-
-                // Add a new line and a general comment line for this section.
-                itemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
-                itemsList.AddExpression(new SqlCodeCommentExpression(referencedProfile.FriendlyName));
-
-                // If there is no profile, or no list of columns has been specified in the profile to use when
-                // joining on this table, add all the columns from the table.
-                if (referencedProfile.SubJoinQueryFieldsToUse.Count == 0)
+                // For each table that is being joined to, generate a list of columns to query for.
+                foreach (ReferencedTableJoin item in profile.ReferencedTableJoins)
                 {
-                    foreach (SqlColumn col in referencedTable.Columns)
+					SqlTable? referencedTable = item.ReferencedTable;
+                    if (referencedTable != null)
                     {
-                        itemsList.AddExpression(referencedTable.TableName, col.ColumnName);
+                        AdaptiveTableProfile? referencedProfile = _metaData[referencedTable.TableName];
+                        if (referencedProfile != null)
+                        {
+                            // Add a new line and a general comment line for this section.
+                            itemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
+                            itemsList.AddExpression(new SqlCodeCommentExpression(referencedProfile.FriendlyName));
+
+                            // If there is no profile, or no list of columns has been specified in the profile to use when
+                            // joining on this table, add all the columns from the table.
+                            if (referencedProfile.SubJoinQueryFieldsToUse == null || referencedProfile.SubJoinQueryFieldsToUse.Count == 0)
+                            {
+                                foreach (SqlColumn col in referencedTable.Columns)
+                                {
+                                    itemsList.AddExpression(referencedTable.TableName, col.ColumnName);
+                                }
+                            }
+                            else
+                            {
+                                // Otherwise, add the list of columns as specified in the profile for when joining
+                                // to this table.
+                                foreach (string column in referencedProfile.SubJoinQueryFieldsToUse)
+                                    itemsList.AddExpression(referencedTable.TableName, column);
+                            }
+                        }
                     }
-                }
-                else
-                {
-                    // Otherwise, add the list of columns as specified in the profile for when joining
-                    // to this table.
-                    foreach (string column in referencedProfile.SubJoinQueryFieldsToUse)
-                        itemsList.AddExpression(referencedTable.TableName, column);
                 }
             }
         }
@@ -670,7 +689,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         {
             // Set the source table object definition.  This will render as something like:
             // [dbo].[TableName] or [dbo].[TableName] [Alias] if an alias is specified.
-            fromClause.SourceTable = new SqlCodeTableReferenceExpression(profile.TableName);
+            fromClause.SourceTable = new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName);
 
             // Now add the JOIN definitions, if present.
             if (profile.ReferencedTableJoins.Count > 0)

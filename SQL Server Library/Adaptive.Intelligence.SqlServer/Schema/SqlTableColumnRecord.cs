@@ -1,4 +1,6 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿// Ignore Spelling: Sql
+
+using Adaptive.Intelligence.Shared;
 
 namespace Adaptive.Intelligence.SqlServer.Schema
 {
@@ -14,6 +16,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <b>false</b> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
+            SchemaName = null;
             TableName = null;
             ColumnName = null;
             base.Dispose(disposing);
@@ -86,6 +89,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// The maximum scale  of the type, if applicable.
         /// </value>
         public byte Scale { get; set; }
+		/// <summary>
+		/// Gets or sets the name of the schema/owner.
+		/// </summary>
+		/// <value>
+		/// A string containing the name of the schema.
+		/// </value>
+		public string? SchemaName { get; set; }
         /// <summary>
         /// Gets or sets the name of the table.
         /// </summary>

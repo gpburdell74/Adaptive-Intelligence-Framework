@@ -216,6 +216,32 @@ WHERE
 ORDER BY [name]</value>
     <comment>Query to retrieve user database names.</comment>
   </data>
+  <data name="TSqlGetTableColumnsQuery" xml:space="preserve">
+    <value>SELECT  
+	[TableColumns].[object_id]			TableObjectId, 
+	SCHEMA_NAME([Tables].[schema_id])	SchemaName,
+	[Tables].[name]						TableName,  
+	[TableColumns].[column_id]			ColumnId,
+	[TableColumns].[name]				ColumnName,
+	[TableColumns].[user_type_id]		TypeId, 
+	[TableColumns].[max_length]			[MaxLength], 
+	[TableColumns].[precision]			[Precision], 
+	[TableColumns].[scale]				[Scale],
+	[TableColumns].[is_nullable]		IsNullable, 
+	[TableColumns].[is_identity]		IsIdentity, 
+	[TableColumns].[is_computed]		IsComputed, 
+	[TableColumns].[is_ansi_padded]		IsPadded 
+FROM 
+	[sys].[columns] [TableColumns] 
+		INNER JOIN sys.tables [Tables]
+			ON	[TableColumns].[object_id] = [Tables].[object_id] 
+			AND [Tables].[type] = 'U' 
+			AND [Tables].[is_ms_shipped] = 0 
+ORDER BY 
+	[Tables].[name],
+	[TableColumns].[column_Id]</value>
+    <comment>Basic query to get the list of columns for a table.</comment>
+  </data>
   <data name="TSqlIndexFragmentationQuery" xml:space="preserve">
     <value>SELECT 
    [database_id]		[DatabaseId], 

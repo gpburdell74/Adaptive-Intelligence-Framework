@@ -47,18 +47,6 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlCodeTableReferenceExpression"/> class.
         /// </summary>
-        /// <param name="tableName">
-        /// A string specifying the name of the table.
-        /// </param>
-        /// <param name="aliasName">
-        /// A string specifying the alias to use for this table.
-        /// </param>
-        public SqlCodeTableReferenceExpression(string? tableName, string? aliasName) : this(TSqlConstants.DefaultDatabaseOwner, tableName, aliasName)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SqlCodeTableReferenceExpression"/> class.
-        /// </summary>
         /// <param name="ownerName">
         /// A string specifying the database owner object name.
         /// </param>
@@ -68,7 +56,7 @@
         /// <param name="aliasName">
         /// A string specifying the alias to use for this table.
         /// </param>
-        public SqlCodeTableReferenceExpression(string? ownerName, string? tableName, string? aliasName)
+        public SqlCodeTableReferenceExpression(string? ownerName, string? tableName, string? aliasName = null)
         {
             if (string.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException(nameof(tableName));
