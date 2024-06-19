@@ -1,4 +1,6 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿// Ignore Spelling: Sql
+
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.SqlServer;
 using Adaptive.Intelligence.SqlServer.CodeDom;
 using Microsoft.Data.SqlClient;
@@ -7,20 +9,26 @@ using System.Data;
 
 namespace Adaptive.SqlServer.Client
 {
-    /// <summary>
-    /// Implements the data provider for SQL Server databases.
-    /// </summary>
-    /// <remarks>
-    /// This class encapsulates all the necessary SQL Server data access functions
-    /// for reading data or executing SQL Statements or stored procedures.
-    /// </remarks>
-    public class SqlDataProvider : ExceptionTrackingBase, ISqlServerDataProvider
+#pragma warning disable S6966 // Await-able method should be used
+
+	/// <summary>
+	/// Implements the data provider for SQL Server databases.
+	/// </summary>
+	/// <remarks>
+	/// This class encapsulates all the necessary SQL Server data access functions
+	/// for reading data or executing SQL Statements or stored procedures.
+	/// </remarks>
+	public class SqlDataProvider : ExceptionTrackingBase, ISqlServerDataProvider
 	{
 		#region Private Member Declarations
 		/// <summary>
 		/// The SQL query to get database names.
 		/// </summary>
-		private const string SqlGetDbNamesQuery = "SELECT [name] FROM sys.databases ORDER BY [name]";
+		private const string SqlGetDbNamesQuery = "SELECT [sys].[databases].[name] " +
+			"FROM [sys].[databases] " +
+			"WHERE LEN([sys].[databases].[owner_sid]) > 1 AND [sys].[databases].[owner_sid] != 1 AND [sys].[databases].[state_desc] = 'ONLINE' " +
+			"ORDER BY[sys].[databases].[name]";
+
 		/// <summary>
 		/// The connection string builder containing the connection string to use.
 		/// </summary>
@@ -176,7 +184,7 @@ namespace Adaptive.SqlServer.Client
 				}
 				catch (Exception ex)
 				{
-					connection.Dispose();
+					await connection.DisposeAsync().ConfigureAwait(false);
 					result = new OperationalResult<SqlConnection>(ex);
 				}
 			}
@@ -202,6 +210,7 @@ namespace Adaptive.SqlServer.Client
 			SqlConnection? connection = CreateConnectionInstance();
 			if (connection != null && connection.State == ConnectionState.Open)
                 result = new OperationalResult<SqlConnection>(connection);
+
             else if (connection != null)
 			{
 				// Attempt to establish the connection.
@@ -209,7 +218,6 @@ namespace Adaptive.SqlServer.Client
 			}
 			else
 			{
-				connection?.Dispose();
 				result = new OperationalResult<SqlConnection>(false);
 			}
 			return result;
@@ -235,7 +243,6 @@ namespace Adaptive.SqlServer.Client
 			}
 			else
 			{
-				connection?.Dispose();
 				result = new OperationalResult<SqlConnection>(false);
 			}
 			return result;
@@ -361,8 +368,8 @@ namespace Adaptive.SqlServer.Client
 						result = new OperationalResult<SqlCommand>(ex);
 
 						// Dispose and Close if the operation somehow fails.
-						connection.Dispose();
-						connection.Close();
+						await connection.DisposeAsync().ConfigureAwait(false);
+						await connection.CloseAsync().ConfigureAwait(false);
 					}
 				}
 			}
@@ -401,7 +408,7 @@ namespace Adaptive.SqlServer.Client
 				}
 				catch (Exception ex)
 				{
-					command?.Dispose();
+					command.Dispose();
 					result.Success = false;
 					result.AddException(ex);
 				}
@@ -1672,7 +1679,7 @@ namespace Adaptive.SqlServer.Client
 			{
 				SqlDataReader reader = command.ExecuteReader(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult);
 				result.Success = true;
-				result.DataContent = new SafeSqlDataReader(reader);
+				result.DataContent = new SafeSqlDataReader(reader,command);
 			}
 			catch(Exception ex)
 			{
@@ -1701,7 +1708,7 @@ namespace Adaptive.SqlServer.Client
 				SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess)
 					.ConfigureAwait(false);
 				result.Success = true;
-				result.DataContent = new SafeSqlDataReader(reader);
+				result.DataContent = new SafeSqlDataReader(reader, command);
 			}
 			catch (Exception ex)
 			{
@@ -1744,7 +1751,7 @@ namespace Adaptive.SqlServer.Client
 					try
 					{
 						SqlDataReader reader = command.ExecuteReader(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult);
-						result.DataContent = new SafeSqlDataReader(reader);
+						result.DataContent = new SafeSqlDataReader(reader, command);
 						result.Success = true;
 					}
 					catch (Exception ex)
@@ -1801,7 +1808,7 @@ namespace Adaptive.SqlServer.Client
 							CommandBehavior.SequentialAccess | CommandBehavior.SingleResult)
 							.ConfigureAwait(false);
 
-						result.DataContent = new SafeSqlDataReader(reader);
+						result.DataContent = new SafeSqlDataReader(reader, command);
 						result.Success = true;
 					}
 					catch (Exception ex)
@@ -1839,7 +1846,7 @@ namespace Adaptive.SqlServer.Client
 			try
 			{
 				SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult | CommandBehavior.SingleRow);
-				result.DataContent = new SafeSqlDataReader(reader);
+				result.DataContent = new SafeSqlDataReader(reader, command);
 				result.Success = true;
 			}
 			catch (Exception ex)
@@ -1870,7 +1877,7 @@ namespace Adaptive.SqlServer.Client
 				SqlDataReader reader = await command.ExecuteReaderAsync(
 					CommandBehavior.SingleResult | CommandBehavior.SingleRow)
 					.ConfigureAwait(false);
-				result.DataContent = new SafeSqlDataReader(reader);
+				result.DataContent = new SafeSqlDataReader(reader, command);
 				result.Success = true;
 			}
 			catch (Exception ex)
@@ -1950,7 +1957,7 @@ namespace Adaptive.SqlServer.Client
 			try
 			{
 				SqlDataReader reader = command.ExecuteReader();
-				result.DataContent = new SafeSqlDataReader(reader);
+				result.DataContent = new SafeSqlDataReader(reader, command);
 				result.Success = true;
 			}
 			catch (Exception ex)
@@ -2031,7 +2038,7 @@ namespace Adaptive.SqlServer.Client
 				try
 				{
 					SqlDataReader reader = await command.ExecuteReaderAsync().ConfigureAwait(false);
-					result.DataContent = new SafeSqlDataReader(reader);
+					result.DataContent = new SafeSqlDataReader(reader, command);
 					result.Success = true;
 				}
 				catch (Exception ex)
@@ -2087,7 +2094,7 @@ namespace Adaptive.SqlServer.Client
 				try
 				{
 					SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult | CommandBehavior.SequentialAccess);
-					result.DataContent = new SafeSqlDataReader(reader);
+					result.DataContent = new SafeSqlDataReader(reader, command);
 					result.Success = true;
 				}
 				catch (Exception ex)
@@ -2148,7 +2155,7 @@ namespace Adaptive.SqlServer.Client
 						SqlDataReader reader = await command.ExecuteReaderAsync(
 							CommandBehavior.SingleResult | CommandBehavior.SequentialAccess)
 							.ConfigureAwait(false);
-						result.DataContent = new SafeSqlDataReader(reader);
+						result.DataContent = new SafeSqlDataReader(reader, command);
 						result.Success = true;
 					}
 					catch (Exception ex)
@@ -2202,7 +2209,7 @@ namespace Adaptive.SqlServer.Client
                 try
                 {
                     SqlDataReader reader = storedProcedure.ExecuteReader(CommandBehavior.SingleResult | CommandBehavior.SequentialAccess);
-                    result.DataContent = new SafeSqlDataReader(reader);
+                    result.DataContent = new SafeSqlDataReader(reader, storedProcedure);
                     result.Success = true;
                 }
                 catch (Exception ex)
@@ -2258,7 +2265,7 @@ namespace Adaptive.SqlServer.Client
                 {
 					SqlDataReader reader = await storedProcedure.ExecuteReaderAsync(CommandBehavior.SingleResult | CommandBehavior.SequentialAccess)
 						.ConfigureAwait(false);
-                    result.DataContent = new SafeSqlDataReader(reader);
+                    result.DataContent = new SafeSqlDataReader(reader, storedProcedure);
                     result.Success = true;
                 }
                 catch (Exception ex)
@@ -2315,7 +2322,7 @@ namespace Adaptive.SqlServer.Client
 				try
 				{
 					SqlDataReader reader = command.ExecuteReader( CommandBehavior.SequentialAccess);
-					result.DataContent = new SafeSqlDataReader(reader);
+					result.DataContent = new SafeSqlDataReader(reader, command);
 					result.Success = true;
 				}
 				catch (Exception ex)
@@ -2370,7 +2377,7 @@ namespace Adaptive.SqlServer.Client
 				{
 					SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess)
 						.ConfigureAwait(false);
-					result.DataContent = new SafeSqlDataReader(reader);
+					result.DataContent = new SafeSqlDataReader(reader, command);
 					result.Success = true;
 				}
 				catch (Exception ex)
@@ -2425,7 +2432,7 @@ namespace Adaptive.SqlServer.Client
 		/// Gets the names of the database for the SQL Server instance currently connected to.
 		/// </summary>
 		/// <returns>
-		/// An <see cref="IOperationalResult{T}"/> of <see cref="List{T}"/> of <see cref="string"/> containing hte result of the
+		/// An <see cref="IOperationalResult{T}"/> of <see cref="List{T}"/> of <see cref="string"/> containing the result of the
 		/// operation.  If successful, the result contains the <see cref="List{T}"/> of <see cref="string"/> values containing the
 		/// names of the databases on the server.
 		/// </returns>
@@ -2438,12 +2445,14 @@ namespace Adaptive.SqlServer.Client
 			{
 				ISafeSqlDataReader reader = readResult.DataContent!;
 				List<string> dbList = new List<string>(10);
+
 				while (reader.Read())
 				{
 					string? name = reader.GetString(0);
 					if (!string.IsNullOrEmpty(name))
 						dbList.Add(name);
 				}
+
 				reader.Dispose();
 				result.Success = true;
 				result.DataContent = dbList;

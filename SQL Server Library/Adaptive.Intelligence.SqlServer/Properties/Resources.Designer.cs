@@ -61,6 +61,15 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MM/dd/yyyy hh:mm:ss tt.
+        /// </summary>
+        internal static string DateTimeFormat {
+            get {
+                return ResourceManager.GetString("DateTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collecting Fragmentation Statistics.
         /// </summary>
         internal static string StatusCollecting {
@@ -165,6 +174,141 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         internal static string SubStatusTestingConnection {
             get {
                 return ResourceManager.GetString("SubStatusTestingConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	DB_ID()          [DatabaseId], 
+        ///	DB_NAME(DB_ID()) [DatabaseName]
+        ///
+        ///SELECT 
+        ///	SCHEMA_NAME([tables].[schema_id]),
+        ///	[tables].[name],
+        ///	[tables].[object_id] 
+        ///FROM
+        ///	[sys].[tables] 
+        ///WHERE 
+        ///   [tables].[type] = &apos;U&apos; OR
+        ///   [tables].[type] = &apos;IT&apos;
+        ///
+        ///ORDER BY 
+        ///    [tables].[name] 
+        /// 
+        ///SELECT 
+        ///   [indexes].[object_id], 
+        ///   [indexes].[index_id], 
+        ///   [indexes].[type], 
+        ///   [indexes].[name], 
+        ///   [indexes].[is_primary_key] 
+        ///FROM 
+        ///   [sys].[indexes] 
+        ///       INNER JOIN[sys].[tables] 
+        ///           ON  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TSqlBasicSchemaQuery {
+            get {
+                return ResourceManager.GetString("TSqlBasicSchemaQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	[sys].[databases].[name]
+        ///
+        ///FROM 
+        ///	[sys].[databases]
+        ///
+        ///ORDER BY [sys].[databases].[name].
+        /// </summary>
+        internal static string TSqlGetAllDbNamesQuery {
+            get {
+                return ResourceManager.GetString("TSqlGetAllDbNamesQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	[sys].[databases].[name]
+        ///
+        ///FROM 
+        ///	[sys].[databases]
+        ///
+        ///WHERE
+        ///	[sys].[databases].[owner_sid] != 1
+        ///	AND LEN([sys].[databases].[owner_sid]) &gt; 1
+        ///
+        ///ORDER BY [name].
+        /// </summary>
+        internal static string TSqlGetDbNamesQuery {
+            get {
+                return ResourceManager.GetString("TSqlGetDbNamesQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///   [database_id]		[DatabaseId], 
+        ///   [object_id]			[ObjectId], 
+        ///   [index_id]			[IndexId], 
+        ///   [avg_fragmentation_in_percent]	[AvgFragmentationInPercent], 
+        ///   [fragment_count]		[FragmentCount], 
+        ///   [page_count]			[PageCount] 
+        ///FROM
+        ///   sys.dm_db_index_physical_stats(DB_ID(), @ObjectId, NULL, NULL, &apos;DETAILED&apos;) 
+        ///ORDER BY
+        ///	[database_id],
+        ///    [object_id],
+        ///	[index_id].
+        /// </summary>
+        internal static string TSqlIndexFragmentationQuery {
+            get {
+                return ResourceManager.GetString("TSqlIndexFragmentationQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to exec sp_recompile {0}.
+        /// </summary>
+        internal static string TSqlRecompileQuery {
+            get {
+                return ResourceManager.GetString("TSqlRecompileQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE STATISTICS {0}.
+        /// </summary>
+        internal static string TSqlUpdateStatisticsQuery {
+            get {
+                return ResourceManager.GetString("TSqlUpdateStatisticsQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.Collections.Generic.
+        /// </summary>
+        internal static string UsingSystemCollectionsGeneric {
+            get {
+                return ResourceManager.GetString("UsingSystemCollectionsGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.Data.SqlClient.
+        /// </summary>
+        internal static string UsingSystemDataClient {
+            get {
+                return ResourceManager.GetString("UsingSystemDataClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.Threading.Tasks.
+        /// </summary>
+        internal static string UsingSystemThreadingTasks {
+            get {
+                return ResourceManager.GetString("UsingSystemThreadingTasks", resourceCulture);
             }
         }
     }

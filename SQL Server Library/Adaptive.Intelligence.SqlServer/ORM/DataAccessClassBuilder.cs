@@ -1,6 +1,10 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿// Ignore Spelling: Sql
+// Ignore Spelling: ORM
+
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Code;
 using Adaptive.Intelligence.SqlServer.Analysis;
+using Adaptive.Intelligence.SqlServer.Properties;
 using Adaptive.Intelligence.SqlServer.Schema;
 
 namespace Adaptive.Intelligence.SqlServer.ORM
@@ -31,7 +35,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// <summary>
         /// The standard name space for the class.
         /// </summary>
-        private string _standardNameSpace;
+        private string? _standardNameSpace;
         #endregion
 
         #region Constructor / Dispose Methods        
@@ -72,6 +76,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             _db = null;
             _table = null;
             _profile = null;
+            _standardNameSpace = null;
             base.Dispose(disposing);
         }
         #endregion
@@ -88,10 +93,10 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             if (_profile != null && _writer != null)
             {
                 // Short cuts.
-                string dataAccessClassName = _profile.DataAccessClassName;
-                string dataDefinitionClassName = _profile.DataDefinitionClassName;
+                string? dataAccessClassName = _profile.DataAccessClassName;
+                string? dataDefinitionClassName = _profile.DataDefinitionClassName;
 
-                // Write the standard usings list.
+                // Write the standard using list.
                 GenerateUsings();
 
                 // Write the namespace.
@@ -137,75 +142,88 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
         #region Private Methods / Functions        
         /// <summary>
-        /// Generates the standard usings list.
+        /// Generates the standard using(s) list.
         /// </summary>
         private void GenerateUsings()
         {
-            // Write the standard usings list.
-            _writer.WriteUsing("System.Collections.Generic");
-            _writer.WriteUsing("System.Data.SqlClient");
-            _writer.WriteUsing("System.Threading.Tasks");
-            _writer.WriteLine();
+            if (_writer != null)
+            {
+                // Write the standard using(s) list.
+                _writer.WriteUsing(Resources.UsingSystemCollectionsGeneric);
+                _writer.WriteUsing(Resources.UsingSystemDataClient);
+                _writer.WriteUsing(Resources.UsingSystemThreadingTasks);
+				_writer.WriteLine();
+            }
         }
         /// <summary>
         /// Generates the start of the namespace block.
         /// </summary>
         private void GenerateNamespaceStart()
         {
-            _writer.WriteNamespaceStart(_standardNameSpace);
+            if (_writer!= null && _standardNameSpace != null)
+                _writer.WriteNamespaceStart(_standardNameSpace);
         }
         /// <summary>
         /// Generates the class declaration start block.
         /// </summary>
         private void GenerateClassStart()
         {
-            _writer.WriteXmlSummary("Provides the data access methods for the records in the " + _table.TableName + " table.");
-            _writer.WriteXmlSeeAlso(_profile.DataDefinitionClassName);
+            if (_writer != null)
+            {
+                if (_table != null && _profile != null)
+                {
+                    _writer.WriteXmlSummary("Provides the data access methods for the records in the " + _table.TableName + " table.");
+                    _writer.WriteXmlSeeAlso(_profile.DataDefinitionClassName);
 
-            // Write the Class Declaration
-            _profile.DataAccessClassName = _profile.DataAccessClassName.Replace("sDataAccess", "DataAccess");
-            _writer.WriteLine("public sealed class " + _profile.DataAccessClassName + " : DataAccessBase<" + _profile.DataDefinitionClassName + ">");
-            _writer.WriteBlockStart();
+                    // Write the Class Declaration
+                    _profile.DataAccessClassName = _profile.DataAccessClassName.Replace("sDataAccess", "DataAccess");
+                    _writer.WriteLine("public sealed class " + _profile.DataAccessClassName + " : DataAccessBase<" + _profile.DataDefinitionClassName + ">");
+                    _writer.WriteBlockStart();
+                }
+            }
         }
         /// <summary>
         /// Generates the private constants section.
         /// </summary>
         private void GeneratePrivateConstants()
         {
-            _writer.WriteLine("#region Private Constants");
-
-            // Write the Read SP Names.
-            _writer.WriteXmlSummary("The stored procedure to retrieve all the records in the table.");
-            _writer.WriteLine("private const string SqlGetAll = \"" + _table.TableName + "GetAll\";");
-
-            _writer.WriteXmlSummary("The stored procedure to retrieve a single record by ID value.");
-            _writer.WriteLine("private const string SqlGetById = \"" + _table.TableName + "GetById\";");
-
-            // Write the other CRUD SP Names.
-            _writer.WriteXmlSummary("The stored procedure to delete a record.");
-            _writer.WriteLine("private const string SqlDelete = \"" + _table.TableName + "Delete\";");
-
-            _writer.WriteXmlSummary("The stored procedure to insert a record.");
-            _writer.WriteLine("private const string SqlInsert = \"" + _table.TableName + "Insert\";");
-
-            _writer.WriteXmlSummary("The stored procedure to update a record.");
-            _writer.WriteLine("private const string SqlUpdate = \"" + _table.TableName + "Update\";");
-            _writer.WriteLine();
-
-            // Write the SP Parameter Definitions.
-            //
-            //private const string SqlParamCenterName = "@CenterName";
-            foreach (SqlColumn col in _table.Columns)
+            if (_writer != null)
             {
-                if (col.ColumnName != "Id" && col.ColumnName != "UpdatedAt" && col.ColumnName != "CreatedAt" &&
-                    col.ColumnName != "Deleted" && col.ColumnName != "Version")
-                {
-                    _writer.WriteLine("private const string SqlParam" + col.ColumnName + " = \"@" + col.ColumnName + "\";");
-                }
-            }
+                _writer.WriteLine("#region Private Constants");
 
-            _writer.WriteLine(CodeConstants.CsRegionEnd);
-            _writer.WriteLine();
+                // Write the Read SP Names.
+                _writer.WriteXmlSummary("The stored procedure to retrieve all the records in the table.");
+                _writer.WriteLine("private const string SqlGetAll = \"" + _table.TableName + "GetAll\";");
+
+                _writer.WriteXmlSummary("The stored procedure to retrieve a single record by ID value.");
+                _writer.WriteLine("private const string SqlGetById = \"" + _table.TableName + "GetById\";");
+
+                // Write the other CRUD SP Names.
+                _writer.WriteXmlSummary("The stored procedure to delete a record.");
+                _writer.WriteLine("private const string SqlDelete = \"" + _table.TableName + "Delete\";");
+
+                _writer.WriteXmlSummary("The stored procedure to insert a record.");
+                _writer.WriteLine("private const string SqlInsert = \"" + _table.TableName + "Insert\";");
+
+                _writer.WriteXmlSummary("The stored procedure to update a record.");
+                _writer.WriteLine("private const string SqlUpdate = \"" + _table.TableName + "Update\";");
+                _writer.WriteLine();
+
+                // Write the SP Parameter Definitions.
+                //
+                //private const string SqlParamCenterName = "@CenterName";
+                foreach (SqlColumn col in _table.Columns)
+                {
+                    if (col.ColumnName != "Id" && col.ColumnName != "UpdatedAt" && col.ColumnName != "CreatedAt" &&
+                        col.ColumnName != "Deleted" && col.ColumnName != "Version")
+                    {
+                        _writer.WriteLine("private const string SqlParam" + col.ColumnName + " = \"@" + col.ColumnName + "\";");
+                    }
+                }
+
+                _writer.WriteLine(CodeConstants.CsRegionEnd);
+                _writer.WriteLine();
+            }
         }
         /// <summary>
         /// Generates the constructor definitions.
@@ -273,11 +291,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             foreach (SqlColumn col in _table.Columns)
             {
                 // Always skip the Version column.
-                if (col.ColumnName != TSqlConstants.StandardColumnVersion &&
-                    col.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                    col.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                    col.ColumnName != TSqlConstants.StandardColumnId &&
-                    col.ColumnName != TSqlConstants.StandardColumnUpdatedAt)
+                if (col.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                    col.ColumnName != TSqlConstants.StandardColumnId)
                 {
                     // CreateParameter(SqlParamParentId, instance.ParentId),
                     _writer.WriteLine("CreateParameter(SqlParam" + col.ColumnName + ", instance." + col.ColumnName + "), ");
@@ -304,11 +319,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             foreach (SqlColumn col in _table.Columns)
             {
                 // Always skip the Version column.
-                if (col.ColumnName != TSqlConstants.StandardColumnVersion &&
-                    col.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                    col.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                    col.ColumnName != TSqlConstants.StandardColumnId &&
-                    col.ColumnName != TSqlConstants.StandardColumnUpdatedAt)
+                if (col.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                    col.ColumnName != TSqlConstants.StandardColumnId)
                 {
                     // CreateParameter(SqlParamParentId, instance.ParentId),
                     _writer.WriteLine("CreateParameter(SqlParam" + col.ColumnName + ", instance." + col.ColumnName + "), ");
@@ -387,15 +399,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     foreach (SqlColumn col in referencedTable.Columns)
                     {
                         string name = col.ColumnName;
-                        if (col.ColumnName != TSqlConstants.StandardColumnVersion)
-                        {
-                            //instance.Id = reader.GetString(index++);
-                            //
-                            // Remove the "Key" prefix for 4.5 property names.
-                            if (name.StartsWith("Key"))
-                                name = name.Substring(3, name.Length - 3);
-                            _writer.WriteLine(variableName + "." + name + " = reader." + GetMethodName(col.TypeId) + "(index++);");
-                        }
+                        //instance.Id = reader.GetString(index++);
+                        //
+                        // Remove the "Key" prefix for 4.5 property names.
+                        if (name.StartsWith("Key"))
+                            name = name.Substring(3, name.Length - 3);
+                        _writer.WriteLine(variableName + "." + name + " = reader." + GetMethodName(col.TypeId) + "(index++);");
                     }
                 }
                 else

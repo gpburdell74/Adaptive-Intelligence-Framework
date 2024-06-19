@@ -16,14 +16,16 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <param name="foreignKeyList">
         /// A <see cref="SqlForeignKeyCollection"/> containing the foreign key definitions.
         /// </param>
-        public static void AppendForeignKeys(SqlTableCollection tableList,
-            SqlForeignKeyCollection foreignKeyList)
+        public static void AppendForeignKeys(SqlTableCollection tableList, SqlForeignKeyCollection foreignKeyList)
         {
-            foreach (SqlForeignKey fk in foreignKeyList)
+            if (foreignKeyList != null)
             {
-                SqlTable? table = tableList.FirstOrDefault(t => t.TableName == fk.ParentTableName);
-                if (table != null && table.ForeignKeys != null)
-                    table.ForeignKeys.Add(fk);
+                foreach (SqlForeignKey fk in foreignKeyList)
+                {
+                    SqlTable? table = tableList.FirstOrDefault(t => t.TableName == fk.ParentTableName);
+                    if (table != null && table.ForeignKeys != null)
+                        table.ForeignKeys.Add(fk);
+                }
             }
         }
         /// <summary>
@@ -41,10 +43,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public static void AppendIndexes(SqlTableCollection tableList,
             SqlIndexCollection indexList, SqlDataTypeCollection dataTypes)
         {
-            foreach (SqlIndex index in indexList)
+            if (indexList != null)
             {
-                SqlTable table = tableList.FirstOrDefault(t => t.TableName == index.TableName);
-                table?.Indexes.Add(index);
+                foreach (SqlIndex index in indexList)
+                {
+                    SqlTable? table = tableList.Find(t => t.TableName == index.TableName);
+                    table?.Indexes.Add(index);
+                }
             }
         }
         /// <summary>
@@ -62,14 +67,17 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public static void CrossReferenceIndexes(SqlTableCollection tableList,
             SqlIndexCollection indexList, SqlDataTypeCollection dataTypes)
         {
-            foreach (SqlIndex index in indexList)
+            if (indexList != null)
             {
-                SqlTable table = tableList.FirstOrDefault(t => t.TableName == index.TableName);
-                if (table != null)
+                foreach (SqlIndex index in indexList)
                 {
-                    foreach (SqlIndexColumn indexCol in index.Columns)
+                    SqlTable table = tableList.FirstOrDefault(t => t.TableName == index.TableName);
+                    if (table != null)
                     {
-                        indexCol.TableColumn = table.Columns.FirstOrDefault(c => c.ColumnId == indexCol.TableColumnId);
+                        foreach (SqlIndexColumn indexCol in index.Columns)
+                        {
+                            indexCol.TableColumn = table.Columns.FirstOrDefault(c => c.ColumnId == indexCol.TableColumnId);
+                        }
                     }
                 }
             }

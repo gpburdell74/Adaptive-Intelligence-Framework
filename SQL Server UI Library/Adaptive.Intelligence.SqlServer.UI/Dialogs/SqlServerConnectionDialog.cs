@@ -268,7 +268,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
             {
                 DataSource = ServerText.Text,
                 Authentication = SqlAuthenticationMethod.ActiveDirectoryIntegrated,
-                TrustServerCertificate=true
+                TrustServerCertificate = true
             };
             SetFromOptions(builder);
             return builder;
@@ -301,8 +301,12 @@ namespace Adaptive.Intelligence.SqlServer.UI
         {
             builder.PersistSecurityInfo = PersistCheck.Checked;
             builder.Enlist = EnlistCheck.Checked;
-            builder.MultipleActiveResultSets = AllowMultiCheck.Checked;
-            if (PoolingCheck.Checked)
+
+            // TODO: Fix this odd issue later.
+            //builder.MultipleActiveResultSets = AllowMultiCheck.Checked;
+            builder.MultipleActiveResultSets = false;
+
+			if (PoolingCheck.Checked)
             {
                 builder.Pooling = true;
                 builder.MaxPoolSize = MaxPoolSizeText.Value;

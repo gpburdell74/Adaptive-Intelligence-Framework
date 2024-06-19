@@ -36,7 +36,7 @@
         public void AddSelectAllExpression()
         {
             Clear();
-            Add(new SqlCodeSelectListItemExpression(new SqlCodeLiteralExpression(TSqlConstants.Wildcard)));
+            Add(new SqlCodeSelectListItemExpression(new SqlCodeLiteralExpression(TSqlConstants.WildCard)));
         }
         /// <summary>
         /// Adds the select row unique identifier expression to the collection.

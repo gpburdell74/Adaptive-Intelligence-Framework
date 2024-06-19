@@ -1,7 +1,8 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿// Ignore Spelling: Sql Nullable
+
+using Adaptive.Intelligence.Shared;
 using Adaptive.SqlServer.Client;
 using Microsoft.Data.SqlClient;
-using System.Data;
 
 namespace Adaptive.Intelligence.SqlServer
 {
@@ -16,13 +17,13 @@ namespace Adaptive.Intelligence.SqlServer
 	{
 		#region Private Member Declarations
 		/// <summary>
-		/// The reader instance.
-		/// </summary>
-		private SqlDataReader? _reader;
-		/// <summary>
 		/// The associated command instance, if provided.
 		/// </summary>
 		private SqlCommand? _command;
+		/// <summary>
+		/// The reader instance.
+		/// </summary>
+		private SqlDataReader? _reader;
 		#endregion
 
 		#region Constructor / Dispose Methods
@@ -187,7 +188,7 @@ namespace Adaptive.Intelligence.SqlServer
 				// Cancel any existing operations.
 				try
 				{
-					_command?.Cancel();
+					_command.Cancel();
 				}
 				catch (Exception ex)
 				{
@@ -228,7 +229,6 @@ namespace Adaptive.Intelligence.SqlServer
 
 			// Ensure the connection is closed.
 			underlyingConnection?.Dispose();
-			underlyingConnection = null;
 
 			// Ensure the command object is disposed.
 			_command?.Dispose();
@@ -414,7 +414,7 @@ namespace Adaptive.Intelligence.SqlServer
 				try
 				{
 					if (!_reader.IsDBNull(index))
-						returnValue = _reader.GetDateTime(index);
+						returnValue = _reader.GetDateTime(index).Date;
 				}
 				catch (Exception ex) { AddException(ex); }
 			}
@@ -438,7 +438,7 @@ namespace Adaptive.Intelligence.SqlServer
 				try
 				{
 					if (!_reader.IsDBNull(index))
-						returnValue = _reader.GetDateTime(index);
+						returnValue = _reader.GetDateTime(index).Date;
 				}
 				catch (Exception ex) { AddException(ex); }
 			}
@@ -472,6 +472,27 @@ namespace Adaptive.Intelligence.SqlServer
 		/// <summary>
 		/// Gets the value of the specified column as a Date/Time.
 		/// </summary>
+		/// <param name="columnName">
+		/// The name of the column to be read.
+		/// </param>
+		/// <returns>
+		/// The value of the column as a <see cref="DateTime"/>, or <see cref="DateTime.MinValue"/> if the
+		/// operation fails.
+		/// </returns>
+		public DateTime GetDateTime(string columnName)
+		{
+			DateTime returnValue = DateTime.MinValue;
+
+			if (_reader != null)
+			{
+				returnValue = GetDateTime(GetOrdinal(columnName));
+			}
+			return returnValue;
+		}
+
+		/// <summary>
+		/// Gets the value of the specified column as a Date/Time.
+		/// </summary>
 		/// <param name="index">
 		/// The zero-based column ordinal value.
 		/// </param>
@@ -490,26 +511,6 @@ namespace Adaptive.Intelligence.SqlServer
 						returnValue = _reader.GetDateTime(index);
 				}
 				catch (Exception ex) { AddException(ex); }
-			}
-			return returnValue;
-		}
-		/// <summary>
-		/// Gets the value of the specified column as a Date/Time.
-		/// </summary>
-		/// <param name="columnName">
-		/// The name of the column to be read.
-		/// </param>
-		/// <returns>
-		/// The value of the column as a <see cref="DateTime"/>, or <see cref="DateTime.MinValue"/> if the
-		/// operation fails.
-		/// </returns>
-		public DateTime GetDateTime(string columnName)
-		{
-			DateTime returnValue = DateTime.MinValue;
-
-			if (_reader != null)
-			{
-				returnValue = GetDateTime(GetOrdinal(columnName));
 			}
 			return returnValue;
 		}
@@ -563,6 +564,27 @@ namespace Adaptive.Intelligence.SqlServer
 			return returnValue;
 		}
 		/// <summary>
+		/// Gets the value of the specified column as a Date/Time offset.
+		/// </summary>
+		/// <param name="columnName">
+		/// The name of the column to be read.
+		/// </param>
+		/// <returns>
+		/// The value of the column as a <see cref="DateTimeOffset"/>, or <see cref="DateTime.MinValue"/> if the
+		/// operation fails.
+		/// </returns>
+		public DateTimeOffset GetDateTimeOffset(string columnName)
+		{
+			DateTimeOffset returnValue = DateTimeOffset.MinValue;
+
+			if (_reader != null)
+			{
+				returnValue = GetDateTimeOffset(GetOrdinal(columnName));
+			}
+			return returnValue;
+		}
+
+		/// <summary>
 		/// Gets the value of the specified column as a nullable Date/Time offset.
 		/// </summary>
 		/// <param name="index">
@@ -608,53 +630,6 @@ namespace Adaptive.Intelligence.SqlServer
 			return returnValue;
 		}
 		/// <summary>
-		/// Gets the value of the specified column as a Date/Time offset.
-		/// </summary>
-		/// <param name="columnName">
-		/// The name of the column to be read.
-		/// </param>
-		/// <returns>
-		/// The value of the column as a <see cref="DateTimeOffset"/>, or <see cref="DateTime.MinValue"/> if the
-		/// operation fails.
-		/// </returns>
-		public DateTimeOffset GetDateTimeOffset(string columnName)
-		{
-			DateTimeOffset returnValue = DateTimeOffset.MinValue;
-
-			if (_reader != null)
-			{
-				returnValue = GetDateTimeOffset(GetOrdinal(columnName));
-			}
-			return returnValue;
-		}
-		/// <summary>
-		/// Gets the value of the specified column as a double.
-		/// </summary>
-		/// <param name="index">
-		/// The zero-based column ordinal value.
-		/// </param>
-		/// <returns>
-		/// The value of the column as a double, or <b>0</b> if the
-		/// operation fails.
-		/// </returns>
-		public double GetDouble(int index)
-		{
-			double returnValue = 0;
-
-			if ((_reader != null) && (index > -1))
-			{
-				try
-				{
-					if (_reader.IsDBNull(index))
-						returnValue = 0;
-					else
-						returnValue = _reader.GetDouble(index);
-				}
-				catch (Exception ex) { AddException(ex); }
-			}
-			return returnValue;
-		}
-		/// <summary>
 		/// Gets the value of the specified column as a double.
 		/// </summary>
 		/// <param name="index">
@@ -681,6 +656,7 @@ namespace Adaptive.Intelligence.SqlServer
 			}
 			return returnValue;
 		}
+
 		/// <summary>
 		/// Gets the value of the specified column as a double.
 		/// </summary>
@@ -700,6 +676,7 @@ namespace Adaptive.Intelligence.SqlServer
 
 			return returnValue;
 		}
+
 		/// <summary>
 		/// Gets the SQL decimal value of the specified column as a double.
 		/// </summary>
@@ -754,6 +731,7 @@ namespace Adaptive.Intelligence.SqlServer
 			}
 			return returnValue;
 		}
+
 		/// <summary>
 		/// Gets the SQL decimal value of the specified column as a float.
 		/// </summary>
@@ -771,6 +749,34 @@ namespace Adaptive.Intelligence.SqlServer
 			if (_reader != null)
 				returnValue = GetDecimalAsSingle(GetOrdinal(columnName));
 
+			return returnValue;
+		}
+
+		/// <summary>
+		/// Gets the value of the specified column as a double.
+		/// </summary>
+		/// <param name="index">
+		/// The zero-based column ordinal value.
+		/// </param>
+		/// <returns>
+		/// The value of the column as a double, or <b>0</b> if the
+		/// operation fails.
+		/// </returns>
+		public double GetDouble(int index)
+		{
+			double returnValue = 0;
+
+			if ((_reader != null) && (index > -1))
+			{
+				try
+				{
+					if (_reader.IsDBNull(index))
+						returnValue = 0;
+					else
+						returnValue = _reader.GetDouble(index);
+				}
+				catch (Exception ex) { AddException(ex); }
+			}
 			return returnValue;
 		}
 		/// <summary>
@@ -793,6 +799,29 @@ namespace Adaptive.Intelligence.SqlServer
 			}
 			return returnValue;
 		}
+		/// <summary>
+		/// Gets the list of field names in sequential order.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="List{T}"/> of <see cref="string"/> containing the field names.
+		/// </returns>
+		public List<string> GetFieldNames()
+		{
+			List<string> list = new List<string>(30);
+
+			if (_reader != null)
+			{
+				int length = _reader.FieldCount;
+				for (int count = 0; count < length; count++)
+				{
+					string? name = GetColumnName(count);
+					if (!string.IsNullOrEmpty(name))
+						list.Add(name);
+				}
+			}
+			return list;
+		}
+
 		/// <summary>
 		/// Gets the value of the specified column as a float.
 		/// </summary>
@@ -821,6 +850,27 @@ namespace Adaptive.Intelligence.SqlServer
 			return returnValue;
 		}
 		/// <summary>
+		/// Gets the value of the specified column as a float.
+		/// </summary>
+		/// <param name="columnName">
+		/// The name of the column to be read.
+		/// </param>
+		/// <returns>
+		/// The value of the column as a boolean, or <b>0</b> if the
+		/// operation fails.
+		/// </returns>
+		public float GetFloat(string columnName)
+		{
+			float returnValue = 0;
+
+			if (_reader != null)
+			{
+				returnValue = GetFloat(GetOrdinal(columnName));
+			}
+			return returnValue;
+		}
+
+		/// <summary>
 		/// Gets the value of the specified column as a <see cref="Guid" />.
 		/// </summary>
 		/// <param name="index">The zero-based column ordinal value.</param>
@@ -848,6 +898,25 @@ namespace Adaptive.Intelligence.SqlServer
 		/// <summary>
 		/// Gets the value of the specified column as a <see cref="Guid" />.
 		/// </summary>
+		/// <param name="columnName">A string containing the name of the column whose data is to be read.</param>
+		/// <returns>
+		/// The value of the column as a <see cref="Guid" />, or <b>0</b> if the
+		/// operation fails.
+		/// </returns>
+		public Guid GetGuid(string columnName)
+		{
+			Guid returnValue = Guid.Empty;
+
+			if (_reader != null)
+			{
+				returnValue = GetGuid(GetOrdinal(columnName));
+			}
+			return returnValue;
+		}
+
+		/// <summary>
+		/// Gets the value of the specified column as a <see cref="Guid" />.
+		/// </summary>
 		/// <param name="index">The zero-based column ordinal value.</param>
 		/// <returns>
 		/// The value of the column as a <see cref="Guid" />, or <b>0</b> if the
@@ -867,66 +936,6 @@ namespace Adaptive.Intelligence.SqlServer
 						returnValue = _reader.GetGuid(index);
 				}
 				catch (Exception ex) { AddException(ex); }
-			}
-			return returnValue;
-		}
-		/// <summary>
-		/// Gets the list of field names in sequential order.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="List{T}"/> of <see cref="string"/> containing the field names.
-		/// </returns>
-		public List<string> GetFieldNames()
-		{
-			List<string> list = new List<string>(30);
-
-			if (_reader != null)
-			{
-				int length = _reader.FieldCount;
-				for (int count = 0; count < length; count++)
-				{
-					string? name = GetColumnName(count);
-					if (!string.IsNullOrEmpty(name))
-						list.Add(name);
-				}
-			}
-			return list;
-		}
-		/// <summary>
-		/// Gets the value of the specified column as a float.
-		/// </summary>
-		/// <param name="columnName">
-		/// The name of the column to be read.
-		/// </param>
-		/// <returns>
-		/// The value of the column as a boolean, or <b>0</b> if the
-		/// operation fails.
-		/// </returns>
-		public float GetFloat(string columnName)
-		{
-			float returnValue = 0;
-
-			if (_reader != null)
-			{
-				returnValue = GetFloat(GetOrdinal(columnName));
-			}
-			return returnValue;
-		}
-		/// <summary>
-		/// Gets the value of the specified column as a <see cref="Guid" />.
-		/// </summary>
-		/// <param name="columnName">A string containing the name of the column whose data is to be read.</param>
-		/// <returns>
-		/// The value of the column as a <see cref="Guid" />, or <b>0</b> if the
-		/// operation fails.
-		/// </returns>
-		public Guid GetGuid(string columnName)
-		{
-			Guid returnValue = Guid.Empty;
-
-			if (_reader != null)
-			{
-				returnValue = GetGuid(GetOrdinal(columnName));
 			}
 			return returnValue;
 		}
@@ -1163,7 +1172,7 @@ namespace Adaptive.Intelligence.SqlServer
 		/// </returns>
 		public string? GetString(int index)
 		{
-			string returnValue = null;
+			string? returnValue = null;
 
 			if ((_reader != null) && (index > -1))
 			{
@@ -1175,26 +1184,6 @@ namespace Adaptive.Intelligence.SqlServer
 				catch (Exception ex) { AddException(ex); }
 			}
 			return returnValue;
-		}
-		/// <summary>
-		/// Gets the value of the specified column as a string.
-		/// </summary>
-		/// <param name="index">
-		/// The zero-based column ordinal value.
-		/// </param>
-		/// <returns>
-		/// The value of the column as a string, or <b>null</b> if the
-		/// operation fails.
-		/// </returns>
-		public string? GetStringUnsafe(int index)
-		{
-			if (_reader == null)
-				return null;
-			
-			if (_reader.IsDBNull(index))
-				return null;
-			else
-				return _reader.GetString(index);
 		}
 		/// <summary>
 		/// Gets the value of the specified column as a string.
@@ -1215,6 +1204,27 @@ namespace Adaptive.Intelligence.SqlServer
 				returnValue = GetString(GetOrdinal(columnName));
 			}
 			return returnValue;
+		}
+
+		/// <summary>
+		/// Gets the value of the specified column as a string.
+		/// </summary>
+		/// <param name="index">
+		/// The zero-based column ordinal value.
+		/// </param>
+		/// <returns>
+		/// The value of the column as a string, or <b>null</b> if the
+		/// operation fails.
+		/// </returns>
+		public string? GetStringUnsafe(int index)
+		{
+			if (_reader == null)
+				return null;
+			
+			if (_reader.IsDBNull(index))
+				return null;
+			else
+				return _reader.GetString(index);
 		}
 		/// <summary>
 		/// Gets the values for the specified number of columns.
@@ -1273,7 +1283,7 @@ namespace Adaptive.Intelligence.SqlServer
 		public bool IsDBNull(string? columnName)
 		{
 			bool isNull = true;
-			if (_reader != null)
+			if (_reader != null && !string.IsNullOrEmpty(columnName))
 			{
 				isNull = _reader.IsDBNull(GetOrdinal(columnName));
 			}
@@ -1288,7 +1298,10 @@ namespace Adaptive.Intelligence.SqlServer
 		/// </returns>
 		public bool NextResult()
 		{
-			return _reader.NextResult();
+			if (_reader == null)
+				return false;
+			else
+				return _reader.NextResult();
 		}
 		/// <summary>
 		/// Advances the <see cref="SafeSqlDataReader"/> to the next record.

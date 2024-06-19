@@ -11,21 +11,6 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
     /// <seealso cref="DataAccessBase" />
     public sealed class SqlMaintenanceDataAccess : SqlDataAccessBase
     {
-        #region Private Constants
-        /// <summary>
-        /// The SQL update statistics command.
-        /// </summary>
-        private const string SqlUpdateStats = "UPDATE STATISTICS [{0}]";
-        /// <summary>
-        /// The SQL recompile command.
-        /// </summary>
-        private const string SqlRecompile = "exec sp_recompile [{0}]";
-        /// <summary>
-        /// The SQL parameter object identifier parameter name.
-        /// </summary>
-        private const string SqlParamObjectId = "@ObjectId";
-        #endregion
-
         #region Constructor / Dispose Methods        
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlMaintenanceDataAccess"/> class.
@@ -60,7 +45,7 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             DatabaseStatistic? db = null;
 
             // Load the schema information data sets.
-            string sql = TSqlConstants.TSqlBasicSchemaQuery;
+            string sql = TSqlConstants.SqlBasicSchemaQuery;
             ISafeSqlDataReader? reader = GetReaderForMultipleResultSets(sql);
 
             if (reader != null)
@@ -88,7 +73,7 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             DatabaseStatistic? db = null;
 
             // Load the schema information datasets.
-            string sql = TSqlConstants.TSqlBasicSchemaQuery;
+            string sql = TSqlConstants.SqlBasicSchemaQuery;
             ISafeSqlDataReader? reader = await GetReaderForMultipleResultSetsAsync(sql).ConfigureAwait(false);
 
             if (reader != null)
@@ -119,11 +104,11 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             List<IndexStatistic>? list = null;
 
             // Execute the fragment query for the specified object ID.
-            string sql = TSqlConstants.FragmentedIndexQuery;
+            string sql = TSqlConstants.SqlFragmentedIndexQuery;
             ISafeSqlDataReader? reader = GetReaderForParameterizedCommandText(
                 sql,
                 new[] {
-                    CreateParameter(SqlParamObjectId, objectId)
+                    CreateParameter(TSqlConstants.SqlParamObjectId, objectId)
                 });
 
             if (reader != null)
@@ -162,9 +147,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             List<IndexStatistic>? list = null;
 
             // Execute the fragment query for the specified object Id.
-            string sql = TSqlConstants.FragmentedIndexQuery;
+            string sql = TSqlConstants.SqlFragmentedIndexQuery;
             ISafeSqlDataReader? reader = await GetReaderForParameterizedCommandTextAsync(sql,
-                new[] { CreateParameter(SqlParamObjectId, objectId) });
+                new[] { CreateParameter(TSqlConstants.SqlParamObjectId, objectId) });
 
             if (reader != null)
             {
@@ -201,7 +186,7 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             // Execute.
             if (!string.IsNullOrEmpty(tableName))
             {
-                int result = ExecuteSql(string.Format(SqlRecompile, tableName));
+                int result = ExecuteSql(string.Format(TSqlConstants.SqlRecompile, tableName));
                 return result > TSqlConstants.ExecuteFailed;
             }
             else
@@ -216,12 +201,13 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
         /// <returns>
         /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b>.
         /// </returns>
-        public async Task<bool> RecompileTableAsync(string? tableName)
+        public async Task<bool> RecompileTableAsync(string? schema, string? tableName)
         {
             // Execute.
             if (!string.IsNullOrEmpty(tableName))
             {
-                int result = await ExecuteSqlAsync(string.Format(SqlRecompile, tableName)).ConfigureAwait(false);
+                tableName = TSqlConstants.RenderSchemaAndTableName(schema, tableName);
+                int result = await ExecuteSqlAsync(string.Format(TSqlConstants.SqlRecompile, tableName)).ConfigureAwait(false);
                 return result > TSqlConstants.ExecuteFailed;
             }
             else
@@ -310,7 +296,7 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             // Execute.
             if (!string.IsNullOrEmpty(tableName))
             {
-                int result = ExecuteSql(string.Format(SqlUpdateStats, tableName));
+                int result = ExecuteSql(string.Format(TSqlConstants.SqlUpdateStats, tableName));
                 return result > TSqlConstants.ExecuteFailed;
             }
             else
@@ -331,7 +317,7 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
             if (!string.IsNullOrEmpty(tableName))
             {
                 Exceptions.Clear();
-                int result = await ExecuteSqlAsync(string.Format(SqlUpdateStats, tableName)).ConfigureAwait(false);
+                int result = await ExecuteSqlAsync(string.Format(TSqlConstants.SqlUpdateStats, tableName)).ConfigureAwait(false);
                 return (Exceptions.Count == 0);
             }
             else
@@ -378,6 +364,7 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
                     int index = 0;
                     TableStatistic table = new TableStatistic
                     {
+                        Schema = reader.GetString(index++),
                         Name = reader.GetString(index++),
                         ObjectId = reader.GetInt32(index)
                     };

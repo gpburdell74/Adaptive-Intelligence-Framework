@@ -23,7 +23,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// Initializes a new instance of the <see cref="AdaptiveSqlCodeDomGenerator"/> class.
         /// </summary>
         /// <param name="metaDataContainer">
-        /// The reference to the <see cref="AdaptiveTableMetadata"/> table metadata container.
+        /// The reference to the <see cref="AdaptiveTableMetadata"/> table meta data container.
         /// </param>
         public AdaptiveSqlCodeDomGenerator(AdaptiveTableMetadata? metaDataContainer)
         {
@@ -207,10 +207,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
                     // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
-
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && 
+                        queryParam.ColumnName != TSqlConstants.StandardColumnDeleted)
                     {
                         storedProcedureStatement.Parameters.Add(
                             new SqlCodeParameterDefinitionExpression(queryParam.ParameterName,
@@ -288,9 +286,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
                     // Ignore the CreatedAt, UpdatedAt, and Deleted columns.
-                    if (queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
                         !queryParam.IsVersion)
                     {
                         storedProcedureStatement.Parameters.Add(
@@ -448,9 +444,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
                     // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && 
+                        queryParam.ColumnName != TSqlConstants.StandardColumnDeleted)
                     {
                         insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(queryParam.ColumnName));
                     }
@@ -466,9 +461,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
                     // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt && queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
-                        queryParam.ColumnName != TSqlConstants.StandardColumnVersion)
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && 
+                        queryParam.ColumnName != TSqlConstants.StandardColumnDeleted)
                     {
                         insertStatement.ValuesList.Add(new SqlCodeParameterReferenceExpression(queryParam.ColumnName));
                     }
@@ -507,9 +501,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             foreach (SqlQueryParameter queryParam in profile.QueryParameters)
             {
                 // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                if (queryParam.ColumnName != TSqlConstants.StandardColumnCreatedAt &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnUpdatedAt &&
-                    queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
+                if (queryParam.ColumnName != TSqlConstants.StandardColumnDeleted &&
                     queryParam.ColumnName != TSqlConstants.StandardColumnId &&
                     !queryParam.IsVersion)
                 {
@@ -518,10 +510,6 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                         new SqlCodeParameterReferenceExpression(queryParam.ColumnName));
                 }
             }
-            //  [UpdatedAt] = SYSUTCDATETIME()
-            updateStatement.UpdateColumnList.Add(
-                new SqlCodeColumnNameExpression(TSqlConstants.StandardColumnUpdatedAt),
-                new SqlCodeFunctionCallExpression("SYSUTCDATETIME", null));
 
             //  WHERE
             //      [Id] = @Id
@@ -666,8 +654,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 {
                     foreach (SqlColumn col in referencedTable.Columns)
                     {
-                        if (col.ColumnName != TSqlConstants.StandardColumnVersion)
-                            itemsList.AddExpression(referencedTable.TableName, col.ColumnName);
+                        itemsList.AddExpression(referencedTable.TableName, col.ColumnName);
                     }
                 }
                 else
@@ -693,7 +680,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     SqlTable referencedTable = joinDefinition.ReferencedTable;
                     SqlCodeJoinClause joinClause = new SqlCodeJoinClause();
 
-                    // If the referenced field is nullable, a LEFT JOIN must be used,
+                    // If the referenced field is null able, a LEFT JOIN must be used,
                     // otherwise, default to an INNER JOIN.
                     joinClause.IsLeftJoin = (referencedTable.Columns[joinDefinition.ReferencedTableField].IsNullable);
                     joinClause.ReferencedTable = new SqlCodeTableReferenceExpression("dbo", referencedTable.TableName, null);

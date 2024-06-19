@@ -388,7 +388,10 @@ namespace Adaptive.Intelligence.SqlServer
                         if (!_cancelOperation)
                         {
                             PerformTableStatsUpdate(table.Name, count + 1, length);
-                            success = await _dataAccess.UpdateStatisticsForTableAsync(table.Name).ConfigureAwait(false);
+                            string tableName = TSqlConstants.RenderSchemaAndTableName(table.Schema, table.Name);
+                            if (!string.IsNullOrEmpty(tableName))
+                                success = await _dataAccess.UpdateStatisticsForTableAsync(tableName).ConfigureAwait(false);
+                            
                         }
                         count++;
                     } while (success && (count < length) && (!_cancelOperation));
@@ -770,7 +773,7 @@ namespace Adaptive.Intelligence.SqlServer
 
                             if (!_cancelOperation)
                             {
-                                await _dataAccess.RecompileTableAsync(table.Name).ConfigureAwait(false);
+                                await _dataAccess.RecompileTableAsync(table.Schema, table.Name).ConfigureAwait(false);
                             }
                         }
                     }

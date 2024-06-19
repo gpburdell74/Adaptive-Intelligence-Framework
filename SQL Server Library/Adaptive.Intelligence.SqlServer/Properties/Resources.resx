@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DateTimeFormat" xml:space="preserve">
+    <value>MM/dd/yyyy hh:mm:ss tt</value>
+    <comment>Date/Time Format</comment>
+  </data>
   <data name="StatusCollecting" xml:space="preserve">
     <value>Collecting Fragmentation Statistics</value>
   </data>
@@ -152,5 +156,100 @@
   </data>
   <data name="SubStatusTestingConnection" xml:space="preserve">
     <value>Testing Connection...</value>
+  </data>
+  <data name="TSqlBasicSchemaQuery" xml:space="preserve">
+    <value>SELECT 
+	DB_ID()          [DatabaseId], 
+	DB_NAME(DB_ID()) [DatabaseName]
+
+SELECT 
+	SCHEMA_NAME([tables].[schema_id]),
+	[tables].[name],
+	[tables].[object_id] 
+FROM
+	[sys].[tables] 
+WHERE 
+   [tables].[type] = 'U' OR
+   [tables].[type] = 'IT'
+
+ORDER BY 
+    [tables].[name] 
+ 
+SELECT 
+   [indexes].[object_id], 
+   [indexes].[index_id], 
+   [indexes].[type], 
+   [indexes].[name], 
+   [indexes].[is_primary_key] 
+FROM 
+   [sys].[indexes] 
+       INNER JOIN[sys].[tables] 
+           ON [indexes].[object_id] = [tables].[object_id] 
+WHERE 
+           ([tables].[type] = 'U' OR[tables].[type] = 'IT')
+    AND    [indexes].[type] &gt; 0 
+ORDER BY 
+	[indexes].[object_id],
+	[indexes].[index_id]</value>
+    <comment>Basic query for loading table and index schema information.</comment>
+  </data>
+  <data name="TSqlGetAllDbNamesQuery" xml:space="preserve">
+    <value>SELECT 
+	[sys].[databases].[name]
+
+FROM 
+	[sys].[databases]
+
+ORDER BY [sys].[databases].[name]</value>
+  </data>
+  <data name="TSqlGetDbNamesQuery" xml:space="preserve">
+    <value>SELECT 
+	[sys].[databases].[name]
+
+FROM 
+	[sys].[databases]
+
+WHERE
+	[sys].[databases].[owner_sid] != 1
+	AND LEN([sys].[databases].[owner_sid]) &gt; 1
+
+ORDER BY [name]</value>
+    <comment>Query to retrieve user database names.</comment>
+  </data>
+  <data name="TSqlIndexFragmentationQuery" xml:space="preserve">
+    <value>SELECT 
+   [database_id]		[DatabaseId], 
+   [object_id]			[ObjectId], 
+   [index_id]			[IndexId], 
+   [avg_fragmentation_in_percent]	[AvgFragmentationInPercent], 
+   [fragment_count]		[FragmentCount], 
+   [page_count]			[PageCount] 
+FROM
+   sys.dm_db_index_physical_stats(DB_ID(), @ObjectId, NULL, NULL, 'DETAILED') 
+ORDER BY
+	[database_id],
+    [object_id],
+	[index_id]</value>
+    <comment>Basic query for reading table index fragmentation statistics.</comment>
+  </data>
+  <data name="TSqlRecompileQuery" xml:space="preserve">
+    <value>exec sp_recompile {0}</value>
+    <comment>Statement to update statistics on a table.</comment>
+  </data>
+  <data name="TSqlUpdateStatisticsQuery" xml:space="preserve">
+    <value>UPDATE STATISTICS {0}</value>
+    <comment>Query to update statistics on a table.</comment>
+  </data>
+  <data name="UsingSystemCollectionsGeneric" xml:space="preserve">
+    <value>System.Collections.Generic</value>
+    <comment>Namespace</comment>
+  </data>
+  <data name="UsingSystemDataClient" xml:space="preserve">
+    <value>System.Data.SqlClient</value>
+    <comment>Namespace</comment>
+  </data>
+  <data name="UsingSystemThreadingTasks" xml:space="preserve">
+    <value>System.Threading.Tasks</value>
+    <comment>Namespace</comment>
   </data>
 </root>
