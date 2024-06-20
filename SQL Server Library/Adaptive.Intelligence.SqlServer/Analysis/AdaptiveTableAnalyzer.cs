@@ -128,9 +128,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             
             string schema;
             if (string.IsNullOrEmpty(table.Schema))
-                schema = "dbo";
-			else
-				schema = table.Schema;
+                schema = TSqlConstants.DefaultDatabaseOwner;
+            else
+                schema = table.Schema;
 
             profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
 
@@ -204,10 +204,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 profile.TableReference = table;
 
 				string schema;
-				if (string.IsNullOrEmpty(table.Schema))
-					schema = "dbo";
-				else
-					schema = table.Schema;
+                if (string.IsNullOrEmpty(table.Schema))
+                    schema = TSqlConstants.DefaultDatabaseOwner;
+                else
+                    schema = table.Schema;
 
 				profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
 				
