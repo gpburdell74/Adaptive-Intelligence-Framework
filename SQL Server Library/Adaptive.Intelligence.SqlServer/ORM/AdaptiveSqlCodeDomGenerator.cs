@@ -121,7 +121,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             {
 
                 // Create the statement object.
-                // CREATE PROCEDURE [dbo].[<tableName>GetById]
+                // CREATE PROCEDURE [<schema>].[<tableName>GetById]
                 // AS
                 //   BEGIN
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
@@ -158,7 +158,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             if (profile != null)
             {
                 // Create the statement object.
-                // CREATE PROCEDURE [dbo].[<tableName>GetById]
+                // CREATE PROCEDURE [<schema>].[<tableName>GetById]
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
                     new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                     profile.GetByIdStoredProcedureName);
@@ -199,7 +199,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             if (profile != null)
             {
                 // Create the statement object.
-                // CREATE PROCEDURE [dbo].[<tableName>Insert]
+                // CREATE PROCEDURE [<schema>].[<tableName>Insert]
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
                     new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                     profile.InsertStoredProcedureName);
@@ -280,7 +280,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             if (profile != null)
             {
                 // Create the statement object.
-                // CREATE PROCEDURE [dbo].[<tableName>Update]
+                // CREATE PROCEDURE [<schema>].[<tableName>Update]
                 storedProcedureStatement = new SqlCodeCreateStoredProcedureStatement(
                     new SqlCodeDatabaseNameOwnerNameExpression(table.Schema),
                     profile.UpdateStoredProcedureName);
@@ -301,7 +301,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
                 // AS
                 //   BEGIN
-                //      UPDATE [dbo].[TableName]
+                //      UPDATE [<schema>].[TableName]
                 //          SET
                 storedProcedureStatement.Statements.Add(GenerateUpdateStatement(table));
 
@@ -428,14 +428,14 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </returns>
         public SqlCodeInsertStatement GenerateInsertStatement(SqlTable table)
         {
-            // INSERT INTO [dbo].[TableName]
+            // INSERT INTO [<schema>].[TableName]
             SqlCodeInsertStatement insertStatement = new SqlCodeInsertStatement();
 
             // Get the profile.
             AdaptiveTableProfile? profile = FindProfile(table);
             if (profile != null)
             {
-                // INSERT INTO [dbo].[TableName]
+                // INSERT INTO [<schema>].[TableName]
                 insertStatement = new SqlCodeInsertStatement(
                     new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName));
 
@@ -495,11 +495,10 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 AdaptiveTableProfile? profile = _metaData[table.TableName];
                 if (profile != null)
                 {
-                    // UPDATE [dbo].[TableName]
+                    // UPDATE [<schema>].[TableName]
                     //   SET
                     updateStatement = new SqlCodeUpdateStatement(
-                        new SqlCodeTableReferenceExpression(
-                            profile.TableName));
+                        new SqlCodeTableReferenceExpression(table.Schema, table.TableName));
 
                     // [column] = @parameter,
                     // [column] = @parameter,
@@ -600,7 +599,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             // DELETE
             SqlCodeDeleteStatement statement = new SqlCodeDeleteStatement();
 
-			// FROM [dbo].[table]
+			// FROM [<schema>].[table]
             statement.FromClause.SourceTable = new SqlCodeTableReferenceExpression(table.Schema, table.TableName!);
 
             // WHERE
@@ -687,29 +686,33 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         }
         private static void SetFromClause(SqlCodeFromClause fromClause, AdaptiveTableProfile profile)
         {
-            // Set the source table object definition.  This will render as something like:
-            // [dbo].[TableName] or [dbo].[TableName] [Alias] if an alias is specified.
-            fromClause.SourceTable = new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName);
+			// Set the source table object definition.  This will render as something like:
+			// [<schema>].[TableName] or [<schema>].[TableName] [Alias] if an alias is specified.
+			fromClause.SourceTable = new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName);
 
             // Now add the JOIN definitions, if present.
             if (profile.ReferencedTableJoins.Count > 0)
             {
                 foreach (ReferencedTableJoin joinDefinition in profile.ReferencedTableJoins)
                 {
-                    SqlTable referencedTable = joinDefinition.ReferencedTable;
-                    SqlCodeJoinClause joinClause = new SqlCodeJoinClause();
+                    SqlTable? referencedTable = joinDefinition.ReferencedTable;
+                    if (referencedTable != null)
+                    {
+                        SqlCodeJoinClause joinClause = new SqlCodeJoinClause();
 
-                    // If the referenced field is null able, a LEFT JOIN must be used,
-                    // otherwise, default to an INNER JOIN.
-                    joinClause.IsLeftJoin = (referencedTable.Columns[joinDefinition.ReferencedTableField].IsNullable);
-                    joinClause.ReferencedTable = new SqlCodeTableReferenceExpression("dbo", referencedTable.TableName, null);
+                        // If the referenced field is null able, a LEFT JOIN must be used,
+                        // otherwise, default to an INNER JOIN.
+                        joinClause.IsLeftJoin = (referencedTable.Columns[joinDefinition.ReferencedTableField].IsNullable);
+                        joinClause.ReferencedTable = new SqlCodeTableReferenceExpression(
+                            referencedTable.Schema, referencedTable.TableName, null);
 
-                    // Create the objects for the ON clause.
-                    joinClause.LeftColumn = new SqlCodeTableColumnReferenceExpression(profile.TableName, joinDefinition.KeyField);
-                    joinClause.RightColumn = new SqlCodeTableColumnReferenceExpression(referencedTable.TableName, joinDefinition.ReferencedTableField);
-                    joinClause.Operator = SqlComparisonOperator.EqualTo;
+                        // Create the objects for the ON clause.
+                        joinClause.LeftColumn = new SqlCodeTableColumnReferenceExpression(profile.TableName, joinDefinition.KeyField);
+                        joinClause.RightColumn = new SqlCodeTableColumnReferenceExpression(referencedTable.TableName, joinDefinition.ReferencedTableField);
+                        joinClause.Operator = SqlComparisonOperator.EqualTo;
 
-                    fromClause.Joins.Add(joinClause);
+                        fromClause.Joins.Add(joinClause);
+                    }
                 }
             }
         }

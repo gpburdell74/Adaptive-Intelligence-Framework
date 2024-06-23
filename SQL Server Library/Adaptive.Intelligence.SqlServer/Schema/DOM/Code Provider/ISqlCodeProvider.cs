@@ -88,7 +88,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 		/// Renders the edit, alter, or modify stored procedure open statement line.
 		/// </summary>
 		/// <example>
-		/// ALTER PROCEDURE [dbo].[procedure name]
+		/// ALTER PROCEDURE [<schema>].[procedure name]
 		/// </example>
 		/// <param name="owner">
 		/// A <see cref="SqlCodeDatabaseNameOwnerNameExpression"/> instance indicating the database owner object,
@@ -139,7 +139,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 		/// Renders the CREATE stored procedure open statement line.
 		/// </summary>
 		/// <example>
-		/// CREATE PROCEDURE [dbo].[procedure name]
+		/// CREATE PROCEDURE [<schema>].[procedure name]
 		/// </example>
 		/// <param name="owner">
 		/// A <see cref="SqlCodeDatabaseNameOwnerNameExpression"/> instance indicating the database owner object,

@@ -85,7 +85,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 		/// Renders the edit, alter, or modify stored procedure open statement line.
 		/// </summary>
 		/// <example>
-		/// ALTER PROCEDURE [dbo].[procedure name]
+		/// ALTER PROCEDURE [<schema>].[procedure name]
 		/// </example>
 		/// <param name="owner">
 		/// A <see cref="SqlCodeDatabaseNameOwnerNameExpression"/> instance indicating the database owner object,
@@ -102,7 +102,11 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 
 			builder.Append(TSqlConstants.SqlAlterProcedure + " ");
 			if (owner != null)
-				builder.Append(TSqlConstants.SqlStartObjectDelimiter + owner.Name + TSqlConstants.SqlEndObjectDelimiter + ".");
+				builder.Append(
+					TSqlConstants.SqlStartObjectDelimiter +
+					owner.Name +
+					TSqlConstants.SqlEndObjectDelimiter +
+					TSqlConstants.SqlObjectDelimiter);
 
 			builder.Append(TSqlConstants.SqlStartObjectDelimiter + name + TSqlConstants.SqlEndObjectDelimiter + ".");
 			return builder.ToString();
