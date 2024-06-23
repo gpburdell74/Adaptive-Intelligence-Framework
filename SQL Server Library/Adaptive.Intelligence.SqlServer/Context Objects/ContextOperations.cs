@@ -1,4 +1,6 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿// Ignore Spelling: Sql
+
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Code;
 using Adaptive.Intelligence.Shared.IO;
 using Adaptive.Intelligence.Shared.Logging;
@@ -119,16 +121,16 @@ namespace Adaptive.Intelligence.SqlServer
                 return _connectString;
             }
         }
-        #endregion
+		#endregion
 
-        #region Public Methods / Functions
-        /// <summary>
-        /// Gets the reference to the database connection, schema and metadata information container.
-        /// </summary>
-        /// <value>
-        /// An <see cref="DatabaseInfo"/> instance, or <b>null</b>.
-        /// </value>
-        public DatabaseInfo? GetDbInfo(string databaseName)
+		#region Public Methods / Functions
+		/// <summary>
+		/// Gets the reference to the database connection, schema and meta data information container.
+		/// </summary>
+		/// <value>
+		/// An <see cref="DatabaseInfo"/> instance, or <b>null</b>.
+		/// </value>
+		public DatabaseInfo? GetDbInfo(string databaseName)
         {
             if (_dbInfoList == null)
                 return null;
@@ -136,29 +138,29 @@ namespace Adaptive.Intelligence.SqlServer
                 return _dbInfoList[databaseName];
         }
 
-    	#region C# Code DOM Operations
-	    /// <summary>
-	    /// Creates the data definition class.
-	    /// </summary>
-        /// <param name="databaseName">
-        /// The name of the database in which the table is contained.
-        /// </param>
-	    /// <param name="table">
-	    /// The <see cref="SqlTable"/> instance to create the data definition for.
-	    /// </param>
-	    /// <param name="nameSpace">
-	    /// A string containing the namespace value to include the new class in.
-	    /// </param>
-	    /// <param name="parentClass">
-	    /// A string containing the name of the parent class the new instance derives from, or <b>null</b>.
-	    /// </param>
-	    /// <param name="disposable">
-	    /// A value indicating whether the new class is a <see cref="IDisposable"/> instance.
-	    /// </param>
-	    /// <returns>
-	    /// A string containing the C# code for the new class.
-	    /// </returns>
-	    public string? CreateDataDefinitionClass(string databaseName, SqlTable? table, string nameSpace, string? parentClass, bool disposable)
+		#region C# Code DOM Operations
+		/// <summary>
+		/// Creates the data definition class.
+		/// </summary>
+		/// <param name="databaseName">
+		/// The name of the database in which the table is contained.
+		/// </param>
+		/// <param name="table">
+		/// The <see cref="SqlTable"/> instance to create the data definition for.
+		/// </param>
+		/// <param name="nameSpace">
+		/// A string containing the namespace value to include the new class in.
+		/// </param>
+		/// <param name="parentClass">
+		/// A string containing the name of the parent class the new instance derives from, or <b>null</b>.
+		/// </param>
+		/// <param name="disposable">
+		/// A value indicating whether the new class is a <see cref="IDisposable"/> instance.
+		/// </param>
+		/// <returns>
+		/// A string containing the C# code for the new class.
+		/// </returns>
+		public string? CreateDataDefinitionClass(string databaseName, SqlTable? table, string nameSpace, string? parentClass, bool disposable)
         {
             string? generatedCode = null;
 
