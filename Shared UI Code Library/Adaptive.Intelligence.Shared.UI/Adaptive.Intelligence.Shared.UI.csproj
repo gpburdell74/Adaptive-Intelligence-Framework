@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
     <Title>Adaptive Intelligence WinForms UI Library</Title>
-    <Version>0.0.1</Version>
+    <Version>0.2.0</Version>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
@@ -15,7 +15,12 @@
     <Copyright>Copyright © 2024 by Sam Jones.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
     <PackageIcon>AI.png</PackageIcon>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="AI.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -37,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\Raw Resources\AI.png">
+    <None Include="..\..\..\Branding\AI.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

@@ -168,7 +168,7 @@ namespace Adaptive.Intelligence.SqlServer
             if (table != null && dbInfo != null)
             {
                 // Capture the object references and name values.
-                AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.TableName);
+                AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.Schema, table.TableName);
                 if (profile != null)
                 {
                     // Create the namespace container.
@@ -275,7 +275,7 @@ namespace Adaptive.Intelligence.SqlServer
 
 			if (dbInfo != null && table != null)
             {
-                AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.TableName);
+                AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.Schema, table.TableName);
                 DataAccessClassBuilder builder = new DataAccessClassBuilder(dbInfo, table, profile, "Data.Access");
                 generatedCode = builder.GenerateDataAccessClass();
                 builder.Dispose();

@@ -9,11 +9,11 @@ using Adaptive.Intelligence.SqlServer.Schema;
 
 namespace Adaptive.Intelligence.SqlServer.ORM
 {
-    /// <summary>
-    /// Provides the builder class for generating the Data Access classes for a table.
-    /// </summary>
-    /// <seealso cref="DisposableObjectBase" />
-    public sealed class DataAccessClassBuilder : DisposableObjectBase
+	/// <summary>
+	/// Provides the builder class for generating the Data Access classes for a table.
+	/// </summary>
+	/// <seealso cref="DisposableObjectBase" />
+	public sealed class DataAccessClassBuilder : DisposableObjectBase
     {
         #region Private Member Declarations        
         /// <summary>
@@ -382,7 +382,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             foreach (ReferencedTableJoin item in _profile.ReferencedTableJoins)
             {
                 SqlTable referencedTable = item.ReferencedTable;
-                AdaptiveTableProfile referencedProfile = _db.GetTableProfile(referencedTable.TableName);
+                AdaptiveTableProfile referencedProfile = _db.GetTableProfile(referencedTable.Schema, referencedTable.TableName);
                 _writer.WriteLine();
                 string variableName = RenderVariableName(referencedProfile);
                 _writer.WriteLine("// " + referencedProfile.FriendlyName);
@@ -426,7 +426,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
         private string GetMethodName(int dataTypeId)
         {
-            SqlDataType type = _db.Database.DataTypes.GetTypeById(dataTypeId);
+			Adaptive.Intelligence.SqlServer.Schema.SqlDataType type = _db.Database.DataTypes.GetTypeById(dataTypeId);
             string name = type.GetDotNetType().Name.Replace("System.", string.Empty);
             return "Get" + name;
         }

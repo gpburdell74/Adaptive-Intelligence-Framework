@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.SqlServer.Schema
+﻿// Ignore Spelling: Sql
+
+namespace Adaptive.Intelligence.SqlServer.Schema
 {
     /// <summary>
     /// Contains a list of <see cref="SqlDataType"/> instances. 

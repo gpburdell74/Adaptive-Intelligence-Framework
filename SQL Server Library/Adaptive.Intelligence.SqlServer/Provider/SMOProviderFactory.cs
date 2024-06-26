@@ -173,6 +173,18 @@ namespace Adaptive.Intelligence.SqlServer
             _serverConnection = null;
             _server = null;
         }
+        public static Table? FindTable(string tableName)
+        {
+            Table? item = null;
+
+            TableCollection? tableList = Tables;
+            foreach (Table table in tableList)
+            {
+                if (table.ToString() == tableName)
+                    item = table;
+            }
+            return item;
+		}
         /// <summary>
         /// Resets the SMO objects and connection.
         /// </summary>

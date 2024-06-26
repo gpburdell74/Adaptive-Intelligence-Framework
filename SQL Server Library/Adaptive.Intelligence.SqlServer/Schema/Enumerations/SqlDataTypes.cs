@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.SqlServer.Schema
+﻿// Ignore Spelling: Sql
+
+namespace Adaptive.Intelligence.SqlServer.Schema
 {
     /// <summary>
     /// Lists the types of system data types in SQL Server.

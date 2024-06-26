@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Platforms>AnyCPU;x64</Platforms>
-    <Authors>Sam Jones</Authors>
-    <Version>0.2.0</Version>
-    <Title>Adaptive Intelligence SQL Server Client Library</Title>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
+    <Title>Extensions for the .NET Code DOM</Title>
+    <Version>0.2.0.0</Version>
     <Company>Adaptive Intelligence</Company>
+    <Authors>Sam Jones</Authors>
     <Product>Adaptive Intelligence Framework</Product>
-    <Description>Class Library for accessing SQL Server.</Description>
     <Copyright>Copyright © 2024 by Sam Jones.  All rights reserved.</Copyright>
+    <Description>A class library for use with the.NET Code DOM system that adds extended functionality.</Description>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
     <PackageIcon>AI.png</PackageIcon>
-    <ApplicationIcon>AI.ico</ApplicationIcon>
+    <AssemblyVersion>0.2.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,20 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\Branding\AI.png">
+    <None Include="..\..\Branding\AI.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
-    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="171.30.0" />
-    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="161.9118.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

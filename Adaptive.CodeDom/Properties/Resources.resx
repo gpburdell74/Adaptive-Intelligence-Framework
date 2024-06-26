@@ -117,181 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DateTimeFormat" xml:space="preserve">
-    <value>MM/dd/yyyy hh:mm:ss tt</value>
-    <comment>Date/Time Format</comment>
+  <data name="RegionAbtractMethods" xml:space="preserve">
+    <value>Abstract Methods / Functions</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="StatusCollecting" xml:space="preserve">
-    <value>Collecting Fragmentation Statistics</value>
+  <data name="RegionConstructorDispose" xml:space="preserve">
+    <value>Constructor / Dispose Methods</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="StatusConnected" xml:space="preserve">
-    <value>Connected.</value>
+  <data name="RegionEventHandlers" xml:space="preserve">
+    <value>Private Event Handlers</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="StatusInitializing" xml:space="preserve">
-    <value>Initializing...</value>
+  <data name="RegionEventMethods" xml:space="preserve">
+    <value>Private Event Methods</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="StatusPerformSmartRebuild" xml:space="preserve">
-    <value>Performing Smart Index Rebuild</value>
+  <data name="RegionPrivateConstants" xml:space="preserve">
+    <value>Private Constants</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="StatusSetForRecompile" xml:space="preserve">
-    <value>Setting For Recompile...</value>
+  <data name="RegionPrivateMembers" xml:space="preserve">
+    <value>Private Member Declarations</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="StatusUpdatingStats" xml:space="preserve">
-    <value>Updating Statistics On Tables</value>
+  <data name="RegionPrivateMethods" xml:space="preserve">
+    <value>Private Methods / Functions</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="SubStatusBeginRebuildExec" xml:space="preserve">
-    <value>Beginning Rebuild Execution...</value>
+  <data name="RegionProtectedMethods" xml:space="preserve">
+    <value>Protected Methods / Functions</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="SubStatusCreatingStatements" xml:space="preserve">
-    <value>Creating SQL Statements...</value>
+  <data name="RegionProtectedProperties" xml:space="preserve">
+    <value>Protected Properties</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="SubStatusPass" xml:space="preserve">
-    <value>Executing Smart Rebuild: Pass:</value>
+  <data name="RegionPublicEvents" xml:space="preserve">
+    <value>Public Events</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="SubStatusReadingSchema" xml:space="preserve">
-    <value>Reading Schema Content....</value>
+  <data name="RegionPublicMethods" xml:space="preserve">
+    <value>Public Methods / Functions</value>
+    <comment>Region / Code Section Name</comment>
   </data>
-  <data name="SubStatusStartOps" xml:space="preserve">
-    <value>Starting Operations</value>
-  </data>
-  <data name="SubStatusTestingConnection" xml:space="preserve">
-    <value>Testing Connection...</value>
-  </data>
-  <data name="TSqlBasicSchemaQuery" xml:space="preserve">
-    <value>SELECT 
-	DB_ID()          [DatabaseId], 
-	DB_NAME(DB_ID()) [DatabaseName]
-
-SELECT 
-	SCHEMA_NAME([tables].[schema_id]),
-	[tables].[name],
-	[tables].[object_id] 
-FROM
-	[sys].[tables] 
-WHERE 
-   [tables].[type] = 'U' OR
-   [tables].[type] = 'IT'
-
-ORDER BY 
-    [tables].[name] 
- 
-SELECT 
-   [indexes].[object_id], 
-   [indexes].[index_id], 
-   [indexes].[type], 
-   [indexes].[name], 
-   [indexes].[is_primary_key] 
-FROM 
-   [sys].[indexes] 
-       INNER JOIN[sys].[tables] 
-           ON [indexes].[object_id] = [tables].[object_id] 
-WHERE 
-           ([tables].[type] = 'U' OR[tables].[type] = 'IT')
-    AND    [indexes].[type] &gt; 0 
-ORDER BY 
-	[indexes].[object_id],
-	[indexes].[index_id]</value>
-    <comment>Basic query for loading table and index schema information.</comment>
-  </data>
-  <data name="TSqlGetAllDbNamesQuery" xml:space="preserve">
-    <value>SELECT 
-	[sys].[databases].[name]
-
-FROM 
-	[sys].[databases]
-
-ORDER BY [sys].[databases].[name]</value>
-  </data>
-  <data name="TSqlGetDataTypesQuery" xml:space="preserve">
-    <value>SELECT 
-	[Types].[name]              typeName,
-	[Types].[system_type_id]    typeId,
-	[Types].[max_length]        [maxLength],
-	[Types].[precision]         [precision],
-	[Types].[scale]             [scale],
-	[Types].[is_nullable]       isNullable 
-FROM
-	[sys].[types] [Types] 
-WHERE 
-   [Types].[is_user_defined] = 0 
-ORDER BY 
-    [Types].[system_type_id]</value>
-    <comment>Query to read the list of system data types.</comment>
-  </data>
-  <data name="TSqlGetDbNamesQuery" xml:space="preserve">
-    <value>SELECT 
-	[sys].[databases].[name]
-
-FROM 
-	[sys].[databases]
-
-WHERE
-	[sys].[databases].[owner_sid] != 1
-	AND LEN([sys].[databases].[owner_sid]) &gt; 1
-
-ORDER BY [name]</value>
-    <comment>Query to retrieve user database names.</comment>
-  </data>
-  <data name="TSqlGetTableColumnsQuery" xml:space="preserve">
-    <value>SELECT  
-	[TableColumns].[object_id]			TableObjectId, 
-	SCHEMA_NAME([Tables].[schema_id])	SchemaName,
-	[Tables].[name]						TableName,  
-	[TableColumns].[column_id]			ColumnId,
-	[TableColumns].[name]				ColumnName,
-	[TableColumns].[user_type_id]		TypeId, 
-	[TableColumns].[max_length]			[MaxLength], 
-	[TableColumns].[precision]			[Precision], 
-	[TableColumns].[scale]				[Scale],
-	[TableColumns].[is_nullable]		IsNullable, 
-	[TableColumns].[is_identity]		IsIdentity, 
-	[TableColumns].[is_computed]		IsComputed, 
-	[TableColumns].[is_ansi_padded]		IsPadded 
-FROM 
-	[sys].[columns] [TableColumns] 
-		INNER JOIN sys.tables [Tables]
-			ON	[TableColumns].[object_id] = [Tables].[object_id] 
-			AND [Tables].[type] = 'U' 
-			AND [Tables].[is_ms_shipped] = 0 
-ORDER BY 
-	[Tables].[name],
-	[TableColumns].[column_Id]</value>
-    <comment>Basic query to get the list of columns for a table.</comment>
-  </data>
-  <data name="TSqlIndexFragmentationQuery" xml:space="preserve">
-    <value>SELECT 
-   [database_id]		[DatabaseId], 
-   [object_id]			[ObjectId], 
-   [index_id]			[IndexId], 
-   [avg_fragmentation_in_percent]	[AvgFragmentationInPercent], 
-   [fragment_count]		[FragmentCount], 
-   [page_count]			[PageCount] 
-FROM
-   sys.dm_db_index_physical_stats(DB_ID(), @ObjectId, NULL, NULL, 'DETAILED') 
-ORDER BY
-	[database_id],
-    [object_id],
-	[index_id]</value>
-    <comment>Basic query for reading table index fragmentation statistics.</comment>
-  </data>
-  <data name="TSqlRecompileQuery" xml:space="preserve">
-    <value>exec sp_recompile {0}</value>
-    <comment>Statement to update statistics on a table.</comment>
-  </data>
-  <data name="TSqlUpdateStatisticsQuery" xml:space="preserve">
-    <value>UPDATE STATISTICS {0}</value>
-    <comment>Query to update statistics on a table.</comment>
-  </data>
-  <data name="UsingSystemCollectionsGeneric" xml:space="preserve">
-    <value>System.Collections.Generic</value>
-    <comment>Namespace</comment>
-  </data>
-  <data name="UsingSystemDataClient" xml:space="preserve">
-    <value>System.Data.SqlClient</value>
-    <comment>Namespace</comment>
-  </data>
-  <data name="UsingSystemThreadingTasks" xml:space="preserve">
-    <value>System.Threading.Tasks</value>
-    <comment>Namespace</comment>
+  <data name="RegionPublicProperties" xml:space="preserve">
+    <value>Public Properties</value>
+    <comment>Region / Code Section Name</comment>
   </data>
 </root>

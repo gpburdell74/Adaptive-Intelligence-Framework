@@ -229,6 +229,27 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT 
+        ///	[Types].[name]              typeName,
+        ///	[Types].[system_type_id]    typeId,
+        ///	[Types].[max_length]        [maxLength],
+        ///	[Types].[precision]         [precision],
+        ///	[Types].[scale]             [scale],
+        ///	[Types].[is_nullable]       isNullable 
+        ///FROM
+        ///	[sys].[types] [Types] 
+        ///WHERE 
+        ///   [Types].[is_user_defined] = 0 
+        ///ORDER BY 
+        ///    [Types].[system_type_id].
+        /// </summary>
+        internal static string TSqlGetDataTypesQuery {
+            get {
+                return ResourceManager.GetString("TSqlGetDataTypesQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
         ///	[sys].[databases].[name]
         ///
         ///FROM 

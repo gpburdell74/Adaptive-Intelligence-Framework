@@ -47,7 +47,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 {
                     foreach (ReferencedTableJoin tableReference in profile.ReferencedTableJoins)
                     {
-                        AdaptiveTableProfile? referencedProfile = dbInfo.GetTableProfile(tableReference.ReferencedTable?.TableName);
+                        AdaptiveTableProfile? referencedProfile = dbInfo.GetTableProfile(tableReference.ReferencedTable?.Schema, tableReference.ReferencedTable?.TableName);
                         if (referencedProfile != null && !referencedProfile.NoSubJoins)
                         {
                             PropertyProfile? propProfile = CreatePropertyProfileForReferencedSqlColumn(referencedProfile);

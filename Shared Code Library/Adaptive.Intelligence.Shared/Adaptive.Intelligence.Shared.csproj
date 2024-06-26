@@ -8,8 +8,9 @@
     <Title>.NET Shared Classes Library for Adaptive Intelligence Applications.</Title>
     <Description>A general use .NET Class Library</Description>
     <Copyright>Copyright © 2024 by Sam Jones.  All rights reserved.</Copyright>
-    <ApplicationIcon>app.ico</ApplicationIcon>
-    <Version>0.0.1</Version>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
+    <Version>0.2.0</Version>
+    <FileVersion>0.2.0.0</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
@@ -17,6 +18,7 @@
     <PackageIcon>AI.png</PackageIcon>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework</RepositoryUrl>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,7 +35,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="app.ico" />
+    <Content Include="AI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Branding\AI.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
