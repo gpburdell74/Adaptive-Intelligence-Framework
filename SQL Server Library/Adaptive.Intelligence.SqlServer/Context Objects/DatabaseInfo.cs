@@ -143,7 +143,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// Gets the database server name.
         /// </summary>
         /// <value>
-        /// A string indicating the nane of the current database context.
+        /// A string indicating the name of the current database context.
         /// </value>
         public string? DatabaseName => _databaseName;
         /// <summary>
@@ -154,7 +154,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// </value>
         public SqlDataProvider? Provider => _provider;
         /// <summary>
-        /// Gets the reference to the table profile and metadata container.
+        /// Gets the reference to the table profile and meta data container.
         /// </summary>
         /// <value>
         /// A <see cref="AdaptiveTableMetadata"/> instance containing the table information.
@@ -362,19 +362,27 @@ namespace Adaptive.Intelligence.SqlServer
         /// <summary>
         /// Gets the table profile by name.
         /// </summary>
+        /// <param name="schema">
+        /// A string containing the table schema name.
+        /// </param>
         /// <param name="tableName">
         /// A string containing the name of the table to look for.
         /// </param>
         /// <returns>
         /// The <see cref="AdaptiveTableProfile"/> instance for the specified table, or <b>null</b>.
         /// </returns>
-        public AdaptiveTableProfile? GetTableProfile(string? tableName)
+        public AdaptiveTableProfile? GetTableProfile(string? schema, string? tableName)
         {
             AdaptiveTableProfile? tableProfile = null;
 
             if (!string.IsNullOrEmpty(tableName) && _tableData != null)
+            {
                 tableProfile = _tableData[tableName];
-
+                if (tableProfile == null && schema != null)
+				{
+					tableProfile = _tableData.FindBySchemaAndName(schema, tableName);
+                }
+            }
             return tableProfile;
         }
         #endregion

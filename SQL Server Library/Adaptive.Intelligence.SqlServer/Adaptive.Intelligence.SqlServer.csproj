@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
     <Authors>Sam Jones</Authors>
-    <Version>0.0.1</Version>
+    <Version>0.2.0</Version>
     <Title>Adaptive Intelligence SQL Server Client Library</Title>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
@@ -14,15 +14,28 @@
     <Copyright>Copyright © 2024 by Sam Jones.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
     <PackageIcon>AI.png</PackageIcon>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="AI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Branding\AI.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
     <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="171.30.0" />
-    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="161.9118.2" />
+    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="161.9123.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Adaptive.CodeDom\Adaptive.CodeDom.csproj" />
     <ProjectReference Include="..\..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
   </ItemGroup>
 

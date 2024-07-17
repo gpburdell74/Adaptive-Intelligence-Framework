@@ -145,6 +145,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
 			DbTree.GenerateTableInsertStoredProcedure += HandleTableGenerateInsertClick;
 			DbTree.GenerateTableUpdateStoredProcedure += HandleTableGenerateUpdateClick;
 			DbTree.GenerateTableAllStoredProcedures += HandleTableGenerateAllStoredProcsClick;
+			DbTree.GenerateCreateTableSql += HandleTableGenerateCreateTableSqlClick;
+
+			DbTree.GenerateDataAccessClass += HandleTableGenerateDataAccessClick;
+			DbTree.GenerateDataDefinition += HandleTableGenerateDataDefinitionClick;	
 		}
 		/// <summary>
 		/// Removes the event handlers for the controls on the dialog.
@@ -161,6 +165,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
 			DbTree.GenerateTableInsertStoredProcedure -= HandleTableGenerateInsertClick;
 			DbTree.GenerateTableUpdateStoredProcedure -= HandleTableGenerateUpdateClick;
 			DbTree.GenerateTableAllStoredProcedures -= HandleTableGenerateAllStoredProcsClick;
+			DbTree.GenerateCreateTableSql -= HandleTableGenerateCreateTableSqlClick;
+
+			DbTree.GenerateDataAccessClass -= HandleTableGenerateDataAccessClick;
+			DbTree.GenerateDataDefinition -= HandleTableGenerateDataDefinitionClick;
 		}
 		/// <summary>
 		///Sets the display state for the controls on the dialog based on
@@ -572,7 +580,15 @@ namespace Adaptive.Intelligence.SqlServer.UI
 		{
 			OnGenerateTableUpdateStoredProcedure(e);
 		}
-
+		/// <summary>
+		/// Handles the event when the Table Menu-> Create Table SQL menu item is clicked.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+		private void HandleTableGenerateCreateTableSqlClick(object? sender, SqlTableEventArgs e)
+		{
+			OnGenerateCreateTableSql(e);
+		}
 		/// <summary>
 		/// Handles the tree progress update.
 		/// </summary>

@@ -144,11 +144,41 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// A <see cref="SqlTableCollection"/> instance containing the table schema definitions.
         /// </value>
         public SqlTableCollection? Tables => _tables;
-        #endregion
+		#endregion
 
-        #region Public Methods / Functions
+		#region Public Methods / Functions        
+		/// <summary>
+		/// Finds the name of the table by schema and table name.
+		/// </summary>
+		/// <param name="schema">
+		/// A string containing the table schema name.
+		/// </param>
+		/// <param name="tableName">
+		/// A string containing the name of the table to look for.
+		/// </param>
+		/// <returns>
+        /// The <see cref="AdaptiveTableProfile"/> instance that was found, or <b>null</b>.
+        /// </returns>
+		public AdaptiveTableProfile? FindBySchemaAndName(string schema, string tableName)
+        {
+			AdaptiveTableProfile? foundProfile = null;
+
+            if (_profiles != null)
+            {
+                foreach (AdaptiveTableProfile profile in _profiles)
+                {
+                    if (string.Compare(profile.SchemaName, schema, true) == 0 &&
+                        string.Compare(profile.TableName, tableName, true) == 0)
+                    {
+                        foundProfile = profile;
+
+                    }
+                }
+            }
+            return foundProfile;
+        }
         /// <summary>
-        /// Adds or fills in any missing metadata information for the tables in the database.
+        /// Adds or fills in any missing meta data information for the tables in the database.
         /// </summary>
         public void SetMetaData(AdaptiveTableAnalyzer analyzer)
         {
@@ -238,7 +268,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                             OrmDatabaseOptions.Current.DefaultQualifiedOwner +
                             OrmDatabaseOptions.Current.QualifiedNameSeparatorOpen +
                             table.TableName +
-                            OrmDatabaseOptions.Current.QualifiedNameSeperatorClose;
+                            OrmDatabaseOptions.Current.QualifiedNameSeparatorClose;
 
                     if (string.IsNullOrEmpty(profile.StoredProcedureNamePrefix))
                     {

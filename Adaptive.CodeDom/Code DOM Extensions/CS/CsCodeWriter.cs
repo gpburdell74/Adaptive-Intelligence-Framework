@@ -1,12 +1,13 @@
-﻿using System.Text;
+﻿using Adaptive.Intelligence.Shared;
+using System.Text;
 
-namespace Adaptive.Intelligence.Shared.Code
+namespace Adaptive.CodeDom
 {
-    /// <summary>
-    /// Provides a mechanism for writing template-based c# code.
-    /// </summary>
-    /// <seealso cref="DisposableObjectBase" />
-    public sealed class CsCodeWriter : DisposableObjectBase
+	/// <summary>
+	/// Provides a mechanism for writing template-based c# code.
+	/// </summary>
+	/// <seealso cref="DisposableObjectBase" />
+	public sealed class CsCodeWriter : DisposableObjectBase
     {
         #region Private Member Declarations        
         /// <summary>
@@ -76,7 +77,7 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </summary>
         public void WriteBlockStart()
         {
-            InnerWriteLine(CodeConstants.CsBlockStart);
+            InnerWriteLine(CodeDomConstants.CsBlockStart);
             _tabs++;
         }
         /// <summary>
@@ -85,7 +86,7 @@ namespace Adaptive.Intelligence.Shared.Code
         public void WriteBlockEnd()
         {
             _tabs--;
-            InnerWriteLine(CodeConstants.CsBlockEnd);
+            InnerWriteLine(CodeDomConstants.CsBlockEnd);
         }
         /// <summary>
         /// Writes the block end text.
@@ -97,9 +98,9 @@ namespace Adaptive.Intelligence.Shared.Code
         {
             _tabs--;
             if (endStatement)
-                InnerWriteLine(CodeConstants.CsLineEnd + Constants.SemiColon);
+                InnerWriteLine(CodeDomConstants.CsLineEnd + Constants.SemiColon);
             else
-                InnerWriteLine(CodeConstants.CsLineEnd);
+                InnerWriteLine(CodeDomConstants.CsLineEnd);
         }
         /// <summary>
         /// Writes the line.
@@ -126,7 +127,7 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </param>
         public void WriteNamespaceStart(string namespaceName)
         {
-            WriteLine(CodeConstants.CsNamespace + namespaceName);
+            WriteLine(CodeDomConstants.CsNamespace + namespaceName);
             WriteBlockStart();
         }
         /// <summary>
@@ -137,7 +138,7 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </param>
         public void WriteUsing(string namespaceName)
         {
-            InnerWriteLine(CodeConstants.CsUsing + namespaceName + CodeConstants.CsLineEnd);
+            InnerWriteLine(CodeDomConstants.CsUsing + namespaceName + CodeDomConstants.CsLineEnd);
         }
         /// <summary>
         /// Writes the XML parameter section.
@@ -150,9 +151,9 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </param>
         public void WriteXmlParameter(string paramName, string paramText)
         {
-            InnerWriteLine(string.Format(CodeConstants.CsXmlParamStart, paramName));
-            InnerWriteLine(string.Format(CodeConstants.CsXmlComment, paramText));
-            InnerWriteLine(CodeConstants.CsXmlParamEnd);
+            InnerWriteLine(string.Format(CodeDomConstants.CsXmlParamStart, paramName));
+            InnerWriteLine(string.Format(CodeDomConstants.CsXmlComment, paramText));
+            InnerWriteLine(CodeDomConstants.CsXmlParamEnd);
         }
         /// <summary>
         /// Writes the XML remarks section.
@@ -162,9 +163,9 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </param>
         public void WriteXmlRemarks(string remarksText)
         {
-            InnerWriteLine(CodeConstants.CsXmlRemarksStart);
-            InnerWriteLine(string.Format(CodeConstants.CsXmlComment, remarksText));
-            InnerWriteLine(CodeConstants.CsXmlRemarksEnd);
+            InnerWriteLine(CodeDomConstants.CsXmlRemarksStart);
+            InnerWriteLine(string.Format(CodeDomConstants.CsXmlComment, remarksText));
+            InnerWriteLine(CodeDomConstants.CsXmlRemarksEnd);
         }
         /// <summary>
         /// Writes the XML returns section.
@@ -174,9 +175,9 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </param>
         public void WriteXmlReturns(string returnsText)
         {
-            InnerWriteLine(CodeConstants.CsXmlReturnsStart);
-            InnerWriteLine(string.Format(CodeConstants.CsXmlComment, returnsText));
-            InnerWriteLine(CodeConstants.CsXmlReturnsEnd);
+            InnerWriteLine(CodeDomConstants.CsXmlReturnsStart);
+            InnerWriteLine(string.Format(CodeDomConstants.CsXmlComment, returnsText));
+            InnerWriteLine(CodeDomConstants.CsXmlReturnsEnd);
         }
         /// <summary>
         /// Writes the XML summary section.
@@ -186,9 +187,9 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </param>
         public void WriteXmlSummary(string summaryText)
         {
-            InnerWriteLine(CodeConstants.CsXmlSummaryStart);
-            InnerWriteLine(string.Format(CodeConstants.CsXmlComment, summaryText));
-            InnerWriteLine(CodeConstants.CsXmlSummaryEnd);
+            InnerWriteLine(CodeDomConstants.CsXmlSummaryStart);
+            InnerWriteLine(string.Format(CodeDomConstants.CsXmlComment, summaryText));
+            InnerWriteLine(CodeDomConstants.CsXmlSummaryEnd);
         }
         /// <summary>
         /// Writes the XML see also section.
@@ -198,7 +199,7 @@ namespace Adaptive.Intelligence.Shared.Code
         /// </param>
         public void WriteXmlSeeAlso(string seeAlsoText)
         {
-            InnerWriteLine(string.Format(CodeConstants.CsXmlSeeAlso, seeAlsoText));
+            InnerWriteLine(string.Format(CodeDomConstants.CsXmlSeeAlso, seeAlsoText));
         }
         /// <summary>
         /// Returns the content of the writer as a string.

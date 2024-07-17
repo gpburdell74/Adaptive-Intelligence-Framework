@@ -61,11 +61,38 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DataAccessXmlRemarks {
+            get {
+                return ResourceManager.GetString("DataAccessXmlRemarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provides the data access methods for the records in the table..
+        /// </summary>
+        internal static string DataAccessXmlSummary {
+            get {
+                return ResourceManager.GetString("DataAccessXmlSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MM/dd/yyyy hh:mm:ss tt.
         /// </summary>
         internal static string DateTimeFormat {
             get {
                 return ResourceManager.GetString("DateTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DataAccessBase.
+        /// </summary>
+        internal static string DefaultDataAccessBaseClassName {
+            get {
+                return ResourceManager.GetString("DefaultDataAccessBaseClassName", resourceCulture);
             }
         }
         
@@ -224,6 +251,27 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         internal static string TSqlGetAllDbNamesQuery {
             get {
                 return ResourceManager.GetString("TSqlGetAllDbNamesQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	[Types].[name]              typeName,
+        ///	[Types].[system_type_id]    typeId,
+        ///	[Types].[max_length]        [maxLength],
+        ///	[Types].[precision]         [precision],
+        ///	[Types].[scale]             [scale],
+        ///	[Types].[is_nullable]       isNullable 
+        ///FROM
+        ///	[sys].[types] [Types] 
+        ///WHERE 
+        ///   [Types].[is_user_defined] = 0 
+        ///ORDER BY 
+        ///    [Types].[system_type_id].
+        /// </summary>
+        internal static string TSqlGetDataTypesQuery {
+            get {
+                return ResourceManager.GetString("TSqlGetDataTypesQuery", resourceCulture);
             }
         }
         

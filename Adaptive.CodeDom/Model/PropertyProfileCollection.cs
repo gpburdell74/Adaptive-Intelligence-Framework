@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Code
+﻿namespace Adaptive.CodeDom.Model
 {
     /// <summary>
     /// Contains a list of <see cref="PropertyProfile"/> instances.
@@ -48,7 +48,7 @@
                     index++;
                 } while (index < Count && count == 0);
 
-                return (count > 0);
+                return count > 0;
             }
         }
 

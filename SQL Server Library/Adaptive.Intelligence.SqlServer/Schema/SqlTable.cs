@@ -179,7 +179,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             if (TableName != null)
             {
                 await Task.Yield();
-                return NativeTSqlCodeDom.GenerateCreateTableScript(provider, TableName);
+                return NativeTSqlCodeDom.GenerateCreateTableScript(provider, TSqlConstants.RenderSchemaAndTableName(Schema, TableName));
             }
             else
                 return string.Empty;

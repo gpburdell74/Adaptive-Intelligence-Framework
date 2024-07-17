@@ -1,7 +1,9 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
 using Adaptive.SqlServer.Client;
+using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.Collections.Specialized;
+using System.Data.Common;
 using System.Text;
 
 namespace Adaptive.Intelligence.SqlServer.CodeDom
@@ -203,10 +205,24 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
                 // Script the specified table.
                 try
                 {
-                    Microsoft.SqlServer.Management.Smo.Table table = SMOProviderFactory.Tables[tableName];
-                    if (table != null)
+                    Microsoft.SqlServer.Management.Smo.Table? table = SMOProviderFactory.Tables[tableName];
+                    if (table == null)
                     {
-                        StringCollection tableScript = table.Script();
+                        table = SMOProviderFactory.FindTable(tableName);
+                    }
+
+					if (table != null)
+                    {
+                        ScriptingOptions opts = new ScriptingOptions
+                        {
+                            AllowSystemObjects = true,
+                            AnsiPadding = false,
+                            DdlBodyOnly = true,
+                            IncludeHeaders = false,
+                            SchemaQualify = true
+                        };
+
+                        StringCollection tableScript = table.Script(opts);
                         StringBuilder builder = new StringBuilder();
                         foreach (string? line in tableScript)
                         {
