@@ -268,7 +268,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                             OrmDatabaseOptions.Current.DefaultQualifiedOwner +
                             OrmDatabaseOptions.Current.QualifiedNameSeparatorOpen +
                             table.TableName +
-                            OrmDatabaseOptions.Current.QualifiedNameSeperatorClose;
+                            OrmDatabaseOptions.Current.QualifiedNameSeparatorClose;
 
                     if (string.IsNullOrEmpty(profile.StoredProcedureNamePrefix))
                     {

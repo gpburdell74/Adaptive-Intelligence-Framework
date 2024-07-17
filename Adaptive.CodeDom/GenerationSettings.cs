@@ -1,6 +1,6 @@
 ﻿// Ignore Spelling: Namespaces
 
-using Adaptive.Intelligence;
+using Adaptive.CodeDom.Properties;
 using Adaptive.Intelligence.Shared;
 
 namespace Adaptive.CodeDom
@@ -19,6 +19,12 @@ namespace Adaptive.CodeDom
 		public GenerationSettings()
 		{
 			_importNamespaces = new List<string>();
+			_importNamespaces.Add(Resources.NsSystem);
+			_importNamespaces.Add(Resources.NsSystemData);
+			_importNamespaces.Add(Resources.NsSystemCollectionsGeneric);
+			_importNamespaces.Add(Resources.NsSystemThreadingTasks);
+
+			_defaultNamespace = Resources.DefaultNamespace;
 		}
 		protected override void Dispose(bool disposing)
 		{

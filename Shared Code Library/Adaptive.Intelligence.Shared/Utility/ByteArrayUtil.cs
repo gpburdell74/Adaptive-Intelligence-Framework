@@ -21,6 +21,24 @@ namespace Adaptive.Intelligence.Shared
 			if (array != null && array.Length > 0)
 				Array.Clear(array, 0, array.Length);
 		}
+		/// <summary>
+		/// Creates a byte array that is pinned in memory and will not be moved by the garbage collector.
+		/// </summary>
+		/// <param name="length">
+		/// An integer specifying the length of the array.
+		/// </param>
+		/// <returns>
+		/// A byte array of the specified length that is pinned in memory.
+		/// </returns>
+		public static byte[] CreatePinnedArray(int length)
+		{
+			return GC.AllocateArray<byte>(length, true);
+		}
+		/// <summary>
+		/// Concatenates the arrays.
+		/// </summary>
+		/// <param name="listOfArrays">The list of arrays.</param>
+		/// <returns></returns>
 		public static byte[] ConcatenateArrays(params byte[][] listOfArrays)
 		{
 			MemoryStream ms = new MemoryStream();

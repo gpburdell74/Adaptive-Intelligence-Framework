@@ -51,6 +51,29 @@ namespace Adaptive.CodeDom.Model
 		}
 		#endregion
 
+		#region Public Methods / Functions		
+		/// <summary>
+		/// Gets the code section of the specified type.
+		/// </summary>
+		/// <param name="sectionType">
+		/// A <see cref="CodeSectionType"/> enumerated value indicating the section type to find.
+		/// </param>
+		/// <returns>
+		/// A <see cref="CodeSectionModel"/> instance if found; otherwise, returns <b>null</b>.
+		/// </returns>
+		public CodeSectionModel? GetSectionByType(CodeSectionType sectionType)
+		{
+			CodeSectionModel? model = null;
+
+			foreach (CodeSectionModel section in this)
+			{
+				if (section.SectionType == sectionType)
+					model = section;
+			}
+			return model;
+		}
+		#endregion
+
 		#region Private Methods / Functions		
 		/// <summary>
 		/// Creates the standard list of code sections and appends them to the collection.

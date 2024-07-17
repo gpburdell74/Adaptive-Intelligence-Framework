@@ -61,6 +61,51 @@ namespace Adaptive.CodeDom.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adaptive.Intelligence.Data.
+        /// </summary>
+        internal static string DefaultNamespace {
+            get {
+                return ResourceManager.GetString("DefaultNamespace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        internal static string NsSystem {
+            get {
+                return ResourceManager.GetString("NsSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.Collections.Generic.
+        /// </summary>
+        internal static string NsSystemCollectionsGeneric {
+            get {
+                return ResourceManager.GetString("NsSystemCollectionsGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.Data.
+        /// </summary>
+        internal static string NsSystemData {
+            get {
+                return ResourceManager.GetString("NsSystemData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.Threading.Tasks.
+        /// </summary>
+        internal static string NsSystemThreadingTasks {
+            get {
+                return ResourceManager.GetString("NsSystemThreadingTasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abstract Methods / Functions.
         /// </summary>
         internal static string RegionAbtractMethods {

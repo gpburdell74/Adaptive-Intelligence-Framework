@@ -117,6 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DefaultNamespace" xml:space="preserve">
+    <value>Adaptive.Intelligence.Data</value>
+    <comment>Default Namespace For Data Access Classes</comment>
+  </data>
+  <data name="NsSystem" xml:space="preserve">
+    <value>System</value>
+    <comment>System namespace</comment>
+  </data>
+  <data name="NsSystemCollectionsGeneric" xml:space="preserve">
+    <value>System.Collections.Generic</value>
+    <comment>System.Collections.Generic namespace</comment>
+  </data>
+  <data name="NsSystemData" xml:space="preserve">
+    <value>System.Data</value>
+    <comment>System.Data namespace</comment>
+  </data>
+  <data name="NsSystemThreadingTasks" xml:space="preserve">
+    <value>System.Threading.Tasks</value>
+    <comment>System.Threading.Tasks namespace</comment>
+  </data>
   <data name="RegionAbtractMethods" xml:space="preserve">
     <value>Abstract Methods / Functions</value>
     <comment>Region / Code Section Name</comment>

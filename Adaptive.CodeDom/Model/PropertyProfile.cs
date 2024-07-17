@@ -1,7 +1,9 @@
-﻿namespace Adaptive.Intelligence.Shared.Code
+﻿using Adaptive.Intelligence.Shared;
+
+namespace Adaptive.CodeDom.Model
 {
     /// <summary>
-    /// Contains the metadata information for defining a property based on a SQL column or
+    /// Contains the meta-data information for defining a property based on a SQL column or
     /// a derived (table/Info) object/field reference.
     /// </summary>
     /// <seealso cref="DisposableObjectBase" />

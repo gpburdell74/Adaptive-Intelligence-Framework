@@ -12,7 +12,7 @@ namespace Adaptive.Intelligence.Shared.Security
 	{
 		#region Private Member Declarations
 		/// <summary>
-		/// The RSA provider instance to use.
+		/// The AES (Cryptography Next Generation) provider instance to use.
 		/// </summary>
 		private Aes? _provider;
 		#endregion
@@ -26,7 +26,10 @@ namespace Adaptive.Intelligence.Shared.Security
 		/// </remarks>
 		public AesProvider()
 		{
-			_provider = Aes.Create();
+			_provider = AesCng.Create();
+			_provider.BlockSize = 128;
+			_provider.Mode = CipherMode.CBC;
+			_provider.Padding = PaddingMode.PKCS7;
 			_provider.GenerateKey();
 			_provider.GenerateIV();
 		}
@@ -96,7 +99,6 @@ namespace Adaptive.Intelligence.Shared.Security
 				}
 
 				// Dispose.
-				stream.Dispose();
 				decryptor.Dispose();
 				outStream.Dispose();
 			}
@@ -183,11 +185,11 @@ namespace Adaptive.Intelligence.Shared.Security
 		{
 			if (_provider != null)
 			{
-				byte[] keyData = new byte[48];
+				byte[] keyData = ByteArrayUtil.CreatePinnedArray(48);
 				Array.Copy(_provider.Key, 0, keyData, 0, 32);
 				Array.Copy(_provider.IV, 0, keyData, 32, 16);
 				string keyValue = Convert.ToBase64String(keyData);
-				Array.Clear(keyData, 0, 48);
+				CryptoUtil.SecureClear(keyData);
 				return keyValue;
 			}
 			else
@@ -204,7 +206,7 @@ namespace Adaptive.Intelligence.Shared.Security
 			byte[]? keyData = null;
 			if (_provider != null)
 			{
-				keyData = new byte[48];
+				keyData = ByteArrayUtil.CreatePinnedArray(48);
 				Array.Copy(_provider.Key, 0, keyData, 0, 32);
 				Array.Copy(_provider.IV, 0, keyData, 32, 16);
 			}
@@ -216,8 +218,13 @@ namespace Adaptive.Intelligence.Shared.Security
 		public void GenerateNewKey()
 		{
 			if (_provider == null)
-				_provider = Aes.Create();
-
+			{
+				_provider = (AesCng)AesCng.Create();
+				_provider.BlockSize = 128;
+				_provider.Mode = CipherMode.CBC;
+				_provider.Padding = PaddingMode.PKCS7;
+			}
+			
 			_provider.GenerateKey();
 			_provider.GenerateIV();
 		}
@@ -258,16 +265,16 @@ namespace Adaptive.Intelligence.Shared.Security
 		{
 			if (keyData != null)
 			{
-				byte[] key = new byte[32];
-				byte[] iv = new byte[16];
+				byte[] key = ByteArrayUtil.CreatePinnedArray(32);
+				byte[] iv = ByteArrayUtil.CreatePinnedArray(16);
 
 				Array.Copy(keyData, 0, key, 0, 32);
 				Array.Copy(keyData, 32, iv, 0, 16);
 				SetKey(key);
 				SetIV(iv);
 
-				Array.Clear(key, 0, 32);
-				Array.Clear(iv, 0, 16);
+				CryptoUtil.SecureClear(key);
+				CryptoUtil.SecureClear(iv);
 			}
 		}
 		/// <summary>
@@ -284,8 +291,8 @@ namespace Adaptive.Intelligence.Shared.Security
 			if (keyData != null)
 			{
 				byte[] content = Convert.FromBase64String(keyData);
-				byte[] key = new byte[32];
-				byte[] iv = new byte[16];
+				byte[] key = ByteArrayUtil.CreatePinnedArray(32);
+				byte[] iv = ByteArrayUtil.CreatePinnedArray(16);
 
 				Array.Copy(content, 0, key, 0, 32);
 				Array.Copy(content, 32, iv, 0, 16);
@@ -293,9 +300,9 @@ namespace Adaptive.Intelligence.Shared.Security
 				SetKey(key);
 				SetIV(iv);
 
-				Array.Clear(content, 0, content.Length);
-				Array.Clear(key, 0, 32);
-				Array.Clear(iv, 0, 16);
+				CryptoUtil.SecureClear(content);
+				CryptoUtil.SecureClear(key);
+				CryptoUtil.SecureClear(iv);
 			}
 		}
 		#endregion

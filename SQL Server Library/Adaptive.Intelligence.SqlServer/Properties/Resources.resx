@@ -117,9 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DataAccessXmlRemarks" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DataAccessXmlSummary" xml:space="preserve">
+    <value>Provides the data access methods for the records in the table.</value>
+  </data>
   <data name="DateTimeFormat" xml:space="preserve">
     <value>MM/dd/yyyy hh:mm:ss tt</value>
     <comment>Date/Time Format</comment>
+  </data>
+  <data name="DefaultDataAccessBaseClassName" xml:space="preserve">
+    <value>DataAccessBase</value>
   </data>
   <data name="StatusCollecting" xml:space="preserve">
     <value>Collecting Fragmentation Statistics</value>

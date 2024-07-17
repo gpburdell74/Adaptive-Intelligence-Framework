@@ -1,12 +1,13 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿// Ignore Spelling: Sql
+// Ignore Spelling: ORM
+
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.IO;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.Data;
-using System.Reflection.PortableExecutable;
 
 namespace Adaptive.Intelligence.SqlServer.ORM
 {
-
+#pragma warning disable S2292
 	/// <summary>
 	/// Contains a list of global database options to use when generating T-SQL code.
 	/// </summary>
@@ -21,7 +22,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		private const string DefaultIdColumnName = "Id";
 		private const string DefaultInsertStoredProcedureName = "Insert";
 		private const string DefaultQualifiedNameSeparatorOpen = "[";
-		private const string DefaultQualifiedNameSeperatorClose = "]";
+		private const string DefaultQualifiedNameSeparatorClose = "]";
 		private const string DefaultRetrieveAllRecordsStoredProcedureName = "GetAll";
 		private const string DefaultRetrieveRecordByIdStoredProcedureName = "GetById";
 		private const string DefaultTableNameSuffix = " Table";
@@ -34,11 +35,11 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <summary>
 		/// The data access class name suffix value.
 		/// </summary>
-		private string _dataAccessClassSuffix = DefaultDataAccessClassSuffix;
+		private string? _dataAccessClassSuffix = DefaultDataAccessClassSuffix;
 		/// <summary>
 		/// The data access class name suffix value.
 		/// </summary>
-		private string _defaultQualifiedOwner = DefaultDefaultQualifiedOwner;
+		private string? _defaultQualifiedOwner = DefaultDefaultQualifiedOwner;
 		/// <summary>
 		/// The deleted column name
 		/// </summary>
@@ -46,7 +47,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <summary>
 		/// The default delete stored procedure name.
 		/// </summary>
-		private string _deleteStoredProcedureName = DefaultDeleteStoredProcedureName;
+		private string? _deleteStoredProcedureName = DefaultDeleteStoredProcedureName;
 		/// <summary>
 		/// The identifier column data type
 		/// </summary>
@@ -58,31 +59,31 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <summary>
 		/// The default insert stored procedure name.
 		/// </summary>
-		private string _insertStoredProcedureName = DefaultInsertStoredProcedureName;
+		private string? _insertStoredProcedureName = DefaultInsertStoredProcedureName;
 		/// <summary>
-		/// The qualified name seperator (open) character.
+		/// The qualified name separator (open) character.
 		/// </summary>
-		private string _qualifiedNameSeperatorOpen = DefaultQualifiedNameSeparatorOpen;
+		private string? _qualifiedNameSeparatorOpen = DefaultQualifiedNameSeparatorOpen;
 		/// <summary>
-		/// The qualified name seperator (close) character.
+		/// The qualified name separator (close) character.
 		/// </summary>
-		private string _qualifiedNameSeperatorClose = DefaultQualifiedNameSeperatorClose;
+		private string? _qualifiedNameSeparatorClose = DefaultQualifiedNameSeparatorClose;
 		/// <summary>
 		/// The retrieve all records stored procedure name
 		/// </summary>
-		private string _retrieveAllRecordsStoredProcedureName = DefaultRetrieveAllRecordsStoredProcedureName;
+		private string? _retrieveAllRecordsStoredProcedureName = DefaultRetrieveAllRecordsStoredProcedureName;
 		/// <summary>
 		/// The retrieve record by identifier stored procedure name
 		/// </summary>
-		private string _retrieveRecordByIdStoredProcedureName = DefaultRetrieveRecordByIdStoredProcedureName;
+		private string? _retrieveRecordByIdStoredProcedureName = DefaultRetrieveRecordByIdStoredProcedureName;
 		/// <summary>
 		/// The (friendly) table name suffix value.
 		/// </summary>
-		private string _tableNameSuffix = DefaultTableNameSuffix;
+		private string? _tableNameSuffix = DefaultTableNameSuffix;
 		/// <summary>
 		/// The default update stored procedure name.
 		/// </summary>
-		private string _updateStoredProcedureName = DefaultUpdateStoredProcedureName;
+		private string? _updateStoredProcedureName = DefaultUpdateStoredProcedureName;
 		/// <summary>
 		/// The use soft delete
 		/// </summary>
@@ -132,8 +133,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 			_deleteStoredProcedureName = null;
 			_idColumnName = null;
 			_insertStoredProcedureName = null;
-			_qualifiedNameSeperatorOpen = null;
-			_qualifiedNameSeperatorClose = null;
+			_qualifiedNameSeparatorOpen = null;
+			_qualifiedNameSeparatorClose = null;
 			_retrieveAllRecordsStoredProcedureName = null;
 			_retrieveRecordByIdStoredProcedureName = null;
 			_tableNameSuffix = null;
@@ -157,14 +158,14 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <value>
 		/// A string containing the data access class suffix value.
 		/// </value>
-		public string DataAccessClassSuffix { get => _dataAccessClassSuffix; set => _dataAccessClassSuffix = value; }
+		public string? DataAccessClassSuffix { get => _dataAccessClassSuffix; set => _dataAccessClassSuffix = value; }
 		/// <summary>
 		/// Gets or sets the default qualified owner name value.
 		/// </summary>
 		/// <value>
 		/// A string containing the default qualified owner name value (such as "dbo").
 		/// </value>
-		public string DefaultQualifiedOwner { get => _defaultQualifiedOwner; set => _defaultQualifiedOwner = value; }
+		public string? DefaultQualifiedOwner { get => _defaultQualifiedOwner; set => _defaultQualifiedOwner = value; }
 		/// <summary>
 		/// Gets or sets the name of the "Deleted" column when using soft deletes.
 		/// </summary>
@@ -190,7 +191,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <value>
 		/// The name of the DELETE stored procedure.
 		/// </value>
-		public string DeleteStoredProcedureName { get => _deleteStoredProcedureName; set => _deleteStoredProcedureName = value; }
+		public string? DeleteStoredProcedureName { get => _deleteStoredProcedureName; set => _deleteStoredProcedureName = value; }
 		/// <summary>
 		/// Gets or sets the type of the identifier column data.
 		/// </summary>
@@ -227,51 +228,51 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <value>
 		/// The name of the INSERT stored procedure.
 		/// </value>
-		public string InsertStoredProcedureName { get => _insertStoredProcedureName; set => _insertStoredProcedureName = value; }
+		public string? InsertStoredProcedureName { get => _insertStoredProcedureName; set => _insertStoredProcedureName = value; }
 		/// <summary>
 		/// Gets or sets the qualified name separator open character.
 		/// </summary>
 		/// <value>
 		/// The qualified name separator open character - such as "[".
 		/// </value>
-		public string QualifiedNameSeparatorOpen { get => _qualifiedNameSeperatorOpen; set => _qualifiedNameSeperatorOpen = value; }
+		public string? QualifiedNameSeparatorOpen { get => _qualifiedNameSeparatorOpen; set => _qualifiedNameSeparatorOpen = value; }
 		/// <summary>
 		/// Gets or sets the qualified name separator close character.
 		/// </summary>
 		/// <value>
 		/// The qualified name separator open character - such as "]".
 		/// </value>
-		public string QualifiedNameSeperatorClose { get => _qualifiedNameSeperatorClose; set => _qualifiedNameSeperatorClose = value; }
+		public string? QualifiedNameSeparatorClose { get => _qualifiedNameSeparatorClose; set => _qualifiedNameSeparatorClose = value; }
 		/// <summary>
 		/// Gets or sets the name of the retrieve all records stored procedure.
 		/// </summary>
 		/// <value>
 		/// A string containing The name of the retrieve all records stored procedure.
 		/// </value>
-		public string RetrieveAllRecordsStoredProcedureName { get => _retrieveAllRecordsStoredProcedureName; set => _retrieveAllRecordsStoredProcedureName = value; }
+		public string? RetrieveAllRecordsStoredProcedureName { get => _retrieveAllRecordsStoredProcedureName; set => _retrieveAllRecordsStoredProcedureName = value; }
 		/// <summary>
 		/// Gets or sets the name of the retrieve record by identifier stored procedure.
 		/// </summary>
 		/// <value>
 		/// A string containing the name of the retrieve record by identifier stored procedure.
 		/// </value>
-		public string RetrieveRecordByIdStoredProcedureName { get => _retrieveRecordByIdStoredProcedureName; set => _retrieveRecordByIdStoredProcedureName = value; }
+		public string? RetrieveRecordByIdStoredProcedureName { get => _retrieveRecordByIdStoredProcedureName; set => _retrieveRecordByIdStoredProcedureName = value; }
 		/// <summary>
 		/// Gets or sets the friendly table name suffix.
 		/// </summary>
 		/// <value>
 		/// A string containing The table name suffix.
 		/// </value>
-		public string TableNameSuffix { get => _tableNameSuffix; set => _tableNameSuffix = value; }
+		public string? TableNameSuffix { get => _tableNameSuffix; set => _tableNameSuffix = value; }
 		/// <summary>
 		/// Gets or sets the name of the UPDATE stored procedure.
 		/// </summary>
 		/// <value>
 		/// The name of the UPDATE stored procedure.
 		/// </value>
-		public string UpdateStoredProcedureName { get => _updateStoredProcedureName; set => _updateStoredProcedureName = value; }
+		public string? UpdateStoredProcedureName { get => _updateStoredProcedureName; set => _updateStoredProcedureName = value; }
 		/// <summary>
-		/// Gets or sets a value indicating whether to use soft delete processes when generatin code to delete data.
+		/// Gets or sets a value indicating whether to use soft delete processes when generating code to delete data.
 		/// </summary>
 		/// <value>
 		///   <c>true</c> to generate code to soft-delete data; otherwise, <c>false</c> to generate code to hard-delete data.
@@ -319,6 +320,35 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
 		#region Public Methods / Functions		
 		/// <summary>
+		/// Renders the name of the stored procedure.
+		/// </summary>
+		/// <param name="table">
+		/// A string containing the name of the table the procedure will act against.
+		/// </param>
+		/// <param name="originalProcedureName">
+		/// A string containing the full or partial name of the stored procedure.
+		/// </param>
+		/// <returns>
+		/// A string containing the rendered stored procedure name.
+		/// </returns>
+		public string RenderStoredProcedureName(string? table, string? originalProcedureName)
+		{
+			if (string.IsNullOrEmpty(originalProcedureName))
+				return string.Empty;
+			else
+			{
+				if (_useTableNamesForStoredProcedureNames && !string.IsNullOrEmpty(table))
+				{
+					return (table.Properize() + originalProcedureName.Properize()).Trim();
+				}
+				else
+				{
+					return originalProcedureName.Trim();
+				}
+			}
+		}
+
+		/// <summary>
 		/// Attempts to load the contents of the current instance from a local file.
 		/// </summary>
 		public void Load()
@@ -345,8 +375,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 					_idColumnDataType = (SqlDbType)reader.ReadInt32();
 					_idColumnName = reader.ReadString();
 					_insertStoredProcedureName = reader.ReadString();
-					_qualifiedNameSeperatorOpen = reader.ReadString();
-					_qualifiedNameSeperatorClose = reader.ReadString();
+					_qualifiedNameSeparatorOpen = reader.ReadString();
+					_qualifiedNameSeparatorClose = reader.ReadString();
 					_retrieveAllRecordsStoredProcedureName = reader.ReadString();
 					_retrieveRecordByIdStoredProcedureName = reader.ReadString();
 					_tableNameSuffix = reader.ReadString();
@@ -383,8 +413,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 				writer.Write((int)_idColumnDataType);
 				writer.Write(_idColumnName);
 				writer.Write(_insertStoredProcedureName);
-				writer.Write(_qualifiedNameSeperatorOpen);
-				writer.Write(_qualifiedNameSeperatorClose);
+				writer.Write(_qualifiedNameSeparatorOpen);
+				writer.Write(_qualifiedNameSeparatorClose);
 				writer.Write(_retrieveAllRecordsStoredProcedureName);
 				writer.Write(_retrieveRecordByIdStoredProcedureName);
 				writer.Write(_tableNameSuffix);

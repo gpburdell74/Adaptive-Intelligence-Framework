@@ -31,10 +31,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
     <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="171.30.0" />
-    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="161.9118.2" />
+    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="161.9123.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Adaptive.CodeDom\Adaptive.CodeDom.csproj" />
     <ProjectReference Include="..\..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using Adaptive.Intelligence.Shared.Code;
+﻿using Adaptive.CodeDom.Model;
 using Adaptive.Intelligence.SqlServer.Analysis;
 using Adaptive.Intelligence.SqlServer.Schema;
 using Microsoft.SqlServer.Management.Smo;

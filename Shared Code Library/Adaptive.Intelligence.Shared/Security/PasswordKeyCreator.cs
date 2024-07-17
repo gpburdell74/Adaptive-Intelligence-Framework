@@ -26,27 +26,26 @@ namespace Adaptive.Intelligence.Shared.Security
 		public static byte[] CreatePrimaryKeyData(string userId, string filePassword)
 		{
 			// Translate ASCII into bytes.
-			byte[] clearUserId = System.Text.Encoding.ASCII.GetBytes(userId);
-			byte[] clearPassword = System.Text.Encoding.ASCII.GetBytes(filePassword);
+			byte[] clearUserId = ByteArrayUtil.CreatePinnedArray(userId.Length);
+			byte[] clearPassword = ByteArrayUtil.CreatePinnedArray(filePassword.Length);
 
+			System.Text.Encoding.ASCII.GetBytes(userId, clearUserId);
+			System.Text.Encoding.ASCII.GetBytes(filePassword, clearPassword);
+			
 			// Copy user ID and password bytes into a single array.
 			byte[] clearData = new byte[userId.Length + filePassword.Length];
 			Array.Copy(clearUserId, 0, clearData, 0, clearUserId.Length);
 			Array.Copy(clearPassword, 0, clearData, clearUserId.Length, clearPassword.Length);
 
 			// Clear the sub-arrays.
-			Array.Clear(clearUserId, 0, clearUserId.Length);
-			Array.Clear(clearPassword, 0, clearPassword.Length);
-
-			// Create a new salt.
-			//byte[] salt = RandomNumberGenerator.GetBytes(32);
+			CryptoUtil.SecureClear(clearUserId);
+			CryptoUtil.SecureClear(clearPassword);
 
 			// Generate the key data.
 			byte[] keyData = KeyGenerator.CreateKeyData(clearData, _salt, 1024);
 
 			// Clear and return.
-			//Array.Clear(_salt, 0, 32);
-			Array.Clear(clearData, 0, clearData.Length);
+			CryptoUtil.SecureClear(clearData);
 
 			return keyData;
 		}
