@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Lists the .NET languages that are currently supported.
 	/// </summary>
-	public enum Languages
+	public enum NetLanguage
 	{
 		/// <summary>
 		/// Specifies the C# language

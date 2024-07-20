@@ -12,7 +12,7 @@ namespace Adaptive.CodeDom
 	{
 		private static GenerationSettings _current = new GenerationSettings();
 
-		private Languages _languages = Languages.CSharp;
+		private NetLanguage _languages = NetLanguage.CSharp;
 		private List<string>? _importNamespaces;
 		private string? _defaultNamespace;
 
@@ -69,9 +69,9 @@ namespace Adaptive.CodeDom
 		/// Gets or sets the language used to generate the code.
 		/// </summary>
 		/// <value>
-		/// An <see cref="Languages"/> enumerated value indicating C# or Visual Basic.
+		/// An <see cref="NetLanguage"/> enumerated value indicating C# or Visual Basic.
 		/// </value>
-		public Languages Language
+		public NetLanguage Language
 		{
 			get => _languages;
 			set => _languages = value;
