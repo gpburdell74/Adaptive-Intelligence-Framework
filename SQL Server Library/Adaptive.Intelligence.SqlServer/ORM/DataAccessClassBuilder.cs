@@ -96,12 +96,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// Generates the code for the data access class.
 		/// </summary>
 		/// <param name="language">
-		/// A <see cref="Languages"/> enumerated value indicating the language to generate the code in.
+		/// A <see cref="NetLanguage"/> enumerated value indicating the language to generate the code in.
 		/// </param>
 		/// <returns>
 		/// A string containing the C# code file contents.
 		/// </returns>
-		public string GenerateDataAccessClass(Languages language)
+		public string GenerateDataAccessClass(NetLanguage language)
 		{
 			if (_profile != null)
 			{
@@ -167,7 +167,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		private void GenerateNamespaceStart()
 		{
 			if (_class != null)
-				_class.Namespace = GenerationSettings.Current.DefaultNamespace;
+			{
+				if (string.IsNullOrEmpty(_standardNameSpace))
+					_class.Namespace = GenerationSettings.Current.DefaultNamespace;
+				else
+					_class.Namespace = _standardNameSpace;
+			}
 		}
 		/// <summary>
 		/// Generates the class declaration start block.
@@ -195,7 +200,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// </summary>
 		private void GeneratePrivateConstants()
 		{
-			if (_class != null && _table != null)
+			if (_class != null && _table != null && _class.CodeSections != null)
 			{
 				CodeSectionModel? codeSection = _class.CodeSections.GetSectionByType(CodeSectionType.PrivateConstants);
 				if (codeSection != null)
@@ -250,7 +255,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 					{
 						codeSection.AddPrivateConstant(
 											   codeOpts.SpConstantNamePrefixForParameter + col.ColumnName,
-											   "@" + col.ColumnName,
+											   TSqlConstants.SqlParameterPrefix + col.ColumnName,
 											   stringType,
 											   codeOpts.SpConstantSummaryPrefixForParameter.Replace("{0}", col.ColumnName));
 					}
@@ -271,8 +276,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
 					// Standard Parameterless Constructor.
 					CodePartModel defaultConstructor = new CodePartModel();
-					defaultConstructor.Summary = "Initializes a new instance of the <see cref=\"" + _class.ClassName + "\"/> class.";
-					defaultConstructor.Remarks = "This is the default constructor.";
+					defaultConstructor.Summary = codeOpts.ParameterLessConstructorXmlSummaryTemplate;
+					defaultConstructor.Remarks = codeOpts.ParameterLessConstructorXmlRemarksTemplate;
 					defaultConstructor.Content = CodeDomObjectFactory.CreateDefaultConstructor(_class.ClassName,
 						new List<string>
 						{
@@ -286,12 +291,14 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
 					// Constructor with SqlDataProvider parameter.
 					CodePartModel secondConstructor = new CodePartModel();
-					secondConstructor.Summary = "Initializes a new instance of the <see cref=\"" + _class.ClassName + "\"/> class.";
-					secondConstructor.AddParameterComment("provider", "A reference to the <see cref=\"SqlDataProvider\"/> instance to use instead of locally creating one.");
+					secondConstructor.Summary = codeOpts.ConstructorXmlSummaryTemplate;
+					secondConstructor.AddParameterComment(
+						codeOpts.ConstructorProviderVariableName,
+						codeOpts.ConstructorProviderVariableParamSummary);
 					secondConstructor.Content = CodeDomObjectFactory.CreateConstructorWithParameters(_class.ClassName,
 						new List<CodeParameterDeclarationExpression>
 						{
-							new CodeParameterDeclarationExpression("SqlDataProvider", "provider")
+							new CodeParameterDeclarationExpression(codeOpts.ConstructorProviderVariableTypeName, codeOpts.ConstructorProviderVariableName)
 						},
 						new List<string>
 						{
@@ -315,8 +322,6 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 				CodeSectionModel? model = _class.GetCodeSectionByType(CodeSectionType.ProtectedMethods);
 				if (model != null)
 				{
-					OrmCodeGenerationOptions codeOpts = OrmCodeGenerationOptions.Current;
-
 					GenerateCreateInsertParameters(model);
 					GenerateCreateUpdateParameters(model);
 					GeneratePopulateRecord(model);
@@ -330,6 +335,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			if (_class != null && _table != null)
 			{
+				OrmCodeGenerationOptions codeOpts = OrmCodeGenerationOptions.Current;
+				
 				// Create the comments for the method - renders content for something similar to:
 				//
 				// protected override SqlParameter[] CreateInsertParameters(CustomerEntity instance)
@@ -390,6 +397,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			if (_class != null && _table != null)
 			{
+				OrmCodeGenerationOptions codeOpts = OrmCodeGenerationOptions.Current;
+
 				// Create the comments for the method - renders content for something similar to:
 				//
 				// protected override SqlParameter[] CreateInsertParameters(CustomerEntity instance)
@@ -446,6 +455,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			if (_class != null && _table != null)
 			{
+				OrmCodeGenerationOptions codeOpts = OrmCodeGenerationOptions.Current;
+
 				// Create the comments for the method - renders content for something similar to:
 				CodePartModel populateMethod = new CodePartModel();
 				populateMethod.Name = "PopulateRecord";
@@ -539,6 +550,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// </returns>
 		private string GetMethodName(int dataTypeId)
 		{
+			OrmCodeGenerationOptions codeOpts = OrmCodeGenerationOptions.Current;
+
 			if (dataTypeId == 130)
 				return "GetString";
 			else

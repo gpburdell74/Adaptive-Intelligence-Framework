@@ -278,7 +278,7 @@ namespace Adaptive.Intelligence.SqlServer
 			{
 				AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.Schema, table.TableName);
 				DataAccessClassBuilder builder = new DataAccessClassBuilder(dbInfo, table, profile, "Data.Access");
-				generatedCode = builder.GenerateDataAccessClass(Adaptive.CodeDom.Languages.CSharp);
+				generatedCode = builder.GenerateDataAccessClass(NetLanguage.CSharp);
 				builder.Dispose();
 			}
 

@@ -61,6 +61,123 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initializes the class with an externally provided SQL provider instance for data access operations..
+        /// </summary>
+        internal static string DaClassConstructorXmlRemarksTemplate {
+            get {
+                return ResourceManager.GetString("DaClassConstructorXmlRemarksTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializes a new instance of the &lt;see cref=\&quot;{0}\&quot;/&gt; class..
+        /// </summary>
+        internal static string DaClassConstructorXmlSummaryTemplate {
+            get {
+                return ResourceManager.GetString("DaClassConstructorXmlSummaryTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the default constructor..
+        /// </summary>
+        internal static string DaClassParamLessConstructorXmlRemarksTemplate {
+            get {
+                return ResourceManager.GetString("DaClassParamLessConstructorXmlRemarksTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializes a new instance of the &lt;see cref=\&quot;{0}\&quot;/&gt; class..
+        /// </summary>
+        internal static string DaClassParamLessConstructorXmlSummaryTemplate {
+            get {
+                return ResourceManager.GetString("DaClassParamLessConstructorXmlSummaryTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to provider.
+        /// </summary>
+        internal static string DaClassProviderVariableName {
+            get {
+                return ResourceManager.GetString("DaClassProviderVariableName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A reference to the &lt;see cref=\&quot;{0}&quot;/&gt; instance to use instead of locally creating one..
+        /// </summary>
+        internal static string DaClassProviderVariableParamSummary {
+            get {
+                return ResourceManager.GetString("DaClassProviderVariableParamSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SqlProvider.
+        /// </summary>
+        internal static string DaClassProviderVariableTypeName {
+            get {
+                return ResourceManager.GetString("DaClassProviderVariableTypeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stored procedure to delete a record..
+        /// </summary>
+        internal static string DataAccessSpDeleteXmlSummary {
+            get {
+                return ResourceManager.GetString("DataAccessSpDeleteXmlSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stored procedure to retrieve all the records in the table..
+        /// </summary>
+        internal static string DataAccessSpGetAllXmlSummary {
+            get {
+                return ResourceManager.GetString("DataAccessSpGetAllXmlSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stored procedure to retrieve a single record by ID value..
+        /// </summary>
+        internal static string DataAccessSpGetByIdXmlSummary {
+            get {
+                return ResourceManager.GetString("DataAccessSpGetByIdXmlSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stored procedure to insert a record..
+        /// </summary>
+        internal static string DataAccessSpInsertXmlSummary {
+            get {
+                return ResourceManager.GetString("DataAccessSpInsertXmlSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The @{0} parameter for a stored procedure..
+        /// </summary>
+        internal static string DataAccessSpSummaryPrefixForParameter {
+            get {
+                return ResourceManager.GetString("DataAccessSpSummaryPrefixForParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stored procedure to update a record..
+        /// </summary>
+        internal static string DataAccessSpUpdateXmlSummary {
+            get {
+                return ResourceManager.GetString("DataAccessSpUpdateXmlSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string DataAccessXmlRemarks {
@@ -93,6 +210,60 @@ namespace Adaptive.Intelligence.SqlServer.Properties {
         internal static string DefaultDataAccessBaseClassName {
             get {
                 return ResourceManager.GetString("DefaultDataAccessBaseClassName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SqlDelete.
+        /// </summary>
+        internal static string DefaultSpConstNameDelete {
+            get {
+                return ResourceManager.GetString("DefaultSpConstNameDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SqlGetAll.
+        /// </summary>
+        internal static string DefaultSpConstNameGetAll {
+            get {
+                return ResourceManager.GetString("DefaultSpConstNameGetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SqlGetById.
+        /// </summary>
+        internal static string DefaultSpConstNameGetById {
+            get {
+                return ResourceManager.GetString("DefaultSpConstNameGetById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SqlInsert.
+        /// </summary>
+        internal static string DefaultSpConstNameInsert {
+            get {
+                return ResourceManager.GetString("DefaultSpConstNameInsert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SqlParam.
+        /// </summary>
+        internal static string DefaultSpConstNameSqlParamPrefix {
+            get {
+                return ResourceManager.GetString("DefaultSpConstNameSqlParamPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SqlUpdate.
+        /// </summary>
+        internal static string DefaultSpConstNameUpdate {
+            get {
+                return ResourceManager.GetString("DefaultSpConstNameUpdate", resourceCulture);
             }
         }
         

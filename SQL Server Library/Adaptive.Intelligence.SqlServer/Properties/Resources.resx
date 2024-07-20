@@ -117,6 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DaClassConstructorXmlRemarksTemplate" xml:space="preserve">
+    <value>Initializes the class with an externally provided SQL provider instance for data access operations.</value>
+    <comment>XML Remarks Comment for single parameter constructor.</comment>
+  </data>
+  <data name="DaClassConstructorXmlSummaryTemplate" xml:space="preserve">
+    <value>Initializes a new instance of the &lt;see cref=\"{0}\"/&gt; class.</value>
+    <comment>XML Summary Comment for single parameter constructor.</comment>
+  </data>
+  <data name="DaClassParamLessConstructorXmlRemarksTemplate" xml:space="preserve">
+    <value>This is the default constructor.</value>
+    <comment>XML Remarks Comment for parameter-less constructor.</comment>
+  </data>
+  <data name="DaClassParamLessConstructorXmlSummaryTemplate" xml:space="preserve">
+    <value>Initializes a new instance of the &lt;see cref=\"{0}\"/&gt; class.</value>
+    <comment>XML Summary Comment for parameter-less constructor.</comment>
+  </data>
+  <data name="DaClassProviderVariableName" xml:space="preserve">
+    <value>provider</value>
+    <comment>The name of the parameter for the constructor.</comment>
+  </data>
+  <data name="DaClassProviderVariableParamSummary" xml:space="preserve">
+    <value>A reference to the &lt;see cref=\"{0}"/&gt; instance to use instead of locally creating one.</value>
+    <comment>The XML parameter comment template for the parameter for the constructor.</comment>
+  </data>
+  <data name="DaClassProviderVariableTypeName" xml:space="preserve">
+    <value>SqlProvider</value>
+    <comment>The name of the data type for the parameter for the constructor.</comment>
+  </data>
+  <data name="DataAccessSpDeleteXmlSummary" xml:space="preserve">
+    <value>The stored procedure to delete a record.</value>
+    <comment>XML Comment for the constant defining the "Delete" stored procedure name constant.</comment>
+  </data>
+  <data name="DataAccessSpGetAllXmlSummary" xml:space="preserve">
+    <value>The stored procedure to retrieve all the records in the table.</value>
+    <comment>XML Comment for the constant defining the "Get All" stored procedure name constant.</comment>
+  </data>
+  <data name="DataAccessSpGetByIdXmlSummary" xml:space="preserve">
+    <value>The stored procedure to retrieve a single record by ID value.</value>
+    <comment>XML Comment for the constant defining the "Get By Id" stored procedure name constant.</comment>
+  </data>
+  <data name="DataAccessSpInsertXmlSummary" xml:space="preserve">
+    <value>The stored procedure to insert a record.</value>
+    <comment>XML Comment for the constant defining the "Insert" stored procedure name constant.</comment>
+  </data>
+  <data name="DataAccessSpSummaryPrefixForParameter" xml:space="preserve">
+    <value>The @{0} parameter for a stored procedure.</value>
+    <comment>XML Comment for the constants defining the prefix for the Sql Parameter names.</comment>
+  </data>
+  <data name="DataAccessSpUpdateXmlSummary" xml:space="preserve">
+    <value>The stored procedure to update a record.</value>
+    <comment>XML Comment for the constant defining the "Update" stored procedure name constant.</comment>
+  </data>
   <data name="DataAccessXmlRemarks" xml:space="preserve">
     <value />
   </data>
@@ -129,6 +181,30 @@
   </data>
   <data name="DefaultDataAccessBaseClassName" xml:space="preserve">
     <value>DataAccessBase</value>
+  </data>
+  <data name="DefaultSpConstNameDelete" xml:space="preserve">
+    <value>SqlDelete</value>
+    <comment>The default constant name for the "Delete" stored procedure name definition.</comment>
+  </data>
+  <data name="DefaultSpConstNameGetAll" xml:space="preserve">
+    <value>SqlGetAll</value>
+    <comment>The default constant name for the "Get All" stored procedure name definition.</comment>
+  </data>
+  <data name="DefaultSpConstNameGetById" xml:space="preserve">
+    <value>SqlGetById</value>
+    <comment>The default constant name for the "Get By Id" stored procedure name definition.</comment>
+  </data>
+  <data name="DefaultSpConstNameInsert" xml:space="preserve">
+    <value>SqlInsert</value>
+    <comment>The default constant name for the "Insert" stored procedure name definition.</comment>
+  </data>
+  <data name="DefaultSpConstNameSqlParamPrefix" xml:space="preserve">
+    <value>SqlParam</value>
+    <comment>The default constant name prefix for the Sql Parameter constant definitions.</comment>
+  </data>
+  <data name="DefaultSpConstNameUpdate" xml:space="preserve">
+    <value>SqlUpdate</value>
+    <comment>The default constant name for the "Update" stored procedure name definition.</comment>
   </data>
   <data name="StatusCollecting" xml:space="preserve">
     <value>Collecting Fragmentation Statistics</value>
