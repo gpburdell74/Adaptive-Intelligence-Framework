@@ -95,7 +95,7 @@ namespace Adaptive.CodeDom.Model
 			set
 			{
 				_isPoco = value;
-				if (!value)
+				if (value)
 				{
 					_isGeneric = false;
 					_typeName = CodeDomConstants.DefaultObjectName;

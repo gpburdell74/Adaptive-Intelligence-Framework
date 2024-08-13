@@ -132,11 +132,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 				// Protected Methods 
 				GenerateProtectedMethods();
 
-				//CodeGen gen = new CodeGen();
-				//string code = gen.RenderClass(daClass, csharp);
-				//return code;
-
-				return string.Empty;
+				ClassModelGenerator generator = new ClassModelGenerator();
+				string code = generator.RenderClass(_class, language);
+				return code;
 			}
 			else
 				return string.Empty;

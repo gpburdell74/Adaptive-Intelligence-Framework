@@ -216,11 +216,11 @@ namespace Adaptive.CodeDom.Model
 				if (!string.IsNullOrEmpty(xmlRemarks))
 					model.Remarks = xmlRemarks;
 
-				if (!string.IsNullOrEmpty(xmlSummary))
-					model.Value = xmlSummary;
+				if (!string.IsNullOrEmpty(xmlValue))
+					model.Value = xmlValue;
 
-				if (!string.IsNullOrEmpty(xmlSummary))
-					model.Returns = xmlSummary;
+				if (!string.IsNullOrEmpty(xmlReturns))
+					model.Returns = xmlReturns;
 
 				model.Content = content;
 				model.Name = Name;

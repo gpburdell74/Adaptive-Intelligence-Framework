@@ -26,6 +26,10 @@ namespace Adaptive.Intelligence.Shared
 		/// </summary>
 		private const string EndingsS = "s";
 		/// <summary>
+		/// The singular ending for words that end in "SS".
+		/// </summary>
+		private const string EndingsSS = "ss";
+		/// <summary>
 		/// The endings exception strings.
 		/// </summary>
 		private const string EndingsExceptionAles = "ales";
@@ -145,10 +149,17 @@ namespace Adaptive.Intelligence.Shared
 						// In this case, just remove the "s".
 						returnValue = originalValue.Substring(0, comparisonValue.Length - 1);
 					else
-						// Otherwise, remove the "es".
-						returnValue = originalValue.Substring(0, comparisonValue.Length - 2);
+					{
+						if (!originalValue.EndsWith(EndingsSS))
+						{
+							// Otherwise, remove the "es".
+							returnValue = originalValue.Substring(0, comparisonValue.Length - 2);
+						}
+						else
+							returnValue = originalValue;
+					}
 				}
-				else if (comparisonValue.EndsWith(EndingsS))
+				else if (!comparisonValue.EndsWith(EndingsSS) && comparisonValue.EndsWith(EndingsS))
 					// Standard word - remove the "s"
 					returnValue = originalValue.Substring(0, comparisonValue.Length - 1);
 			}
