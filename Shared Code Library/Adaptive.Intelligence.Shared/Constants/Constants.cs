@@ -685,7 +685,7 @@
 		public const string DateTimeFormat = "{0:MM/dd/yyyy hh:mm tt}";
 		#endregion
 
-		#region File Dscription Constants
+		#region File Description Constants
 		/// <summary>
 		/// The description for a generic file.
 		/// </summary>
@@ -705,6 +705,13 @@
 		/// The registry sub-key value for the location of the default icon.
 		/// </summary>
 		public const string RegSubKeyNameDefaultIcon = "\\DefaultIcon";
+		#endregion
+
+		#region XML Constants
+		public const string XmlBracketOpen = "<";
+		public const string XmlBracketEnd = ">";
+		public const string XmlBracketEndTag = "</";
+		public const string XmlBracketShortTagEnd = "/>";
 		#endregion
 	}
 }

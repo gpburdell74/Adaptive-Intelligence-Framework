@@ -67,23 +67,23 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <summary>
 		/// The XML summary comment for the Get All stored procedure constant.
 		/// </summary>
-		private string? _daConstantSummaryForGetAll = Resources.DataAccessSpGetAllXmlSummary;
+		private string? _spGetAllXmlSummary = Resources.DataAccessSpGetAllXmlSummary;
 		/// <summary>
 		/// The XML summary comment for the Get By Id stored procedure constant.
 		/// </summary>
-		private string? _daConstantSummaryForGetById = Resources.DataAccessSpGetByIdXmlSummary;
+		private string? _spGetByIdXmlSummary = Resources.DataAccessSpGetByIdXmlSummary;
 		/// <summary>
 		/// The XML summary comment for the Delete stored procedure constant.
 		/// </summary>
-		private string? _daConstantSummaryForGetForDelete = Resources.DataAccessSpDeleteXmlSummary;
+		private string? _spDeleteXmlSummary = Resources.DataAccessSpDeleteXmlSummary;
 		/// <summary>
 		/// The XML summary comment for the Update stored procedure constant.
 		/// </summary>
-		private string? _daConstantSummaryForGetForUpdate = Resources.DataAccessSpUpdateXmlSummary;
+		private string? _spUpdateXmlSummary = Resources.DataAccessSpUpdateXmlSummary;
 		/// <summary>
 		/// The XML summary comment for the Insert stored procedure constant.
 		/// </summary>
-		private string? _daConstantSummaryForGetInsert = Resources.DataAccessSpInsertXmlSummary;
+		private string? _spInsertXmlSummary = Resources.DataAccessSpInsertXmlSummary;
 		/// <summary>
 		/// The default for the constant name for the Delete stored procedure. (SqlDelete)
 		/// </summary>
@@ -153,11 +153,11 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			_daClassSummary = null;
 			_daClassRemarks = null;
-			_daConstantSummaryForGetAll = null;
-			_daConstantSummaryForGetById = null;
-			_daConstantSummaryForGetInsert = null;
-			_daConstantSummaryForGetForUpdate = null;
-			_daConstantSummaryForGetForDelete = null;
+			_spGetAllXmlSummary = null;
+			_spGetByIdXmlSummary = null;
+			_spDeleteXmlSummary = null;
+			_spUpdateXmlSummary = null;
+			_spInsertXmlSummary = null;
 			_daConstantPrefixForParameter = null;
 			_daParamLessConstructorXmlSummaryTemplate = null;
 			_daParamLessConstructorXmlRemarksTemplate = null;
@@ -399,12 +399,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spConstNameDelete == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spConstNameDelete;
 			}
-			set => _daBaseClassName = value;
+			set => _spConstNameDelete = value;
 		}
 		/// <summary>
 		/// Gets or sets the name of the constant definition the get all records stored procedure name.
@@ -416,12 +416,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spConstNameGetAll == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spConstNameGetAll;
 			}
-			set => _daBaseClassName = value;
+			set => _spConstNameGetAll = value;
 		}
 		/// <summary>
 		/// Gets or sets the name of the constant definition the get record by ID stored procedure name.
@@ -433,12 +433,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spConstNameGetById == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spConstNameGetById;
 			}
-			set => _daBaseClassName = value;
+			set => _spConstNameGetById = value;
 		}
 		/// <summary>
 		/// Gets or sets the name of the constant definition the insert stored procedure name.
@@ -450,12 +450,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spConstNameInsert == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spConstNameInsert;
 			}
-			set => _daBaseClassName = value;
+			set => _spConstNameInsert = value;
 		}
 		/// <summary>
 		/// Gets or sets the name of the constant definition the update stored procedure name.
@@ -467,12 +467,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spConstNameUpdate == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spConstNameUpdate;
 			}
-			set => _daBaseClassName = value;
+			set => _spConstNameUpdate = value;
 		}
 		/// <summary>
 		/// Gets or sets the name prefix of the constant definition used for each of the SQL Parameter constants.
@@ -484,12 +484,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spConstNameSqlParamPrefix == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spConstNameSqlParamPrefix;
 			}
-			set => _daBaseClassName = value;
+			set => _spConstNameSqlParamPrefix = value;
 		}
 		/// <summary>
 		/// Gets or sets the XML comment text for the delete stored procedure constant definition.
@@ -501,12 +501,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spDeleteXmlSummary == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spDeleteXmlSummary;
 			}
-			set => _daBaseClassName = value;
+			set => _spDeleteXmlSummary = value;
 		}
 		/// <summary>
 		/// Gets or sets the XML comment text for the get all records stored procedure constant definition.
@@ -518,12 +518,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spGetAllXmlSummary == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spGetAllXmlSummary;
 			}
-			set => _daBaseClassName = value;
+			set => _spGetAllXmlSummary = value;
 		}
 		/// <summary>
 		/// Gets or sets the XML comment text for the get record by ID stored procedure constant definition.
@@ -535,12 +535,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spGetByIdXmlSummary == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spGetByIdXmlSummary;
 			}
-			set => _daBaseClassName = value;
+			set => _spGetByIdXmlSummary = value;
 		}
 		/// <summary>
 		/// Gets or sets the XML comment text for the insert stored procedure constant definition.
@@ -552,12 +552,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spInsertXmlSummary == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spInsertXmlSummary;
 			}
-			set => _daBaseClassName = value;
+			set => _spInsertXmlSummary = value;
 		}
 		/// <summary>
 		/// Gets or sets the XML comment text for the update stored procedure constant definition.
@@ -569,12 +569,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spUpdateXmlSummary == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spUpdateXmlSummary;
 			}
-			set => _daBaseClassName = value;
+			set => _spUpdateXmlSummary = value;
 		}
 		/// <summary>
 		/// Gets or sets the XML comment text template for each of the SQL Parameter name constants.
@@ -586,12 +586,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		{
 			get
 			{
-				if (_daBaseClassName == null)
+				if (_spConstNameSqlParamPrefix == null)
 					return string.Empty;
 				else
-					return _daBaseClassName;
+					return _spConstNameSqlParamPrefix;
 			}
-			set => _daBaseClassName = value;
+			set => _spConstNameSqlParamPrefix = value;
 		}
 		#endregion
 
@@ -618,11 +618,11 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
 					_daClassSummary = reader.ReadString();
 					_daClassRemarks = reader.ReadString();
-					_daConstantSummaryForGetAll = reader.ReadString();
-					_daConstantSummaryForGetById = reader.ReadString();
-					_daConstantSummaryForGetInsert = reader.ReadString();
-					_daConstantSummaryForGetForUpdate = reader.ReadString();
-					_daConstantSummaryForGetForDelete = reader.ReadString();
+					_spGetAllXmlSummary = reader.ReadString();
+					_spGetByIdXmlSummary = reader.ReadString();
+					_spInsertXmlSummary = reader.ReadString();
+					_spUpdateXmlSummary = reader.ReadString();
+					_spDeleteXmlSummary = reader.ReadString();
 					_daConstantPrefixForParameter = reader.ReadString();
 					_daParamLessConstructorXmlSummaryTemplate = reader.ReadString();
 					_daParamLessConstructorXmlRemarksTemplate = reader.ReadString();
@@ -664,11 +664,11 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
 				writer.Write(_daClassSummary);
 				writer.Write(_daClassRemarks);
-				writer.Write(_daConstantSummaryForGetAll);
-				writer.Write(_daConstantSummaryForGetById);
-				writer.Write(_daConstantSummaryForGetInsert);
-				writer.Write(_daConstantSummaryForGetForUpdate);
-				writer.Write(_daConstantSummaryForGetForDelete);
+				writer.Write(_spGetAllXmlSummary);
+				writer.Write(_spGetByIdXmlSummary);
+				writer.Write(_spInsertXmlSummary);
+				writer.Write(_spUpdateXmlSummary);
+				writer.Write(_spDeleteXmlSummary);
 				writer.Write(_daConstantPrefixForParameter);
 				writer.Write(_daParamLessConstructorXmlSummaryTemplate);
 				writer.Write(_daParamLessConstructorXmlRemarksTemplate);

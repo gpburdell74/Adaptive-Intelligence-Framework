@@ -130,7 +130,7 @@ namespace Adaptive.CodeDom.Model
 		/// <value>
 		/// A <see cref="List{T}"/> of <see cref="string"/> containing the namespace names.
 		/// </value>
-		public List<string?> Imports => _imports;
+		public List<string>? Imports => _imports;
 		/// <summary>
 		/// Gets the reference to the list of interfaces to be implemented.
 		/// </summary>

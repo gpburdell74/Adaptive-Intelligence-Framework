@@ -286,7 +286,8 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 DataSource = ServerText.Text,
                 Authentication = SqlAuthenticationMethod.SqlPassword,
                 UserID = UserIdText.Text,
-                Password = PasswordText.Text
+                Password = PasswordText.Text,
+                TrustServerCertificate=true
             };
             SetFromOptions(builder);
             return builder;
