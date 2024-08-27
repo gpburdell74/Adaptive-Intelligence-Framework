@@ -115,7 +115,16 @@ namespace Adaptive.CodeDom.Model
 		public string? ClassName
 		{
 			get => _className;
-			set => _className = value;
+			set
+			{
+				_className = value;
+
+				//Ensure the name change propogates.
+				foreach (CodeSectionModel section in _codeSections)
+				{
+					section.ClassName = value;
+				}
+			}
 		}
 		/// <summary>
 		/// Gets the reference to the list of code sections.

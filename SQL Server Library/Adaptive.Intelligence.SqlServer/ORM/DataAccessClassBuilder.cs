@@ -6,6 +6,7 @@ using Adaptive.CodeDom.Model;
 using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.SqlServer.Analysis;
 using Adaptive.Intelligence.SqlServer.Schema;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.CodeDom;
 
 namespace Adaptive.Intelligence.SqlServer.ORM
@@ -111,11 +112,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 				{
 					IsPublic = true,
 					IsSealed = true,
-					ClassName = _profile.DataAccessClassName
+					
 				};
 
-				// Write the standard using list.
-				GenerateUsings();
+				_class.ClassName = _profile.DataAccessClassName;
+
+                // Write the standard using list.
+                GenerateUsings();
 
 				// Write the namespace.
 				GenerateNamespaceStart();
@@ -131,6 +134,11 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
 				// Protected Methods 
 				GenerateProtectedMethods();
+
+				// TODO: Make this better code.
+				// Ensure the "class Name" is known to all the sections.
+				foreach (CodeSectionModel model in _class.CodeSections)
+					model.ClassName = _class.ClassName;
 
 				ClassModelGenerator generator = new ClassModelGenerator();
 				string code = generator.RenderClass(_class, language);
@@ -255,7 +263,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 											   codeOpts.SpConstantNamePrefixForParameter + col.ColumnName,
 											   TSqlConstants.SqlParameterPrefix + col.ColumnName,
 											   stringType,
-											   codeOpts.SpConstantSummaryPrefixForParameter.Replace("{0}", col.ColumnName));
+											   codeOpts.SpConstantSqlParameterSummary.Replace("{0}", col.ColumnName));
 					}
 				}
 			}
@@ -274,9 +282,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
 					// Standard Parameterless Constructor.
 					CodePartModel defaultConstructor = new CodePartModel();
-					defaultConstructor.Summary = codeOpts.ParameterLessConstructorXmlSummaryTemplate;
-					defaultConstructor.Remarks = codeOpts.ParameterLessConstructorXmlRemarksTemplate;
-					defaultConstructor.Content = CodeDomObjectFactory.CreateDefaultConstructor(_class.ClassName,
+					defaultConstructor.Summary = codeOpts.ParameterLessConstructorXmlSummaryTemplate.Replace("{0}", model.ClassName);
+					defaultConstructor.Remarks = codeOpts.ParameterLessConstructorXmlRemarksTemplate.Replace("{0}", model.ClassName);
+                    defaultConstructor.Content = CodeDomObjectFactory.CreateDefaultConstructor(_class.ClassName,
 						new List<string>
 						{
 							codeOpts.SpConstantNameForGetAll,
@@ -548,16 +556,29 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// </returns>
 		private string GetMethodName(int dataTypeId)
 		{
-			OrmCodeGenerationOptions codeOpts = OrmCodeGenerationOptions.Current;
+			string methodName = "GetString"; // Default to GetString when all else fails.
 
-			if (dataTypeId == 130)
-				return "GetString";
-			else
+			// Null check.
+			if (_db != null && _db.Database != null && _db.Database.DataTypes != null && _db.Database.DataTypes.Count > 0)
 			{
-				Adaptive.Intelligence.SqlServer.Schema.SqlDataType type = _db.Database.DataTypes.GetTypeById(dataTypeId);
-				string name = type.GetDotNetType().Name.Replace("System.", string.Empty);
-				return "Get" + name;
+				OrmCodeGenerationOptions codeOpts = OrmCodeGenerationOptions.Current;
+
+				// Find the data type from the standard list in sys.types using the user_type_id column value.
+				SqlDataType? type = _db.Database.DataTypes.GetTypeById(dataTypeId);
+
+				// If found, render the correct method name to call for the reader instance.
+				if (type != null)
+				{
+					// Get the equivalent .NET type name and remove the namespace qualifier.
+					string name = type.GetDotNetType().Name.Replace("System.", string.Empty);
+
+					// Return "Get" + the type name,
+					methodName = "Get" + name;
+
+				}
 			}
+
+			return methodName;
 		}
 		/// <summary>
 		/// Renders the name of the variable for a child entity object from it's related table name.

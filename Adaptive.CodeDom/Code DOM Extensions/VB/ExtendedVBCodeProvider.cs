@@ -111,10 +111,16 @@ namespace Adaptive.CodeDom
 				leftIndex = rawData.IndexOf(VbConstants.RegionEnd, StringComparison.OrdinalIgnoreCase);
 
 			// Remove any trailing characters.
-			int rightIndex = rawData.IndexOf(Intelligence.Shared.Constants.CarriageReturn, leftIndex);
-			rightIndex--;
+			int rightIndex = -1;
+			if (leftIndex > 0)
+			{
+				rightIndex = rawData.IndexOf(Intelligence.Shared.Constants.CarriageReturn, leftIndex);
+				rightIndex--;
+			}
 
-			singleLine = rawData.Substring(leftIndex, rightIndex - leftIndex);
+			if (leftIndex >-1 && rightIndex > -1)
+				singleLine = rawData.Substring(leftIndex, rightIndex - leftIndex);
+
 			writer.WriteLine(singleLine);
 		}
 		/// <summary>
@@ -127,7 +133,8 @@ namespace Adaptive.CodeDom
 		public string RemoveEndClassBlockMarker(string code)
 		{
 			int index = code.LastIndexOf(CsConstants.CsBlockEnd);
-			code = code.Substring(0, index - 1).Trim();
+			if(index > 0)
+				code = code.Substring(0, index - 1).Trim();
 			return code;
 		} 
 		#endregion

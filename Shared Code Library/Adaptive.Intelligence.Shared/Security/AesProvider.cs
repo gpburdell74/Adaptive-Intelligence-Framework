@@ -219,8 +219,8 @@ namespace Adaptive.Intelligence.Shared.Security
 		{
 			if (_provider == null)
 			{
-				_provider = (AesCng)AesCng.Create();
-				_provider.BlockSize = 128;
+                _provider = AesCng.Create();
+                _provider.BlockSize = 128;
 				_provider.Mode = CipherMode.CBC;
 				_provider.Padding = PaddingMode.PKCS7;
 			}

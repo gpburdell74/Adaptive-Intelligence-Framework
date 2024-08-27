@@ -188,5 +188,52 @@
 			Assert.Equal(-1, compResult);
 
 		}
-	}
+
+		[Fact]
+		public void EmtpyStringArrayTrailingWhiteSpaceFindTest()
+		{
+			string[] data = new string[0];
+			int index = data.FindTrailingWhitespace();
+			Assert.Equal(-1, index);
+        }
+        [Fact]
+        public void NoWhitespaceStringArrayTrailingWhiteSpaceFindTest()
+        {
+			string[] data = new string[]
+			{
+				"abc",
+				"abc",
+				"abc",
+				"abc",
+				"",
+				"abc",
+				"abc",
+				"",
+				"abc",
+				"",
+				"abc",
+				"",
+				"abc",
+				"",
+				"abc",
+				"abc"
+			};
+
+            int index = data.FindTrailingWhitespace();
+            Assert.Equal(-1, index);
+        }
+
+        [Theory]
+        [InlineData(new string[] { "abc"}, -1)]
+        [InlineData(new string[] { "abc" ,"123", ""}, 2)]
+        [InlineData(new string[] { "abc", "123", "", "" }, 2)]
+        [InlineData(new string[] { "abc", "123", "", "", "" }, 2)]
+        [InlineData(new string[] { "abc", "123", "", "X", "\r", "", "" }, 4)]
+
+        public void FindTrailingWhiteSpaceTest(string[] testArray, int actualIndex)
+		{
+			int index = testArray.FindTrailingWhitespace();
+			Assert.Equal(actualIndex, index);
+        }
+    }
 }

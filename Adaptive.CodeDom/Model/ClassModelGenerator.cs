@@ -399,12 +399,16 @@ namespace Adaptive.CodeDom.Model
 		{
 			// Parse the original into an array of lines.
 			string[] lines = original.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+			int max = lines.FindTrailingWhitespace();
+			if (max == -1)
+				max = lines.Length;	
 
-			// Pre-pend the current indent level characters to each line.
-			StringBuilder builder = new StringBuilder();
-			foreach (string line in lines)
+            // Pre-pend the current indent level characters to each line.
+            StringBuilder builder = new StringBuilder();
+			for (int current = 0; current < max; current++)
 			{
-				builder.AppendLine(new string('\t', _indentLevel) + line);
+				string line = lines[current];
+				builder.AppendLine(new string('\t', _indentLevel) + lines[current]);
 			}
 			return builder.ToString();
 		}
@@ -485,7 +489,8 @@ namespace Adaptive.CodeDom.Model
 							int index = z.IndexOf("{");
 							string y = z.Substring(index + 1).Trim();
 							index = y.IndexOf("{");
-							y = y.Substring(0, index - 1).Trim().Replace("\t", "");
+							if (index>0)
+								y = y.Substring(0, index - 1).Trim().Replace("\t", "");
 							y += "\r\n{\r\n}";
 							writer.WriteLine(y);
 						}
@@ -526,7 +531,7 @@ namespace Adaptive.CodeDom.Model
 			string code = string.Empty;
 
 			CodeSectionModel? section = sectionList.GetSectionByType(sectionType);
-			if (section != null)
+			if (section != null && section.Parts.Count > 0)
 				code = RenderSection(sectionType, section, language);
 
 			return code;
