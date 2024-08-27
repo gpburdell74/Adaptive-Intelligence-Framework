@@ -63,7 +63,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <summary>
 		/// The XML summary content template for each of the SQL Parameter constants.
 		/// </summary>
-		private string? _daConstantPrefixForParameter = Resources.DataAccessSpSummaryPrefixForParameter;
+		private string? _daConstantPrefixForParameterSummary = Resources.DataAccessSpSummaryPrefixForParameter;
 		/// <summary>
 		/// The XML summary comment for the Get All stored procedure constant.
 		/// </summary>
@@ -158,7 +158,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 			_spDeleteXmlSummary = null;
 			_spUpdateXmlSummary = null;
 			_spInsertXmlSummary = null;
-			_daConstantPrefixForParameter = null;
+			_daConstantPrefixForParameterSummary = null;
 			_daParamLessConstructorXmlSummaryTemplate = null;
 			_daParamLessConstructorXmlRemarksTemplate = null;
 			_daConstructorXmlSummaryTemplate = null;
@@ -582,7 +582,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 		/// <value>
 		/// A string containing the XML summary comment text.
 		/// </value>
-		public string SpConstantSummaryPrefixForParameter
+		public string SpConstantPrefixForParameter
 		{
 			get
 			{
@@ -593,13 +593,24 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 			}
 			set => _spConstNameSqlParamPrefix = value;
 		}
-		#endregion
+		public string SpConstantSqlParameterSummary
+		{
+			get
+			{
+				if (_daConstantPrefixForParameterSummary == null)
+					return string.Empty;
+				else
+					return _daConstantPrefixForParameterSummary;
+			}
+			set => _daConstantPrefixForParameterSummary = value;
+		}
+        #endregion
 
-		#region Public Methods / Functions		
-		/// <summary>
-		/// Loads the contents of the options instance from the local file.
-		/// </summary>
-		public void Load()
+            #region Public Methods / Functions		
+            /// <summary>
+            /// Loads the contents of the options instance from the local file.
+            /// </summary>
+        public void Load()
 		{
 			string? path = SafeIO.GetAppPath();
 			if (!string.IsNullOrEmpty(path))
@@ -623,7 +634,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 					_spInsertXmlSummary = reader.ReadString();
 					_spUpdateXmlSummary = reader.ReadString();
 					_spDeleteXmlSummary = reader.ReadString();
-					_daConstantPrefixForParameter = reader.ReadString();
+					_daConstantPrefixForParameterSummary = reader.ReadString();
 					_daParamLessConstructorXmlSummaryTemplate = reader.ReadString();
 					_daParamLessConstructorXmlRemarksTemplate = reader.ReadString();
 					_daConstructorXmlSummaryTemplate = reader.ReadString();
@@ -669,7 +680,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 				writer.Write(_spInsertXmlSummary);
 				writer.Write(_spUpdateXmlSummary);
 				writer.Write(_spDeleteXmlSummary);
-				writer.Write(_daConstantPrefixForParameter);
+				writer.Write(_daConstantPrefixForParameterSummary);
 				writer.Write(_daParamLessConstructorXmlSummaryTemplate);
 				writer.Write(_daParamLessConstructorXmlRemarksTemplate);
 				writer.Write(_daConstructorXmlSummaryTemplate);

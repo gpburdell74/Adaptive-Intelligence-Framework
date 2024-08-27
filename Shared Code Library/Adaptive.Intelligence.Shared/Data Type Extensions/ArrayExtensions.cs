@@ -94,5 +94,35 @@
 			}
 			return result;
 		}
-	}
+        /// <summary>
+        /// Finds the index of the element in the string array where the white space starts.
+        /// </summary>
+        /// <param name="array">The array to be checked.</param>
+        /// <returns>
+		/// An integer indicating the index of the first element of training whitepsace, or -1 if no whitespace is found, or
+		/// the array is empty.
+		/// </returns>
+        public static int FindTrailingWhitespace(this string[] array)
+        {
+			int whitespaceStart = -1;
+			int length = array.Length;
+			if (array.Length > 0)
+			{
+				int pos = length-1;
+				bool done = false;
+				do
+				{
+					if (!string.IsNullOrWhiteSpace(array[pos]))
+					{
+						whitespaceStart = pos + 1;
+						if (whitespaceStart >= length)
+							whitespaceStart = -1;
+						done = true;
+					}
+					pos--;
+				} while (pos > 0 && !done);
+			}
+			return whitespaceStart;
+        }
+    }
 }
