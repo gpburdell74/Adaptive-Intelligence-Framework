@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace Adaptive.Intelligence.SqlServer.UI
 {
@@ -11,6 +12,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
     public class SqlTextEditor : RichTextBox
     {
         #region Private Member Declarations        
+        private const short WM_PAINT = 0x00f;
         /// <summary>
         /// The file name value.
         /// </summary>
@@ -20,6 +22,9 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// processing.
         /// </summary>
         private bool _reEntrantFlag;
+
+        private bool _paint = true;
+
         #endregion
 
         #region Constructor / Dispose Methods        
@@ -43,7 +48,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
         }
         #endregion
 
-        #region Public Properties
+        #region Public Properties        
+        /// <summary>
+        /// Gets or sets a value indicating whether the control can respond to user interaction.
+        /// </summary>
         public new bool Enabled
         {
             get => base.Enabled;
@@ -95,13 +103,34 @@ namespace Adaptive.Intelligence.SqlServer.UI
         }
         #endregion
 
-        #region Protected Method Overrides
+        #region Protected Method Overrides        
+        /// <summary>
+        /// Processes Windows messages.
+        /// </summary>
+        /// <param name="m">A Windows Message object.</param>
+        protected override void WndProc(ref Message m)
+        {
+            // Code courtesy of Mark Mihevc  
+            // sometimes we want to eat the paint message so we don't have to see all the  
+            // flicker from when we select the text to change the color.  
+            if (m.Msg == WM_PAINT)
+            {
+                if (_paint)
+                    base.WndProc(ref m); // if we decided to paint this control, just call the RichTextBox WndProc  
+                else
+                    m.Result = IntPtr.Zero; // not painting, must set this to IntPtr.Zero if not painting otherwise serious problems.  
+            }
+            else
+                base.WndProc(ref m); // message other than WM_PAINT.
+        }
         /// <summary>
         /// Raises the <see cref="Control.TextChanged" /> event.
         /// </summary>
         /// <param name="e">An <see cref="EventArgs" /> that contains the event data.</param>
         protected override void OnTextChanged(EventArgs e)
         {
+           
+
             // Perform all base activities.
             base.OnTextChanged(e);
 
@@ -109,24 +138,24 @@ namespace Adaptive.Intelligence.SqlServer.UI
             if (!_reEntrantFlag)
             {
                 _reEntrantFlag = true;
-                //Win32Api.StopDrawing(Handle);
+                _paint = false;
                 SuspendLayout();
 
                 // Remember where we are.
                 int currentCursorPos = SelectionStart;
 
                 // Colorize the SQL statement.
-                SelectionStart = 0;
-                SelectionLength = TextLength;
                 SelectionColor = Color.Black;
+                
                 HighlightSqlText();
 
                 // Return the cursor to where it was before.
                 SelectionStart = currentCursorPos;
                 SelectionLength = 0;
+                SelectionColor = Color.Black;
 
                 ResumeLayout();
-                //Win32Api.ResumeDrawing(Handle);
+                _paint = true;
                 _reEntrantFlag = false;
             }
         }
@@ -169,12 +198,14 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </param>
         private void HighlightWord(string word, Color color)
         {
+            string text = Text;
             int pos = 0;
-            int len = Text.Length - 1;
+            int len = text.Length - 1;
             int wordLen = word.Length;
             do
             {
-                pos = Find(word, pos, RichTextBoxFinds.WholeWord);
+                pos = text.IndexOf(word, pos, StringComparison.InvariantCultureIgnoreCase);
+                //pos = Find(word, pos, RichTextBoxFinds.WholeWord);
                 if (pos > -1)
                 {
                     Select(pos, word.Length);
