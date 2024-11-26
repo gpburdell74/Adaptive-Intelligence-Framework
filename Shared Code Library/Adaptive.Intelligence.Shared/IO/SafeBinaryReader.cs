@@ -120,7 +120,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 		}
 		/// <summary>
@@ -148,7 +148,7 @@ namespace Adaptive.Intelligence.Shared.IO
 				}
 				catch (Exception ex)
 				{
-					Exceptions?.Add(ex);
+					AddException(ex);
 				}
 			}
 		}
@@ -170,7 +170,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return newPosition;
 		}
@@ -190,7 +190,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch(Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return value;
 		}
@@ -210,7 +210,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return value;
 		}
@@ -230,7 +230,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return value;
 		}
@@ -261,7 +261,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return data;
 		}
@@ -296,7 +296,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return data;
 		}
@@ -319,7 +319,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return data;
 		}
@@ -339,7 +339,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return value;
 		}
@@ -366,7 +366,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return data;
 		}
@@ -389,7 +389,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return data;
 		}
@@ -416,7 +416,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return dateValue;
 		}
@@ -436,7 +436,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return value;
 		}
@@ -456,7 +456,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return value;
 		}
@@ -476,7 +476,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -497,7 +497,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -518,7 +518,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -539,7 +539,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -560,7 +560,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -581,7 +581,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -602,7 +602,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -623,7 +623,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -641,7 +641,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -661,7 +661,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}
@@ -681,7 +681,7 @@ namespace Adaptive.Intelligence.Shared.IO
 			}
 			catch (Exception ex)
 			{
-				Exceptions?.Add(ex);
+				AddException(ex);
 			}
 			return returns;
 		}

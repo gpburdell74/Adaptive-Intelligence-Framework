@@ -89,7 +89,7 @@ namespace Adaptive.Intelligence.Shared
 		{
 			if (obj == null)
 				return false;
-			else if (obj.GetType() != typeof(AdaptiveStringCollection))
+			else if (!(obj is AdaptiveStringCollection))
 				return false;
 			else return
 					Equals((AdaptiveStringCollection)obj);

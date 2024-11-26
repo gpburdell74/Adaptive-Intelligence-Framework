@@ -147,7 +147,7 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
 			// Assert
 			Assert.False(result);
 			Assert.True(File.Exists(inputFile)); // Input file should still exist.
-			Assert.False(File.Exists(outputFile)); // Outpit file should not exist.
+			Assert.False(File.Exists(outputFile)); // Output file should not exist.
 
 			// Cleanup
 			File.Delete(inputFile);
@@ -281,6 +281,125 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
 
 			// Cleanup
 			File.Delete(fileName);
+		}
+
+		[Fact]
+		public async Task ExtractToInvalidFileTestAsync()
+		{
+			// Arrange
+			string originalFile = Path.GetTempFileName();
+			string compressedFile = originalFile + ".gz";
+			string outputFile = "X:\\32\\?~~!!??dddz";		// Bad file name.
+
+			// Create a compressed file
+			using (var originalFileStream = File.Create(originalFile))
+			using (var compressedFileStream = File.Create(compressedFile))
+			using (var compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+			{
+				byte[] data = Encoding.UTF8.GetBytes("Hello, World!");
+				originalFileStream.Write(data, 0, data.Length);
+				originalFileStream.Flush();
+				compressionStream.Write(data, 0, data.Length);
+			}
+
+			// Act
+			bool result = await SafeIO.DecompressGZFileAsync(compressedFile, outputFile, deleteOriginal: true);
+
+			// Assert
+			Assert.False(result);
+			Assert.False(File.Exists(outputFile));
+			Assert.True(File.Exists(compressedFile)); // Original should not be deleted.
+
+			// Cleanup
+			File.Delete(originalFile);
+		}
+
+		[Fact]
+		public void DeleteAllFilesInDirectoryTest()
+		{
+			// Arrange.
+			string path = Path.GetTempPath() + @"testdir\";
+			System.IO.Directory.CreateDirectory(path);
+			string[] files = Directory.GetFiles(path);
+			foreach (string file in files)
+				File.Delete(file);
+
+			CreateTempFile(path + "fileA.txt");
+			CreateTempFile(path + "fileB.txt");
+			CreateTempFile(path + "fileC.txt");
+
+			string[]? list = SafeIO.GetFilesInPath(path);
+			Assert.NotNull(list);
+			Assert.Equal(3, list.Length);
+
+			// Act
+			SafeIO.DeleteAllFilesInDirectory(path);
+
+			// Assert
+			list = SafeIO.GetFilesInPath(path);
+			Assert.NotNull(list);
+			Assert.Empty(list);
+
+			// Clean up.
+			files = Directory.GetFiles(path);
+			foreach (string file in files)
+				File.Delete(file);
+			Directory.Delete(path);
+		}
+
+		[Fact]
+		public void DeleteAllFilesInDirectoryWithWildcardTest()
+		{
+			// Arrange.
+			string path = Path.GetTempPath() + @"testdir\";
+			System.IO.Directory.CreateDirectory(path);
+			string[] files = Directory.GetFiles(path);
+			foreach (string file in files)
+				File.Delete(file);
+
+			CreateTempFile(path + "fileA.txt");
+			CreateTempFile(path + "fileB.txt");
+			CreateTempFile(path + "fileC.txt");
+
+			CreateTempFile(path + "fileD.dat");
+			CreateTempFile(path + "fileE.dat");
+			CreateTempFile(path + "fileF.dat");
+
+			string[]? list = SafeIO.GetFilesInPath(path);
+			Assert.NotNull(list);
+			Assert.Equal(6, list.Length);
+
+			// Act 1
+			SafeIO.DeleteAllFilesInDirectory(path, "*.txt");
+
+			// Assert 1
+			list = SafeIO.GetFilesInPath(path);
+			Assert.NotNull(list);
+			Assert.Equal(3, list.Length);
+
+			// Act 2
+			SafeIO.DeleteAllFilesInDirectory(path, "*.dat");
+
+			// Assert 2
+			list = SafeIO.GetFilesInPath(path);
+			Assert.NotNull(list);
+			Assert.Empty(list);
+
+			// Clean up.
+			files = Directory.GetFiles(path);
+			foreach (string file in files)
+				File.Delete(file);
+			Directory.Delete(path);
+		}
+
+		private void CreateTempFile(string pathAndName)
+		{
+			if (File.Exists(pathAndName))
+				File.Delete(pathAndName);
+
+			FileStream fs = new FileStream(pathAndName, FileMode.CreateNew, FileAccess.Write);
+			fs.Write(Encoding.UTF8.GetBytes("Hello, World!"), 0, 13);
+			fs.Dispose();
 		}
 	}
 }

@@ -91,7 +91,7 @@
 			Assert.False(collectionOne.Equals(collectionTwo));
 		}
 		[Fact]
-		public void EqualsDifferentObjecTypesReturnsFalse()
+		public void EqualsDifferentObjectTypesReturnsFalse()
 		{
 			AdaptiveStringCollection collectionOne = new AdaptiveStringCollection(new List<string> { "one" });
 			System.Collections.Specialized.StringCollection collectionTwo = new System.Collections.Specialized.StringCollection();
@@ -110,6 +110,14 @@
 			Assert.False(collectionOne.Equals(subListThatsNull));
 
 		}
+		[Fact]
+		public void EqualsSuccess()
+		{
+			AdaptiveStringCollection collectionOne = new AdaptiveStringCollection(new List<string> { "one" });
+
+			Assert.True(collectionOne.Equals(collectionOne));
+		}
+
 		[Fact]
 		public void Set_WithNewList_ShouldReplaceCollection()
 		{
