@@ -101,6 +101,33 @@ namespace Adaptive.Intelligence.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;The hash data does not match the original. This data may have been modified.&quot;.
+        /// </summary>
+        internal static string ErrorBadHash {
+            get {
+                return ResourceManager.GetString("ErrorBadHash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The data could not be decrypted..
+        /// </summary>
+        internal static string ErrorCantDecrypt {
+            get {
+                return ResourceManager.GetString("ErrorCantDecrypt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encryption failed, resulting in a null value..
+        /// </summary>
+        internal static string ErrorCantEncrypt {
+            get {
+                return ResourceManager.GetString("ErrorCantEncrypt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specified object is not the same type as this instance..
         /// </summary>
         internal static string ErrorCompareInvalidType {
@@ -119,6 +146,24 @@ namespace Adaptive.Intelligence.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid key content length..
+        /// </summary>
+        internal static string ErrorInvalidKeyContentLength {
+            get {
+                return ResourceManager.GetString("ErrorInvalidKeyContentLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keys have not been initialized..
+        /// </summary>
+        internal static string ErrorKeysNotInitialized {
+            get {
+                return ResourceManager.GetString("ErrorKeysNotInitialized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid text was supplied for parsing..
         /// </summary>
         internal static string ErrorMessageCantParseTime {
@@ -133,6 +178,24 @@ namespace Adaptive.Intelligence.Shared.Properties {
         internal static string ErrorMessageNullTime {
             get {
                 return ResourceManager.GetString("ErrorMessageNullTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The underlying stream was not open, or not opened for reading..
+        /// </summary>
+        internal static string ErrorNotOpenForRead {
+            get {
+                return ResourceManager.GetString("ErrorNotOpenForRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The underlying stream was not open, or not opened for writing..
+        /// </summary>
+        internal static string ErrorNotOpenForWrite {
+            get {
+                return ResourceManager.GetString("ErrorNotOpenForWrite", resourceCulture);
             }
         }
         

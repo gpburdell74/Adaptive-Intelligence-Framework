@@ -31,7 +31,7 @@
 		/// <value>
 		/// The <see cref="BinaryReader"/> instance being used to do the reading.
 		/// </value>
-		BinaryReader Reader { get; }
+		BinaryReader? Reader { get; }
 		#endregion
 
 		#region Methods / Functions

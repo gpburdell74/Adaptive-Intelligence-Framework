@@ -17,7 +17,7 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// <summary>
 		/// A flag indicating whether the reader instance's scope is local.
 		/// </summary>
-		private bool _readerLocal;
+		private readonly bool _readerLocal;
 		/// <summary>
 		/// The reference to the stream to be read from.
 		/// </summary>
@@ -56,12 +56,10 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// <b>false</b> to release only unmanaged resources.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (!IsDisposed && disposing)
-			{
-				if (_readerLocal)
-					_reader?.Dispose();
-			}
+			if (!IsDisposed && disposing && _readerLocal)
+				_reader?.Dispose();
 
+			_reader = null;
 			_sourceStream = null;
 			base.Dispose(disposing);
 		}
@@ -73,6 +71,7 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </returns>
 		public async ValueTask DisposeAsync()
 		{
+			await Task.Yield();
 			Dispose(true);
 		}
 		#endregion

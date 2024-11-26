@@ -111,7 +111,7 @@ namespace Adaptive.Intelligence.Shared.Security
 					byte[] stateB = providerB.Decrypt(stateA)!;
 					byte[] stateC = providerC.Decrypt(stateB)!;
 
-					// un-splice the bits.
+					// Un-splice the bits.
 					byte[] stateD = BitSplicer.UnSpliceBits(stateC)!;
 
 					// Decrypt the data content in reverse order from Encrypt().
@@ -213,15 +213,15 @@ namespace Adaptive.Intelligence.Shared.Security
 					providerC.Dispose();
 					providerB.Dispose();
 					providerA.Dispose();
-					ByteArrayUtil.Clear(stateA);
-					ByteArrayUtil.Clear(stateB);
-					ByteArrayUtil.Clear(stateC);
-					ByteArrayUtil.Clear(stateD);
-					ByteArrayUtil.Clear(stateE);
-					ByteArrayUtil.Clear(stateF);
-					ByteArrayUtil.Clear(derivedDataA);
-					ByteArrayUtil.Clear(derivedDataB);
-					ByteArrayUtil.Clear(derivedDataC);
+					CryptoUtil.SecureClear(stateA);
+					CryptoUtil.SecureClear(stateB);
+					CryptoUtil.SecureClear(stateC);
+					CryptoUtil.SecureClear(stateD);
+					CryptoUtil.SecureClear(stateE);
+					CryptoUtil.SecureClear(stateF);
+					CryptoUtil.SecureClear(derivedDataA);
+					CryptoUtil.SecureClear(derivedDataB);
+					CryptoUtil.SecureClear(derivedDataC);
 				}
 			}
 			return encryptedData;
