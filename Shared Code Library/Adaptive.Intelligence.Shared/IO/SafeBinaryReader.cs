@@ -114,14 +114,7 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// </summary>
 		public void Close()
 		{
-			try
-			{
-				_reader?.Close();
-			}
-			catch (Exception ex)
-			{
-				AddException(ex);
-			}
+			_reader?.Close();
 		}
 		/// <summary>
 		/// Reads the byte array into the specified buffer.
@@ -269,7 +262,7 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// Reads the next byte array value from the <see cref="Stream"/>.
 		/// </summary>
 		/// <remarks>
-		/// This method expects a null indictor value, then a length indicator, and then the data.
+		/// This method expects a null indicator value, then a length indicator, and then the data.
 		/// </remarks>
 		/// <returns>
 		/// The <see cref="byte"/> array that was read.

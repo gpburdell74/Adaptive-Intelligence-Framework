@@ -283,13 +283,31 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
 			File.Delete(fileName);
 		}
 
-		[Fact]
+        [Fact]
+        public void GetFileSizeNative_KnownSizeFile_ReturnsCorrectSize()
+        {
+            // Arrange
+            string fileName = Path.GetTempFileName();
+            string content = "Hello, World!";
+            File.WriteAllText(fileName, content);
+
+            // Act
+            long size = SafeIO.GetFileSizeNative(fileName);
+
+            // Assert
+            Assert.Equal(content.Length, size);
+
+            // Cleanup
+            File.Delete(fileName);
+        }
+
+        [Fact]
 		public async Task ExtractToInvalidFileTestAsync()
 		{
 			// Arrange
 			string originalFile = Path.GetTempFileName();
 			string compressedFile = originalFile + ".gz";
-			string outputFile = "X:\\32\\?~~!!??dddz";		// Bad file name.
+			string outputFile = "X:\\32\\?~~!!??dddz";      // Bad file name.
 
 			// Create a compressed file
 			using (var originalFileStream = File.Create(originalFile))
@@ -401,5 +419,251 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
 			fs.Write(Encoding.UTF8.GetBytes("Hello, World!"), 0, 13);
 			fs.Dispose();
 		}
+
+		#region DeleteFile
+		[Fact]
+		public void DeleteFile_FileExists_DeletesFile()
+		{
+			// Arrange
+			string fileName = Path.GetTempFileName();
+
+			// Act
+			bool result = SafeIO.DeleteFile(fileName);
+
+			// Assert
+			Assert.True(result);
+			Assert.False(File.Exists(fileName));
+		}
+
+		[Fact]
+		public void DeleteFile_FileDoesNotExist_ReturnsFalse()
+		{
+			// Arrange
+			string fileName = Path.GetRandomFileName(); // Ensuring the file does not exist
+			try
+			{
+				File.Delete(fileName);
+			}
+			catch
+			{ }
+
+			// Act
+			bool result = SafeIO.DeleteFile(fileName);
+
+			// Assert
+			Assert.False(result);
+		}
+		#endregion
+
+		#region DetermineFileFormat
+		[Fact]
+		public void DetermineFileFormat_ValidFile_ReturnsCorrectFormat()
+		{
+			// Arrange
+			string fileName = "testfile.txt";
+
+			// Act
+			FileFormat format = SafeIO.DetermineFileFormat(fileName);
+
+			// Assert
+			Assert.Equal(FileFormat.TextFile, format);
+		}
+
+		[Fact]
+		public void DetermineFileFormat_InvalidFile_ReturnsNotSpecified()
+		{
+			// Arrange
+			string fileName = "testfile.unknown";
+
+			// Act
+			FileFormat format = SafeIO.DetermineFileFormat(fileName);
+
+			// Assert
+			Assert.Equal(FileFormat.NotSpecified, format);
+		}
+		#endregion
+
+		#region FindUSBDrive
+		[Fact]
+		public void FindUSBDrive_NoUSBDrive_ReturnsNull()
+		{
+			// Act
+			DirectoryInfo? usbDrive = SafeIO.FindUSBDrive();
+
+			// Assert
+			Assert.Null(usbDrive);
+		}
+		#endregion
+
+		#region GetDirectories
+		[Fact]
+		public void GetDirectories_ValidPath_ReturnsSubDirectories()
+		{
+			// Arrange
+			string directoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+			Directory.CreateDirectory(directoryPath);
+			Directory.CreateDirectory(Path.Combine(directoryPath, "subdir1"));
+			Directory.CreateDirectory(Path.Combine(directoryPath, "subdir2"));
+
+			// Act
+			string[]? subDirs = SafeIO.GetDirectories(directoryPath);
+
+			// Assert
+			Assert.NotNull(subDirs);
+			Assert.Equal(2, subDirs.Length);
+
+			// Cleanup
+			Directory.Delete(directoryPath, true);
+		}
+
+		[Fact]
+		public void GetDirectories_InvalidPath_ReturnsNull()
+		{
+			// Arrange
+			string directoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
+			// Act
+			string[]? subDirs = SafeIO.GetDirectories(directoryPath);
+
+			// Assert
+			Assert.Null(subDirs);
+		}
+		#endregion
+
+		#region GetFilesInPath
+		[Fact]
+		public void GetFilesInPath_ValidPath_ReturnsFiles()
+		{
+			// Arrange
+			string directoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+			Directory.CreateDirectory(directoryPath);
+			CreateTempFile(Path.Combine(directoryPath, "file1.txt"));
+			CreateTempFile(Path.Combine(directoryPath, "file2.txt"));
+
+			// Act
+			string[]? files = SafeIO.GetFilesInPath(directoryPath);
+
+			// Assert
+			Assert.NotNull(files);
+			Assert.Equal(2, files.Length);
+
+			// Cleanup
+			Directory.Delete(directoryPath, true);
+		}
+
+		[Fact]
+		public void GetFilesInPath_InvalidPath_ReturnsNull()
+		{
+			// Arrange
+			string directoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
+			// Act
+			string[]? files = SafeIO.GetFilesInPath(directoryPath);
+
+			// Assert
+			Assert.Null(files);
+		}
+		#endregion
+
+		#region ReadBytesFromFile
+		[Fact]
+		public void ReadBytesFromFile_ValidFile_ReturnsBytes()
+		{
+			// Arrange
+			string fileName = Path.GetTempFileName();
+			byte[] content = Encoding.UTF8.GetBytes("Hello, World!");
+			File.WriteAllBytes(fileName, content);
+
+			// Act
+			byte[]? result = SafeIO.ReadBytesFromFile(fileName);
+
+			// Assert
+			Assert.NotNull(result);
+			Assert.Equal(content, result);
+
+			// Cleanup
+			File.Delete(fileName);
+		}
+
+		[Fact]
+		public void ReadBytesFromFile_FileDoesNotExist_ReturnsNull()
+		{
+			// Arrange
+			string fileName = Path.GetRandomFileName(); // Ensuring the file does not exist
+
+			// Act
+			byte[]? result = SafeIO.ReadBytesFromFile(fileName);
+
+			// Assert
+			Assert.Null(result);
+		}
+		#endregion
+
+		#region ReadTextFromFile
+		[Fact]
+		public void ReadTextFromFile_ValidFile_ReturnsText()
+		{
+			// Arrange
+			string fileName = Path.GetTempFileName();
+			string content = "Hello, World!";
+			File.WriteAllText(fileName, content);
+
+			// Act
+			string? result = SafeIO.ReadTextFromFile(fileName, isUnicode: false);
+
+			// Assert
+			Assert.Equal(content, result);
+
+			// Cleanup
+			File.Delete(fileName);
+		}
+
+		[Fact]
+		public void ReadTextFromFile_FileDoesNotExist_ReturnsNull()
+		{
+			// Arrange
+			string fileName = Path.GetRandomFileName(); // Ensuring the file does not exist
+
+			// Act
+			string? result = SafeIO.ReadTextFromFile(fileName, isUnicode: false);
+
+			// Assert
+			Assert.Null(result);
+		}
+		#endregion
+
+		#region WriteBytesToFile
+		[Fact]
+		public void WriteBytesToFile_ValidPath_WritesBytes()
+		{
+			// Arrange
+			string fileName = Path.GetTempFileName();
+			byte[] content = Encoding.UTF8.GetBytes("Hello, World!");
+
+			// Act
+			OperationalResult result = SafeIO.WriteBytesToFile(fileName, content);
+
+			// Assert
+			Assert.True(result.Success);
+			Assert.Equal(content, File.ReadAllBytes(fileName));
+
+			// Cleanup
+			File.Delete(fileName);
+		}
+
+		[Fact]
+		public void WriteBytesToFile_InvalidPath_ReturnsFalse()
+		{
+			// Arrange
+			string fileName = "X:\\32\\?~~!!??dddz"; // Invalid file path
+			byte[] content = Encoding.UTF8.GetBytes("Hello, World!");
+
+			// Act
+			OperationalResult result = SafeIO.WriteBytesToFile(fileName, content);
+
+			// Assert
+			Assert.False(result.Success);
+		}
+		#endregion
 	}
 }

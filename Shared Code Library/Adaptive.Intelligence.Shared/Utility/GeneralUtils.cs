@@ -3,19 +3,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
-using Humanizer;
-using Humanizer.Localisation;
-using Humanizer.Inflections;
-using Humanizer.Configuration;
-using Humanizer.Bytes;
 
 namespace Adaptive.Intelligence.Shared
 {
-	/// <summary>
-	/// Provides static methods / functions for shared utility operations
-	/// for the application.
-	/// </summary>
-	public static class GeneralUtils
+    /// <summary>
+    /// Provides static methods / functions for shared utility operations
+    /// for the application.
+    /// </summary>
+    public static class GeneralUtils
 	{
 		#region Private Static Members
 		/// <summary>
