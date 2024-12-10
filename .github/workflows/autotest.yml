@@ -1,0 +1,11 @@
+name: Adaptive Intelligence Framework Automated Testing
+on: [push]
+jobs:
+  windows_test:
+    runs-on: windows-latest
+    steps:
+    - name: Check out Code
+    - uses: actions/checkout@v2
+    - name: Run tests
+      run: 
+        dotnet test

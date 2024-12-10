@@ -237,10 +237,16 @@ namespace Adaptive.Intelligence.Shared.IO
 			bool success = false;
 			if (!string.IsNullOrEmpty(pathAndFileName))
 			{
+
 				try
 				{
-					File.Delete(pathAndFileName);
-					success = true;
+					if (File.Exists(pathAndFileName))
+					{
+						File.Delete(pathAndFileName);
+						success = true;
+					}
+					else
+						success = false;
 				}
 				catch (DirectoryNotFoundException ex)
 				{
@@ -320,8 +326,13 @@ namespace Adaptive.Intelligence.Shared.IO
 
 			try
 			{
-				File.Delete(fileName);
-				result = new OperationalResult(true);
+				if (File.Exists(fileName))
+				{
+					File.Delete(fileName);
+					result = new OperationalResult(true);
+				}
+				else
+					result = new OperationalResult(false, Resources.ErrorFileDoesNotExist);
 			}
 			catch (Exception ex)
 			{
@@ -348,7 +359,7 @@ namespace Adaptive.Intelligence.Shared.IO
 				if (!string.IsNullOrWhiteSpace(ext))
 				{
 					FileFormatConverter converter = new FileFormatConverter();
-					format = converter.ConvertBack(fileName);
+					format = converter.ConvertBack(ext);
 				}
 			}
 			return format;
