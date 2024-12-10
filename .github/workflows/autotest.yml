@@ -7,5 +7,5 @@ jobs:
     - name: Check out Code
     - uses: actions/checkout@v2
     - name: Run tests
-      run: 
+      runs: 
         dotnet test
