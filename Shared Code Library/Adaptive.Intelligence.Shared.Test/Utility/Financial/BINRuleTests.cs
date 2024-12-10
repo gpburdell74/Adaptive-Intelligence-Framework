@@ -86,17 +86,5 @@ namespace Adaptive.Intelligence.Shared.Tests.Utility.Financial
 
 			Assert.Equal(expectedResult, result);
 		}
-		[Fact]
-		public void ImageTest()
-		{
-			BINRule rule = new BINRule();
-			rule.ImageData = SafeIO.ReadBytesFromFile("D:\\Adaptive.Intelligence\\Graphics\\Credit Cards\\Amex.jpg");
-			Assert.NotNull(rule.ImageData);
-
-			rule.ImageData = SafeIO.ReadBytesFromFile("D:\\Adaptive.Intelligence\\Graphics\\Credit Cards\\VISA.jpg");
-			Assert.NotNull(rule.ImageData);
-
-			rule.Dispose();
-		}
 	}
 }
