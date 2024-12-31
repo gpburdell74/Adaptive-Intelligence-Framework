@@ -95,7 +95,8 @@ namespace Adaptive.Intelligence.Shared
 
 				// Add the remaining items that were not processed.
 				string lastItems = builder.ToString();
-				list.Add(Constants.SingleQuote + lastItems.Substring(0, lastItems.Length - 1) +
+				if (!string.IsNullOrEmpty(lastItems))
+					list.Add(Constants.SingleQuote + lastItems.Substring(0, lastItems.Length - 1) +
 					Constants.SingleQuote);
 			}
 
@@ -233,36 +234,17 @@ namespace Adaptive.Intelligence.Shared
 			return guid.ToString().Replace(Constants.Dash, string.Empty);
 		}
 		/// <summary>
-		/// Convert a date time to the proper time zone.
-		/// </summary>
-		/// <param name="datetime">
-		/// The <see cref="DateTime"/> being operated on.
-		/// </param>
-		/// <param name="timeZoneOffset">
-		/// A string containing the timezone offset value.
-		/// </param>
-		/// <returns>
-		/// A modified <see cref="DateTime"/> value.
-		/// </returns>
-		public static DateTime ConvertToLocalTimeFromCustomerSettings(this DateTime datetime, string timeZoneOffset)
-		{
-			DateTime newDate = new DateTime(datetime.Year, datetime.Month, datetime.Day, datetime.Hour, datetime.Minute, datetime.Second, DateTimeKind.Utc);
-			TimeZoneInfo tzInfo = FindTimezoneForOffset(timeZoneOffset);
-			return TimeZoneInfo.ConvertTime(newDate, tzInfo);
-		}
-
-		/// <summary>
 		/// Returns the timezone from a string value from the database
 		/// </summary>
 		/// <param name="hoursOffsetStr"></param>
 		/// <returns>
 		/// The <see cref="TimeZoneInfo"/> for the specified offset value.
 		/// </returns>
-		public static TimeZoneInfo FindTimezoneForOffset(string hoursOffsetStr)
+		public static TimeZoneInfo FindTimeZoneForOffset(string hoursOffsetStr)
 		{
 			if (int.TryParse(hoursOffsetStr, out int hoursOffset))
 			{
-				return FindTimezoneForOffset(hoursOffset);
+				return FindTimeZoneForOffset(hoursOffset);
 			}
 			else
 				return TimeZoneInfo.Local;
@@ -272,7 +254,7 @@ namespace Adaptive.Intelligence.Shared
 		/// </summary>
 		/// <param name="hoursOffset"></param>
 		/// <returns></returns>
-		public static TimeZoneInfo FindTimezoneForOffset(int hoursOffset)
+		public static TimeZoneInfo FindTimeZoneForOffset(int hoursOffset)
 		{
 			//default
 			TimeZoneInfo tzI = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
