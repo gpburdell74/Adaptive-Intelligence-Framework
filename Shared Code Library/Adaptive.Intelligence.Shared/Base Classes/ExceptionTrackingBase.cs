@@ -57,7 +57,7 @@ namespace Adaptive.Intelligence.Shared
 				if (_exceptionList == null)
 					return new ExceptionCollection();
 				else
-					return _exceptionList.Clone();
+					return _exceptionList;
 			}
 		}
         /// <summary>

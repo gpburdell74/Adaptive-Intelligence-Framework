@@ -39,7 +39,7 @@ namespace Adaptive.Intelligence.Shared
 			if (originalList != null)
 			{
 				int length = originalList.Count;
-				for (int index = 0; index <= length; index += blockSize)
+				for (int index = 0; index < length; index += blockSize)
 				{
 					int itemCount = length - index;
 					if (itemCount > blockSize)
