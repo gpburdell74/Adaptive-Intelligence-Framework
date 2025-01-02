@@ -117,14 +117,7 @@
 		/// </summary>
 		public void Close()
 		{
-			try
-			{
-				_writer?.Close();
-			}
-			catch (Exception ex)
-			{
-				Exceptions?.Add(ex);
-			}
+			_writer?.Close();
 		}
 		/// <summary>
 		/// Clears all buffers for this writer and causes any buffered data to be
@@ -132,14 +125,7 @@
 		/// </summary>
 		public void Flush()
 		{
-			try
-			{
-				_writer?.Flush();
-			}
-			catch (Exception ex)
-			{
-				Exceptions?.Add(ex);
-			}
+			_writer?.Flush();
 		}
 		/// <summary>
 		/// Moves the current position in the file to the specified location.
@@ -603,7 +589,7 @@
 						_writer.Write(length);
 
 						// Write the byte array, if data is present.
-						if (length > 0)	
+						if (data != null && length > 0)	
 							_writer.Write(data, 0, length);
 					}
 					_writer.Flush();
@@ -615,7 +601,7 @@
 			}
 		}
 		/// <summary>
-		/// Writes the integer to the strea as a 7-bit encoded value.
+		/// Writes the integer to the stream as a 7-bit encoded value.
 		/// </summary>
 		/// <param name="value">
 		/// The integer value to be written.
@@ -624,7 +610,7 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				_writer?.Write7BitEncodedInt(value);
 			}
 			catch (Exception ex)
 			{
@@ -632,7 +618,7 @@
 			}
 		}
 		/// <summary>
-		/// Writes the long integer to the strea as a 7-bit encoded value.
+		/// Writes the long integer to the stream as a 7-bit encoded value.
 		/// </summary>
 		/// <param name="value">
 		/// The long value to be written.
@@ -641,7 +627,7 @@
 		{
 			try
 			{
-				_writer?.Write(value);
+				_writer?.Write7BitEncodedInt64(value);
 			}
 			catch (Exception ex)
 			{

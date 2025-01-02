@@ -11,7 +11,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         {
             // Act.
             string? key = GeneralUtils.BigKey();
-            
+
             // Assert.
             Assert.NotNull(key);
             Assert.False(string.IsNullOrEmpty(key));
@@ -33,7 +33,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
 
             Assert.Equal(0, dt.Hour);
             Assert.Equal(0, dt.Minute);
-            Assert.Equal(0,dt.Second);
+            Assert.Equal(0, dt.Second);
 
         }
 
@@ -44,7 +44,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
             Assert.Equal(string.Empty, result);
         }
 
-        [Theory, 
+        [Theory,
             InlineData("1"),
             InlineData("12"),
             InlineData("1234"),
@@ -54,7 +54,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
             InlineData("123456789")]
 
         public void CleanUpPhoneNumberNotEnoughDigitsTest(string data)
-        { 
+        {
             // Act.
             string result = GeneralUtils.CleanUpPhoneNumber(data);
 
@@ -244,7 +244,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         {
             StringBuilder builder = new StringBuilder();
             builder.Append("'");
-            for(int count = startIndex; count <= endIndex; count++)
+            for (int count = startIndex; count <= endIndex; count++)
             {
                 builder.Append(testData[count]);
                 if (count < endIndex)
@@ -253,10 +253,102 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
             builder.Append("'");
             return builder.ToString();
         }
+        [Fact]
+        public void CreateListBlocks_NullList_ReturnsEmptyList()
+        {
+            // Arrange
+            List<int>? originalList = null;
+            int blockSize = 3;
+
+            // Act
+            var result = GeneralUtils.CreateListBlocks(originalList, blockSize);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(0, result.Count);
+        }
+
+        [Fact]
+        public void CreateListBlocks_EmptyList_ReturnsEmptyList()
+        {
+            // Arrange
+            List<int> originalList = new List<int>();
+            int blockSize = 3;
+
+            // Act
+            var result = GeneralUtils.CreateListBlocks(originalList, blockSize);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(0, result.Count);
+        }
+
+        [Fact]
+        public void CreateListBlocks_ListWithItems_ReturnsCorrectBlocks()
+        {
+            // Arrange
+            List<int> originalList = new List<int> { 1, 2, 3, 4, 5, 6, 7 };
+            int blockSize = 3;
+
+            // Act
+            List<List<int>> result = GeneralUtils.CreateListBlocks(originalList, blockSize);
+
+            // Assert
+            Assert.Equal(3, result.Count);
+
+            Assert.Collection<int>(
+                result[0], 
+                e => Assert.Equal(1, e),
+                e => Assert.Equal(2, e),
+                e => Assert.Equal(3, e)
+            );
+
+            Assert.Collection<int>(
+                result[1],
+                e => Assert.Equal(4, e),
+                e => Assert.Equal(5, e),
+                e => Assert.Equal(6, e)
+            );
+
+            Assert.Collection<int>(
+                result[2],
+                e => Assert.Equal(7, e)
+            );
+        }
+
+        [Fact]
+        public void CreateListBlocks_ListWithItems_BlockSizeGreaterThanListSize()
+        {
+            // Arrange
+            List<int> originalList = new List<int> { 1, 2, 3 };
+            int blockSize = 5;
+
+            // Act
+            var result = GeneralUtils.CreateListBlocks(originalList, blockSize);
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal(new List<int> { 1, 2, 3 }, result[0]);
+        }
+
+        [Fact]
+        public void CreateListBlocks_ListWithItems_BlockSizeOne()
+        {
+            // Arrange
+            List<int> originalList = new List<int> { 1, 2, 3 };
+            int blockSize = 1;
+
+            // Act
+            List<List<int>> result = GeneralUtils.CreateListBlocks(originalList, blockSize);
+
+            // Assert
+            Assert.Equal(3, result.Count);
+            Assert.Equal(new List<int> { 1 }, result[0]);
+            Assert.Equal(new List<int> { 2 }, result[1]);
+            Assert.Equal(new List<int> { 3 }, result[2]);
+        }
         public void Other()
         {
-            //GeneralUtils.CreateIterationListsFromIdList();
-            //GeneralUtils.CreateListBlocks();
             //GeneralUtils.EnglishPlural();
             //GeneralUtils.EnglishStringAppend();
             //GeneralUtils.FindTimezoneForOffset();

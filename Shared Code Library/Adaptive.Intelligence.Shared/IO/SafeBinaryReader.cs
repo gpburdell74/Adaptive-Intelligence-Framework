@@ -231,7 +231,7 @@ namespace Adaptive.Intelligence.Shared.IO
 		/// Reads the next byte array value from the <see cref="Stream" />.
 		/// </summary>
 		/// <remarks>
-		/// This method assumes a <see cref="int"/> length indicator preceeds the byte array.  If the length indicator is zero (0),
+		/// This method assumes a <see cref="int"/> length indicator precedes the byte array.  If the length indicator is zero (0),
 		/// <b>null</b> is returned.
 		/// </remarks>
 		/// <returns>
