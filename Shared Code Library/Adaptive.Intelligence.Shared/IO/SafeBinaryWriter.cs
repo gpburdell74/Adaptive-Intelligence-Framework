@@ -15,7 +15,7 @@
 		/// <summary>
 		/// A flag indicating whether the writer instance's scope is local.
 		/// </summary>
-		private bool _writerLocal;
+		private readonly bool _writerLocal;
 		/// <summary>
 		/// The reference to the stream to be written to.
 		/// </summary>
