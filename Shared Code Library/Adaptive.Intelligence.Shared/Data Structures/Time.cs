@@ -240,10 +240,10 @@ namespace Adaptive.Intelligence.Shared
 		/// </exception>
 		public int CompareTo(object? obj)
 		{
-			if ((obj == null) || (obj.GetType() != typeof(Time)))
+			if (!(obj is Time))
 				throw new ArgumentException(
-					nameof(obj),
-					Resources.ErrorCompareInvalidType);
+				   Resources.ErrorCompareInvalidType,
+								   nameof(obj));
 
 			return _timeData.CompareTo(((Time)obj).TotalSeconds);
 		}
@@ -278,7 +278,7 @@ namespace Adaptive.Intelligence.Shared
 		{
 			if (obj == null)
 				return false;
-			else if (obj.GetType() != typeof(Time))
+			else if (obj is not Time)
 				return false;
 			else
 				return _timeData == ((Time)obj).TotalSeconds;

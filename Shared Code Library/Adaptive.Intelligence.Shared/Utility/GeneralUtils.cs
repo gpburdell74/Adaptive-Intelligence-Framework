@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
@@ -6,11 +7,11 @@ using System.Text;
 
 namespace Adaptive.Intelligence.Shared
 {
-    /// <summary>
-    /// Provides static methods / functions for shared utility operations
-    /// for the application.
-    /// </summary>
-    public static class GeneralUtils
+	/// <summary>
+	/// Provides static methods / functions for shared utility operations
+	/// for the application.
+	/// </summary>
+	public static class GeneralUtils
 	{
 		#region Private Static Members
 		/// <summary>
@@ -19,6 +20,7 @@ namespace Adaptive.Intelligence.Shared
 		private static readonly DateTimeOffset _blankDate = new DateTimeOffset(1900, 1, 1, 0, 0, 0, new TimeSpan(0));
 		#endregion
 
+		#region Public Static Methods / Functions
 		/// <summary>
 		/// Transforms a list of items in to a list of lists, each sub-list being the specified
 		/// block size.
@@ -111,7 +113,7 @@ namespace Adaptive.Intelligence.Shared
 		/// <returns>
 		/// A string containing the plural form of the provided word.
 		/// </returns>
-		public static string GetPluralEnglishForm(string word)
+		public static string GetPluralEnglishForm(string? word)
 		{
 			if (!string.IsNullOrEmpty(word))
 			{
@@ -220,8 +222,6 @@ namespace Adaptive.Intelligence.Shared
 		{
 			return (listInstance == null || listInstance.Count == 0);
 		}
-
-		#region Public Static Methods / Functions
 		/// <summary>
 		/// Provides a standard function for creating new ID values as as string based on GUID values.
 		/// </summary>
@@ -256,17 +256,30 @@ namespace Adaptive.Intelligence.Shared
 		/// <returns></returns>
 		public static TimeZoneInfo FindTimeZoneForOffset(int hoursOffset)
 		{
-			//default
-			TimeZoneInfo tzI = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-			foreach (TimeZoneInfo item in TimeZoneInfo.GetSystemTimeZones())
+			// The time zone information reference.
+			TimeZoneInfo? timeZoneResult = null;
+
+			// Get the system list and query for the specific offset.  There may be multiple results.
+			ReadOnlyCollection<TimeZoneInfo> systemList = TimeZoneInfo.GetSystemTimeZones();
+			List<TimeZoneInfo> candidateList = systemList.Where(x => x.BaseUtcOffset.Hours == hoursOffset).ToList();
+			if (candidateList.Count == 1)
+				timeZoneResult = candidateList[0];
+			else
 			{
-				if ((item.BaseUtcOffset.Hours == hoursOffset) && (item.DisplayName.Contains("US")))
-				{
-					tzI = item;
-					break;
-				}
+				// Look for US timezones.
+				timeZoneResult = candidateList.FirstOrDefault(x => x.DisplayName.Contains("US"));
+				if (timeZoneResult == null)
+					timeZoneResult = candidateList[0];
+
 			}
-			return tzI;
+
+			// Return the default if the other(s) cannot be found.
+			if (timeZoneResult == null)
+
+				timeZoneResult = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+			return timeZoneResult;
+
 		}
 		/// <summary>
 		/// Generates a new GUID ID value for use as an ID field in a database table.
@@ -309,19 +322,19 @@ namespace Adaptive.Intelligence.Shared
 					newCell = newCell.Substring(1);
 			return newCell;
 		}
-        /// <summary>
-        /// Convert a text dollar amount to an easy-to-use decimal value.
-        /// </summary>
-        /// <param name="moneyText">
-        /// A string containing the currency text to be converted to
-        /// a decimal value.
-        /// </param>
-        /// <returns>
-        /// A <see cref="float"/> value from the provided text.
-        /// </returns>
-        public static float ConvertToSQLMoney(this string moneyText)
+		/// <summary>
+		/// Convert a text dollar amount to an easy-to-use decimal value.
+		/// </summary>
+		/// <param name="moneyText">
+		/// A string containing the currency text to be converted to
+		/// a decimal value.
+		/// </param>
+		/// <returns>
+		/// A <see cref="float"/> value from the provided text.
+		/// </returns>
+		public static float ConvertToSQLMoney(this string moneyText)
 		{
-            float returnValue = 0;
+			float returnValue = 0;
 
 			if (!string.IsNullOrEmpty(moneyText))
 			{
