@@ -47,5 +47,24 @@
 			var resultValue = SafeConverter.DecimalFromArrray(byteArray);
 			Assert.Equal(originalValue, resultValue);
 		}
-	}
+
+		[Fact]
+		public void SafeToSingleTest()
+		{
+			float cf = SafeConverter.SafeToSingle("1.2322");
+            Assert.Equal(1.2322f, cf);
+        }
+        [Fact]
+        public void SafeToSingleEmptyTest()
+        {
+			float cf = SafeConverter.SafeToSingle(string.Empty);
+            Assert.Equal(0f, cf);
+        }
+        [Fact]
+        public void SafeToSingleNullTest()
+        {
+            float cf = SafeConverter.SafeToSingle(null);
+            Assert.Equal(0f, cf);
+        }
+    }
 }

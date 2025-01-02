@@ -190,7 +190,7 @@
 		/// <param name="index">The zero-based index of the element to remove.</param>
 		public new void RemoveAt(int index)
 		{
-			if ((index > 0) && (index < Count))
+			if ((index >= 0) && (index < Count))
 			{
 				T item = this[index];
 				string name = GetName(item);

@@ -142,7 +142,7 @@ namespace Adaptive.Intelligence.Shared
 		/// <returns>
 		/// An single-precision floating point number containing the converted value.
 		/// </returns>
-		public static float SafeToSingle(string original)
+		public static float SafeToSingle(string? original)
 		{
 			float rvalue = 0;
 			if (!string.IsNullOrEmpty(original))
