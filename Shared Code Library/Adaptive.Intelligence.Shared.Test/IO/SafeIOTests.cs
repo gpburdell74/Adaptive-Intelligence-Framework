@@ -283,25 +283,25 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
 			File.Delete(fileName);
 		}
 
-        [Fact]
-        public void GetFileSizeNative_KnownSizeFile_ReturnsCorrectSize()
-        {
-            // Arrange
-            string fileName = Path.GetTempFileName();
-            string content = "Hello, World!";
-            File.WriteAllText(fileName, content);
+		[Fact]
+		public void GetFileSizeNative_KnownSizeFile_ReturnsCorrectSize()
+		{
+			// Arrange
+			string fileName = Path.GetTempFileName();
+			string content = "Hello, World!";
+			File.WriteAllText(fileName, content);
 
-            // Act
-            long size = SafeIO.GetFileSizeNative(fileName);
+			// Act
+			long size = SafeIO.GetFileSizeNative(fileName);
 
-            // Assert
-            Assert.Equal(content.Length, size);
+			// Assert
+			Assert.Equal(content.Length, size);
 
-            // Cleanup
-            File.Delete(fileName);
-        }
+			// Cleanup
+			File.Delete(fileName);
+		}
 
-        [Fact]
+		[Fact]
 		public async Task ExtractToInvalidFileTestAsync()
 		{
 			// Arrange
@@ -664,6 +664,118 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
 			// Assert
 			Assert.False(result.Success);
 		}
-		#endregion
+		[Fact]
+		public void DeleteFile_FileExists_ReturnsTrue()
+		{
+			// Arrange
+			var fileName = "testfile.txt";
+			File.Create(fileName).Dispose();
+
+			// Act
+			var result = SafeIO.DeleteFile(fileName);
+
+			// Assert
+			Assert.True(result);
+			Assert.False(File.Exists(fileName));
+		}
+
+		[Fact]
+		public void DeleteFileWithResult_FileExists_ReturnsSuccess()
+		{
+			// Arrange
+			var fileName = "testfile.txt";
+			File.Create(fileName).Dispose();
+
+			// Act
+			var result = SafeIO.DeleteFileWithResult(fileName);
+
+			// Assert
+			Assert.True(result.Success);
+			Assert.False(File.Exists(fileName));
+		}
+
+		[Fact]
+		public void DeleteFileWithResult_FileDoesNotExist_ReturnsFailure()
+		{
+			// Arrange
+			var fileName = "nonexistentfile.txt";
+
+			// Act
+			var result = SafeIO.DeleteFileWithResult(fileName);
+
+			// Assert
+			Assert.False(result.Success);
+			Assert.Equal("File does not exist.", result.Message);
+		}
+
+		[Fact]
+		public void DetermineFileFormat_ValidExtension_ReturnsCorrectFormat()
+		{
+			// Arrange
+			var fileName = "document.xlsx";
+
+			// Act
+			var result = SafeIO.DetermineFileFormat(fileName);
+
+			// Assert
+			Assert.Equal(FileFormat.Excel, result);
+		}
+
+		[Fact]
+		public void DetermineFileFormat_InvalidExtension_ReturnsNotSpecified()
+		{
+			// Arrange
+			var fileName = "document.unknown";
+
+			// Act
+			var result = SafeIO.DetermineFileFormat(fileName);
+
+			// Assert
+			Assert.Equal(FileFormat.NotSpecified, result);
+		}
+
+		[Fact]
+		public void DirectoryExists_DirectoryExists_ReturnsTrue()
+		{
+			// Arrange
+			var directoryName = "testdir";
+			Directory.CreateDirectory(directoryName);
+
+			// Act
+			var result = SafeIO.DirectoryExists(directoryName);
+
+			// Assert
+			Assert.True(result);
+			Directory.Delete(directoryName);
+		}
+
+		[Fact]
+		public void DirectoryExists_DirectoryDoesNotExist_ReturnsFalse()
+		{
+			// Arrange
+			var directoryName = "nonexistentdir";
+
+			// Act
+			var result = SafeIO.DirectoryExists(directoryName);
+
+			// Assert
+			Assert.False(result);
+		}
+
+		[Fact]
+		public void FileExists_FileExists_ReturnsTrue()
+		{
+			// Arrange
+			var fileName = "testfile.txt";
+			File.Create(fileName).Dispose();
+
+			// Act
+			var result = SafeIO.FileExists(fileName);
+
+			// Assert
+			Assert.True(result);
+			File.Delete(fileName);
+		}
 	}
+	#endregion
 }
