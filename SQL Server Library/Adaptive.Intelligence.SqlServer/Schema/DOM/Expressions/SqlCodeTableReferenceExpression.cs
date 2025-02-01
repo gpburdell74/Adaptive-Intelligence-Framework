@@ -82,7 +82,7 @@
         /// <param name="aliasName">
         /// A <see cref="SqlCodeAliasExpression"/> instance specifying the alias to use for this table, or <b>null</b>.
         /// </param>
-        public SqlCodeTableReferenceExpression(SqlCodeDatabaseNameOwnerNameExpression? ownerName, 
+        public SqlCodeTableReferenceExpression(SqlCodeDatabaseNameOwnerNameExpression? ownerName,
             SqlCodeTableNameExpression? tableName,
             SqlCodeAliasExpression? aliasName)
         {

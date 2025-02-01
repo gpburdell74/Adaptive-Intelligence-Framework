@@ -37,10 +37,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// The qualified name.
         /// </summary>
         private string? _qualifiedName = string.Empty;
-		/// <summary>
-		/// The schema name
-		/// </summary>
-		private string? _schemaName = string.Empty;
+        /// <summary>
+        /// The schema name
+        /// </summary>
+        private string? _schemaName = string.Empty;
         /// <summary>
         /// The name of the table as a singular object.
         /// </summary>
@@ -191,7 +191,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             _deleteSpName = null;
             _schemaName = null;
 
-			base.Dispose(disposing);
+            base.Dispose(disposing);
         }
         #endregion
 
@@ -333,13 +333,13 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 return _referencedTableJoins;
             }
         }
-		/// <summary>
-		/// Gets or sets the name of the schema.
-		/// </summary>
-		/// <value>
-		/// A string containing the name of the schema for the table, or <b>null</b>.
-		/// </value>
-		public string? SchemaName
+        /// <summary>
+        /// Gets or sets the name of the schema.
+        /// </summary>
+        /// <value>
+        /// A string containing the name of the schema for the table, or <b>null</b>.
+        /// </value>
+        public string? SchemaName
         {
             get
             {

@@ -6,7 +6,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
     /// Provides the base definition for objects that represent expressions in T-SQL.
     /// </summary>
     /// <seealso cref="DisposableObjectBase" />
-    public abstract class SqlCodeExpression : DisposableObjectBase, ICloneable 
+    public abstract class SqlCodeExpression : DisposableObjectBase, ICloneable
     {
         #region Public Abstract Methods
         /// <summary>

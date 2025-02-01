@@ -1,17 +1,17 @@
 ﻿namespace Adaptive.CodeDom
 {
-	/// <summary>
-	/// Lists the .NET languages that are currently supported.
-	/// </summary>
-	public enum NetLanguage
-	{
-		/// <summary>
-		/// Specifies the C# language
-		/// </summary>
-		CSharp = 0,
-		/// <summary>
-		/// Specifies the Visual Basic .NET language.
-		/// </summary>
-		VisualBasic = 1
-	}
+    /// <summary>
+    /// Lists the .NET languages that are currently supported.
+    /// </summary>
+    public enum NetLanguage
+    {
+        /// <summary>
+        /// Specifies the C# language
+        /// </summary>
+        CSharp = 0,
+        /// <summary>
+        /// Specifies the Visual Basic .NET language.
+        /// </summary>
+        VisualBasic = 1
+    }
 }

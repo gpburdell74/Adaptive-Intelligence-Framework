@@ -36,7 +36,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
             try
             {
                 // Perform the parsing operation.
-                 parser.Parse(reader, out IList<ParseError> list);
+                parser.Parse(reader, out IList<ParseError> list);
 
                 // Copy errors, if any are returned.
                 if (list != null && list.Count > 0)
@@ -99,10 +99,11 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
                 sqlFragment = parser.Parse(reader, out IList<ParseError> list);
                 sqlScript = sqlFragment as TSqlScript;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // TODO: Error logging.
-			}
+                ExceptionLog.LogException(ex);
+            }
 
             if (sqlScript != null && sqlScript.Batches.Count > 0)
             {
@@ -138,7 +139,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
             try
             {
                 StatementList statements = parser.ParseStatementList(reader, out IList<ParseError> list);
-                
+
                 // Copy errors, if any are returned.
                 if (list != null && list.Count > 0)
                 {
@@ -211,7 +212,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
                         table = SMOProviderFactory.FindTable(tableName);
                     }
 
-					if (table != null)
+                    if (table != null)
                     {
                         ScriptingOptions opts = new ScriptingOptions
                         {
@@ -234,7 +235,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
                         genScript = builder.ToString();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLog.LogException(ex);
                 }

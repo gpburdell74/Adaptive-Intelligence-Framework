@@ -7,7 +7,7 @@
     /// In the statement SET @Id = 32, represents the @Id = 32 portion.
     /// </example>
     /// <seealso cref="SqlCodeStatement" />
-    public sealed class SqlCodeAssignmentStatement : SqlCodeStatement 
+    public sealed class SqlCodeAssignmentStatement : SqlCodeStatement
     {
         #region Private Member Declarations        
         /// <summary>
@@ -39,7 +39,7 @@
         /// <param name="valueExpression">
         /// A <see cref="SqlCodeExpression"/>-derived instance representing the value being assigned.
         /// </param>
-        public SqlCodeAssignmentStatement(SqlCodeExpression? assignedToExpression, SqlCodeExpression? valueExpression) 
+        public SqlCodeAssignmentStatement(SqlCodeExpression? assignedToExpression, SqlCodeExpression? valueExpression)
             : base(SqlStatementType.Assignment)
         {
             _assignedToExpression = assignedToExpression ?? throw new ArgumentNullException(nameof(assignedToExpression));

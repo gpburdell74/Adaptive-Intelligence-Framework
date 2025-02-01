@@ -3,11 +3,11 @@ using System.Text;
 
 namespace Adaptive.CodeDom
 {
-	/// <summary>
-	/// Provides a mechanism for writing template-based c# code.
-	/// </summary>
-	/// <seealso cref="DisposableObjectBase" />
-	public sealed class CsCodeWriter : DisposableObjectBase
+    /// <summary>
+    /// Provides a mechanism for writing template-based c# code.
+    /// </summary>
+    /// <seealso cref="DisposableObjectBase" />
+    public sealed class CsCodeWriter : DisposableObjectBase
     {
         #region Private Member Declarations        
         /// <summary>

@@ -57,7 +57,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
         /// <param name="isNullable">
         /// A value indicating whether the parent column or parameter is nullable.
         /// </param>
-        public SqlCodeDataTypeSpecificationExpression(SqlDataTypes dataType, int maxLength, bool isNullable) : 
+        public SqlCodeDataTypeSpecificationExpression(SqlDataTypes dataType, int maxLength, bool isNullable) :
             this(dataType, maxLength, isNullable, 0, 0, false)
         {
         }
@@ -173,8 +173,8 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
         /// </returns>
         public override SqlCodeDataTypeSpecificationExpression Clone()
         {
-            return new SqlCodeDataTypeSpecificationExpression(_dataType, _maxLength, _isNullable, _precision, 
-                _scale, _isPadded); 
+            return new SqlCodeDataTypeSpecificationExpression(_dataType, _maxLength, _isNullable, _precision,
+                _scale, _isPadded);
         }
         #endregion
     }

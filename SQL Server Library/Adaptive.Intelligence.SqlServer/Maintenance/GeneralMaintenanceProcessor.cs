@@ -12,15 +12,15 @@ namespace Adaptive.Intelligence.SqlServer
     /// <seealso cref="DisposableObjectBase" />
     public sealed class GeneralMaintenanceProcessor : DisposableObjectBase
     {
-		#region Public Events        
-		/// <summary>
-		/// Occurs when the operation is completed.
-		/// </summary>
-		public event EventHandler OperationComplete;
-		/// <summary>
-		/// Occurs when the status is being updated.
-		/// </summary>
-		public event ProgressUpdateEventHandler? StatusUpdate;
+        #region Public Events        
+        /// <summary>
+        /// Occurs when the operation is completed.
+        /// </summary>
+        public event EventHandler OperationComplete;
+        /// <summary>
+        /// Occurs when the status is being updated.
+        /// </summary>
+        public event ProgressUpdateEventHandler? StatusUpdate;
         #endregion
 
         #region Thread Synchronization and Cancellation
@@ -198,8 +198,8 @@ namespace Adaptive.Intelligence.SqlServer
                         PerformMaintenanceOperations();
                     }
                 }
-				OnOperationComplete(EventArgs.Empty);
-			}
+                OnOperationComplete(EventArgs.Empty);
+            }
         }
         /// <summary>
         /// Performs the database maintenance functions.
@@ -237,8 +237,8 @@ namespace Adaptive.Intelligence.SqlServer
                         await PerformMaintenanceOperationsAsync().ConfigureAwait(false);
                     }
                 }
-				OnOperationComplete(EventArgs.Empty);
-			}
+                OnOperationComplete(EventArgs.Empty);
+            }
             _executing = false;
         }
         #endregion
@@ -272,7 +272,7 @@ namespace Adaptive.Intelligence.SqlServer
                         SetForRecompile();
                 }
             }
-		}
+        }
         /// <summary>
         /// Performs the maintenance operations.
         /// </summary>
@@ -302,7 +302,7 @@ namespace Adaptive.Intelligence.SqlServer
                         await SetForRecompileAsync();
                 }
             }
-		}
+        }
         /// <summary>
         /// Updates the statistics on each table in the database.
         /// </summary>
@@ -334,42 +334,42 @@ namespace Adaptive.Intelligence.SqlServer
 
             return success;
         }
-		/// <summary>
-		/// Updates the statistics on the specified tables.
-		/// </summary>
-		/// <param name="tableList">
-		/// A <see cref="List{T}"/> of strings containing the names of the tables that need
-		/// to be updated.
-		/// </param>
-		private void UpdateStatistics(List<string> tableList)
-		{
-			bool success = true;
-			int count = 0;
-			int length = tableList.Count;
+        /// <summary>
+        /// Updates the statistics on the specified tables.
+        /// </summary>
+        /// <param name="tableList">
+        /// A <see cref="List{T}"/> of strings containing the names of the tables that need
+        /// to be updated.
+        /// </param>
+        private void UpdateStatistics(List<string> tableList)
+        {
+            bool success = true;
+            int count = 0;
+            int length = tableList.Count;
 
-			if (_dataAccess != null)
-			{
-				PerformTableStatsUpdate(null, 0);
+            if (_dataAccess != null)
+            {
+                PerformTableStatsUpdate(null, 0);
 
-				do
-				{
-					string tableName = tableList[count];
-					if (!_cancelOperation)
-					{
-						PerformTableStatsUpdate(tableName, count, length);
-						success = _dataAccess.UpdateStatisticsForTable(tableList[count]);
-					}
-					count++;
-				} while (success && (count < length) && (!_cancelOperation));
-			}
-		}
-		/// <summary>
-		/// Updates the statistics on each table in the database.
-		/// </summary>
-		/// <returns>
-		/// <b>true</b> if the operation is successful; otherwise, returns <b>false</b>.
-		/// </returns>
-		private async Task<bool> UpdateStatisticsAsync()
+                do
+                {
+                    string tableName = tableList[count];
+                    if (!_cancelOperation)
+                    {
+                        PerformTableStatsUpdate(tableName, count, length);
+                        success = _dataAccess.UpdateStatisticsForTable(tableList[count]);
+                    }
+                    count++;
+                } while (success && (count < length) && (!_cancelOperation));
+            }
+        }
+        /// <summary>
+        /// Updates the statistics on each table in the database.
+        /// </summary>
+        /// <returns>
+        /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b>.
+        /// </returns>
+        private async Task<bool> UpdateStatisticsAsync()
         {
             bool success = true;
             int count = 0;
@@ -391,7 +391,7 @@ namespace Adaptive.Intelligence.SqlServer
                             string tableName = TSqlConstants.RenderSchemaAndTableName(table.Schema, table.Name);
                             if (!string.IsNullOrEmpty(tableName))
                                 success = await _dataAccess.UpdateStatisticsForTableAsync(tableName).ConfigureAwait(false);
-                            
+
                         }
                         count++;
                     } while (success && (count < length) && (!_cancelOperation));
@@ -780,22 +780,22 @@ namespace Adaptive.Intelligence.SqlServer
                 }
             }
         }
-		#endregion
+        #endregion
 
-		#region Private Event Methods / Functions        
-		/// <summary>
-		/// Raises the <see cref="E:OperationComplete" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void OnOperationComplete(EventArgs e)
+        #region Private Event Methods / Functions        
+        /// <summary>
+        /// Raises the <see cref="E:OperationComplete" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void OnOperationComplete(EventArgs e)
         {
             OperationComplete?.Invoke(this, e);
         }
-		/// <summary>
-		/// Raises the <see cref="StatusUpdate" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="ProgressUpdateEventArgs"/> instance containing the event data.</param>
-		private void OnStatusUpdate(ProgressUpdateEventArgs e)
+        /// <summary>
+        /// Raises the <see cref="StatusUpdate" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="ProgressUpdateEventArgs"/> instance containing the event data.</param>
+        private void OnStatusUpdate(ProgressUpdateEventArgs e)
         {
             StatusUpdate?.Invoke(this, e);
         }

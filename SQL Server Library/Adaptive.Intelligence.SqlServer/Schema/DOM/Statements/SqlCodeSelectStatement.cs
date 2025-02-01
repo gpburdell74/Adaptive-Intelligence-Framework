@@ -74,21 +74,21 @@
         /// A <see cref="SqlCodeFromClause"/> defining the tables to query on.
         /// </value>
         public SqlCodeFromClause FromClause
-		{
-			get
-			{
-				if (_fromClause == null)
-					_fromClause = new SqlCodeFromClause();
-				return _fromClause;
-			}
-		}
-		/// <summary>
-		/// Gets or sets the reference to the select list clause of the statement.
-		/// </summary>
-		/// <value>
-		/// A <see cref="SqlCodeSelectClause"/> defining the items to be selected.
-		/// </value>
-		public SqlCodeSelectClause SelectClause
+        {
+            get
+            {
+                if (_fromClause == null)
+                    _fromClause = new SqlCodeFromClause();
+                return _fromClause;
+            }
+        }
+        /// <summary>
+        /// Gets or sets the reference to the select list clause of the statement.
+        /// </summary>
+        /// <value>
+        /// A <see cref="SqlCodeSelectClause"/> defining the items to be selected.
+        /// </value>
+        public SqlCodeSelectClause SelectClause
         {
             get
             {

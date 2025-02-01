@@ -62,7 +62,7 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             if (_acceptedChars == null)
                 return false;
-            
+
             return _acceptedChars.Contains(enteredChar);
         }
         /// <summary>
@@ -108,7 +108,7 @@ namespace Adaptive.Intelligence.Shared.UI
 
                         // (404) 123 - Second 3 digits = prefix
                         case 6:
-                            newNumber.Append( Constants.Space + Constants.Dash + Constants.Space);
+                            newNumber.Append(Constants.Space + Constants.Dash + Constants.Space);
                             newNumber.Append(numbers[pos]);
                             break;
 

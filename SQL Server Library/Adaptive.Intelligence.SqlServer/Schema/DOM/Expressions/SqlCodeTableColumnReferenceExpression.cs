@@ -52,7 +52,7 @@
         /// A <see cref="SqlCodeColumnNameExpression"/> instance representing the name of the column.
         /// </param>
         public SqlCodeTableColumnReferenceExpression(
-            SqlCodeTableNameExpression? tableName, 
+            SqlCodeTableNameExpression? tableName,
             SqlCodeColumnNameExpression? columnName)
         {
             _tableName = tableName ?? throw new ArgumentNullException(nameof(tableName));

@@ -1,4 +1,6 @@
-﻿using AutoFixture;
+﻿// Ignore Spelling: Utils Sql Argb
+
+using AutoFixture;
 using AutoFixture.Xunit2;
 using System.Drawing;
 using System.Security.Cryptography;
@@ -13,14 +15,13 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         public void BigKeyTest()
         {
             // Act.
-            string? key = GeneralUtils.BigKey();
+            var key = GeneralUtils.BigKey();
 
             // Assert.
             Assert.NotNull(key);
             Assert.False(string.IsNullOrEmpty(key));
 
-            Guid guid = Guid.Parse(key);
-
+            Guid.Parse(key);
         }
 
         [Fact]
@@ -93,32 +94,32 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         [Fact]
         public void ConvertToDecimalTest()
         {
-            decimal d = GeneralUtils.ConvertToDecimal("3.2");
+            var d = GeneralUtils.ConvertToDecimal("3.2");
             Assert.Equal((decimal)3.2, d);
         }
         [Fact]
         public void ConvertToSignTest()
         {
-            decimal d = GeneralUtils.ConvertToDecimal("$3.21");
+            var d = GeneralUtils.ConvertToDecimal("$3.21");
             Assert.Equal((decimal)3.21, d);
         }
         [Fact]
         public void ConvertToDecimalEmptyTest()
         {
-            decimal d = GeneralUtils.ConvertToDecimal("");
-            Assert.Equal((decimal)0, d);
+            var d = GeneralUtils.ConvertToDecimal("");
+            Assert.Equal(0, d);
         }
         [Fact]
         public void ConvertToDoubleTest()
         {
-            double d = GeneralUtils.ConvertToDouble("3.2");
-            Assert.Equal((double)3.2, d);
+            var d = GeneralUtils.ConvertToDouble("3.2");
+            Assert.Equal(3.2d, d);
         }
         [Fact]
         public void ConvertToDoubleSignTest()
         {
             double d = GeneralUtils.ConvertToDouble("$3.21");
-            Assert.Equal((double)3.21, d);
+            Assert.Equal(3.21d, d);
         }
         [Fact]
         public void ConvertToDoubleEmptyTest()
@@ -268,7 +269,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(0, result.Count);
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -490,15 +491,15 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         [InlineData("00", "FF", "00", "00", 0, 255, 0, 0)]
         [InlineData("00", "FF", "AA", "22", 0, 255, 170, 34)]
         public void FromArgbStringTestOne(string a, string r, string g, string b,
-            int expecteda, int expectedr, int expectedg, int expectedb)
+            int expectedA, int expectedR, int expectedG, int expectedB)
         {
             Color? color = GeneralUtils.FromArgbString(a, r, g, b);
             Assert.NotNull(color);
 
-            Assert.Equal(color.Value.A, expecteda);
-            Assert.Equal(color.Value.R, expectedr);
-            Assert.Equal(color.Value.G, expectedg);
-            Assert.Equal(color.Value.B, expectedb);
+            Assert.Equal(color.Value.A, expectedA);
+            Assert.Equal(color.Value.R, expectedR);
+            Assert.Equal(color.Value.G, expectedG);
+            Assert.Equal(color.Value.B, expectedB);
 
         }
         [Theory, AutoHexData]

@@ -648,7 +648,7 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         public void WriteReadOnlySpanCharTest()
         {
             ReadOnlySpan<char> span = new ReadOnlySpan<char>(
-                new char[]{ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K' });
+                new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K' });
 
             MemoryStream ms = new MemoryStream();
             SafeBinaryWriter writer = new SafeBinaryWriter(ms);
@@ -660,7 +660,7 @@ namespace Adaptive.Intelligence.Shared.Test.IO
             SafeBinaryReader reader = new SafeBinaryReader(ms);
 
             ReadOnlySpan<char> data = reader.ReadString();
-            for(int count = 0; count <data.Length; count++)
+            for (int count = 0; count < data.Length; count++)
             {
                 Assert.Equal(span[count], data[count]);
             }
@@ -675,7 +675,7 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         public void WriteReadOnlySpanByteTest()
         {
             ReadOnlySpan<byte> span = new ReadOnlySpan<byte>(
-                new byte[] { 65,66,67,68,69,70,71,0,255,32 });
+                new byte[] { 65, 66, 67, 68, 69, 70, 71, 0, 255, 32 });
 
             MemoryStream ms = new MemoryStream();
             SafeBinaryWriter writer = new SafeBinaryWriter(ms);
@@ -751,7 +751,7 @@ namespace Adaptive.Intelligence.Shared.Test.IO
             ms.Close();
             ms.Dispose();
             writer.Write((byte)128);
-            
+
             Assert.True(writer.HasExceptions);
             Assert.True(writer.Exceptions.Count == 1);
 

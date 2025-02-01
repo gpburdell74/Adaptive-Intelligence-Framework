@@ -29,7 +29,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get => _fileName;
             set => _fileName = value;
         }
-        
+
         /// <summary>
         /// Gets the name / key value of the specified instance.
         /// </summary>
@@ -44,7 +44,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         protected override string GetName(AdaptiveTableProfile? item)
         {
             if (item == null)
-                return string.Empty; 
+                return string.Empty;
 
             return item.TableName!;
         }
@@ -137,9 +137,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                     FileStream? inStream = null;
                     try
                     {
-                        inStream = new FileStream(_fileName, FileMode.Open, FileAccess.Read);  
+                        inStream = new FileStream(_fileName, FileMode.Open, FileAccess.Read);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         ExceptionLog.LogException(ex);
                     }
@@ -244,7 +244,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 {
                     outStream = new FileStream(_fileName, FileMode.CreateNew, FileAccess.Write);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLog.LogException(ex);
                 }

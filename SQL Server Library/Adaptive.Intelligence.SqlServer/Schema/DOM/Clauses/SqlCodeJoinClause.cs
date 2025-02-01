@@ -63,8 +63,8 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
         /// A value indicating whether this represents a LEFT JOIN.  If the value is <b>false</b>,
         /// it represents an INNER JOIN.
         /// </param>
-        public SqlCodeJoinClause(SqlCodeTableReferenceExpression? referencedTable, 
-            SqlCodeTableColumnReferenceExpression? leftColumn, 
+        public SqlCodeJoinClause(SqlCodeTableReferenceExpression? referencedTable,
+            SqlCodeTableColumnReferenceExpression? leftColumn,
             SqlCodeTableColumnReferenceExpression? rightColumn,
             bool leftJoin)
         {

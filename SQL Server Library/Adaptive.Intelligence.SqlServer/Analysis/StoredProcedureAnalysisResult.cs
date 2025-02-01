@@ -295,7 +295,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// </summary>
         private void CompareRightToLeft()
         {
-            if (_primaryProcedures != null && _secondaryProcedures != null && _completeNameList!= null)
+            if (_primaryProcedures != null && _secondaryProcedures != null && _completeNameList != null)
             {
                 if (_comparisons == null)
                     _comparisons = new Dictionary<string, StoredProcedureComparisonResult>();

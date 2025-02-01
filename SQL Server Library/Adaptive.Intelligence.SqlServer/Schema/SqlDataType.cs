@@ -1,4 +1,6 @@
-﻿using Adaptive.SqlServer.Client;
+﻿// Ignore Spelling: Sql
+
+using Adaptive.SqlServer.Client;
 
 namespace Adaptive.Intelligence.SqlServer.Schema
 {
@@ -30,7 +32,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// Initializes a new instance of the <see cref="SqlDataType"/> class.
         /// </summary>
         /// <param name="reader">
-        /// The <see cref="ISafeSqlDataReader?"/> to read the data content from.
+        /// The <see cref="ISafeSqlDataReader"/> to read the data content from.
         /// </param>
         public SqlDataType(ISafeSqlDataReader? reader)
         {

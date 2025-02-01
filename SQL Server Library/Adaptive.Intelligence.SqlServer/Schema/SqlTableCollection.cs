@@ -53,7 +53,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                 {
                     item = base[tableName];
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLog.LogException(ex);
                 }

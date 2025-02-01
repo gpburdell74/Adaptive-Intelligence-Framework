@@ -81,7 +81,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 {
                     ProgressUpdate?.BeginInvoke(this, new
                         ProgressUpdateEventArgs("Analyzing: " + table.TableName,
-                            Adaptive.Math.Percent(count , len)), null, null);
+                            Adaptive.Math.Percent(count, len)), null, null);
                     AnalyzeTableForQueryCreation(provider, table);
                     count++;
                 }
@@ -125,7 +125,7 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         {
             AdaptiveTableProfile profile = _profiles![table.TableName!]!;
             profile.TableReference = table;
-            
+
             string schema;
             if (string.IsNullOrEmpty(table.Schema))
                 schema = TSqlConstants.DefaultDatabaseOwner;
@@ -142,96 +142,22 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             // Populate the "Key" column fields based on data type and Adaptive naming conventions.
             foreach (SqlColumn col in table.Columns)
             {
-                if (col.ColumnName != "Id" && col.TypeId == (int)SqlDataTypes.NVarCharOrSysName && col.MaxLength == 256)
+                if (!string.IsNullOrEmpty(col.ColumnName) && 
+                    col.ColumnName != "Id" && 
+                    col.TypeId == (int)SqlDataTypes.NVarCharOrSysName && col.MaxLength == 256)
                 {
                     profile.KeyFieldNames?.Add(col.ColumnName);
                 }
             }
 
             // Match the tables with the specified key fields based on Adaptive naming conventions.
-            foreach (string name in profile.KeyFieldNames)
+            if (profile.KeyFieldNames != null && _sourceDatabase != null && _sourceDatabase.Tables != null)
             {
-                string subName = name.ToLower().Replace("key", "").Replace("id", "");
-
-                SqlTable tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
-                if (tableRef == null)
-                {
-                    if (subName.EndsWith("y"))
-                        subName = subName.Substring(0, subName.Length - 1) + "ies";
-                    tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
-                }
-
-                if (tableRef != null)
-                {
-                    ReferencedTableJoin newItem = new ReferencedTableJoin
-                    {
-                        ReferencedTable = tableRef,
-                        ReferencedTableField = "Id",
-                        KeyField = name,
-                    };
-                    if (table.Columns[name].IsNullable)
-                        newItem.UsesLeftJoin = true;
-                    else
-                        newItem.UsesLeftJoin = false;
-
-                    AdaptiveTableProfile subProfile = _profiles[tableRef.TableName];
-                    profile.ReferencedTableJoins.Add(newItem);
-                }
-            }
-
-            // Create the parameter definitions for update and insert statements.
-            profile.CreateColumnParameters();
-
-            // Find and load the existing standard CRUD stored procedures that may have been defined.
-            profile.StandardStoredProcedures?.AddRange(SqlDatabase.GetStoredProceduresForTable(provider, table.TableName));
-        }
-        /// <summary>
-        /// Analyzes the tables for query creation.
-        /// </summary>
-        /// <param name="provider">
-        /// The <see cref="SqlDataProvider"/> instance to use to communicate with the database.
-        /// </param>
-        /// <param name="table">
-        /// The <see cref="SqlTable"/> instance being analyzed.
-        /// </param>
-        public async Task AnalyzeTableForQueryCreationAsync(SqlDataProvider provider, SqlTable table)
-        {
-            await Task.Yield();
-
-            try
-            {
-                AdaptiveTableProfile profile = _profiles[table.TableName];
-                profile.TableReference = table;
-
-				string schema;
-                if (string.IsNullOrEmpty(table.Schema))
-                    schema = TSqlConstants.DefaultDatabaseOwner;
-                else
-                    schema = table.Schema;
-
-				profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
-				
-                // Clear.
-                profile.KeyFieldNames?.Clear();
-                profile.ReferencedTableJoins?.Clear();
-                profile.QueryParameters?.Clear();
-
-                // Populate the "Key" column fields based on data type and Adaptive naming conventions.
-                foreach (SqlColumn col in table.Columns)
-                {
-                    if (col.ColumnName != "Id" && col.TypeId == (int)SqlDataTypes.NVarCharOrSysName &&
-                        col.MaxLength == 256)
-                    {
-                        profile.KeyFieldNames.Add(col.ColumnName);
-                    }
-                }
-
-                // Match the tables with the specified key fields based on Adaptive naming conventions.
                 foreach (string name in profile.KeyFieldNames)
                 {
                     string subName = name.ToLower().Replace("key", "").Replace("id", "");
 
-                    SqlTable tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
+                    SqlTable? tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
                     if (tableRef == null)
                     {
                         if (subName.EndsWith("y"))
@@ -247,22 +173,108 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                             ReferencedTableField = "Id",
                             KeyField = name,
                         };
-                        if (table.Columns[name].IsNullable)
+                        if (table.Columns[name]!.IsNullable)
                             newItem.UsesLeftJoin = true;
                         else
                             newItem.UsesLeftJoin = false;
 
-                        AdaptiveTableProfile subProfile = _profiles[tableRef.TableName];
-                        profile.ReferencedTableJoins.Add(newItem);
+                        AdaptiveTableProfile? subProfile = _profiles[tableRef.TableName!];
+                        profile.ReferencedTableJoins?.Add(newItem);
                     }
                 }
+            }
 
-                // Create the parameter definitions for update and insert statements.
-                profile.CreateColumnParameters();
+            // Create the parameter definitions for update and insert statements.
+            profile.CreateColumnParameters();
 
-                // Find and load the existing standard CRUD stored procedures that may have been defined.
-                profile.StandardStoredProcedures.AddRange(
-                    await _sourceDatabase.GetStoredProceduresForTableAsync(provider.ConnectionString, table.TableName).ConfigureAwait(false));
+            // Find and load the existing standard CRUD stored procedures that may have been defined.
+            var proceduresList = SqlDatabase.GetStoredProceduresForTable(provider, table.TableName!);
+            if (proceduresList != null)
+                profile.StandardStoredProcedures?.AddRange(proceduresList);
+        }
+
+        /// <summary>
+        /// Analyzes the tables for query creation.
+        /// </summary>
+        /// <param name="provider">
+        /// The <see cref="SqlDataProvider"/> instance to use to communicate with the database.
+        /// </param>
+        /// <param name="table">
+        /// The <see cref="SqlTable"/> instance being analyzed.
+        /// </param>
+        public async Task AnalyzeTableForQueryCreationAsync(SqlDataProvider provider, SqlTable table)
+        {
+            await Task.Yield();
+
+            try
+            {
+                AdaptiveTableProfile? profile = _profiles![table.TableName!];
+                if (profile != null)
+                {
+                    profile.TableReference = table;
+
+                    string schema;
+                    if (string.IsNullOrEmpty(table.Schema))
+                        schema = TSqlConstants.DefaultDatabaseOwner;
+                    else
+                        schema = table.Schema;
+
+                    profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
+
+
+                    // Clear.
+                    profile.KeyFieldNames?.Clear();
+                    profile.ReferencedTableJoins?.Clear();
+                    profile.QueryParameters?.Clear();
+
+                    // Populate the "Key" column fields based on data type and Adaptive naming conventions.
+                    foreach (SqlColumn col in table.Columns)
+                    {
+                        if (col.ColumnName != "Id" && col.TypeId == (int)SqlDataTypes.NVarCharOrSysName &&
+                            col.MaxLength == 256)
+                        {
+                            profile.KeyFieldNames.Add(col.ColumnName);
+                        }
+                    }
+
+                    // Match the tables with the specified key fields based on Adaptive naming conventions.
+                    foreach (string name in profile.KeyFieldNames)
+                    {
+                        string subName = name.ToLower().Replace("key", "").Replace("id", "");
+
+                        SqlTable tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
+                        if (tableRef == null)
+                        {
+                            if (subName.EndsWith("y"))
+                                subName = subName.Substring(0, subName.Length - 1) + "ies";
+                            tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
+                        }
+
+                        if (tableRef != null)
+                        {
+                            ReferencedTableJoin newItem = new ReferencedTableJoin
+                            {
+                                ReferencedTable = tableRef,
+                                ReferencedTableField = "Id",
+                                KeyField = name,
+                            };
+                            if (table.Columns[name].IsNullable)
+                                newItem.UsesLeftJoin = true;
+                            else
+                                newItem.UsesLeftJoin = false;
+
+                            AdaptiveTableProfile subProfile = _profiles[tableRef.TableName];
+                            profile.ReferencedTableJoins.Add(newItem);
+                        }
+                    }
+
+                    // Create the parameter definitions for update and insert statements.
+                    profile.CreateColumnParameters();
+
+                    // Find and load the existing standard CRUD stored procedures that may have been defined.
+                    profile.StandardStoredProcedures.AddRange(
+                        await _sourceDatabase.GetStoredProceduresForTableAsync(provider.ConnectionString, table.TableName).ConfigureAwait(false));
+                }
             }
             catch (Exception ex)
             {

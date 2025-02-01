@@ -89,13 +89,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// The maximum scale  of the type, if applicable.
         /// </value>
         public byte Scale { get; set; }
-		/// <summary>
-		/// Gets or sets the name of the schema/owner.
-		/// </summary>
-		/// <value>
-		/// A string containing the name of the schema.
-		/// </value>
-		public string? SchemaName { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the schema/owner.
+        /// </summary>
+        /// <value>
+        /// A string containing the name of the schema.
+        /// </value>
+        public string? SchemaName { get; set; }
         /// <summary>
         /// Gets or sets the name of the table.
         /// </summary>

@@ -23,50 +23,50 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// Occurs when updating the loading progress.
         /// </summary>
         public event ProgressUpdateEventHandler? ProgressUpdate;
-		/// <summary>
-		/// Occurs when a table-based generate insert stored procedure is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateTableInsertStoredProcedure;
-		/// <summary>
-		/// Occurs when a table-based generate update stored procedure is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateTableUpdateStoredProcedure;
-		/// <summary>
-		/// Occurs when a table-based generate delete stored procedure is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateTableDeleteStoredProcedure;
-		/// <summary>
-		/// Occurs when a table-based generate get all records stored procedure is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateTableGetAllStoredProcedure;
-		/// <summary>
-		/// Occurs when a table-based generate get records by id stored procedure is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateTableGetByIdStoredProcedure;
-		/// <summary>
-		/// Occurs when a table-based generate all CRUD stored procedures is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateTableAllStoredProcedures;
-		/// <summary>
-		/// Occurs when a table-based generate data definition class is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateDataDefinition;
-		/// <summary>
-		/// Occurs when a table-based generate data access is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateDataAccessClass;
-		/// <summary>
-		/// Occurs when a table-based generate all data classes is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateClasses;
-		/// <summary>
-		/// Occurs when an edit table profile is requested.
-		/// </summary>
-		public event SqlTableEventHandler? EditTableProfile;
-		/// <summary>
-		/// Occurs when a create table SQL generation is requested.
-		/// </summary>
-		public event SqlTableEventHandler? GenerateCreateTableSql;
+        /// <summary>
+        /// Occurs when a table-based generate insert stored procedure is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateTableInsertStoredProcedure;
+        /// <summary>
+        /// Occurs when a table-based generate update stored procedure is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateTableUpdateStoredProcedure;
+        /// <summary>
+        /// Occurs when a table-based generate delete stored procedure is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateTableDeleteStoredProcedure;
+        /// <summary>
+        /// Occurs when a table-based generate get all records stored procedure is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateTableGetAllStoredProcedure;
+        /// <summary>
+        /// Occurs when a table-based generate get records by id stored procedure is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateTableGetByIdStoredProcedure;
+        /// <summary>
+        /// Occurs when a table-based generate all CRUD stored procedures is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateTableAllStoredProcedures;
+        /// <summary>
+        /// Occurs when a table-based generate data definition class is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateDataDefinition;
+        /// <summary>
+        /// Occurs when a table-based generate data access is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateDataAccessClass;
+        /// <summary>
+        /// Occurs when a table-based generate all data classes is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateClasses;
+        /// <summary>
+        /// Occurs when an edit table profile is requested.
+        /// </summary>
+        public event SqlTableEventHandler? EditTableProfile;
+        /// <summary>
+        /// Occurs when a create table SQL generation is requested.
+        /// </summary>
+        public event SqlTableEventHandler? GenerateCreateTableSql;
 
         public event SqlStoredProcedureEventHandler? GenerateStoredProcedure;
         public event SqlStoredProcedureEventHandler? EditStoredProcedure;
@@ -136,31 +136,31 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </summary>
         private Schema.SqlServer? _server;
         /// <summary>
-        /// The reference to the table profiles and metadata.
+        /// The reference to the table profiles and meta data.
         /// </summary>
         private AdaptiveTableMetadata? _tableData;
-		/// <summary>
-		/// The currently selected database.
-		/// </summary>
-		private SqlDatabase? _selectedDatabase;
+        /// <summary>
+        /// The currently selected database.
+        /// </summary>
+        private SqlDatabase? _selectedDatabase;
         /// <summary>
         /// The currently selected table.
         /// </summary>
         private SqlTable? _selectedTable;
-		/// <summary>
-		/// The currently selected stored procedure.
-		/// </summary>
-		private SqlStoredProcedure? _selectedSp;
-	    #endregion
+        /// <summary>
+        /// The currently selected stored procedure.
+        /// </summary>
+        private SqlStoredProcedure? _selectedSp;
+        #endregion
 
-		#region Constructor / Dispose Methods
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DatabaseTreeView"/> class.
-		/// </summary>
-		/// <remarks>
-		/// This is the default constructor.
-		/// </remarks>
-		public DatabaseTreeView()
+        #region Constructor / Dispose Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseTreeView"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This is the default constructor.
+        /// </remarks>
+        public DatabaseTreeView()
         {
             InitializeComponent();
         }
@@ -203,7 +203,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                     if (item is Schema.SqlServer || nodeText == "Databases")
                         return "master";
                     else if (item is SqlDatabase)
-                        return ((SqlDatabase)item).Name;
+                        return ((SqlDatabase)item).Name!;
                     else
                     {
                         TreeNode ptr = SelectedNode;
@@ -213,7 +213,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                         } while (ptr != null && !(ptr.Tag is SqlDatabase));
 
                         if (ptr != null)
-                            return ((SqlDatabase)ptr.Tag).Name;
+                            return ((SqlDatabase)ptr.Tag).Name!;
                         else
                             return "master";
                     }
@@ -244,7 +244,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
             }
         }
         /// <summary>
-        /// Gets or sets the reference to the table metadata container.
+        /// Gets or sets the reference to the table meta data container.
         /// </summary>
         /// <value>
         /// The <see cref="AdaptiveTableMetadata"/> instance to reference.
@@ -271,7 +271,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 _selectedDatabase = null;
                 _selectedTable = null;
                 _selectedSp = null;
-				TableMenu.Enabled = false;
+                TableMenu.Enabled = false;
                 SpMenu.Enabled = false;
             }
             else
@@ -283,7 +283,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                     _selectedSp = null;
                 }
                 else
-                { 
+                {
                     _selectedTable = e.Node.Tag as SqlTable;
                     if (_selectedTable != null)
                     {
@@ -304,187 +304,187 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 }
             }
         }
-		#endregion
+        #endregion
 
-		#region Private Event Methods
-		/// <summary>
-		/// Raises the <see cref="E:ProgressUpdate" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="ProgressUpdateEventArgs"/> instance containing the event data.</param>
-		private void OnProgressUpdate(ProgressUpdateEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				ProgressUpdate?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateTableInsertStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateTableInsertStoredProcedure(SqlTableEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				GenerateTableInsertStoredProcedure?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateTableUpdateStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateTableUpdateStoredProcedure(SqlTableEventArgs e)
+        #region Private Event Methods
+        /// <summary>
+        /// Raises the <see cref="E:ProgressUpdate" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="ProgressUpdateEventArgs"/> instance containing the event data.</param>
+        private void OnProgressUpdate(ProgressUpdateEventArgs e)
         {
-			ContinueInMainThread(() =>
-			{
-				GenerateTableUpdateStoredProcedure?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateTableDeleteStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateTableDeleteStoredProcedure(SqlTableEventArgs e)
+            ContinueInMainThread(() =>
+            {
+                ProgressUpdate?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateTableInsertStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateTableInsertStoredProcedure(SqlTableEventArgs e)
         {
-			ContinueInMainThread(() =>
-			{
-				GenerateTableDeleteStoredProcedure?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateTableGetAllStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateTableGetAllStoredProcedure(SqlTableEventArgs e)
+            ContinueInMainThread(() =>
+            {
+                GenerateTableInsertStoredProcedure?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateTableUpdateStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateTableUpdateStoredProcedure(SqlTableEventArgs e)
         {
-			ContinueInMainThread(() =>
-			{
-				GenerateTableGetAllStoredProcedure?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateTableGetByIdStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateTableGetByIdStoredProcedure(SqlTableEventArgs e)
+            ContinueInMainThread(() =>
+            {
+                GenerateTableUpdateStoredProcedure?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateTableDeleteStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateTableDeleteStoredProcedure(SqlTableEventArgs e)
         {
-			ContinueInMainThread(() =>
-			{
-				GenerateTableGetByIdStoredProcedure?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateTableAllStoredProcedures" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateTableAllStoredProcedures(SqlTableEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				GenerateTableAllStoredProcedures?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateDataDefinition" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateDataDefinition(SqlTableEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				GenerateDataDefinition?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="GenerateDataAccessClass" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateDataAccessClass(SqlTableEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				GenerateDataAccessClass?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateClasses" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateClasses(SqlTableEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				GenerateClasses?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:EditTableProfile" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnEditTableProfile(SqlTableEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				EditTableProfile?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateCreateTableSql" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateCreateTableSql(SqlTableEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				GenerateCreateTableSql?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:GenerateStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlStoredProcedureEventArgs"/> instance containing the event data.</param>
-		private void OnGenerateStoredProcedure(SqlStoredProcedureEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				GenerateStoredProcedure?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:EditStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlStoredProcedureEventArgs"/> instance containing the event data.</param>
-		private void OnEditStoredProcedure(SqlStoredProcedureEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				EditStoredProcedure?.Invoke(this, e);
-			});
-		}
-		/// <summary>
-		/// Raises the <see cref="E:DeleteStoredProcedure" /> event.
-		/// </summary>
-		/// <param name="e">The <see cref="SqlStoredProcedureEventArgs"/> instance containing the event data.</param>
-		private void OnDeleteStoredProcedure(SqlStoredProcedureEventArgs e)
-		{
-			ContinueInMainThread(() =>
-			{
-				DeleteStoredProcedure?.Invoke(this, e);
-			});
-		}
-		#endregion
+            ContinueInMainThread(() =>
+            {
+                GenerateTableDeleteStoredProcedure?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateTableGetAllStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateTableGetAllStoredProcedure(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateTableGetAllStoredProcedure?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateTableGetByIdStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateTableGetByIdStoredProcedure(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateTableGetByIdStoredProcedure?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateTableAllStoredProcedures" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateTableAllStoredProcedures(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateTableAllStoredProcedures?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateDataDefinition" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateDataDefinition(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateDataDefinition?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="GenerateDataAccessClass" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateDataAccessClass(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateDataAccessClass?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateClasses" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateClasses(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateClasses?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:EditTableProfile" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnEditTableProfile(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                EditTableProfile?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateCreateTableSql" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlTableEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateCreateTableSql(SqlTableEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateCreateTableSql?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:GenerateStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlStoredProcedureEventArgs"/> instance containing the event data.</param>
+        private void OnGenerateStoredProcedure(SqlStoredProcedureEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                GenerateStoredProcedure?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:EditStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlStoredProcedureEventArgs"/> instance containing the event data.</param>
+        private void OnEditStoredProcedure(SqlStoredProcedureEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                EditStoredProcedure?.Invoke(this, e);
+            });
+        }
+        /// <summary>
+        /// Raises the <see cref="E:DeleteStoredProcedure" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SqlStoredProcedureEventArgs"/> instance containing the event data.</param>
+        private void OnDeleteStoredProcedure(SqlStoredProcedureEventArgs e)
+        {
+            ContinueInMainThread(() =>
+            {
+                DeleteStoredProcedure?.Invoke(this, e);
+            });
+        }
+        #endregion
 
-		#region Private Event Handlers
-		/// <summary>
-		/// Handles the event when the stored procedure menu is being opened.
-		/// </summary>
-		/// <param name="sender">
-		/// The object raising the event.
-		/// </param>
-		/// <param name="e">
-		/// An <see cref="EventArgs"/> instance containing the event data.
-		/// </param>
-		private void HandleSpMenuOpening(object? sender, EventArgs e)
+        #region Private Event Handlers
+        /// <summary>
+        /// Handles the event when the stored procedure menu is being opened.
+        /// </summary>
+        /// <param name="sender">
+        /// The object raising the event.
+        /// </param>
+        /// <param name="e">
+        /// An <see cref="EventArgs"/> instance containing the event data.
+        /// </param>
+        private void HandleSpMenuOpening(object? sender, EventArgs e)
         {
             // Show the menu item only if the SP is currently missing.
             TreeNode tn = SelectedNode;
@@ -541,7 +541,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </param>
         /// <param name="tableProfile">
         /// The <see cref="AdaptiveTableProfile"/> instance containing the table profile and other
-        /// related metadata to be updated.
+        /// related meta data to be updated.
         /// </param>
         public void UpdateTableData(SqlTable table, AdaptiveTableProfile tableProfile)
         {
@@ -551,7 +551,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
 
                 // Find the table list.
                 TreeNodeCollection tableNodes = Nodes[0].Nodes[0].Nodes;
-                TreeNode[] tableNodeList = tableNodes.Find(table.TableName, false);
+                TreeNode[] tableNodeList = tableNodes.Find(table.TableName ?? string.Empty, false);
                 if (tableNodeList != null && tableNodeList.Length > 0)
                 {
                     TreeNode tableNode = tableNodeList[0];
@@ -625,10 +625,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
             SpMenuEdit.Click -= HandleStoredProcEdit;
             SpMenuDelete.Click -= HandleStoredProcDelete;
         }
-		/// <summary>
-		/// Sets the state of the UI before performing a load operation.
-		/// </summary>
-		private void SetPreloadState()
+        /// <summary>
+        /// Sets the state of the UI before performing a load operation.
+        /// </summary>
+        private void SetPreloadState()
         {
             Cursor = Cursors.WaitCursor;
             Nodes.Clear();
@@ -645,194 +645,194 @@ namespace Adaptive.Intelligence.SqlServer.UI
             ResumeLayout();
             Cursor = Cursors.Default;
         }
-		#endregion
+        #endregion
 
-		#region Private Event Handlers		
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate Insert SP menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateInsertClick(object sender, EventArgs e)
+        #region Private Event Handlers		
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate Insert SP menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateInsertClick(object? sender, EventArgs e)
         {
             if (_selectedTable != null)
             {
                 OnGenerateTableInsertStoredProcedure(new SqlTableEventArgs(_selectedTable));
             }
         }
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate Update SP menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateUpdateClick(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate Update SP menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateUpdateClick(object? sender, EventArgs e)
         {
-			if (_selectedTable != null)
-			{
-				OnGenerateTableUpdateStoredProcedure(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate Delete SP menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateDeleteClick(object sender, EventArgs e)
+            if (_selectedTable != null)
+            {
+                OnGenerateTableUpdateStoredProcedure(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate Delete SP menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateDeleteClick(object? sender, EventArgs e)
         {
-			if (_selectedTable != null)
-			{
-				OnGenerateTableDeleteStoredProcedure(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate All stored procedures menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateGetAllClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
+            if (_selectedTable != null)
+            {
+                OnGenerateTableDeleteStoredProcedure(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate All stored procedures menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateGetAllClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
                 OnGenerateTableGetAllStoredProcedure(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate Get records by ID stored procedures menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateGetByIdClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
-				OnGenerateTableGetByIdStoredProcedure(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate all stored procedures menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateAllStoredProcsClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
-				OnGenerateTableAllStoredProcedures(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate all stored procedures menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateDataDefinitionClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
-				OnGenerateDataDefinition(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate Data Access Class menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateDataAccessClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
-				OnGenerateDataAccessClass(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate Classes menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateClassesClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
-				OnGenerateClasses(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Edit Profile menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateEditProfileClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
-				OnEditTableProfile(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Table Menu-> Generate Create Table SQL menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleTableGenerateCreateTableClick(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
-				OnGenerateCreateTableSql(new SqlTableEventArgs(_selectedTable));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the ... menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleStoredProcMenuClick(object sender, EventArgs e)
-		{
-			if (_selectedSp != null)
-			{
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Stored Procedure Menu-> Generate all stored procedures menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleStoredProcGenerate(object sender, EventArgs e)
-		{
-			if (_selectedSp != null)
-			{
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Stored Procedure Menu-> Edit Procedures menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleStoredProcEdit(object sender, EventArgs e)
-		{
-			if (_selectedSp != null)
-			{
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate Get records by ID stored procedures menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateGetByIdClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
+                OnGenerateTableGetByIdStoredProcedure(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate all stored procedures menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateAllStoredProcsClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
+                OnGenerateTableAllStoredProcedures(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate all stored procedures menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateDataDefinitionClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
+                OnGenerateDataDefinition(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate Data Access Class menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateDataAccessClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
+                OnGenerateDataAccessClass(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate Classes menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateClassesClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
+                OnGenerateClasses(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Edit Profile menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateEditProfileClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
+                OnEditTableProfile(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Table Menu-> Generate Create Table SQL menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleTableGenerateCreateTableClick(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
+                OnGenerateCreateTableSql(new SqlTableEventArgs(_selectedTable));
+            }
+        }
+        /// <summary>
+        /// Handles the event when the ... menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleStoredProcMenuClick(object? sender, EventArgs e)
+        {
+            if (_selectedSp != null)
+            {
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Stored Procedure Menu-> Generate all stored procedures menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleStoredProcGenerate(object? sender, EventArgs e)
+        {
+            if (_selectedSp != null)
+            {
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Stored Procedure Menu-> Edit Procedures menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleStoredProcEdit(object? sender, EventArgs e)
+        {
+            if (_selectedSp != null)
+            {
                 OnEditStoredProcedure(new SqlStoredProcedureEventArgs(_selectedSp));
-			}
-		}
-		/// <summary>
-		/// Handles the event when the Stored Procedure Menu-> Delete procedure menu item is clicked.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-		private void HandleStoredProcDelete(object sender, EventArgs e)
-		{
-			if (_selectedTable != null)
-			{
+            }
+        }
+        /// <summary>
+        /// Handles the event when the Stored Procedure Menu-> Delete procedure menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void HandleStoredProcDelete(object? sender, EventArgs e)
+        {
+            if (_selectedTable != null)
+            {
                 OnDeleteStoredProcedure(new SqlStoredProcedureEventArgs(_selectedSp));
-			}
-		}
-		#endregion
+            }
+        }
+        #endregion
 
-		#region Private Methods / Functions
-		/// <summary>
-		/// Updates the control with the content from the schema reference.
-		/// </summary>
-		private void SetDbContent()
+        #region Private Methods / Functions
+        /// <summary>
+        /// Updates the control with the content from the schema reference.
+        /// </summary>
+        private void SetDbContent()
         {
             SetPreloadState();
             Visible = false;
@@ -874,41 +874,44 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 };
                 serverNode.Nodes.Add(databasesFolderNode);
 
-                int total = _server.Databases.Count;
-                int count = 0;
-                foreach (SqlDatabase db in _server.Databases)
+                if (_server.Databases != null)
                 {
-                    count++;
-                    OnProgressUpdate(new ProgressUpdateEventArgs(db.Name, Math.Percent(count, total)));
-                    TreeNode dbNode = new TreeNode
+                    int total = _server.Databases.Count;
+                    int count = 0;
+                    foreach (SqlDatabase db in _server.Databases)
                     {
-                        Name = NodeNameDatabase + db.Name,
-                        Tag = db,
-                        ImageIndex = TreeNodeImageDatabaseIndex,
-                        SelectedImageIndex = TreeNodeImageDatabaseIndex,
-                        Text = db.Name,
-                        ToolTipText = "The source SQL Server database instance: " + db.Name
-                    };
-                    databasesFolderNode.Nodes.Add(dbNode);
-
-                    // Add the tables folder node.
-                    TreeNode tablesFolderNode = new TreeNode
-                    {
-                        Name = NodeNameTablesFolder,
-                        Tag = db.Tables,
-                        ImageIndex = TreeNodeImageFolderIndex,
-                        SelectedImageIndex = TreeNodeImageFolderIndex,
-                        Text = NodeTextTablesFolder,
-                        ToolTipText = NodeTextTablesFolder
-                    };
-                    dbNode.Nodes.Add(tablesFolderNode);
-
-                    // Add all the table and stored procedure sub-nodes.
-                    if (db.Tables != null)
-                    {
-                        foreach (SqlTable table in db.Tables)
+                        count++;
+                        OnProgressUpdate(new ProgressUpdateEventArgs(db.Name, Math.Percent(count, total)));
+                        TreeNode dbNode = new TreeNode
                         {
-                            AddTableNode(tablesFolderNode, table);
+                            Name = NodeNameDatabase + db.Name,
+                            Tag = db,
+                            ImageIndex = TreeNodeImageDatabaseIndex,
+                            SelectedImageIndex = TreeNodeImageDatabaseIndex,
+                            Text = db.Name,
+                            ToolTipText = "The source SQL Server database instance: " + db.Name
+                        };
+                        databasesFolderNode.Nodes.Add(dbNode);
+
+                        // Add the tables folder node.
+                        TreeNode tablesFolderNode = new TreeNode
+                        {
+                            Name = NodeNameTablesFolder,
+                            Tag = db.Tables,
+                            ImageIndex = TreeNodeImageFolderIndex,
+                            SelectedImageIndex = TreeNodeImageFolderIndex,
+                            Text = NodeTextTablesFolder,
+                            ToolTipText = NodeTextTablesFolder
+                        };
+                        dbNode.Nodes.Add(tablesFolderNode);
+
+                        // Add all the table and stored procedure sub-nodes.
+                        if (db.Tables != null)
+                        {
+                            foreach (SqlTable table in db.Tables)
+                            {
+                                AddTableNode(tablesFolderNode, table);
+                            }
                         }
                     }
                 }
@@ -1030,8 +1033,9 @@ namespace Adaptive.Intelligence.SqlServer.UI
         {
             // Create the new node object, and try to find the procedure schema object, if it exists.
             TreeNode itemNode = new TreeNode();
-            SqlStoredProcedure procedure =
-                profile.StandardStoredProcedures.GetItemByFunction(procedureName);
+            SqlStoredProcedure? procedure = null;
+            if (profile.StandardStoredProcedures!= null)
+                procedure = profile.StandardStoredProcedures.GetItemByFunction(procedureName);
 
             // Add a tree node for the SP, present or not.
             if (procedure != null)

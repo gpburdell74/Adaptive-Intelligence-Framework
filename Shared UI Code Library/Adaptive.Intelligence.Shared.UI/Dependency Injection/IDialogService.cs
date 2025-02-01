@@ -19,7 +19,7 @@
         /// <value>
         /// An integer specifying the managed thread identifier.
         /// </value>
-        int ManagedUIThreadId { get;  }
+        int ManagedUIThreadId { get; }
         /// <summary>
         /// Gets or sets the reference to the services provider instance.
         /// </summary>

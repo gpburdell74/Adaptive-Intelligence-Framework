@@ -4,7 +4,7 @@
     /// Represents the expression for an item in the selection list portion of a SELECT statement.
     /// </summary>
     /// <seealso cref="SqlCodeExpression" />
-    public sealed class SqlCodeSelectListItemExpression : SqlCodeExpression 
+    public sealed class SqlCodeSelectListItemExpression : SqlCodeExpression
     {
         #region Private Member Declarations        
         /// <summary>

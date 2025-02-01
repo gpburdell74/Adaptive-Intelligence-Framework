@@ -1,9 +1,4 @@
 ﻿using AutoFixture;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Adaptive.Intelligence.Shared.Test.Collections
 {
@@ -72,7 +67,7 @@ namespace Adaptive.Intelligence.Shared.Test.Collections
 
             ExceptionCollection? newList = list.Clone();
             Assert.NotNull(newList);
-            Assert.Equal(1, newList.Count);
+            Assert.Single(newList);
 
             Assert.IsType<ArgumentException>(newList[0]);
 
@@ -82,15 +77,15 @@ namespace Adaptive.Intelligence.Shared.Test.Collections
         [Fact]
         public void Clone2Test()
         {
-            Fixture fixture = new Fixture();
-            ExceptionCollection? list = fixture.Create<ExceptionCollection>();
+            var fixture = new Fixture();
+            var list = fixture.Create<ExceptionCollection>();
             Assert.NotNull(list);
 
             list.Add(new ArgumentException());
 
             ExceptionCollection? newList = (ExceptionCollection)((ICloneable)list).Clone();
             Assert.NotNull(newList);
-            Assert.Equal(1, newList.Count);
+            Assert.Single(newList);
 
             Assert.IsType<ArgumentException>(newList[0]);
 

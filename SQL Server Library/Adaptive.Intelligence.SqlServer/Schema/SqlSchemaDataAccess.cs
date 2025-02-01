@@ -44,7 +44,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         {
             SqlForeignKeyCollection? list = null;
 
-            ISafeSqlDataReader? reader = GetReaderForParameterizedCommandText(SchemaQueryConstants.GetForeignKeysSql, 
+            ISafeSqlDataReader? reader = GetReaderForParameterizedCommandText(SchemaQueryConstants.GetForeignKeysSql,
                 null);
             if (reader != null)
             {
@@ -68,7 +68,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         {
             SqlForeignKeyCollection? list = null;
 
-            ISafeSqlDataReader? reader = await GetReaderForParameterizedCommandTextAsync(SchemaQueryConstants.GetForeignKeysSql, 
+            ISafeSqlDataReader? reader = await GetReaderForParameterizedCommandTextAsync(SchemaQueryConstants.GetForeignKeysSql,
                 null);
             if (reader != null)
             {

@@ -39,7 +39,7 @@
         /// <param name="valueExpression">
         /// A <see cref="SqlCodeExpression"/>-derived instance representing the value being assigned.
         /// </param>
-        public SqlCodeAssignmentExpression(SqlCodeExpression? assignedToExpression, SqlCodeExpression? valueExpression) 
+        public SqlCodeAssignmentExpression(SqlCodeExpression? assignedToExpression, SqlCodeExpression? valueExpression)
         {
             _assignedToExpression = assignedToExpression ?? throw new ArgumentNullException(nameof(assignedToExpression));
             _valueExpression = valueExpression ?? throw new ArgumentNullException(nameof(valueExpression));

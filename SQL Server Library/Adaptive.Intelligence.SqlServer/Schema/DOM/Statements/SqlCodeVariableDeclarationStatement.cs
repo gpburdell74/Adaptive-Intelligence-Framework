@@ -70,7 +70,7 @@
             if (!IsDisposed && disposing)
             {
                 _variableDefinition?.Dispose();
-                _valueExpression?.Dispose();    
+                _valueExpression?.Dispose();
             }
 
             _variableDefinition = null;

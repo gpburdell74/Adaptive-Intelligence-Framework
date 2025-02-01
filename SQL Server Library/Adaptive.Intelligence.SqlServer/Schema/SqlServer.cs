@@ -155,30 +155,30 @@ namespace Adaptive.Intelligence.SqlServer.Schema
 
             return success;
         }
-		/// <summary>
-		/// Attempts to load the schema from the database.
-		/// </summary>
-		/// <param name="provider">
-		/// The <see cref="SqlDataProvider"/> instance to use to perform the SQL queries.
-		/// </param>
-		public async Task<List<string>?> LoadDatabaseNamesAsync(string connectionString)
-		{
+        /// <summary>
+        /// Attempts to load the schema from the database.
+        /// </summary>
+        /// <param name="provider">
+        /// The <see cref="SqlDataProvider"/> instance to use to perform the SQL queries.
+        /// </param>
+        public async Task<List<string>?> LoadDatabaseNamesAsync(string connectionString)
+        {
             List<string>? dbNames = null;
             SqlDataProvider provider = SqlDataProviderFactory.CreateProvider(connectionString);
 
-			// Step 1. Load the list of databases.
-			IOperationalResult<List<string>> result = await provider.GetDatabaseNamesAsync().ConfigureAwait(false);
-			bool success = result.Success;
-			if (result.Success)
-			{
+            // Step 1. Load the list of databases.
+            IOperationalResult<List<string>> result = await provider.GetDatabaseNamesAsync().ConfigureAwait(false);
+            bool success = result.Success;
+            if (result.Success)
+            {
                 dbNames = new List<string>();
                 dbNames.AddRange(result.DataContent);
-			}
-			result.Dispose();
+            }
+            result.Dispose();
             provider.Dispose();
 
             return dbNames;
-		}
-		#endregion
-	}
+        }
+        #endregion
+    }
 }

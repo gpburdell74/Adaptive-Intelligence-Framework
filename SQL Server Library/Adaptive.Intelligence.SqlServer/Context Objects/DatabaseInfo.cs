@@ -8,11 +8,11 @@ using System.Collections.Specialized;
 
 namespace Adaptive.Intelligence.SqlServer
 {
-	/// <summary>
-	/// Contains the current database information and other context data.
-	/// </summary>
-	/// <seealso cref="DisposableObjectBase" />
-	public sealed class DatabaseInfo : DisposableObjectBase
+    /// <summary>
+    /// Contains the current database information and other context data.
+    /// </summary>
+    /// <seealso cref="DisposableObjectBase" />
+    public sealed class DatabaseInfo : DisposableObjectBase
     {
         #region Public Events
         /// <summary>
@@ -293,7 +293,7 @@ namespace Adaptive.Intelligence.SqlServer
                 {
                     OnStatusUpdate(
                         new ProgressUpdateEventArgs("Reading Stored Procedure Contents...",
-                            sp.Name, Math.Percent(count+1,len)));
+                            sp.Name, Math.Percent(count + 1, len)));
 
                     //StringCollection code = sp.Script();
                     StringCollection code = new StringCollection
@@ -379,8 +379,8 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 tableProfile = _tableData[tableName];
                 if (tableProfile == null && schema != null)
-				{
-					tableProfile = _tableData.FindBySchemaAndName(schema, tableName);
+                {
+                    tableProfile = _tableData.FindBySchemaAndName(schema, tableName);
                 }
             }
             return tableProfile;

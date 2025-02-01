@@ -17,8 +17,8 @@
         public SqlQueryParameter? GetParameterForColumn(string columnName)
         {
             return (from items in this
-                where (items.ColumnName == columnName)
-                select items).FirstOrDefault();
+                    where (items.ColumnName == columnName)
+                    select items).FirstOrDefault();
         }
     }
 }

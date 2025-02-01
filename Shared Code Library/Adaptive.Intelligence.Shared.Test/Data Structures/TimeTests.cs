@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.Shared.Test.Data_Structures
+﻿using Adaptive.Intelligence.Shared.Logging;
+
+namespace Adaptive.Intelligence.Shared.Test.Data_Structures
 {
     public class TimeTests
     {
@@ -211,6 +213,7 @@
             catch (ArgumentException ex)
             {
                 isGood = true;
+                ExceptionLog.LogException(ex);
             }
 
             Assert.True(isGood);

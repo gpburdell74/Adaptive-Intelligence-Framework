@@ -52,7 +52,7 @@
         /// <b>false</b> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
-            if (!IsDisposed  && disposing)
+            if (!IsDisposed && disposing)
             {
                 _updateColumnList?.Clear();
                 _table?.Dispose();
