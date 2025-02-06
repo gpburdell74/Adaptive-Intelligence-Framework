@@ -16,7 +16,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// <summary>
         /// Occurs when the operation is completed.
         /// </summary>
-        public event EventHandler OperationComplete;
+        public event EventHandler? OperationComplete;
         /// <summary>
         /// Occurs when the status is being updated.
         /// </summary>

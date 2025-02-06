@@ -318,7 +318,7 @@ namespace Adaptive.CodeDom
         {
             CodeArrayCreateExpression arrayCreate;
 
-            if (sizeSpecification == null)
+            if (sizeSpecification != null)
                 arrayCreate = new CodeArrayCreateExpression(new CodeTypeReference(dataType), sizeSpecification.Value);
             else
                 arrayCreate = new CodeArrayCreateExpression(new CodeTypeReference(dataType));
@@ -561,7 +561,7 @@ namespace Adaptive.CodeDom
         /// The <see cref="CodeMemberMethod"/> instance defining the Dispose method.
         /// </param>
         /// <param name="propertyList">
-        /// The <see cref="PropertyProfileCollection"/> instance containing the property metadata
+        /// The <see cref="PropertyProfileCollection"/> instance containing the property meta data
         /// used to generate appropriate Dispose code for the properties of the parent class.
         /// </param>
         public static void CreateDisposeMethodContent(CodeMemberMethod disposeMethod, PropertyProfileCollection propertyList)

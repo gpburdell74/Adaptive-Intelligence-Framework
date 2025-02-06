@@ -44,7 +44,7 @@ namespace Adaptive.Intelligence.Shared.Security
         /// <param name="value">
         /// The value to be securely stored in memory.
         /// </param>
-        public SecureString(string? value) : base(value)
+        public SecureString(string? value) : base(value!)
         {
         }
         /// <summary>
@@ -56,7 +56,7 @@ namespace Adaptive.Intelligence.Shared.Security
         /// <param name="value">
         /// The value to be securely stored in memory.
         /// </param>
-        public SecureString(int iterations, string? value) : base(iterations, value)
+        public SecureString(int iterations, string? value) : base(iterations, value!)
         {
         }
         /// <summary>

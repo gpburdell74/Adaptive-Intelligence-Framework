@@ -89,14 +89,11 @@ namespace Adaptive.Taz
             _fileName = fileName;
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="PKXFile"/> class.
+        /// Initializes a new instance of the <see cref="TazFile"/> class.
         /// </summary>
         /// <remarks>
         /// This constructor is used to create or open encrypted archive files.
         /// </remarks>
-        /// <param name="fileName">
-        /// A string containing the fully-qualified path and name of the file.
-        /// </param>
         /// <param name="userId">
         /// A string containing the user ID value.
         /// </param>
@@ -116,11 +113,14 @@ namespace Adaptive.Taz
             _header = new TazFileHeader(true);
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="PKXFile"/> class.
+        /// Initializes a new instance of the <see cref="TazFile"/> class.
         /// </summary>
         /// <remarks>
         /// This constructor is used to create or open encrypted archive files.
         /// </remarks>
+        /// <param name="fileName">
+        /// A string containing the fully-qualified path and name of the file.
+        /// </param>
         /// <param name="userId">
         /// A string containing the user ID value.
         /// </param>
@@ -420,14 +420,14 @@ namespace Adaptive.Taz
             DirectoryWriteCompleted?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
-        /// Raises the <see cref="CreateArchiveCompleted"/> event.
+        /// Raises the <see cref="CreateArchiveComplete"/> event.
         /// </summary>
         private void OnCreateArchiveCompleted()
         {
             CreateArchiveComplete?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
-        /// Raises the <see cref="CreateArchiveCompleted"/> event.
+        /// Raises the <see cref="CompressionStart"/> event.
         /// </summary>
         private void OnCompressionStart()
         {

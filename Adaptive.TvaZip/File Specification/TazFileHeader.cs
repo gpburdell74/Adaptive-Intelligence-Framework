@@ -90,6 +90,9 @@ namespace Adaptive.Taz
         /// <param name="type">
         /// A byte specifying the file sub-type indicator.
         /// </param>
+        /// <param name="directoryStart">
+        /// A long integer value indicating the starting position of the directory.
+        /// </param>
         private TazFileHeader(byte partOne, byte partTwo, byte partThree, int major, int minor, byte type, long directoryStart)
         {
             _tazFilePrefix = new byte[3];

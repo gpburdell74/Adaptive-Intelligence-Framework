@@ -57,6 +57,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// <param name="table">
         /// The <see cref="SqlTable"/> instance to create the stored procedure for.
         /// </param>
+        /// <param name="hardDelete">
+        /// A value indicating whether to generate a hard-delete procedure.
+        /// </param>
         /// <returns>
         /// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
         /// the GetAll stored procedure for the table.
@@ -101,9 +104,6 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// This is used to generate the get-all-records (top 10000) for the table in the
         /// standard Adaptive CRUD operations.
         /// </remarks>
-        /// <param name="procedureName">
-        /// A string containing the stored procedure name.
-        /// </param>
         /// <param name="table">
         /// The <see cref="SqlTable"/> instance to create the stored procedure for.
         /// </param>
@@ -303,7 +303,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 //   BEGIN
                 //      UPDATE [<schema>].[TableName]
                 //          SET
-                storedProcedureStatement.Statements.Add(GenerateUpdateStatement(table));
+                var statement = GenerateUpdateStatement(table);
+                if (statement != null)
+                    storedProcedureStatement.Statements.Add(statement);
 
                 //
                 // SELECT ... by ID statement.

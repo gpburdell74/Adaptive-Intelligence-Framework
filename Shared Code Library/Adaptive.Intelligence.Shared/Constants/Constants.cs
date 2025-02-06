@@ -707,10 +707,22 @@
         public const string RegSubKeyNameDefaultIcon = "\\DefaultIcon";
         #endregion
 
-        #region XML Constants
+        #region XML Constants        
+        /// <summary>
+        /// The XML open bracket string.
+        /// </summary>
         public const string XmlBracketOpen = "<";
+        /// <summary>
+        /// The XML end bracket string.
+        /// </summary>
         public const string XmlBracketEnd = ">";
-        public const string XmlBracketEndTag = "</";
+        /// <summary>
+        /// The XML closing bracket start string.
+        /// </summary>
+        public const string XmlClosingBracketStart = "</";
+        /// <summary>
+        /// The XML end tag bracket string for self-closing values.
+        /// </summary>
         public const string XmlBracketShortTagEnd = "/>";
         #endregion
     }

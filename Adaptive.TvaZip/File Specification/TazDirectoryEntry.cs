@@ -47,6 +47,12 @@ namespace Adaptive.Taz
         public TazDirectoryEntry()
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TazDirectoryEntry"/> class.
+        /// </summary>
+        /// <param name="data">
+        /// A byte array containing the data for the directory entry.
+        /// </param>
         public TazDirectoryEntry(byte[] data)
         {
             FromBytes(data);
@@ -299,7 +305,7 @@ namespace Adaptive.Taz
         /// <summary>
         /// Writes the directory entry to the open file.
         /// </summary>
-        /// <param name="header">
+        /// <param name="entry">
         /// The <see cref="TazFileHeader"/> instance whose contents are to be written.
         /// </param>
         /// <param name="writer">

@@ -16,6 +16,12 @@ namespace Adaptive.CodeDom
         private List<string>? _importNamespaces;
         private string? _defaultNamespace;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenerationSettings"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This is the default constructor.
+        /// </remarks>
         public GenerationSettings()
         {
             _importNamespaces = new List<string>();

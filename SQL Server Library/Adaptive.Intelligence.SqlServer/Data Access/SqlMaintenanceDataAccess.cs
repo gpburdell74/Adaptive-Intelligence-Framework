@@ -195,6 +195,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
         /// <summary>
         /// Executes the query to mark the specified table for recompilation.
         /// </summary>
+        /// <param name="schema">
+        /// A string specifying the schema.
+        /// </param>
         /// <param name="tableName">
         /// A string containing the name of the table.
         /// </param>

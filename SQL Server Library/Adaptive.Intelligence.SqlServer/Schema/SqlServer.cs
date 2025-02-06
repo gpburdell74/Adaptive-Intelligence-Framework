@@ -158,8 +158,8 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <summary>
         /// Attempts to load the schema from the database.
         /// </summary>
-        /// <param name="provider">
-        /// The <see cref="SqlDataProvider"/> instance to use to perform the SQL queries.
+        /// <param name="connectionString">
+        /// A string containing the database connection information.
         /// </param>
         public async Task<List<string>?> LoadDatabaseNamesAsync(string connectionString)
         {

@@ -71,6 +71,9 @@ public class AdaptiveCollectionBase<T> : List<T>
     #endregion
 }
 
+/// <summary>
+/// Provides extension methods for the <see cref="IList{T}"/> type.
+/// </summary>
 public static class ListExtensions
 {
     #region Public Static Methods / Functions

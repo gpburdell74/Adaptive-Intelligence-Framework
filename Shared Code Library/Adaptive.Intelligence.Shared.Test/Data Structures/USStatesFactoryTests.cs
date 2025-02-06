@@ -49,8 +49,8 @@
                 Assert.Equal(USStatesFactory.GetStateName(enumA), name);
                 Assert.Equal(USStatesFactory.GetStateAbbreviation(enumB), abbrev);
 
-                USState stRefA = USStatesFactory.GetStateInstance(name);
-                USState stRefB = USStatesFactory.GetStateInstance(abbrev);
+                USState? stRefA = USStatesFactory.GetStateInstance(name);
+                USState? stRefB = USStatesFactory.GetStateInstance(abbrev);
                 Assert.Equal(stRefB, stRefA);
 
             }

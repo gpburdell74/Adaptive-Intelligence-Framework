@@ -175,7 +175,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// current conditions.
         /// </summary>
         /// <remarks>
-        /// This is called by <see cref="SetState" /> after <see cref="SetSecurityState" /> is called.
+        /// This is called by <see cref="AdaptiveControlBase.SetState" /> after <see cref="AdaptiveControlBase.SetSecurityState" /> is called.
         /// </remarks>
         protected override void SetDisplayState()
         {

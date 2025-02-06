@@ -1,7 +1,7 @@
 ﻿namespace Adaptive.Taz
 {
     /// <summary>
-    /// Provides the event arguments defintion for file-related events.
+    /// Provides the event arguments definition for file-related events.
     /// </summary>
     /// <seealso cref="EventArgs" />
     public sealed class FileEventArgs : EventArgs
@@ -61,7 +61,7 @@
         /// Gets or sets the reference to the exception being reported.
         /// </summary>
         /// <value>
-        /// The <see cref="Exception"> instance, or <b>null</b>.
+        /// The <see cref="Exception"/> instance, or <b>null</b>.
         /// </value>
         public Exception? Exception { get; set; }
         /// <summary>

@@ -60,6 +60,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// <param name="fromClause">
         /// The <see cref="SqlCodeFromClause"/> instance to be rendered and written.
         /// </param>
+        /// <param name="onSameLine">
+        /// A value indicating whether to render the FROM clause content on a single line.
+        /// </param>
         public void WriteFromClause(SqlCodeFromClause? fromClause, bool onSameLine = false)
         {
             if (fromClause != null && fromClause.SourceTable != null && _expressionWriter != null)

@@ -1,6 +1,5 @@
 ﻿using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 {
@@ -71,7 +70,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// </param>
         public void WriteCommentStatement(SqlCodeCommentStatement? commentStatement)
         {
-            if (_expressionWriter != null && commentStatement != null && commentStatement.Comments.Count > 0)
+            if (_expressionWriter != null && commentStatement != null && commentStatement.Comments?.Count > 0)
             {
                 if (commentStatement.Comments.Count == 1)
                 {
@@ -103,7 +102,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// </param>
         public async Task WriteCommentStatementAsync(SqlCodeCommentStatement? commentStatement)
         {
-            if (_expressionWriter != null && commentStatement != null && commentStatement.Comments.Count > 0)
+            if (_expressionWriter != null && commentStatement != null && commentStatement.Comments?.Count > 0)
             {
                 if (commentStatement.Comments.Count == 1)
                 {
@@ -139,7 +138,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             {
                 //  CREATE PROCEDURE [owner].[name]
                 SafeWriteTabs();
-                SafeWrite(RenderCreateProcedureOpenStatement(statement.Owner, statement.Name));
+                SafeWrite(RenderCreateProcedureOpenStatement(statement.Owner!, statement.Name!));
                 SafeWriteLine();
 
                 // Write the parameter list
@@ -200,7 +199,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             {
                 //  CREATE PROCEDURE [owner].[name]
                 await SafeWriteTabsAsync().ConfigureAwait(false);
-                await SafeWriteAsync(RenderCreateProcedureOpenStatement(statement.Owner, statement.Name)).ConfigureAwait(false);
+                await SafeWriteAsync(RenderCreateProcedureOpenStatement(statement.Owner!, statement.Name!)).ConfigureAwait(false);
                 await SafeWriteLineAsync().ConfigureAwait(false);
                 SafeIndent();
 

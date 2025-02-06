@@ -7,7 +7,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
     /// ANSI SQL, PL/SQL, T-SQL, or others.  
     /// </summary>
     /// <remarks>
-    /// The <see cref="SqlWriter"/> will require an <see cref="ISqlCodeProvider"/> implementation in order to 
+    /// The <see cref="IO.SqlWriter"/> will require an <see cref="ISqlCodeProvider"/> implementation in order to 
     /// write the SQL DOM instances to an output destination.
     /// </remarks>
     public interface ISqlCodeProvider
@@ -88,7 +88,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
         /// Renders the edit, alter, or modify stored procedure open statement line.
         /// </summary>
         /// <example>
-        /// ALTER PROCEDURE [<schema>].[procedure name]
+        /// ALTER PROCEDURE [{schema}].[procedure name]
         /// </example>
         /// <param name="owner">
         /// A <see cref="SqlCodeDatabaseNameOwnerNameExpression"/> instance indicating the database owner object,
@@ -139,7 +139,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
         /// Renders the CREATE stored procedure open statement line.
         /// </summary>
         /// <example>
-        /// CREATE PROCEDURE [<schema>].[procedure name]
+        /// CREATE PROCEDURE [{schema}].[procedure name]
         /// </example>
         /// <param name="owner">
         /// A <see cref="SqlCodeDatabaseNameOwnerNameExpression"/> instance indicating the database owner object,

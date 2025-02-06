@@ -67,9 +67,17 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// Occurs when a create table SQL generation is requested.
         /// </summary>
         public event SqlTableEventHandler? GenerateCreateTableSql;
-
+        /// <summary>
+        /// Occurs when a stored procedure generation is requested.
+        /// </summary>
         public event SqlStoredProcedureEventHandler? GenerateStoredProcedure;
+        /// <summary>
+        /// Occurs when a stored procedure edit is requested.
+        /// </summary>
         public event SqlStoredProcedureEventHandler? EditStoredProcedure;
+        /// <summary>
+        /// Occurs when a stored procedure delete is requested.
+        /// </summary>
         public event SqlStoredProcedureEventHandler? DeleteStoredProcedure;
 
         #endregion
@@ -260,7 +268,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
 
         #region Protected Method Overrides
         /// <summary>
-        /// Raises the <see cref="AfterSelect" /> event.
+        /// Raises the <see cref="TreeView.AfterSelect" /> event.
         /// </summary>
         /// <param name="e">A <see cref="TreeViewEventArgs" /> that contains the event data.</param>
         protected override void OnAfterSelect(TreeViewEventArgs e)

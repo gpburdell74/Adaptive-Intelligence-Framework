@@ -242,6 +242,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// <param name="expression">
         /// The <see cref="SqlCodeConditionListExpression"/> instance to be rendered.
         /// </param>
+        /// <param name="useParens">
+        /// A value indicating whether to wrap the query content in parenthesis.
+        /// </param>
         public void WriteConditionListExpression(SqlCodeConditionListExpression? expression, bool useParens = true)
         {
             if (CanWrite && expression != null && expression.Expression != null)

@@ -403,8 +403,11 @@ namespace Adaptive.Intelligence.SqlServer
                             // Get the procedure text.
                             StringCollection? procedureText = result.SecondaryDatabaseProcedures![currentProc];
                             StringBuilder builder = new StringBuilder();
-                            foreach (string line in procedureText)
-                                builder.Append(line);
+                            if (procedureText != null && procedureText.Count > 0)
+                            {
+                                foreach (string line in procedureText)
+                                    builder.Append(line);
+                            }
 
                             // Execute the stored procedure creation.
                             await primaryProvider.ExecuteSqlAsync(builder.ToString()).ConfigureAwait(false);
@@ -422,6 +425,9 @@ namespace Adaptive.Intelligence.SqlServer
         /// <summary>
         /// Performs the database maintenance functions.
         /// </summary>
+        /// <param name="databaseName">
+        /// A string containing the name of the database.
+        /// </param>
         /// <param name="passCount">
         /// An integer specifying the number of passes to perform.
         /// </param>
@@ -501,6 +507,9 @@ namespace Adaptive.Intelligence.SqlServer
         /// <summary>
         /// Attempts to drop the specified stored procedure.
         /// </summary>
+        /// <param name="databaseName">
+        /// A string containing the name of the database.
+        /// </param>
         /// <param name="procedure">
         /// A <see cref="SqlStoredProcedure"/> instance representing the instance to be dropped.
         /// </param>
@@ -754,6 +763,9 @@ namespace Adaptive.Intelligence.SqlServer
         /// <remarks>
         /// This is used to generate a stored procedure for inserting a record into a table.
         /// </remarks>
+        /// <param name="databaseName">
+        /// A string containing the name of the database.
+        /// </param>
         /// <param name="table">
         /// The <see cref="SqlTable"/> instance to create the stored procedure for.
         /// </param>
@@ -787,6 +799,9 @@ namespace Adaptive.Intelligence.SqlServer
         /// <remarks>
         /// This is used to generate a stored procedure for updating a record in a table.
         /// </remarks>
+        /// <param name="databaseName">
+        /// A string containing the name of the database.
+        /// </param>
         /// <param name="table">
         /// The <see cref="SqlTable"/> instance to create the stored procedure for.
         /// </param>
@@ -817,6 +832,9 @@ namespace Adaptive.Intelligence.SqlServer
         /// <summary>
         /// Generates the T-SQL script for creating the table.
         /// </summary>
+        /// <param name="databaseName">
+        /// A string containing the name of the database.
+        /// </param>
         /// <param name="table">
         /// The <see cref="SqlTable"/> to render a create script for.
         /// </param>

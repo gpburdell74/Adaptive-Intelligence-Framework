@@ -213,9 +213,6 @@ namespace Adaptive.Taz
         /// <summary>
         /// Loads the file data and meta data into memory.
         /// </summary>
-        /// <param name="fileName">
-        /// A string containing the fully-qualified path and name of the file.
-        /// </param>
         /// <returns>
         /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b>.
         /// </returns>
@@ -258,13 +255,13 @@ namespace Adaptive.Taz
             };
         }
         /// <summary>
-        /// Converts the current instance to a <see cref="DirEntry"/> instance.
+        /// Converts the current instance to a <see cref="TazDirectoryEntry"/> instance.
         /// </summary>
         /// <param name="currentPosition">
         /// A value indicating the current position in the output file the actual compressed data is written to.
         /// </param>
         /// <returns>
-        /// A <see cref="DirEntry"/> instance representing the file entry.
+        /// A <see cref="TazDirectoryEntry"/> instance representing the file entry.
         /// </returns>
         public TazDirectoryEntry ToDirEntry(long currentPosition)
         {

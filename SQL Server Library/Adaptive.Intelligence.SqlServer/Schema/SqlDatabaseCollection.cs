@@ -35,7 +35,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <summary>
         /// Gets the name / key value of the specified instance.
         /// </summary>
-        /// <param name="item">The <typeparamref name="T" /> item top be stored in the collection.</param>
+        /// <param name="item">
+        /// The <see cref="SqlDatabase"/> to be stored in the collection.
+        /// </param>
         /// <returns>
         /// The name / key value of the specified instance.
         /// </returns>

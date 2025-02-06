@@ -137,8 +137,11 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
                 // TODO: Make this better code.
                 // Ensure the "class Name" is known to all the sections.
-                foreach (CodeSectionModel model in _class.CodeSections)
-                    model.ClassName = _class.ClassName;
+                if (_class.CodeSections != null)
+                {
+                    foreach (CodeSectionModel model in _class.CodeSections)
+                        model.ClassName = _class.ClassName;
+                }
 
                 ClassModelGenerator generator = new ClassModelGenerator();
                 string code = generator.RenderClass(_class, language);
@@ -174,7 +177,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             if (_class != null)
             {
                 if (string.IsNullOrEmpty(_standardNameSpace))
-                    _class.Namespace = GenerationSettings.Current.DefaultNamespace;
+                    _class.Namespace = GenerationSettings.Current.DefaultNamespace ?? string.Empty;
                 else
                     _class.Namespace = _standardNameSpace;
             }
@@ -283,7 +286,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     CodePartModel defaultConstructor = new CodePartModel();
                     defaultConstructor.Summary = codeOpts.ParameterLessConstructorXmlSummaryTemplate.Replace("{0}", model.ClassName);
                     defaultConstructor.Remarks = codeOpts.ParameterLessConstructorXmlRemarksTemplate.Replace("{0}", model.ClassName);
-                    defaultConstructor.Content = CodeDomObjectFactory.CreateDefaultConstructor(_class.ClassName,
+                    defaultConstructor.Content = CodeDomObjectFactory.CreateDefaultConstructor(_class.ClassName!,
                         new List<string>
                         {
                             codeOpts.SpConstantNameForGetAll,
@@ -300,7 +303,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     secondConstructor.AddParameterComment(
                         codeOpts.ConstructorProviderVariableName,
                         codeOpts.ConstructorProviderVariableParamSummary);
-                    secondConstructor.Content = CodeDomObjectFactory.CreateConstructorWithParameters(_class.ClassName,
+                    secondConstructor.Content = CodeDomObjectFactory.CreateConstructorWithParameters(_class.ClassName!,
                         new List<CodeParameterDeclarationExpression>
                         {
                             new CodeParameterDeclarationExpression(codeOpts.ConstructorProviderVariableTypeName, codeOpts.ConstructorProviderVariableName)
@@ -350,7 +353,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 insertMethod.Name = "CreateInsertParameters";
                 insertMethod.Summary = "Creates the array of parameters to use when inserting a new record.";
                 insertMethod.Returns = "An array of <see cref=\"SqlParameter\"/> instances to be supplied to the stored procedure.";
-                insertMethod.AddParameterComment("instance", "The <see cref=\"" + _profile.DataDefinitionClassName + "\"/> instance being inserted.");
+                insertMethod.AddParameterComment("instance", "The <see cref=\"" + _profile!.DataDefinitionClassName + "\"/> instance being inserted.");
 
                 // Create the CodeDOM method object.
                 // e.g.: 
@@ -361,7 +364,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     "SqlParameter[]",
                     new NameValuePair<string>[]
                     {
-                        new NameValuePair<string>(_class.ClassName, "instance")
+                        new NameValuePair<string>(_class.ClassName!, "instance")
                     },
                     TypeAccessModifier.Protected, true, false);
 
@@ -412,7 +415,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 updateMethod.Name = "CreateUpdateParameters";
                 updateMethod.Summary = "Creates the array of parameters to use when updating a record.";
                 updateMethod.Returns = "An array of <see cref=\"SqlParameter\"/> instances to be supplied to the stored procedure.";
-                updateMethod.AddParameterComment("instance", "The <see cref=\"" + _profile.DataDefinitionClassName + "\"/> instance being updated.");
+                updateMethod.AddParameterComment("instance", "The <see cref=\"" + _profile!.DataDefinitionClassName + "\"/> instance being updated.");
 
                 // Create the CodeDOM method object.
                 // e.g.: 
@@ -423,7 +426,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     "SqlParameter[]",
                     new NameValuePair<string>[]
                     {
-                        new NameValuePair<string>(_class.ClassName, "instance")
+                        new NameValuePair<string>(_class.ClassName!, "instance")
                     },
                     TypeAccessModifier.Protected, true, false);
 
@@ -467,7 +470,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 populateMethod.Name = "PopulateRecord";
                 populateMethod.Summary = "Populates the provided instance from the data source.";
                 populateMethod.AddParameterComment("reader", "The <see cref=\"SafeSqlDataReader\"/> instance used to read the data.");
-                populateMethod.AddParameterComment("instance", "The <see cref=\"" + _profile.DataDefinitionClassName + "\"/> instance to be populated.");
+                populateMethod.AddParameterComment("instance", "The <see cref=\"" + _profile?.DataDefinitionClassName + "\"/> instance to be populated.");
 
                 // Create the method call.
                 //
@@ -480,7 +483,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     new NameValuePair<string>[]
                     {
                         new NameValuePair<string>("SafeSqlDataReader", "reader"),
-                        new NameValuePair<string>(_profile.DataDefinitionClassName, "instance")
+                        new NameValuePair<string>(_profile?.DataDefinitionClassName!, "instance")
                     },
                     TypeAccessModifier.Protected,
                     true,
@@ -505,41 +508,48 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 }
 
                 // For each table that is being joined to, generate a list of columns to query for.
-                foreach (ReferencedTableJoin item in _profile.ReferencedTableJoins)
+                if (_profile != null && _profile.ReferencedTableJoins != null)
                 {
-                    SqlTable referencedTable = item.ReferencedTable;
-                    AdaptiveTableProfile referencedProfile = _db.GetTableProfile(referencedTable.Schema, referencedTable.TableName);
-
-                    // Create a variable name for the child entity instance.
-                    string variableName = RenderVariableName(referencedProfile);
-
-                    // Add a comment.
-                    CodeCommentStatement itemComment = new CodeCommentStatement(variableName);
-                    method.Statements.Add(itemComment);
-
-                    // ChildEntityType variableName = new ChildEntityType();
-                    CodeVariableDeclarationStatement statement = CodeDomObjectFactory.CreateNewObjectDeclaration(
-                        referencedProfile.DataDefinitionClassName,
-                        variableName);
-                    method.Statements.Add(statement);
-
-                    // Populate the child entity object from the columns in the table.
-                    foreach (SqlColumn col in referencedTable.Columns)
+                    foreach (ReferencedTableJoin item in _profile.ReferencedTableJoins)
                     {
-                        //
-                        // childEntity.Id = reader.GetInt32(index++);   
-                        //
-                        string? name = col.ColumnName;
-                        CodeAssignStatement variableRead = CodeDomObjectFactory.CreateAssignmentStatement(
-                            variableName + "." + col,
-                            CodeDomObjectFactory.CreateMethodCallExpression("reader." + GetMethodName(col.TypeId),
-                                new List<string> { "index++" })
-                            );
+                        SqlTable? referencedTable = item.ReferencedTable;
+                        AdaptiveTableProfile? referencedProfile = _db?.GetTableProfile(referencedTable?.Schema, referencedTable?.TableName);
 
-                        method.Statements.Add(variableRead);
+                        // Create a variable name for the child entity instance.
+                        string variableName = string.Empty;
+                        if (referencedProfile != null)
+                            variableName = RenderVariableName(referencedProfile);
+
+                        // Add a comment.
+                        CodeCommentStatement itemComment = new CodeCommentStatement(variableName);
+                        method.Statements.Add(itemComment);
+
+                        // ChildEntityType variableName = new ChildEntityType();
+                        CodeVariableDeclarationStatement statement = CodeDomObjectFactory.CreateNewObjectDeclaration(
+                            referencedProfile?.DataDefinitionClassName!,
+                            variableName);
+                        method.Statements.Add(statement);
+
+                        // Populate the child entity object from the columns in the table.
+                        if (referencedTable != null)
+                        {
+                            foreach (SqlColumn col in referencedTable.Columns)
+                            {
+                                //
+                                // childEntity.Id = reader.GetInt32(index++);   
+                                //
+                                string? name = col.ColumnName;
+                                CodeAssignStatement variableRead = CodeDomObjectFactory.CreateAssignmentStatement(
+                                    variableName + "." + col,
+                                    CodeDomObjectFactory.CreateMethodCallExpression("reader." + GetMethodName(col.TypeId),
+                                        new List<string> { "index++" })
+                                    );
+
+                                method.Statements.Add(variableRead);
+                            }
+                        }
                     }
                 }
-
                 populateMethod.Content = method;
                 model.AddPart(populateMethod);
             }
@@ -602,12 +612,15 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             }
 
             // Remove plural naming.
-            if (name.EndsWith("s"))
-                name = name.Substring(0, name.Length - 1);
+            if (name != null)
+            {
+                if (name.EndsWith("s"))
+                    name = name.Substring(0, name.Length - 1);
 
-            // Ensure the first character is lowerCase.
-            name = name.Substring(0, 1).ToLower() + name.Substring(1, name.Length - 1);
-            return name;
+                // Ensure the first character is lowerCase.
+                name = name.Substring(0, 1).ToLower() + name.Substring(1, name.Length - 1);
+            }
+            return name ?? string.Empty;
         }
         #endregion
     }

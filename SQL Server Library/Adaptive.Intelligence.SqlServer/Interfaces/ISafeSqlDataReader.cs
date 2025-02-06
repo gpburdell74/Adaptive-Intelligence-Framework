@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.Shared;
+using Microsoft.Data.SqlClient;
 
 namespace Adaptive.SqlServer.Client
 {

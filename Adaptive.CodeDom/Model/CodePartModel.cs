@@ -102,7 +102,7 @@ namespace Adaptive.CodeDom.Model
         /// Gets the reference to the list of parameter comments.
         /// </summary>
         /// <value>
-        /// A <see cref="List{T}"/> of <see cref="NameValuePair{string}"/> values.
+        /// A <see cref="List{T}"/> of <see cref="NameValuePair{T}"/> of <see cref="string"/> values.
         /// </value>
         public List<NameValuePair<string>>? ParameterComments => _parameterComments;
         /// <summary>

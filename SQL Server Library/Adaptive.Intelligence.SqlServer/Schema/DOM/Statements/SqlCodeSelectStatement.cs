@@ -34,6 +34,12 @@
             _fromClause = new SqlCodeFromClause();
             _whereClause = new SqlCodeWhereClause();
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlCodeSelectStatement"/> class.
+        /// </summary>
+        /// <param name="selectClause">The select clause.</param>
+        /// <param name="fromClause">From clause.</param>
+        /// <param name="whereClause">The where clause.</param>
         public SqlCodeSelectStatement(SqlCodeSelectClause? selectClause, SqlCodeFromClause? fromClause, SqlCodeWhereClause? whereClause) : base(SqlStatementType.Select)
         {
             if (selectClause != null)

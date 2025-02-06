@@ -259,6 +259,12 @@ namespace Adaptive.CodeDom.Model
             }
         }
 
+        /// <summary>
+        /// Gets or sets the namespace.
+        /// </summary>
+        /// <value>
+        /// A string containing the namespace name value.
+        /// </value>
         public string Namespace
         {
             get

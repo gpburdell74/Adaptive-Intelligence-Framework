@@ -21,11 +21,11 @@ namespace Adaptive.CodeDom
         {
             if (statement is CodeXmlSummaryComment summaryComment)
             {
-                GenerateCodeFromXmlComment(XmlCommentConstants.TagSummary, summaryComment.Text, writer, options);
+                GenerateCodeFromXmlComment(XmlCommentConstants.TagSummary, summaryComment.Text ?? string.Empty, writer, options);
             }
             else if (statement is CodeXmlRemarksComment remarksComment)
             {
-                GenerateCodeFromXmlComment(XmlCommentConstants.TagRemarks, remarksComment.Text, writer, options);
+                GenerateCodeFromXmlComment(XmlCommentConstants.TagRemarks, remarksComment.Text ?? string.Empty, writer, options);
             }
             else
             {
@@ -69,7 +69,7 @@ namespace Adaptive.CodeDom
             // Create the Code DOM objects.
             CodeCommentStatement startStatement = new CodeCommentStatement(Intelligence.Shared.Constants.XmlBracketOpen + commentType + Intelligence.Shared.Constants.XmlBracketEnd, true);
             CodeCommentStatement midStatement = new CodeCommentStatement(text, true);
-            CodeCommentStatement endStatement = new CodeCommentStatement(Intelligence.Shared.Constants.XmlBracketEndTag + commentType + Intelligence.Shared.Constants.XmlBracketEnd, true);
+            CodeCommentStatement endStatement = new CodeCommentStatement(Intelligence.Shared.Constants.XmlClosingBracketStart + commentType + Intelligence.Shared.Constants.XmlBracketEnd, true);
 
             // Generate the code.
             base.GenerateCodeFromStatement(startStatement, writer, options);

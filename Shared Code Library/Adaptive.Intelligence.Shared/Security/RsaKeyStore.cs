@@ -101,7 +101,7 @@ namespace Adaptive.Intelligence.Shared.Security
             if (_original == null)
                 return null;
             else
-                return Convert.ToBase64String(_original.Value);
+                return Convert.ToBase64String(_original.Value!);
         }
         /// <summary>
         /// Sets the AES key and IV data from the specified string.

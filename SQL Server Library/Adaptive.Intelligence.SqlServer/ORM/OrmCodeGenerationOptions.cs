@@ -593,6 +593,12 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             }
             set => _spConstNameSqlParamPrefix = value;
         }
+        /// <summary>
+        /// Gets or sets the stored procedure constant SQL parameter summary.
+        /// </summary>
+        /// <value>
+        /// A string containing the stored procedure constant SQL parameter summary.
+        /// </value>
         public string SpConstantSqlParameterSummary
         {
             get

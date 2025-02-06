@@ -5,7 +5,7 @@ namespace Adaptive.CodeDom.Model
     /// <summary>
     /// Contains a list of <see cref="ClassModel"/> instances, stored by name.
     /// </summary>
-    /// <seealso cref="NameIndexCollection" />
+    /// <seealso cref="NameIndexCollection{Task}" />
     public sealed class ClassModelCollection : NameIndexCollection<ClassModel>
     {
         #region Constructors

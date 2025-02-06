@@ -233,47 +233,54 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                         if (col.ColumnName != "Id" && col.TypeId == (int)SqlDataTypes.NVarCharOrSysName &&
                             col.MaxLength == 256)
                         {
-                            profile.KeyFieldNames.Add(col.ColumnName);
+                            profile.KeyFieldNames!.Add(col.ColumnName ?? string.Empty);
                         }
                     }
 
                     // Match the tables with the specified key fields based on Adaptive naming conventions.
-                    foreach (string name in profile.KeyFieldNames)
+                    if (profile != null && profile.KeyFieldNames != null)
                     {
-                        string subName = name.ToLower().Replace("key", "").Replace("id", "");
-
-                        SqlTable tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
-                        if (tableRef == null)
+                        foreach (string name in profile.KeyFieldNames)
                         {
-                            if (subName.EndsWith("y"))
-                                subName = subName.Substring(0, subName.Length - 1) + "ies";
-                            tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
-                        }
+                            string subName = name.ToLower().Replace("key", "").Replace("id", "");
 
-                        if (tableRef != null)
-                        {
-                            ReferencedTableJoin newItem = new ReferencedTableJoin
+                            SqlTable? tableRef = _sourceDatabase?.Tables?.HeuristicFind(subName);
+                            if (tableRef == null)
                             {
-                                ReferencedTable = tableRef,
-                                ReferencedTableField = "Id",
-                                KeyField = name,
-                            };
-                            if (table.Columns[name].IsNullable)
-                                newItem.UsesLeftJoin = true;
-                            else
-                                newItem.UsesLeftJoin = false;
+                                if (subName.EndsWith("y"))
+                                    subName = subName.Substring(0, subName.Length - 1) + "ies";
+                                tableRef = _sourceDatabase?.Tables?.HeuristicFind(subName);
+                            }
 
-                            AdaptiveTableProfile subProfile = _profiles[tableRef.TableName];
-                            profile.ReferencedTableJoins.Add(newItem);
+                            if (tableRef != null)
+                            {
+                                ReferencedTableJoin newItem = new ReferencedTableJoin
+                                {
+                                    ReferencedTable = tableRef,
+                                    ReferencedTableField = "Id",
+                                    KeyField = name,
+                                };
+                                if (table.Columns[name]!.IsNullable)
+                                    newItem.UsesLeftJoin = true;
+                                else
+                                    newItem.UsesLeftJoin = false;
+
+                                AdaptiveTableProfile? subProfile = _profiles[tableRef.TableName!];
+                                profile?.ReferencedTableJoins?.Add(newItem);
+                            }
                         }
                     }
 
                     // Create the parameter definitions for update and insert statements.
-                    profile.CreateColumnParameters();
+                    profile?.CreateColumnParameters();
 
                     // Find and load the existing standard CRUD stored procedures that may have been defined.
-                    profile.StandardStoredProcedures.AddRange(
-                        await _sourceDatabase.GetStoredProceduresForTableAsync(provider.ConnectionString, table.TableName).ConfigureAwait(false));
+                    if (_sourceDatabase != null && provider != null)
+                    {
+                        profile?.StandardStoredProcedures?.AddRange(
+                            await _sourceDatabase.GetStoredProceduresForTableAsync(provider.ConnectionString ?? string.Empty, 
+                            table.TableName ?? string.Empty).ConfigureAwait(false));
+                    }
                 }
             }
             catch (Exception ex)

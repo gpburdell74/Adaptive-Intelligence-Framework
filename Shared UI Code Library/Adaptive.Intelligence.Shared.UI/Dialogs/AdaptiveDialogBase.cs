@@ -82,6 +82,12 @@ namespace Adaptive.Intelligence.Shared.UI
          DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         protected new bool DesignMode => UIConstants.InDesignMode() || base.DesignMode;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the control can respond to user interaction.
+        /// </summary>
+        /// <value>
+        /// <b>true</b> if the dialog is enabled; otherwise, <b>false</b>.
+        /// </value>
         public new bool Enabled
         {
             get => base.Enabled;

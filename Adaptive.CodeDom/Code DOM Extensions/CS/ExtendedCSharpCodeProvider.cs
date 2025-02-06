@@ -72,7 +72,7 @@ namespace Adaptive.CodeDom
                 // Create the Code DOM objects.
                 CodeCommentStatement startStatement = new CodeCommentStatement(Constants.XmlBracketOpen + commentType + Constants.XmlBracketEnd, true);
                 CodeCommentStatement midStatement = new CodeCommentStatement(text, true);
-                CodeCommentStatement endStatement = new CodeCommentStatement(Constants.XmlBracketEndTag + commentType + Constants.XmlBracketEnd, true);
+                CodeCommentStatement endStatement = new CodeCommentStatement(Constants.XmlClosingBracketStart + commentType + Constants.XmlBracketEnd, true);
 
                 // Generate the code.
                 base.GenerateCodeFromStatement(startStatement, writer, options);
@@ -121,6 +121,13 @@ namespace Adaptive.CodeDom
             singleLine = rawData.Substring(leftIndex, rightIndex - leftIndex);
             writer.WriteLine(singleLine);
         }
+        /// <summary>
+        /// Removes the trailing "End Class" text after the Visual Basic code ends.
+        /// </summary>
+        /// <param name="code">A string containing the rendered class.</param>
+        /// <returns>
+        /// A string containing the modified text.
+        /// </returns>
         public string RemoveEndClassBlockMarker(string code)
         {
             int index = code.ToLower().LastIndexOf("end class");

@@ -38,12 +38,12 @@
         /// </param>
         /// <returns>
         ///  A value that indicates the relative order of the objects being compared. The
-        //     return value has these meanings:
-        //
-        //     Value – Meaning
-        //     Less than zero – This instance precedes obj in the sort order.
-        //     Zero – This instance occurs in the same position in the sort order as obj.
-        //     Greater than zero – This instance follows obj in the sort order.
+        ///    return value has these meanings:
+        ///
+        ///    Value – Meaning
+        ///    Less than zero – This instance precedes obj in the sort order.
+        ///    Zero – This instance occurs in the same position in the sort order as obj.
+        ///    Greater than zero – This instance follows obj in the sort order.
         /// </returns>
         public static int Compare(this Array? firstArray, Array? secondArray)
         {

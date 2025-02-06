@@ -1,7 +1,8 @@
-﻿using System.Security.Cryptography;
-
-namespace Adaptive.Intelligence.Shared.Security
+﻿namespace Adaptive.Intelligence.Shared.Security
 {
+    /// <summary>
+    /// Provides static methods and functions for creating encryption keys from password values.
+    /// </summary>
     public static class PasswordKeyCreator
     {
         private static readonly byte[] _salt = new byte[]

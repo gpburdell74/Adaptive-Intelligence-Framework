@@ -5,7 +5,7 @@ namespace Adaptive.CodeDom.Model
     /// <summary>
     /// Contains a list of <see cref="CodeSectionModel"/> instances, stored by name.
     /// </summary>
-    /// <seealso cref="NameIndexCollection" />
+    /// <seealso cref="NameIndexCollection{T}" />
     public sealed class CodeSectionModelCollection : NameIndexCollection<CodeSectionModel>
     {
         #region Constructors
@@ -35,7 +35,7 @@ namespace Adaptive.CodeDom.Model
         /// <summary>
         /// Gets the name / key value of the specified instance.
         /// </summary>
-        /// <param name="item">The <typeparamref name="T" /> item to be stored in the collection.</param>
+        /// <param name="item">The <see cref="CodeSectionModel"/> item to be stored in the collection.</param>
         /// <returns>
         /// The name / key value of the specified instance.
         /// </returns>

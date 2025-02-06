@@ -162,6 +162,9 @@ public sealed class DatabaseListComboBox : AdvancedComboBox
         }
         Invalidate();
     }
+    /// <summary>
+    /// Provides an asynchronous method to initialize the content of the control when it is first loaded.
+    /// </summary>
     protected override async Task LoadDataContentAsync()
     {
         if (_connectionString != null)
@@ -171,7 +174,8 @@ public sealed class DatabaseListComboBox : AdvancedComboBox
             if (result.Success)
             {
                 _dbList = new List<string>();
-                _dbList.AddRange(result.DataContent);
+                if (result.DataContent != null)
+                    _dbList.AddRange(result.DataContent);
             }
             else
             {

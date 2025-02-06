@@ -10,7 +10,7 @@ namespace Adaptive.Intelligence.SqlServer.DynamicManagement
     {
         #region Dispose Method
         /// <summary>
-        /// Releases all resources used by the <see cref="DmExecSessions"/> object.
+        /// Releases all resources used by the <see cref="DmExecSessionsEntity"/> object.
         /// </summary>
         protected override void Dispose(bool disposing)
         {

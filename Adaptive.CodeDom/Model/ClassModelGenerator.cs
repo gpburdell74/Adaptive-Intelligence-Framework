@@ -66,6 +66,7 @@ namespace Adaptive.CodeDom.Model
         /// </summary>
         /// <param name="usingsList">
         /// A <see cref="List{T}"/> of <see cref="string"/> containing the namespace names.
+        /// </param>
         /// <param name="language">
         /// A <see cref="NetLanguage"/> enumerated value indicating the language to render the code in.
         /// </param>
@@ -466,7 +467,8 @@ namespace Adaptive.CodeDom.Model
                     {
                         foreach (NameValuePair<string> item in part.ParameterComments)
                         {
-                            provider.GenerateCodeFromXmlComment("param", item.Value, writer, opts);
+                            if (item != null)
+                                provider.GenerateCodeFromXmlComment("param", item.Value ?? string.Empty, writer, opts);
                         }
                     }
 
@@ -502,12 +504,7 @@ namespace Adaptive.CodeDom.Model
                             provider.GenerateCodeFromMember(member, writer, opts);
                         }
                     }
-                    else
-                    {
-                        string dd = part.Content.GetType().Name;
-                    }
                 }
-
             }
 
             // Write the region end.
@@ -534,7 +531,7 @@ namespace Adaptive.CodeDom.Model
             string code = string.Empty;
 
             CodeSectionModel? section = sectionList.GetSectionByType(sectionType);
-            if (section != null && section.Parts.Count > 0)
+            if (section != null && section.Parts?.Count > 0)
                 code = RenderSection(sectionType, section, language);
 
             return code;
@@ -555,42 +552,44 @@ namespace Adaptive.CodeDom.Model
         {
             StringBuilder builder = new StringBuilder();
             CodeSectionModelCollection? sectionList = classModel.CodeSections;
+            if (sectionList != null)
+            {
+                // Public Events
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.PublicEvents, language));
 
-            // Public Events
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.PublicEvents, language));
+                // Private Constants
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.PrivateConstants, language));
 
-            // Private Constants
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.PrivateConstants, language));
+                // Private Members
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.PrivateMembers, language));
 
-            // Private Members
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.PrivateMembers, language));
+                // Constructor / Dispose Methods
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.ConstructorDispose, language));
 
-            // Constructor / Dispose Methods
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.ConstructorDispose, language));
+                // Public Properties
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.PublicProperties, language));
 
-            // Public Properties
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.PublicProperties, language));
+                // Protected Properties
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.ProtectedProperties, language));
 
-            // Protected Properties
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.ProtectedProperties, language));
+                // Abstract Methods
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.AbstractMethods, language));
 
-            // Abstract Methods
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.AbstractMethods, language));
+                // Protected Methods
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.ProtectedMethods, language));
 
-            // Protected Methods
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.ProtectedMethods, language));
+                // Public Methods / Functions
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.PublicMethods, language));
 
-            // Public Methods / Functions
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.PublicMethods, language));
+                // Private Methods / Functions
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.PrivateMethods, language));
 
-            // Private Methods / Functions
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.PrivateMethods, language));
+                // Private Event Methods
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.EventMethods, language));
 
-            // Private Event Methods
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.EventMethods, language));
-
-            // Private Event Handlers
-            builder.AppendLine(RenderSection(sectionList, CodeSectionType.EventHandlers, language));
+                // Private Event Handlers
+                builder.AppendLine(RenderSection(sectionList, CodeSectionType.EventHandlers, language));
+            }
 
             return builder.ToString();
         }

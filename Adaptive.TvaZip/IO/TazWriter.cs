@@ -199,7 +199,7 @@ namespace Adaptive.Taz.IO
         /// Writes the specified byte array to the underlying stream.
         /// </summary>
         /// <remarks>
-        /// The data format is left to the specific implementation; the data may or may nit be preceeded by a length
+        /// The data format is left to the specific implementation; the data may or may nit be preceded by a length
         /// or a null indicator, or any other meta data needed to read and understand the provided byte array.
         /// </remarks>
         /// <param name="data">
@@ -250,7 +250,7 @@ namespace Adaptive.Taz.IO
         /// <summary>
         /// Writes the file header to the underlying file.
         /// </summary>
-        /// <param name="directory">
+        /// <param name="header">
         /// The <see cref="TazFileHeader"/> instance whose contents are to be written.
         /// </param>
         public void WriteHeader(TazFileHeader header)

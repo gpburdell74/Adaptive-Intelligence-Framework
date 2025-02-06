@@ -6,7 +6,9 @@ namespace Adaptive.Taz
     /// <summary>
     /// Contains a list of <see cref="TazDirectoryEntry"/> instances.
     /// </summary>
-    /// <seealso cref="S />
+    /// <seealso cref="NameIndexCollection{T}" />
+    /// <seealso cref="IBinarySerializable"/>
+    /// <seealso cref="TazDirectoryEntry"/>
     public sealed class TazDirectoryEntryList : NameIndexCollection<TazDirectoryEntry>, IBinarySerializable
     {
         #region Constructor / Dispose Methods		
@@ -25,7 +27,9 @@ namespace Adaptive.Taz
         /// <summary>
         /// Gets the name / key value of the specified instance.
         /// </summary>
-        /// <param name="item">The <typeparamref name="T" /> item to be stored in the collection.</param>
+        /// <param name="item">
+        /// The <see cref="TazDirectoryEntry"/> to be stored in the collection.
+        /// </param>
         /// <returns>
         /// The name / key value of the specified instance.
         /// </returns>

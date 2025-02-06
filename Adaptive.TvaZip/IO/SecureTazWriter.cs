@@ -46,6 +46,9 @@ namespace Adaptive.Taz.IO
         /// <param name="pathAndFileName">
         /// A string containing the fully-qualified path and name of the archive file.
         /// </param>
+        /// <param name="keyManager">
+        /// The reference to the <see cref="KeyManager"/> instance to use.
+        /// </param>
         public SecureTazWriter(string pathAndFileName, KeyManager keyManager)
         {
             _path = Path.GetDirectoryName(pathAndFileName);
@@ -252,7 +255,7 @@ namespace Adaptive.Taz.IO
         /// <summary>
         /// Writes the file header to the underlying file.
         /// </summary>
-        /// <param name="directory">
+        /// <param name="header">
         /// The <see cref="TazFileHeader"/> instance whose contents are to be written.
         /// </param>
         public void WriteHeader(TazFileHeader header)

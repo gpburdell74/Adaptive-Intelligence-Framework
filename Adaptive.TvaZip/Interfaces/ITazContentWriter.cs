@@ -76,7 +76,7 @@
         /// <summary>
         /// Writes the file header to the underlying file.
         /// </summary>
-        /// <param name="directory">
+        /// <param name="header">
         /// The <see cref="TazFileHeader"/> instance whose contents are to be written.
         /// </param>
         void WriteHeader(TazFileHeader header);
