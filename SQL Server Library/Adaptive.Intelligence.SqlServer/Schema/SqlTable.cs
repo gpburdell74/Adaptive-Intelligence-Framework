@@ -143,7 +143,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <value>
         /// A string containing the schema name, or <b>null</b> if not specified.
         /// </value>
-        public string? Schema {get; set;}
+        public string? Schema { get; set; }
         /// <summary>
         /// Gets or sets the SQL Server table object ID value.
         /// </summary>
@@ -157,10 +157,10 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <value>
         /// A string containing the name of the table.
         /// </value>
-        public string? TableName 
-        { 
-            get; 
-            set; 
+        public string? TableName
+        {
+            get;
+            set;
         }
         #endregion
 

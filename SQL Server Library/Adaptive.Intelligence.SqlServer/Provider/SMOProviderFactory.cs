@@ -178,13 +178,16 @@ namespace Adaptive.Intelligence.SqlServer
             Table? item = null;
 
             TableCollection? tableList = Tables;
-            foreach (Table table in tableList)
+            if (tableList != null)
             {
-                if (table.ToString() == tableName)
-                    item = table;
+                foreach (Table table in tableList)
+                {
+                    if (table.ToString() == tableName)
+                        item = table;
+                }
             }
             return item;
-		}
+        }
         /// <summary>
         /// Resets the SMO objects and connection.
         /// </summary>
@@ -324,23 +327,23 @@ namespace Adaptive.Intelligence.SqlServer
                 info.UserName = builder.UserID;
                 info.Password = builder.Password;
                 info.TrustServerCertificate = builder.TrustServerCertificate;
-                switch(builder.Authentication)
+                switch (builder.Authentication)
                 {
                     case SqlAuthenticationMethod.SqlPassword:
-						info.Authentication = SqlConnectionInfo.AuthenticationMethod.SqlPassword;
-						break;
+                        info.Authentication = SqlConnectionInfo.AuthenticationMethod.SqlPassword;
+                        break;
 
                     case SqlAuthenticationMethod.ActiveDirectoryPassword:
                         info.Authentication = SqlConnectionInfo.AuthenticationMethod.ActiveDirectoryPassword;
                         break;
 
-					case SqlAuthenticationMethod.ActiveDirectoryIntegrated:
-						info.Authentication = SqlConnectionInfo.AuthenticationMethod.ActiveDirectoryIntegrated;
-						break;
+                    case SqlAuthenticationMethod.ActiveDirectoryIntegrated:
+                        info.Authentication = SqlConnectionInfo.AuthenticationMethod.ActiveDirectoryIntegrated;
+                        break;
 
-				}
+                }
 
-				ServerConnection serverConnection = new ServerConnection(info);
+                ServerConnection serverConnection = new ServerConnection(info);
                 builder.Clear();
 
                 server = new Server(serverConnection);
@@ -350,7 +353,7 @@ namespace Adaptive.Intelligence.SqlServer
                 if (!server.ConnectionContext.IsOpen)
                     server.ConnectionContext.Connect();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ExceptionLog.LogException(ex);
             }

@@ -59,7 +59,7 @@
         /// <param name="name">
         /// A string containing the name of the stored procedure.
         /// </param>
-        public SqlCodeCreateStoredProcedureStatement(SqlCodeDatabaseNameOwnerNameExpression? ownerName, string? name) 
+        public SqlCodeCreateStoredProcedureStatement(SqlCodeDatabaseNameOwnerNameExpression? ownerName, string? name)
             : base(SqlStatementType.CreateStoredProcedure)
         {
             if (ownerName != null)
@@ -143,25 +143,25 @@
         /// A <see cref="SqlCodeStatementCollection"/> containing the statement definitions.
         /// </value>
         public SqlCodeStatementCollection Statements
-		{
-			get
-			{
-				if (_statements == null)
-					_statements = new SqlCodeStatementCollection();
+        {
+            get
+            {
+                if (_statements == null)
+                    _statements = new SqlCodeStatementCollection();
 
-				return _statements;
-			}
-		}
-		#endregion
+                return _statements;
+            }
+        }
+        #endregion
 
-		#region Public Methods / Functions
-		/// <summary>
-		/// Creates a new object that is a copy of the current instance.
-		/// </summary>
-		/// <returns>
-		/// A new object that is a copy of this instance.
-		/// </returns>
-		public override SqlCodeCreateStoredProcedureStatement Clone()
+        #region Public Methods / Functions
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public override SqlCodeCreateStoredProcedureStatement Clone()
         {
             SqlCodeCreateStoredProcedureStatement item = new SqlCodeCreateStoredProcedureStatement(_owner, _name);
             if (_parameters != null)

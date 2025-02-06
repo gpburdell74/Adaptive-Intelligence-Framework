@@ -24,7 +24,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <summary>
         /// The list of columns defined on the index.
         /// </summary>
-        private SqlIndexColumnCollection _columns;
+        private SqlIndexColumnCollection? _columns;
         #endregion
 
         #region Constructor / Dispose Methods
@@ -58,8 +58,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         {
             if (!IsDisposed && disposing)
             {
-                if (_columns != null)
-                    _columns.Clear();
+                _columns?.Clear();
             }
 
             _columns = null;

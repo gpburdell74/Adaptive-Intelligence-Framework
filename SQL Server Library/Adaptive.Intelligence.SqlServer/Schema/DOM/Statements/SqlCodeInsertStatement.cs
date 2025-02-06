@@ -76,22 +76,22 @@
         /// A <see cref="SqlCodeColumnNameExpressionCollection"/> instance containing the column name list.
         /// </value>
         public SqlCodeColumnNameExpressionCollection InsertColumnList
-		{
-			get
-			{
+        {
+            get
+            {
                 if (_columnsToUse == null)
                     _columnsToUse = new SqlCodeColumnNameExpressionCollection();
-				return _columnsToUse;
-			}
-		}
+                return _columnsToUse;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the reference to the table expression indicating the table to insert data into.
-		/// </summary>
-		/// <value>
-		/// A <see cref="SqlCodeTableReferenceExpression"/> specifying the table.
-		/// </value>
-		public SqlCodeTableReferenceExpression? Table
+        /// <summary>
+        /// Gets or sets the reference to the table expression indicating the table to insert data into.
+        /// </summary>
+        /// <value>
+        /// A <see cref="SqlCodeTableReferenceExpression"/> specifying the table.
+        /// </value>
+        public SqlCodeTableReferenceExpression? Table
         {
             get => _tableToInsert;
             set

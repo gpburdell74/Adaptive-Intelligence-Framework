@@ -34,6 +34,12 @@
             _fromClause = new SqlCodeFromClause();
             _whereClause = new SqlCodeWhereClause();
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlCodeSelectStatement"/> class.
+        /// </summary>
+        /// <param name="selectClause">The select clause.</param>
+        /// <param name="fromClause">From clause.</param>
+        /// <param name="whereClause">The where clause.</param>
         public SqlCodeSelectStatement(SqlCodeSelectClause? selectClause, SqlCodeFromClause? fromClause, SqlCodeWhereClause? whereClause) : base(SqlStatementType.Select)
         {
             if (selectClause != null)
@@ -74,21 +80,21 @@
         /// A <see cref="SqlCodeFromClause"/> defining the tables to query on.
         /// </value>
         public SqlCodeFromClause FromClause
-		{
-			get
-			{
-				if (_fromClause == null)
-					_fromClause = new SqlCodeFromClause();
-				return _fromClause;
-			}
-		}
-		/// <summary>
-		/// Gets or sets the reference to the select list clause of the statement.
-		/// </summary>
-		/// <value>
-		/// A <see cref="SqlCodeSelectClause"/> defining the items to be selected.
-		/// </value>
-		public SqlCodeSelectClause SelectClause
+        {
+            get
+            {
+                if (_fromClause == null)
+                    _fromClause = new SqlCodeFromClause();
+                return _fromClause;
+            }
+        }
+        /// <summary>
+        /// Gets or sets the reference to the select list clause of the statement.
+        /// </summary>
+        /// <value>
+        /// A <see cref="SqlCodeSelectClause"/> defining the items to be selected.
+        /// </value>
+        public SqlCodeSelectClause SelectClause
         {
             get
             {

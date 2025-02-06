@@ -8,11 +8,11 @@ using Adaptive.Intelligence.SqlServer.Schema;
 
 namespace Adaptive.Intelligence.SqlServer.ORM
 {
-	/// <summary>
-	/// Provides methods and functions for generating SQL code DOM objects to represent specific statements.
-	/// </summary>
-	/// <seealso cref="DisposableObjectBase" />
-	public sealed class AdaptiveSqlCodeDomGenerator : DisposableObjectBase
+    /// <summary>
+    /// Provides methods and functions for generating SQL code DOM objects to represent specific statements.
+    /// </summary>
+    /// <seealso cref="DisposableObjectBase" />
+    public sealed class AdaptiveSqlCodeDomGenerator : DisposableObjectBase
     {
         #region Private Member Declarations
         /// <summary>
@@ -56,6 +56,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </remarks>
         /// <param name="table">
         /// The <see cref="SqlTable"/> instance to create the stored procedure for.
+        /// </param>
+        /// <param name="hardDelete">
+        /// A value indicating whether to generate a hard-delete procedure.
         /// </param>
         /// <returns>
         /// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
@@ -101,9 +104,6 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// This is used to generate the get-all-records (top 10000) for the table in the
         /// standard Adaptive CRUD operations.
         /// </remarks>
-        /// <param name="procedureName">
-        /// A string containing the stored procedure name.
-        /// </param>
         /// <param name="table">
         /// The <see cref="SqlTable"/> instance to create the stored procedure for.
         /// </param>
@@ -115,8 +115,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         {
             SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
 
-			// Find the profile for the table.
-			AdaptiveTableProfile? profile = FindProfile(table);
+            // Find the profile for the table.
+            AdaptiveTableProfile? profile = FindProfile(table);
             if (profile != null)
             {
 
@@ -152,9 +152,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         public SqlCodeCreateStoredProcedureStatement? CreateGetByIdStoredProcedure(SqlTable table)
         {
             SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
-			
-			// Find the profile for the table.
-			AdaptiveTableProfile? profile = FindProfile(table);
+
+            // Find the profile for the table.
+            AdaptiveTableProfile? profile = FindProfile(table);
             if (profile != null)
             {
                 // Create the statement object.
@@ -193,8 +193,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         {
             SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
 
-			// Find the profile for the table.
-			AdaptiveTableProfile ? profile = FindProfile(table);
+            // Find the profile for the table.
+            AdaptiveTableProfile? profile = FindProfile(table);
 
             if (profile != null)
             {
@@ -210,7 +210,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
                     // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && 
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId &&
                         queryParam.ColumnName != TSqlConstants.StandardColumnDeleted)
                     {
                         storedProcedureStatement.Parameters.Add(
@@ -256,26 +256,26 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             }
             return storedProcedureStatement;
         }
-		/// <summary>
-		/// Creates the SQL Code DOM model for the Update() stored procedure.
-		/// </summary>
-		/// <remarks>
-		/// This is used to generate the update record by ID stored procedure for the table in the
-		/// standard Adaptive CRUD operations.
-		/// </remarks>
-		/// <param name="table">
-		/// The <see cref="SqlTable"/> instance to create the stored procedure for.
-		/// </param>
+        /// <summary>
+        /// Creates the SQL Code DOM model for the Update() stored procedure.
+        /// </summary>
+        /// <remarks>
+        /// This is used to generate the update record by ID stored procedure for the table in the
+        /// standard Adaptive CRUD operations.
+        /// </remarks>
+        /// <param name="table">
+        /// The <see cref="SqlTable"/> instance to create the stored procedure for.
+        /// </param>
         /// <returns>
-		/// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
-		/// the GetAll stored procedure for the table.
-		/// </returns>
-		public SqlCodeCreateStoredProcedureStatement? CreateUpdateStoredProcedure(SqlTable table)
+        /// A <see cref="SqlCodeCreateStoredProcedureStatement"/> containing the model for creating
+        /// the GetAll stored procedure for the table.
+        /// </returns>
+        public SqlCodeCreateStoredProcedureStatement? CreateUpdateStoredProcedure(SqlTable table)
         {
             SqlCodeCreateStoredProcedureStatement? storedProcedureStatement = null;
 
-			// Find the profile for the table.
-			AdaptiveTableProfile ? profile = FindProfile(table);
+            // Find the profile for the table.
+            AdaptiveTableProfile? profile = FindProfile(table);
 
             if (profile != null)
             {
@@ -303,7 +303,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 //   BEGIN
                 //      UPDATE [<schema>].[TableName]
                 //          SET
-                storedProcedureStatement.Statements.Add(GenerateUpdateStatement(table));
+                var statement = GenerateUpdateStatement(table);
+                if (statement != null)
+                    storedProcedureStatement.Statements.Add(statement);
 
                 //
                 // SELECT ... by ID statement.
@@ -330,10 +332,10 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </returns>
         public SqlCodeSelectStatement GenerateSelectAllStatement(SqlTable table)
         {
-			SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
+            SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
 
-			// Find the profile for the table.
-			AdaptiveTableProfile? profile = FindProfile(table);
+            // Find the profile for the table.
+            AdaptiveTableProfile? profile = FindProfile(table);
 
             if (profile != null)
             {
@@ -379,8 +381,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         /// </returns>
         public SqlCodeSelectStatement GenerateSelectByIdStatement(SqlTable table)
         {
-			// Render the select Statement.
-			SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
+            // Render the select Statement.
+            SqlCodeSelectStatement selectStatement = new SqlCodeSelectStatement();
 
             // Find the profile for the table.
             AdaptiveTableProfile? profile = FindProfile(table);
@@ -447,7 +449,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
                     // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && 
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId &&
                         queryParam.ColumnName != TSqlConstants.StandardColumnDeleted)
                     {
                         insertStatement.InsertColumnList.Add(new SqlCodeColumnNameExpression(queryParam.ColumnName));
@@ -464,7 +466,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 foreach (SqlQueryParameter queryParam in profile.QueryParameters)
                 {
                     // Ignore the ID, CreatedAt, UpdatedAt, and Deleted columns.
-                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId && 
+                    if (queryParam.ColumnName != TSqlConstants.StandardColumnId &&
                         queryParam.ColumnName != TSqlConstants.StandardColumnDeleted)
                     {
                         insertStatement.ValuesList.Add(new SqlCodeParameterReferenceExpression(queryParam.ColumnName));
@@ -552,8 +554,8 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         {
             SqlCodeUpdateStatement updateStatement = new SqlCodeUpdateStatement();
 
-			// Get the table profile.
-			AdaptiveTableProfile ? profile = FindProfile(table);
+            // Get the table profile.
+            AdaptiveTableProfile? profile = FindProfile(table);
             if (profile != null)
             {
                 // UPDATE [dbo].[TableName]
@@ -599,7 +601,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             // DELETE
             SqlCodeDeleteStatement statement = new SqlCodeDeleteStatement();
 
-			// FROM [<schema>].[table]
+            // FROM [<schema>].[table]
             statement.FromClause.SourceTable = new SqlCodeTableReferenceExpression(table.Schema, table.TableName!);
 
             // WHERE
@@ -619,7 +621,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         #endregion
 
         #region Private Methods / Functions
-        private static void SetPrimaryTableItemsToQueryFor(SqlCodeSelectListItemExpressionCollection? itemsList, 
+        private static void SetPrimaryTableItemsToQueryFor(SqlCodeSelectListItemExpressionCollection? itemsList,
             AdaptiveTableProfile? profile, SqlTable? table)
         {
             if (profile != null && itemsList != null && table != null)
@@ -653,7 +655,7 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 // For each table that is being joined to, generate a list of columns to query for.
                 foreach (ReferencedTableJoin item in profile.ReferencedTableJoins)
                 {
-					SqlTable? referencedTable = item.ReferencedTable;
+                    SqlTable? referencedTable = item.ReferencedTable;
                     if (referencedTable != null)
                     {
                         AdaptiveTableProfile? referencedProfile = _metaData[referencedTable.TableName];
@@ -686,9 +688,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         }
         private static void SetFromClause(SqlCodeFromClause fromClause, AdaptiveTableProfile profile)
         {
-			// Set the source table object definition.  This will render as something like:
-			// [<schema>].[TableName] or [<schema>].[TableName] [Alias] if an alias is specified.
-			fromClause.SourceTable = new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName);
+            // Set the source table object definition.  This will render as something like:
+            // [<schema>].[TableName] or [<schema>].[TableName] [Alias] if an alias is specified.
+            fromClause.SourceTable = new SqlCodeTableReferenceExpression(profile.SchemaName, profile.TableName);
 
             // Now add the JOIN definitions, if present.
             if (profile.ReferencedTableJoins.Count > 0)
@@ -716,25 +718,25 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 }
             }
         }
-		/// <summary>
-		/// Finds the table profile for the specified table.
-		/// </summary>
-		/// <param name="table">
-		/// The <see cref="SqlTable"/> instance to find the profile information for.
+        /// <summary>
+        /// Finds the table profile for the specified table.
+        /// </summary>
+        /// <param name="table">
+        /// The <see cref="SqlTable"/> instance to find the profile information for.
         /// </param>
-		/// <returns>
+        /// <returns>
         /// The <see cref="AdaptiveTableProfile"/> instance, or <b>null</b>.
         /// </returns>
-		private AdaptiveTableProfile? FindProfile(SqlTable? table)
+        private AdaptiveTableProfile? FindProfile(SqlTable? table)
         {
             AdaptiveTableProfile? profile = null;
-         
+
             // Find the profile for the table.
             if (_metaData != null && table != null)
                 profile = _metaData[table.TableName];
 
             return profile;
         }
-		#endregion
-	}
+        #endregion
+    }
 }

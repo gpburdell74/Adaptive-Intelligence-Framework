@@ -5,5 +5,5 @@
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="SqlQueryEventArgs"/> instance containing the event data.</param>
-    public delegate void SqlQueryEventHandler(object? sender, SqlQueryEventArgs e); 
+    public delegate void SqlQueryEventHandler(object? sender, SqlQueryEventArgs e);
 }

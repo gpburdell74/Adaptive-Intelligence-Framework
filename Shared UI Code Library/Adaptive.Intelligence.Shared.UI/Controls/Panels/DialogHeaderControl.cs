@@ -186,7 +186,7 @@ namespace Adaptive.Intelligence.Shared.UI
                     if (width > 32)
                         width = 32;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLog.LogException(ex);
                 }
@@ -237,7 +237,7 @@ namespace Adaptive.Intelligence.Shared.UI
 
                     g.DrawImage(_displayImage, new Rectangle(5, 5, width + 5, height + 5));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLog.LogException(ex);
                 }

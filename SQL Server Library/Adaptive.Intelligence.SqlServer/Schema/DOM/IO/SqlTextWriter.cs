@@ -230,7 +230,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteTabsAsync()
         {
             if (_indentLevel > 0)
-                await WriteAsync(new string( Constants.TabChar, _indentLevel));
+                await WriteAsync(new string(Constants.TabChar, _indentLevel));
         }
         #endregion
     }

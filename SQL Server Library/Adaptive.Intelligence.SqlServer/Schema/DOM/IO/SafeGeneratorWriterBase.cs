@@ -319,26 +319,26 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
             return _codeProvider.RenderDeclare();
         }
-		/// <summary>
-		/// Renders the DELETE keyword.
-		/// </summary>
-		/// <returns>
-		/// A string containing the rendered SQL.
-		/// </returns>
-		protected string? RenderDelete()
-		{
-			if (_codeProvider == null)
-				return null;
+        /// <summary>
+        /// Renders the DELETE keyword.
+        /// </summary>
+        /// <returns>
+        /// A string containing the rendered SQL.
+        /// </returns>
+        protected string? RenderDelete()
+        {
+            if (_codeProvider == null)
+                return null;
 
-			return _codeProvider.RenderDelete();
-		}
-		/// <summary>
-		/// Renders the start of a FROM clause of a SQL statement.
-		/// </summary>
-		/// <returns>
-		/// A string containing the start of the FROM clause of a SQL statement.
-		/// </returns>
-		protected string? RenderFrom()
+            return _codeProvider.RenderDelete();
+        }
+        /// <summary>
+        /// Renders the start of a FROM clause of a SQL statement.
+        /// </summary>
+        /// <returns>
+        /// A string containing the start of the FROM clause of a SQL statement.
+        /// </returns>
+        protected string? RenderFrom()
         {
             if (_codeProvider == null)
                 return null;
@@ -544,7 +544,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// </param>
         protected void SafeWrite(string? content)
         {
-            if (_writer != null && content != null) 
+            if (_writer != null && content != null)
                 _writer.Write(content);
         }
         /// <summary>
@@ -584,7 +584,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// A string containing the line content to be written.
         /// </param>
         protected async Task SafeWriteLineAsync(string? lineContent)
-        { 
+        {
             if (_writer != null && lineContent != null)
                 await _writer.WriteLineAsync(lineContent).ConfigureAwait(false);
         }

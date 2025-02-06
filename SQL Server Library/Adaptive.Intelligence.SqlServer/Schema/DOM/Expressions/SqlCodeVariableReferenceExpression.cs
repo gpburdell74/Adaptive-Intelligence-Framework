@@ -87,7 +87,7 @@
         /// </returns>
         public override SqlCodeVariableReferenceExpression Clone()
         {
-            return new SqlCodeVariableReferenceExpression(_variableName); 
+            return new SqlCodeVariableReferenceExpression(_variableName);
         }
         #endregion
 

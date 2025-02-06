@@ -44,7 +44,7 @@ namespace Adaptive.Intelligence.Shared.UI
         /// </value>
         public override Font Font
         {
-            get => base.Font; 
+            get => base.Font;
             set
             {
                 base.Font = value;
@@ -59,30 +59,30 @@ namespace Adaptive.Intelligence.Shared.UI
                 }
             }
         }
-		/// <summary>
-		/// Gets or sets a value indicating whether only numeric characters are allowed in the text box.
-		/// </summary>
-		/// <value>
-		/// <b>true</b> if only numeric characters are allowed in the text box; otherwise, <b>false</b>.
-		/// the focus.
-		/// </value>
-		[Localizable(true)]
+        /// <summary>
+        /// Gets or sets a value indicating whether only numeric characters are allowed in the text box.
+        /// </summary>
+        /// <value>
+        /// <b>true</b> if only numeric characters are allowed in the text box; otherwise, <b>false</b>.
+        /// the focus.
+        /// </value>
+        [Localizable(true)]
         [DefaultValue(false)]
         [Description("Indicates whether only numeric characters are allowed in the text box.")]
         [Category("Behavior")]
         public bool NumericOnly { get; set; }
-		/// <summary>
-		/// Gets or sets the text that is displayed when the control has no text and does not have the focus.
-		/// </summary>
-		/// <value>
+        /// <summary>
+        /// Gets or sets the text that is displayed when the control has no text and does not have the focus.
+        /// </summary>
+        /// <value>
         /// A string containing the text that is displayed when the control has no text and does not have 
         /// the focus.
         /// </value>
-		[Localizable(true)]
-		[DefaultValue("")]
-		[Description("The text that is displayed when the control has no text and does not have focus.")]
-		[AllowNull]
-		public string PlaceholderText
+        [Localizable(true)]
+        [DefaultValue("")]
+        [Description("The text that is displayed when the control has no text and does not have focus.")]
+        [AllowNull]
+        public string PlaceholderText
         {
             get => PasswordText.PlaceholderText;
             set
@@ -91,13 +91,13 @@ namespace Adaptive.Intelligence.Shared.UI
                 Invalidate();
             }
         }
-		/// <summary>
-		///  Gets or sets the current text in the text box.
-		/// </summary>
-		/// <value>
-		/// A string containing the text of the password value.
-		/// </value>
-		[AllowNull]
+        /// <summary>
+        ///  Gets or sets the current text in the text box.
+        /// </summary>
+        /// <value>
+        /// A string containing the text of the password value.
+        /// </value>
+        [AllowNull]
         public override string Text
         {
             get => PasswordText.Text;
@@ -142,7 +142,7 @@ namespace Adaptive.Intelligence.Shared.UI
             PasswordText.KeyPress += HandleKeyPress;
 
 
-			ViewHideButton.LostFocus += HandleLostFocus;
+            ViewHideButton.LostFocus += HandleLostFocus;
             PasswordText.LostFocus += HandleLostFocus;
         }
         /// <summary>
@@ -152,9 +152,9 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             ViewHideButton.Click -= HandleViewHideClicked;
             PasswordText.TextChanged -= HandleTextChanged;
-			PasswordText.KeyPress -= HandleKeyPress;
+            PasswordText.KeyPress -= HandleKeyPress;
 
-			ViewHideButton.LostFocus -= HandleLostFocus;
+            ViewHideButton.LostFocus -= HandleLostFocus;
             PasswordText.LostFocus -= HandleLostFocus;
         }
         #endregion
@@ -201,19 +201,19 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             OnTextChanged(e);
         }
-		/// <summary>
-		/// Handles the event when a key is pressed in the text box.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
-		private void HandleKeyPress(object? sender, KeyPressEventArgs e)
+        /// <summary>
+        /// Handles the event when a key is pressed in the text box.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
+        private void HandleKeyPress(object? sender, KeyPressEventArgs e)
         {
             if (NumericOnly)
             {
-				if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-					e.Handled = true;
-			}
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                    e.Handled = true;
+            }
         }
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.SqlServer.CodeDom
+﻿// Ignore Spelling: Sql
+
+namespace Adaptive.Intelligence.SqlServer.CodeDom
 {
     /// <summary>
     /// Represents a SQL Database Owner Object name.

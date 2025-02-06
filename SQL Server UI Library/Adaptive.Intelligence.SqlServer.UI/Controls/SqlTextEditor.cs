@@ -129,7 +129,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// <param name="e">An <see cref="EventArgs" /> that contains the event data.</param>
         protected override void OnTextChanged(EventArgs e)
         {
-           
+
 
             // Perform all base activities.
             base.OnTextChanged(e);
@@ -146,7 +146,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
 
                 // Colorize the SQL statement.
                 SelectionColor = Color.Black;
-                
+
                 HighlightSqlText();
 
                 // Return the cursor to where it was before.

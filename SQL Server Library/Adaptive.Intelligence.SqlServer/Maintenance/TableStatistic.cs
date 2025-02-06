@@ -76,16 +76,16 @@ namespace Adaptive.Intelligence.SqlServer.Maintenance
         /// A string containing the name of the table.
         /// </value>
         public string? Name { get; set; }
-		/// <summary>
-		/// Gets or sets the schema name for the table.
-		/// </summary>
-		/// <remarks>
-		/// This correlates to the [sys].[tables].[] column.
-		/// </remarks>
-		/// <value>
-		/// A string containing the schema name for the table.
-		/// </value>
-		public string? Schema { get; set; }
+        /// <summary>
+        /// Gets or sets the schema name for the table.
+        /// </summary>
+        /// <remarks>
+        /// This correlates to the [sys].[tables].[] column.
+        /// </remarks>
+        /// <value>
+        /// A string containing the schema name for the table.
+        /// </value>
+        public string? Schema { get; set; }
         #endregion
 
         #region Public Methods / Functions        

@@ -5,12 +5,12 @@ using Adaptive.SqlServer.Client;
 
 namespace Adaptive.Intelligence.SqlServer.Analysis
 {
-	/// <summary>
-	/// Provides a central provider for containing the Schema data, profile, and other metadata content
-	/// describing the tables in an Adaptive SQL Server database.
-	/// </summary>
-	/// <seealso cref="DisposableObjectBase" />
-	public sealed class AdaptiveTableMetadata : DisposableObjectBase
+    /// <summary>
+    /// Provides a central provider for containing the Schema data, profile, and other metadata content
+    /// describing the tables in an Adaptive SQL Server database.
+    /// </summary>
+    /// <seealso cref="DisposableObjectBase" />
+    public sealed class AdaptiveTableMetadata : DisposableObjectBase
     {
         #region Public Events
         /// <summary>
@@ -92,21 +92,21 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// A <see cref="SqlDataTypeCollection"/> instance containing the data type definitions.
         /// </value>
         public SqlDataTypeCollection DataTypes
-		{
-			get
-			{
-				if (_dataTypes == null)
-					_dataTypes = new SqlDataTypeCollection();
-				return _dataTypes;
-			}
-		}
-		/// <summary>
-		/// Gets the reference to the list of table profiles.
-		/// </summary>
-		/// <value>
-		/// A <see cref="SqlDataTypeCollection"/> instance containing the table profile definitions.
-		/// </value>
-		public AdaptiveTableProfileCollection Profiles
+        {
+            get
+            {
+                if (_dataTypes == null)
+                    _dataTypes = new SqlDataTypeCollection();
+                return _dataTypes;
+            }
+        }
+        /// <summary>
+        /// Gets the reference to the list of table profiles.
+        /// </summary>
+        /// <value>
+        /// A <see cref="SqlDataTypeCollection"/> instance containing the table profile definitions.
+        /// </value>
+        public AdaptiveTableProfileCollection Profiles
         {
             get
             {
@@ -144,24 +144,24 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// A <see cref="SqlTableCollection"/> instance containing the table schema definitions.
         /// </value>
         public SqlTableCollection? Tables => _tables;
-		#endregion
+        #endregion
 
-		#region Public Methods / Functions        
-		/// <summary>
-		/// Finds the name of the table by schema and table name.
-		/// </summary>
-		/// <param name="schema">
-		/// A string containing the table schema name.
-		/// </param>
-		/// <param name="tableName">
-		/// A string containing the name of the table to look for.
-		/// </param>
-		/// <returns>
+        #region Public Methods / Functions        
+        /// <summary>
+        /// Finds the name of the table by schema and table name.
+        /// </summary>
+        /// <param name="schema">
+        /// A string containing the table schema name.
+        /// </param>
+        /// <param name="tableName">
+        /// A string containing the name of the table to look for.
+        /// </param>
+        /// <returns>
         /// The <see cref="AdaptiveTableProfile"/> instance that was found, or <b>null</b>.
         /// </returns>
-		public AdaptiveTableProfile? FindBySchemaAndName(string schema, string tableName)
+        public AdaptiveTableProfile? FindBySchemaAndName(string schema, string tableName)
         {
-			AdaptiveTableProfile? foundProfile = null;
+            AdaptiveTableProfile? foundProfile = null;
 
             if (_profiles != null)
             {
@@ -245,17 +245,17 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                     // Separate the singular from the plural, where possible.
                     if (string.IsNullOrEmpty(profile.SingularName))
                         profile.SingularName = GeneralUtils.GetSingleEnglishForm(table.TableName);
-                    
+
                     string singleName = profile.SingularName;
 
                     if (string.IsNullOrEmpty(profile.DataAccessClassName))
-                        profile.DataAccessClassName = singleName + OrmDatabaseOptions.Current.DataAccessClassSuffix; 
+                        profile.DataAccessClassName = singleName + OrmDatabaseOptions.Current.DataAccessClassSuffix;
 
                     if (string.IsNullOrEmpty(profile.DataDefinitionClassName))
                         profile.DataDefinitionClassName = singleName;
 
                     if (string.IsNullOrEmpty(profile.Description))
-                        profile.Description = table.TableName + OrmDatabaseOptions.Current.TableNameSuffix; 
+                        profile.Description = table.TableName + OrmDatabaseOptions.Current.TableNameSuffix;
 
                     if (string.IsNullOrEmpty(profile.FriendlyName))
                         profile.FriendlyName = table.TableName;
@@ -288,14 +288,14 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                         profile.InsertStoredProcedureName = profile.StoredProcedureNamePrefix +
                             OrmDatabaseOptions.Current.InsertStoredProcedureName;
 
-					if (string.IsNullOrEmpty(profile.UpdateStoredProcedureName))
-						profile.UpdateStoredProcedureName = profile.StoredProcedureNamePrefix +
-							OrmDatabaseOptions.Current.UpdateStoredProcedureName; 
+                    if (string.IsNullOrEmpty(profile.UpdateStoredProcedureName))
+                        profile.UpdateStoredProcedureName = profile.StoredProcedureNamePrefix +
+                            OrmDatabaseOptions.Current.UpdateStoredProcedureName;
 
-					if (string.IsNullOrEmpty(profile.DeleteStoredProcedureName))
-						profile.DeleteStoredProcedureName = profile.StoredProcedureNamePrefix +
-							OrmDatabaseOptions.Current.DeleteStoredProcedureName; 
-				}
+                    if (string.IsNullOrEmpty(profile.DeleteStoredProcedureName))
+                        profile.DeleteStoredProcedureName = profile.StoredProcedureNamePrefix +
+                            OrmDatabaseOptions.Current.DeleteStoredProcedureName;
+                }
             }
         }
         #endregion

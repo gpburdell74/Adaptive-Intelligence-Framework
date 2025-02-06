@@ -49,7 +49,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteAliasExpressionAsync(SqlCodeAliasExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
-                await SafeWriteAsync(ObjectNameStartDelimiter + expression.Name +ObjectNameEndDelimiter)
+                await SafeWriteAsync(ObjectNameStartDelimiter + expression.Name + ObjectNameEndDelimiter)
                     .ConfigureAwait(false);
         }
         /// <summary>
@@ -242,6 +242,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// <param name="expression">
         /// The <see cref="SqlCodeConditionListExpression"/> instance to be rendered.
         /// </param>
+        /// <param name="useParens">
+        /// A value indicating whether to wrap the query content in parenthesis.
+        /// </param>
         public void WriteConditionListExpression(SqlCodeConditionListExpression? expression, bool useParens = true)
         {
             if (CanWrite && expression != null && expression.Expression != null)
@@ -389,7 +392,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteDataTypeExpressionAsync(SqlCodeDataTypeSpecificationExpression? expression)
         {
             if (CanWrite && expression != null)
-            { 
+            {
                 await SafeWriteAsync(RenderDataTypeName(expression.DataType)).ConfigureAwait(false);
 
                 // Certain types require length specification; others require precision and scale specification.
@@ -524,7 +527,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(expression), 
+                        throw new ArgumentOutOfRangeException(nameof(expression),
                             @"This expression type is not supported.");
                 }
             }
@@ -834,8 +837,8 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
                 SafeWrite(
-                    ObjectNameStartDelimiter + 
-                    expression.Name + 
+                    ObjectNameStartDelimiter +
+                    expression.Name +
                     ObjectNameEndDelimiter);
         }
         /// <summary>
@@ -1061,5 +1064,5 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         }
         #endregion
 
-}
+    }
 }

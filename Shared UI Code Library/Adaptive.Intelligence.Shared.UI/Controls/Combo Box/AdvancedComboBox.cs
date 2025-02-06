@@ -110,7 +110,7 @@ namespace Adaptive.Intelligence.Shared.UI.Controls.Combo_Box
             }
             else
             {
-                BeginInvoke( ()=>
+                BeginInvoke(() =>
                 {
                     if (!DesignMode && Visible)
                     {

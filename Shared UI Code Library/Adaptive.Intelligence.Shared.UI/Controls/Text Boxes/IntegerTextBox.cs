@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Adaptive.Intelligence.Shared.Logging;
+using System.ComponentModel;
 
 namespace Adaptive.Intelligence.Shared.UI
 {
@@ -33,9 +34,9 @@ namespace Adaptive.Intelligence.Shared.UI
                 {
                     returnValue = Convert.ToInt32(Text);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-
+                    ExceptionLog.LogException(ex);
                 }
                 return returnValue;
             }

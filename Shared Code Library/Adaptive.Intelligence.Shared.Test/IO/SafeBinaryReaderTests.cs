@@ -3,8 +3,8 @@ using NSubstitute.Routing.Handlers;
 
 namespace Adaptive.Intelligence.Shared.Test.IO
 {
-	public class SafeBinaryReaderTests
-	{
+    public class SafeBinaryReaderTests
+    {
         [Fact]
         public void CloseTest()
         {
@@ -48,37 +48,37 @@ namespace Adaptive.Intelligence.Shared.Test.IO
 
         [Fact]
         public void ConstructorTest()
-		{
-			MemoryStream ms = new MemoryStream();
-			SafeBinaryReader reader = new SafeBinaryReader(ms);
+        {
+            MemoryStream ms = new MemoryStream();
+            SafeBinaryReader reader = new SafeBinaryReader(ms);
 
-			Assert.NotNull(reader);
-			Assert.NotNull(reader.BaseStream);
-			Assert.True(reader.CanRead);
-			Assert.Empty(reader.ExceptionMessages);
-			Assert.Empty(reader.Exceptions);
-			Assert.False(reader.HasExceptions);
-			Assert.Null(reader.FirstException);
-			Assert.NotNull(reader.Reader);
+            Assert.NotNull(reader);
+            Assert.NotNull(reader.BaseStream);
+            Assert.True(reader.CanRead);
+            Assert.Empty(reader.ExceptionMessages);
+            Assert.Empty(reader.Exceptions);
+            Assert.False(reader.HasExceptions);
+            Assert.Null(reader.FirstException);
+            Assert.NotNull(reader.Reader);
 
-			reader.Dispose();
-			ms.Dispose();
-		}
-		[Fact]
-		public void DisposeTest()
-		{
-			// Arrange
-			MemoryStream ms = CreateStream<string>("X", "Y", "Z");
-			SafeBinaryReader reader = new SafeBinaryReader(ms);
+            reader.Dispose();
+            ms.Dispose();
+        }
+        [Fact]
+        public void DisposeTest()
+        {
+            // Arrange
+            MemoryStream ms = CreateStream<string>("X", "Y", "Z");
+            SafeBinaryReader reader = new SafeBinaryReader(ms);
 
-			// Act.
-			reader.Dispose();
-			reader.Dispose();
-			reader.Dispose();
-			reader.Dispose();
+            // Act.
+            reader.Dispose();
+            reader.Dispose();
+            reader.Dispose();
+            reader.Dispose();
 
-			ms.Dispose();
-		}
+            ms.Dispose();
+        }
         [Fact]
         public async Task DisposeTestAsync()
         {
@@ -393,49 +393,49 @@ namespace Adaptive.Intelligence.Shared.Test.IO
 
         [Fact]
         public void ReadTest()
-		{
-			// Arrange.
-			MemoryStream ms = new MemoryStream();
-			ms.Write(MakeBuffer(0, 256));
-			ms.Write(MakeBuffer(2, 256));
-			ms.Write(MakeBuffer(16, 256));
-			ms.Write(MakeBuffer(255, 256));
-			ms.Flush();
-			ms.Seek(0, SeekOrigin.Begin);
+        {
+            // Arrange.
+            MemoryStream ms = new MemoryStream();
+            ms.Write(MakeBuffer(0, 256));
+            ms.Write(MakeBuffer(2, 256));
+            ms.Write(MakeBuffer(16, 256));
+            ms.Write(MakeBuffer(255, 256));
+            ms.Flush();
+            ms.Seek(0, SeekOrigin.Begin);
 
-			// Act.
-			SafeBinaryReader reader = new SafeBinaryReader(ms);
-			byte[] buffer = new byte[256];
-			byte[] buffer1 = new byte[256];
-			byte[] buffer2 = new byte[256];
-			byte[] buffer3 = new byte[256];
+            // Act.
+            SafeBinaryReader reader = new SafeBinaryReader(ms);
+            byte[] buffer = new byte[256];
+            byte[] buffer1 = new byte[256];
+            byte[] buffer2 = new byte[256];
+            byte[] buffer3 = new byte[256];
 
-			// Act.
-			reader.Read(buffer, 0, 256);
-			reader.Read(buffer1, 0, 256);
-			reader.Read(buffer2, 0, 256);
-			reader.Read(buffer3, 0, 256);
+            // Act.
+            reader.Read(buffer, 0, 256);
+            reader.Read(buffer1, 0, 256);
+            reader.Read(buffer2, 0, 256);
+            reader.Read(buffer3, 0, 256);
 
-			// Assert.
-			Assert.NotNull(buffer);
-			Assert.NotNull(buffer1);
-			Assert.NotNull(buffer2);
-			Assert.NotNull(buffer3);
+            // Assert.
+            Assert.NotNull(buffer);
+            Assert.NotNull(buffer1);
+            Assert.NotNull(buffer2);
+            Assert.NotNull(buffer3);
 
-			Assert.Equal(256, buffer.Length);
-			Assert.Equal(256, buffer1.Length);
-			Assert.Equal(256, buffer2.Length);
-			Assert.Equal(256, buffer3.Length);
+            Assert.Equal(256, buffer.Length);
+            Assert.Equal(256, buffer1.Length);
+            Assert.Equal(256, buffer2.Length);
+            Assert.Equal(256, buffer3.Length);
 
-			Assert.True(ContainsValues(0, buffer));
-			Assert.True(ContainsValues(2, buffer1));
-			Assert.True(ContainsValues(16, buffer2));
-			Assert.True(ContainsValues(255, buffer3));
+            Assert.True(ContainsValues(0, buffer));
+            Assert.True(ContainsValues(2, buffer1));
+            Assert.True(ContainsValues(16, buffer2));
+            Assert.True(ContainsValues(255, buffer3));
 
-			// Clean up.
-			reader.Dispose();
-			ms.Dispose();
-		}
+            // Clean up.
+            reader.Dispose();
+            ms.Dispose();
+        }
         [Fact]
         public void ReadUInt16Test()
         {
@@ -489,25 +489,25 @@ namespace Adaptive.Intelligence.Shared.Test.IO
 
         [Fact]
         public void SeekTest()
-		{
-			// Arrange
-			MemoryStream ms = CreateStream<string>("X", "Y", "Z");
-			SafeBinaryReader reader = new SafeBinaryReader(ms);
+        {
+            // Arrange
+            MemoryStream ms = CreateStream<string>("X", "Y", "Z");
+            SafeBinaryReader reader = new SafeBinaryReader(ms);
 
-			// Act.
-			reader.Seek(0, SeekOrigin.Begin);
-			reader.Seek(3, SeekOrigin.Begin);
-			reader.Seek(0, SeekOrigin.End);
-			ms.Close();
-			reader.Seek(90920, SeekOrigin.End);
+            // Act.
+            reader.Seek(0, SeekOrigin.Begin);
+            reader.Seek(3, SeekOrigin.Begin);
+            reader.Seek(0, SeekOrigin.End);
+            ms.Close();
+            reader.Seek(90920, SeekOrigin.End);
 
-			Assert.NotNull(reader.FirstException);
-			Assert.True(reader.HasExceptions);
+            Assert.NotNull(reader.FirstException);
+            Assert.True(reader.HasExceptions);
 
-			// Clean up.
-			reader.Dispose();
-			ms.Dispose();
-		}
+            // Clean up.
+            reader.Dispose();
+            ms.Dispose();
+        }
         private static bool ContainsValues(byte value, byte[] buffer)
         {
             bool isGood = true;
@@ -551,43 +551,43 @@ namespace Adaptive.Intelligence.Shared.Test.IO
 
         private static void Write<T>(BinaryWriter writer, T data)
         {
-			switch (data)
-			{
-				case bool bdata:
-					writer.Write(bdata);
-					break;
-				case byte bdata:
-					writer.Write(bdata);
-					break;
-				case int bdata:
-					writer.Write(bdata);
-					break;
-				case short bdata:
-					writer.Write(bdata);
-					break;
-				case long bdata:
-					writer.Write(bdata);
-					break;
-				case ushort bdata:
-					writer.Write(bdata);
-					break;
-				case uint bdata:
-					writer.Write(bdata);
-					break;
-				case ulong bdata:
-					writer.Write(bdata);
-					break;
-				case string bdata:
-					writer.Write(bdata);
-					break;
+            switch (data)
+            {
+                case bool bdata:
+                    writer.Write(bdata);
+                    break;
+                case byte bdata:
+                    writer.Write(bdata);
+                    break;
+                case int bdata:
+                    writer.Write(bdata);
+                    break;
+                case short bdata:
+                    writer.Write(bdata);
+                    break;
+                case long bdata:
+                    writer.Write(bdata);
+                    break;
+                case ushort bdata:
+                    writer.Write(bdata);
+                    break;
+                case uint bdata:
+                    writer.Write(bdata);
+                    break;
+                case ulong bdata:
+                    writer.Write(bdata);
+                    break;
+                case string bdata:
+                    writer.Write(bdata);
+                    break;
 
-				case Half bdata:
-					writer.Write(bdata);
-					break;
+                case Half bdata:
+                    writer.Write(bdata);
+                    break;
 
-				case sbyte bdata:
-					writer.Write(bdata);
-					break;
+                case sbyte bdata:
+                    writer.Write(bdata);
+                    break;
 
                 case decimal bdata:
                     writer.Write(bdata);
@@ -602,9 +602,9 @@ namespace Adaptive.Intelligence.Shared.Test.IO
                     break;
 
                 default:
-					throw new Exception("X");
-			}
-		}
-	}
+                    throw new Exception("X");
+            }
+        }
+    }
 }
 

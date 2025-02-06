@@ -142,7 +142,7 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
         /// A <see cref="List{T}"/> of <see cref="IndexStatistic"/> instances if successful;
         /// otherwise, returns <b>null</b>.
         /// </returns>
-        public async Task<List<IndexStatistic>?>ReadIndexFragmentationStatisticsAsync(int objectId)
+        public async Task<List<IndexStatistic>?> ReadIndexFragmentationStatisticsAsync(int objectId)
         {
             List<IndexStatistic>? list = null;
 
@@ -195,6 +195,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
         /// <summary>
         /// Executes the query to mark the specified table for recompilation.
         /// </summary>
+        /// <param name="schema">
+        /// A string specifying the schema.
+        /// </param>
         /// <param name="tableName">
         /// A string containing the name of the table.
         /// </param>

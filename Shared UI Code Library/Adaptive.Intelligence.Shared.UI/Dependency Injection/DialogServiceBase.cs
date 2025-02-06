@@ -28,7 +28,7 @@ namespace Adaptive.Intelligence.Shared.UI
 
         #region Constructor / Dispose Methods
         /// <summary>
-        /// Initializes a new instance of the <see cref="DialogService"/> class.
+        /// Initializes a new instance of the <see cref="DialogServiceBase"/> class.
         /// </summary>
         /// <remarks>
         /// This constructor must be called by the main UI thread.
@@ -36,10 +36,10 @@ namespace Adaptive.Intelligence.Shared.UI
         /// <param name="serviceProvider">
         /// The reference to the <see cref="IServiceProvider"/> instance for the application.
         /// </param>
-        public DialogServiceBase(IServiceProvider serviceProvider)
+        protected DialogServiceBase(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _uiThreadId = Thread.CurrentThread.ManagedThreadId;
+            _uiThreadId = Environment.CurrentManagedThreadId;
             _control = new Control();
             _control.HandleCreated += HandleControlCreated;
             _control.CreateControl();
@@ -113,7 +113,7 @@ namespace Adaptive.Intelligence.Shared.UI
                 }
                 else
                 {
-                    if (!_control.InvokeRequired && Thread.CurrentThread.ManagedThreadId == _uiThreadId)
+                    if (!_control.InvokeRequired && Environment.CurrentManagedThreadId == _uiThreadId)
                     {
                         try
                         {
@@ -176,7 +176,7 @@ namespace Adaptive.Intelligence.Shared.UI
         /// </returns>
         public virtual DialogResult DisplayMessageBox(string caption, string message, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
-            if (Thread.CurrentThread.ManagedThreadId == _uiThreadId)
+            if (Environment.CurrentManagedThreadId == _uiThreadId)
             {
                 return MessageBox.Show(message, caption, buttons, icon);
             }

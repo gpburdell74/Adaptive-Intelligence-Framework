@@ -60,6 +60,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         /// <param name="fromClause">
         /// The <see cref="SqlCodeFromClause"/> instance to be rendered and written.
         /// </param>
+        /// <param name="onSameLine">
+        /// A value indicating whether to render the FROM clause content on a single line.
+        /// </param>
         public void WriteFromClause(SqlCodeFromClause? fromClause, bool onSameLine = false)
         {
             if (fromClause != null && fromClause.SourceTable != null && _expressionWriter != null)
@@ -340,8 +343,8 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         private void WriteSelectListItemExpression(SqlCodeSelectListItemExpression? listItem, string? delimiter)
         {
             if (listItem != null && delimiter != null && _expressionWriter != null)
-            // Render and write the expression.
-            _expressionWriter.WriteExpression(listItem.Expression);
+                // Render and write the expression.
+                _expressionWriter.WriteExpression(listItem.Expression);
 
             // Add the comma, if specified.
             if (!string.IsNullOrEmpty(delimiter))
@@ -387,7 +390,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                 // [(] <condition> <operator> <condition> [)] [AND|OR]
 
-                bool useParens = whereClause.Conditions.Count > 1;  
+                bool useParens = whereClause.Conditions.Count > 1;
                 foreach (SqlCodeConditionListExpression expression in whereClause.Conditions)
                 {
                     SafeWriteTabs();

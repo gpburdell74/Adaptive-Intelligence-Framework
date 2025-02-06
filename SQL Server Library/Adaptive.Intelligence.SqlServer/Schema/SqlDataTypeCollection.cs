@@ -35,7 +35,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// The <see cref="SafeSqlDataReader"/> instance used to read the content 
         /// from SQL Server. 
         /// </param>
-        public SqlDataTypeCollection(SafeSqlDataReader reader) 
+        public SqlDataTypeCollection(SafeSqlDataReader reader)
         {
             while (reader.Read())
             {

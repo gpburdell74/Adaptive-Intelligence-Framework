@@ -24,7 +24,7 @@
         /// <param name="columnName">A string specifying the name of the column.</param>
         public void AddExpression(string? tableName, string? columnName)
         {
-            if (tableName != null && columnName != null) 
+            if (tableName != null && columnName != null)
                 Add(new SqlCodeSelectListItemExpression(new SqlCodeTableColumnReferenceExpression(tableName, columnName)));
         }
         /// <summary>

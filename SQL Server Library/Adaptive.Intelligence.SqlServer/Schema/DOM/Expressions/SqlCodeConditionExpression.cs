@@ -46,7 +46,7 @@
         /// </param>
         public SqlCodeConditionExpression(SqlCodeExpression? leftExpression, SqlCodeExpression? rightExpression, SqlComparisonOperator sqlOperator)
         {
-            if (sqlOperator ==  SqlComparisonOperator.NotSpecified)
+            if (sqlOperator == SqlComparisonOperator.NotSpecified)
                 throw new ArgumentOutOfRangeException(nameof(sqlOperator));
 
             _leftExpression = leftExpression ?? throw new ArgumentNullException(nameof(leftExpression));

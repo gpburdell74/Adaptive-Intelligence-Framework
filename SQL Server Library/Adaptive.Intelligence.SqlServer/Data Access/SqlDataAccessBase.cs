@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Adaptive.Intelligence.SqlServer
 {
-	/// <summary>
-	/// Provides the base definition for direct SQL data access implementations.
-	/// </summary>
-	/// <remarks>
-	/// This class provides the definition for implementing a general data-access class
-	/// used to query SQL Server.
-	/// </remarks>
-	/// <seealso cref="DataAccessBase"/>
-	public abstract class SqlDataAccessBase : DataAccessBase
+    /// <summary>
+    /// Provides the base definition for direct SQL data access implementations.
+    /// </summary>
+    /// <remarks>
+    /// This class provides the definition for implementing a general data-access class
+    /// used to query SQL Server.
+    /// </remarks>
+    /// <seealso cref="DataAccessBase"/>
+    public abstract class SqlDataAccessBase : DataAccessBase
     {
         #region Private Member Declarations
         /// <summary>
@@ -52,7 +52,7 @@ namespace Adaptive.Intelligence.SqlServer
         protected SqlDataAccessBase(SqlConnectionStringBuilder builder)
         {
             _connectionString = builder.ToString();
-			_provider = SqlDataProviderFactory.CreateProvider(builder);
+            _provider = SqlDataProviderFactory.CreateProvider(builder);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="DataAccessBase"/> class.
@@ -83,35 +83,35 @@ namespace Adaptive.Intelligence.SqlServer
             _providerExternal = false;
             base.Dispose(disposing);
         }
-		#endregion
+        #endregion
 
-		#region Protected Properties        
-		/// <summary>
-		/// Gets the connection string.
-		/// </summary>
-		/// <value>
-		/// A string containing the connection information for SQL Server.
-		/// </value>
-		protected string ConnectionString
+        #region Protected Properties        
+        /// <summary>
+        /// Gets the connection string.
+        /// </summary>
+        /// <value>
+        /// A string containing the connection information for SQL Server.
+        /// </value>
+        protected string ConnectionString
         {
             get => _connectionString;
         }
-		#endregion
+        #endregion
 
         #region Internal Properties
-			/// <summary>
-			/// Gets the reference to the SQL Server data provider instance used
-			/// to perform queries against SQL Server.
-			/// </summary>
-			/// <remarks>
-			/// This value is created when the instance is constructed, if possible.
-			/// If this value is <b>null</b>, check the App.config file's connection
-			/// strings.
-			/// </remarks>
-			/// <value>
-			/// The <see cref="SqlDataProvider"/> instance if created, or <b>null</b>.
-			/// </value>
-		internal SqlDataProvider? Provider => _provider;
+        /// <summary>
+        /// Gets the reference to the SQL Server data provider instance used
+        /// to perform queries against SQL Server.
+        /// </summary>
+        /// <remarks>
+        /// This value is created when the instance is constructed, if possible.
+        /// If this value is <b>null</b>, check the App.config file's connection
+        /// strings.
+        /// </remarks>
+        /// <value>
+        /// The <see cref="SqlDataProvider"/> instance if created, or <b>null</b>.
+        /// </value>
+        internal SqlDataProvider? Provider => _provider;
         #endregion
 
         #region Public Methods / Functions
@@ -1005,5 +1005,5 @@ namespace Adaptive.Intelligence.SqlServer
         #endregion
     }
 }
-    
+
 

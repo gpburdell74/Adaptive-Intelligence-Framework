@@ -86,7 +86,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
 
             // Lists.
             AuthTypeList.SelectedIndexChanged += HandleGenericControlChange;
-            
+
             // Entries.
             ServerText.LostFocus += HandleConnectionInfoChanged;
             UserIdText.LostFocus += HandleConnectionInfoChanged;
@@ -96,21 +96,21 @@ namespace Adaptive.Intelligence.SqlServer.UI
             DbCheck.CheckedChanged += HandleDbCheckChanged;
         }
 
-		/// <summary>
-		/// Removes the event handlers for the controls on the dialog.
-		/// </summary>
-		protected override void RemoveEventHandlers()
+        /// <summary>
+        /// Removes the event handlers for the controls on the dialog.
+        /// </summary>
+        protected override void RemoveEventHandlers()
         {
             // Buttons.
             TestButton.Click -= HandleTestClicked;
             ConnectButton.Click -= HandleConnectClicked;
             CloseButton.Click -= HandleCloseClicked;
 
-			// Lists.
-			AuthTypeList.SelectedIndexChanged -= HandleGenericControlChange;
+            // Lists.
+            AuthTypeList.SelectedIndexChanged -= HandleGenericControlChange;
 
-			// Entries.
-			ServerText.LostFocus -= HandleConnectionInfoChanged;
+            // Entries.
+            ServerText.LostFocus -= HandleConnectionInfoChanged;
             UserIdText.LostFocus -= HandleConnectionInfoChanged;
             PasswordText.LostFocus -= HandleConnectionInfoChanged;
 
@@ -287,7 +287,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 Authentication = SqlAuthenticationMethod.SqlPassword,
                 UserID = UserIdText.Text,
                 Password = PasswordText.Text,
-                TrustServerCertificate=true
+                TrustServerCertificate = true
             };
             SetFromOptions(builder);
             return builder;
@@ -307,7 +307,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
             //builder.MultipleActiveResultSets = AllowMultiCheck.Checked;
             builder.MultipleActiveResultSets = false;
 
-			if (PoolingCheck.Checked)
+            if (PoolingCheck.Checked)
             {
                 builder.Pooling = true;
                 builder.MaxPoolSize = MaxPoolSizeText.Value;
