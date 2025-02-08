@@ -37,7 +37,7 @@
             Dictionary<string, int> tableUseList = new Dictionary<string, int>();
             foreach (ReferencedTableJoin item in this)
             {
-                if (item.ReferencedTable != null)
+                if (item.ReferencedTable != null && item.ReferencedTable.TableName != null)
                 {
                     // If not in the list, add it to the dictionary.
                     if (!tableUseList.ContainsKey(item.ReferencedTable.TableName))

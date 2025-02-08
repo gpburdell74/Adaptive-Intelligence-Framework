@@ -50,7 +50,6 @@ namespace Adaptive.Intelligence.Shared.UI
                 base.Font = value;
                 if (IsHandleCreated)
                 {
-
                     PasswordText.Font = value;
                     ViewHideButton.Font = value;
                     Invalidate();

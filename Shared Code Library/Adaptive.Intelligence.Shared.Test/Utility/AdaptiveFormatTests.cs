@@ -281,7 +281,7 @@
         public void FormatMailingAddress_NullAddress_ReturnsNull()
         {
             // Arrange
-            IStandardPostalAddress address = null;
+            IStandardPostalAddress? address = null;
 
             // Act
             var result = AdaptiveFormat.FormatMailingAddress(address);

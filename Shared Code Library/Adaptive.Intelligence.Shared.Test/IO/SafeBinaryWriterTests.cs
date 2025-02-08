@@ -39,7 +39,6 @@ namespace Adaptive.Intelligence.Shared.Test.IO
 
             ms.Close();
             ms.Dispose();
-            ms = null;
             GC.Collect();
 
             writer.Close();

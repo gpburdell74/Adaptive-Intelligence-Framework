@@ -69,9 +69,12 @@
             SqlCodeCommentStatement statement = new SqlCodeCommentStatement();
             if (_commentList != null)
             {
-                foreach (SqlCodeCommentExpression expression in _commentList)
+                if (statement.Comments != null)
                 {
-                    statement.Comments.Add(expression.Clone());
+                    foreach (SqlCodeCommentExpression expression in _commentList)
+                    {
+                        statement.Comments.Add(expression.Clone());
+                    }
                 }
             }
             return statement;

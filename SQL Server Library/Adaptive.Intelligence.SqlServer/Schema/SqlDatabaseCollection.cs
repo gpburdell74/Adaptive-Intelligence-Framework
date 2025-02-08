@@ -50,7 +50,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             if (item == null)
                 return string.Empty;
             else
-                return item.Name;
+                return item.Name ?? string.Empty;
         }
         #endregion
     }

@@ -273,14 +273,17 @@ namespace Adaptive.Intelligence.Shared.UI
         private void DrawInstructions(Graphics g, int left)
         {
             EnsureFonts();
-            SizeF captionSize = g.MeasureString(_caption, _captionFont);
-            Point drawingStart = new Point(left, (int)captionSize.Height + 7);
-            if (!string.IsNullOrEmpty(_instructions))
+            if (_captionFont != null)
             {
-                Rectangle rect = new Rectangle(drawingStart.X, drawingStart.Y, ClientRectangle.Width - drawingStart.X - 10, Height - drawingStart.Y);
+                SizeF captionSize = g.MeasureString(_caption, _captionFont);
+                Point drawingStart = new Point(left, (int)captionSize.Height + 7);
+                if (!string.IsNullOrEmpty(_instructions))
+                {
+                    Rectangle rect = new Rectangle(drawingStart.X, drawingStart.Y, ClientRectangle.Width - drawingStart.X - 10, Height - drawingStart.Y);
 
-                TextFormatFlags formatFlags = TextFormatFlags.Top | TextFormatFlags.Left | TextFormatFlags.WordBreak;
-                TextRenderer.DrawText(g, _instructions, _instructionsFont, rect, Color.Black, formatFlags);
+                    TextFormatFlags formatFlags = TextFormatFlags.Top | TextFormatFlags.Left | TextFormatFlags.WordBreak;
+                    TextRenderer.DrawText(g, _instructions, _instructionsFont, rect, Color.Black, formatFlags);
+                }
             }
         }
         /// <summary>

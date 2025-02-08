@@ -19,7 +19,7 @@ namespace Adaptive.Intelligence.Shared.Tests.Attributes
             var property = typeof(TestClass).GetProperty(nameof(TestClass.IgnoredProperty));
 
             // Act
-            var attribute = property.GetCustomAttribute(typeof(ExportIgnoreAttribute));
+            var attribute = property?.GetCustomAttribute(typeof(ExportIgnoreAttribute));
 
             // Assert
             Assert.NotNull(attribute);
@@ -32,7 +32,7 @@ namespace Adaptive.Intelligence.Shared.Tests.Attributes
             var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
 
             // Act
-            var attribute = nonDecoratedProperty.GetCustomAttribute(typeof(ExportIgnoreAttribute));
+            var attribute = nonDecoratedProperty?.GetCustomAttribute(typeof(ExportIgnoreAttribute));
 
             // Assert
             Assert.Null(attribute); // Assuming there's no ExportIgnoreAttribute on the non-decorated property

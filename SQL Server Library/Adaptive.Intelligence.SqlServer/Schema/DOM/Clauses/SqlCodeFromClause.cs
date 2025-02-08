@@ -118,8 +118,11 @@
             SqlCodeFromClause clause = new SqlCodeFromClause(_table);
             if (_joins != null)
             {
-                foreach (SqlCodeJoinClause join in _joins)
-                    clause.Joins.Add(join.Clone());
+                if (clause.Joins != null)
+                {
+                    foreach (SqlCodeJoinClause join in _joins)
+                        clause.Joins.Add(join.Clone());
+                }
             }
             return clause;
         }

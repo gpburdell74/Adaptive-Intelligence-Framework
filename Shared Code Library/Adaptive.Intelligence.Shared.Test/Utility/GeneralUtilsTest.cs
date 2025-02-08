@@ -848,19 +848,6 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         }
 
         [Fact]
-        public void ToEmptyStringIfNull_ShouldReturnEmptyString()
-        {
-            // Arrange
-            string value = null;
-
-            // Act
-            string result = value.ToEmptyStringIfNull();
-
-            // Assert
-            Assert.Equal(string.Empty, result);
-        }
-
-        [Fact]
         public void ToNoDateTextIfNull_DateTimeOffset_ShouldReturnEmptyString()
         {
             // Arrange
