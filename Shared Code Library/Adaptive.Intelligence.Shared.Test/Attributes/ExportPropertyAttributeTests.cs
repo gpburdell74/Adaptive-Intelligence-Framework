@@ -19,7 +19,7 @@ namespace Adaptive.Intelligence.Shared.Tests.Attributes
             var property = typeof(TestClass).GetProperty(nameof(TestClass.ExportedProperty));
 
             // Act
-            var attribute = property.GetCustomAttribute(typeof(ExportPropertyAttribute));
+            var attribute = property?.GetCustomAttribute(typeof(ExportPropertyAttribute));
 
             // Assert
             Assert.NotNull(attribute);

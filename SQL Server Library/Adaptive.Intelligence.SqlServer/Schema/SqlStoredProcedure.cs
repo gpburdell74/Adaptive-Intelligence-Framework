@@ -107,7 +107,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <value>
         /// A string containing the name of the stored procedure.
         /// </value>
-        public string? Name => _name;
+        public string Name => _name ?? string.Empty;
         /// <summary>
         /// Gets the object ID value assigned to the stored procedure by SQL Server.
         /// </summary>

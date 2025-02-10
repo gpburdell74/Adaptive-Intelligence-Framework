@@ -277,9 +277,12 @@ namespace Adaptive.Intelligence.SqlServer
             if (dbInfo != null && table != null)
             {
                 AdaptiveTableProfile? profile = dbInfo.GetTableProfile(table.Schema, table.TableName);
-                DataAccessClassBuilder builder = new DataAccessClassBuilder(dbInfo, table, profile, "Data.Access");
-                generatedCode = builder.GenerateDataAccessClass(OrmCodeGenerationOptions.Current.Language);
-                builder.Dispose();
+                if (profile != null)
+                {
+                    DataAccessClassBuilder builder = new DataAccessClassBuilder(dbInfo, table, profile, "Data.Access");
+                    generatedCode = builder.GenerateDataAccessClass(OrmCodeGenerationOptions.Current.Language);
+                    builder.Dispose();
+                }
             }
 
             return generatedCode;
@@ -323,7 +326,7 @@ namespace Adaptive.Intelligence.SqlServer
 
                 int count = 0;
                 int len = result.Comparisons.Values.Count;
-                // Iterate over the list of procedures in the primary database, copying any missing procs
+                // Iterate over the list of procedures in the primary database, copying any missing procedures
                 // to the secondary database.
                 foreach (StoredProcedureComparisonResult compareResult in result.Comparisons.Values)
                 {
@@ -405,14 +408,14 @@ namespace Adaptive.Intelligence.SqlServer
                             StringBuilder builder = new StringBuilder();
                             if (procedureText != null && procedureText.Count > 0)
                             {
-                                foreach (string line in procedureText)
+                                foreach (var line in procedureText)
                                     builder.Append(line);
                             }
 
                             // Execute the stored procedure creation.
                             await primaryProvider.ExecuteSqlAsync(builder.ToString()).ConfigureAwait(false);
                             builder.Clear();
-                            procedureText.Clear();
+                            procedureText?.Clear();
                         }
                     }
                 }
@@ -438,7 +441,7 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 if (_maintenanceProcessor == null)
                 {
-                    _maintenanceProcessor = new GeneralMaintenanceProcessor(dbInfo.Provider);
+                    _maintenanceProcessor = new GeneralMaintenanceProcessor(dbInfo.Provider!);
                     _maintenanceProcessor.NumberOfPasses = passCount;
                     _maintenanceProcessor.StatusUpdate += HandleStatusUpdate;
 
@@ -551,7 +554,7 @@ namespace Adaptive.Intelligence.SqlServer
             DataTable? table = null;
 
             DatabaseInfo? dbInfo = GetDbInfo(databaseName);
-            if (dbInfo != null && sqlQuery != null)
+            if (dbInfo != null && sqlQuery != null && dbInfo.Provider != null)
             {
                 IOperationalResult<DataTable> result = await dbInfo.Provider.FillDataTableAsync(sqlQuery).ConfigureAwait(false);
                 if (result.Success)

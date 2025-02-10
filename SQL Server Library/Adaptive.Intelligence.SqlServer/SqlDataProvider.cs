@@ -408,7 +408,7 @@ namespace Adaptive.SqlServer.Client
                 }
                 catch (Exception ex)
                 {
-                    command.Dispose();
+                    command?.Dispose();
                     result.Success = false;
                     result.AddException(ex);
                 }
@@ -977,7 +977,7 @@ namespace Adaptive.SqlServer.Client
             IOperationalResult<SqlConnection> connectResult = await CreateAndOpenConnectionAsync().ConfigureAwait(false);
             if (connectResult.Success)
             {
-                SqlConnection connection = connectResult.DataContent;
+                SqlConnection? connection = connectResult.DataContent;
                 SqlCommand command = new SqlCommand(sqlQuery, connection);
 
                 IOperationalResult<SqlDataAdapter> adapterResult = CreateAdapterInstance(command);
@@ -1003,8 +1003,8 @@ namespace Adaptive.SqlServer.Client
                     adapterResult.Dispose();
                 }
                 command.Dispose();
-                connection.Close();
-                connection.Dispose();
+                connection?.Close();
+                connection?.Dispose();
             }
             else
                 result = new OperationalResult<DataTable>(false);
@@ -2401,7 +2401,7 @@ namespace Adaptive.SqlServer.Client
         /// Gets the names of the database for the SQL Server instance currently connected to.
         /// </summary>
         /// <returns>
-        /// An <see cref="IOperationalResult{T}"/> of <see cref="List{T}"/> of <see cref="string"/> containing hte result of the
+        /// An <see cref="IOperationalResult{T}"/> of <see cref="List{T}"/> of <see cref="string"/> containing the result of the
         /// operation.  If successful, the result contains the <see cref="List{T}"/> of <see cref="string"/> values containing the
         /// names of the databases on the server.
         /// </returns>

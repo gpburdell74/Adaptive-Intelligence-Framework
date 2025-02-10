@@ -564,12 +564,12 @@ namespace Adaptive.CodeDom
         /// The <see cref="PropertyProfileCollection"/> instance containing the property meta data
         /// used to generate appropriate Dispose code for the properties of the parent class.
         /// </param>
-        public static void CreateDisposeMethodContent(CodeMemberMethod disposeMethod, PropertyProfileCollection propertyList)
+        public static void CreateDisposeMethodContent(CodeMemberMethod disposeMethod, PropertyProfileCollection? propertyList)
         {
             // Determine which definitions go in which blocks...
-            PropertyProfileCollection clearableList = propertyList.ClearableProperties();
-            PropertyProfileCollection disposableList = propertyList.DisposableProperties();
-            PropertyProfileCollection nullableList = propertyList.NullableProperties();
+            PropertyProfileCollection? clearableList = propertyList?.ClearableProperties();
+            PropertyProfileCollection? disposableList = propertyList?.DisposableProperties();
+            PropertyProfileCollection? nullableList = propertyList?.NullableProperties();
 
             // Generate the code block only if needed.
             //
@@ -582,7 +582,7 @@ namespace Adaptive.CodeDom
             //          <property2>.Dispose();
             // }
             //
-            if (propertyList.HasClearableOrDisposableItems)
+            if (propertyList != null && propertyList.HasClearableOrDisposableItems)
             {
                 // if (!IsDisposed && disposing)
                 CodeConditionStatement ifDisposingStatement = new CodeConditionStatement(
@@ -598,43 +598,50 @@ namespace Adaptive.CodeDom
                             new CodePrimitiveExpression(true))),
                     new CodeStatement[] { });
 
-                foreach (PropertyProfile propertyItem in clearableList)
+                if (clearableList != null)
                 {
-                    CodeConditionStatement ifNotNullStatement = new CodeConditionStatement(
-                        // if (<name> != null)
-                        new CodeBinaryOperatorExpression(
-                            new CodeVariableReferenceExpression(propertyItem.PropertyName),
-                            CodeBinaryOperatorType.IdentityInequality,
-                            new CodePrimitiveExpression(null)),
-                        new CodeStatement[]
-                        {
+                    foreach (PropertyProfile propertyItem in clearableList)
+                    {
+                        CodeConditionStatement ifNotNullStatement = new CodeConditionStatement(
+                            // if (<name> != null)
+                            new CodeBinaryOperatorExpression(
+                                new CodeVariableReferenceExpression(propertyItem.PropertyName),
+                                CodeBinaryOperatorType.IdentityInequality,
+                                new CodePrimitiveExpression(null)),
+                            new CodeStatement[]
+                            {
                             // <name>.Clear();
                             new CodeExpressionStatement(
                                 new CodeMethodInvokeExpression(
                                     new CodeMethodReferenceExpression(
                                         new CodeVariableReferenceExpression(propertyItem.PropertyName), "Clear")))
-                        });
+                            });
 
-                    ifDisposingStatement.TrueStatements.Add(ifDisposingStatement);
+                        ifDisposingStatement.TrueStatements.Add(ifDisposingStatement);
+                    }
                 }
-                foreach (PropertyProfile propertyItem in disposableList)
+
+                if (disposableList != null)
                 {
-                    CodeConditionStatement ifNotNullStatement = new CodeConditionStatement(
-                        // if (<name> != null)
-                        new CodeBinaryOperatorExpression(
-                            new CodeVariableReferenceExpression(propertyItem.PropertyName),
-                            CodeBinaryOperatorType.IdentityInequality,
-                            new CodePrimitiveExpression(null)),
-                        new CodeStatement[]
-                        {
+                    foreach (PropertyProfile propertyItem in disposableList)
+                    {
+                        CodeConditionStatement ifNotNullStatement = new CodeConditionStatement(
+                            // if (<name> != null)
+                            new CodeBinaryOperatorExpression(
+                                new CodeVariableReferenceExpression(propertyItem.PropertyName),
+                                CodeBinaryOperatorType.IdentityInequality,
+                                new CodePrimitiveExpression(null)),
+                            new CodeStatement[]
+                            {
                             // <name>.Clear();
                             new CodeExpressionStatement(
                                 new CodeMethodInvokeExpression(
                                     new CodeMethodReferenceExpression(
                                         new CodeVariableReferenceExpression(propertyItem.PropertyName), "Dispose")))
-                        });
+                            });
 
-                    ifDisposingStatement.TrueStatements.Add(ifDisposingStatement);
+                        ifDisposingStatement.TrueStatements.Add(ifDisposingStatement);
+                    }
                 }
             }
 
@@ -645,12 +652,15 @@ namespace Adaptive.CodeDom
             //      <property2> = null;
             //
             disposeMethod.Statements.Add(new CodeSnippetStatement(string.Empty));
-            foreach (PropertyProfile propertyItem in nullableList)
+            if (nullableList != null)
             {
-                CodeAssignStatement statement = new CodeAssignStatement(
-                    new CodeVariableReferenceExpression(propertyItem.PropertyName),
-                    new CodePrimitiveExpression(null));
-                disposeMethod.Statements.Add(statement);
+                foreach (PropertyProfile propertyItem in nullableList)
+                {
+                    CodeAssignStatement statement = new CodeAssignStatement(
+                        new CodeVariableReferenceExpression(propertyItem.PropertyName),
+                        new CodePrimitiveExpression(null));
+                    disposeMethod.Statements.Add(statement);
+                }
             }
 
             // base.Dispose(disposing);

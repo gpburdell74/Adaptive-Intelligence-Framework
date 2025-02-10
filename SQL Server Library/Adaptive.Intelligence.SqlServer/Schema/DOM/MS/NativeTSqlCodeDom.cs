@@ -206,7 +206,7 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
                 // Script the specified table.
                 try
                 {
-                    Microsoft.SqlServer.Management.Smo.Table? table = SMOProviderFactory.Tables[tableName];
+                    Microsoft.SqlServer.Management.Smo.Table? table = SMOProviderFactory.Tables?[tableName];
                     if (table == null)
                     {
                         table = SMOProviderFactory.FindTable(tableName);

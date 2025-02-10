@@ -103,9 +103,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlStoredProcedureCollection"/> instance containing the list.
         /// </returns>
-        public static SqlStoredProcedureCollection GetStoredProceduresForTable(string connectionString, string tableName)
+        public static SqlStoredProcedureCollection? GetStoredProceduresForTable(string connectionString, string tableName)
         {
-            SqlStoredProcedureCollection storedProcList;
+            SqlStoredProcedureCollection? storedProcList;
 
             using (SqlDataProvider provider = SqlDataProviderFactory.CreateProvider(connectionString))
             {
@@ -145,9 +145,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
 		/// <returns>
 		/// A <see cref="SqlStoredProcedureCollection"/> instance containing the list.
 		/// </returns>
-		public async Task<SqlStoredProcedureCollection> GetStoredProceduresForTableAsync(string connectionString, string tableName)
+		public async Task<SqlStoredProcedureCollection?> GetStoredProceduresForTableAsync(string connectionString, string tableName)
         {
-            SqlStoredProcedureCollection storedProcList;
+            SqlStoredProcedureCollection? storedProcList;
 
             using (SqlDataProvider provider = SqlDataProviderFactory.CreateProvider(connectionString))
             {
@@ -187,22 +187,25 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             _tables = SchemaLoader.GetTables(provider);
 
             // Step 3. Load the indexes defined on the table.
-            SqlIndexCollection indexList = SchemaLoader.GetIndexes(provider);
+            SqlIndexCollection? indexList = SchemaLoader.GetIndexes(provider);
 
             // Step 4. Load any foreign key constraints.
-            SqlForeignKeyCollection keysList = SchemaLoader.GetForeignKeys(provider);
+            SqlForeignKeyCollection? keysList = SchemaLoader.GetForeignKeys(provider);
 
             // Step 5. Load the table type definitions.
             _tableTypes = SchemaLoader.GetTableTypes(provider);
 
             // Step 6. Add the index definitions to the appropriate tables.
-            SchemaLoader.AppendIndexes(_tables, indexList, _dataTypes);
+            if (_tables != null && indexList != null && _dataTypes != null)
+            {
+                SchemaLoader.AppendIndexes(_tables, indexList, _dataTypes);
 
-            // Step 7. Add the foreign key definitions to the appropriate tables.
-            SchemaLoader.AppendForeignKeys(_tables, keysList);
+                // Step 7. Add the foreign key definitions to the appropriate tables.
+                SchemaLoader.AppendForeignKeys(_tables, keysList);
 
-            // Step 8. Cross-reference the indexes and data types.
-            SchemaLoader.CrossReferenceIndexes(_tables, indexList, _dataTypes);
+                // Step 8. Cross-reference the indexes and data types.
+                SchemaLoader.CrossReferenceIndexes(_tables, indexList, _dataTypes);
+            }
         }
         /// <summary>
         /// Attempts to load the schema from the database.
@@ -222,22 +225,25 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             _tables = await SchemaLoader.GetTablesAsync(provider).ConfigureAwait(false);
 
             // Step 3. Load the indexes defined on the table.
-            SqlIndexCollection indexList = await SchemaLoader.GetIndexesAsync(provider).ConfigureAwait(false);
+            SqlIndexCollection? indexList = await SchemaLoader.GetIndexesAsync(provider).ConfigureAwait(false);
 
             // Step 4. Load any foreign key constraints.
-            SqlForeignKeyCollection keysList = await SchemaLoader.GetForeignKeysAsync(provider).ConfigureAwait(false);
+            SqlForeignKeyCollection? keysList = await SchemaLoader.GetForeignKeysAsync(provider).ConfigureAwait(false);
 
             // Step 5. Load the table type definitions.
             _tableTypes = await SchemaLoader.GetTableTypesAsync(provider).ConfigureAwait(false);
 
             // Step 6. Add the index definitions to the appropriate tables.
-            SchemaLoader.AppendIndexes(_tables, indexList, _dataTypes);
+            if (_tables != null && indexList != null && _dataTypes != null)
+            {
+                SchemaLoader.AppendIndexes(_tables, indexList, _dataTypes);
 
-            // Step 7. Add the foreign key definitions to the appropriate tables.
-            SchemaLoader.AppendForeignKeys(_tables, keysList);
+                // Step 7. Add the foreign key definitions to the appropriate tables.
+                SchemaLoader.AppendForeignKeys(_tables, keysList);
 
-            // Step 8. Cross-reference the indexes and data types.
-            SchemaLoader.CrossReferenceIndexes(_tables, indexList, _dataTypes);
+                // Step 8. Cross-reference the indexes and data types.
+                SchemaLoader.CrossReferenceIndexes(_tables, indexList, _dataTypes);
+            }
         }
         #endregion
     }

@@ -779,7 +779,7 @@ public sealed class SecureBinaryWriter : ExceptionTrackingBase, ISafeBinaryWrite
                 break;
 
             case decimal decimalValue:
-                returnContent = SafeConverter.DecimalToArrray(decimalValue);
+                returnContent = SafeConverter.DecimalToArray(decimalValue);
                 break;
 
             case string stringValue:

@@ -9,10 +9,10 @@
         public void IsNullOrEmptyNullArrayReturnsTrue()
         {
             // Arrange
-            byte[] byteArray = null;
-            int[] intArray = null;
-            string[] stringArray = null;
-            bool[] boolArray = null;
+            byte[]? byteArray = null;
+            int[]? intArray = null;
+            string[]? stringArray = null;
+            bool[]? boolArray = null;
 
             // Act
             bool byteResult = ArrayExtensions.IsNullOrEmpty(byteArray);
@@ -160,7 +160,7 @@
         public void ByteArraysInstanceCompareTest()
         {
             byte[] a = new byte[3];
-            byte[] b = null;
+            byte[]? b = null;
 
             int compResult = ArrayExtensions.Compare(a, b);
             Assert.Equal(1, compResult);

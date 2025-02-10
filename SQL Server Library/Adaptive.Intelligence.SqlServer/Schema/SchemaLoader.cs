@@ -16,7 +16,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <param name="foreignKeyList">
         /// A <see cref="SqlForeignKeyCollection"/> containing the foreign key definitions.
         /// </param>
-        public static void AppendForeignKeys(SqlTableCollection tableList, SqlForeignKeyCollection foreignKeyList)
+        public static void AppendForeignKeys(SqlTableCollection tableList, SqlForeignKeyCollection? foreignKeyList)
         {
             if (foreignKeyList != null)
             {
@@ -71,8 +71,8 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             {
                 foreach (SqlIndex index in indexList)
                 {
-                    SqlTable table = tableList.FirstOrDefault(t => t.TableName == index.TableName);
-                    if (table != null)
+                    SqlTable? table = tableList.FirstOrDefault(t => t.TableName == index.TableName);
+                    if (table != null && index.Columns != null)
                     {
                         foreach (SqlIndexColumn indexCol in index.Columns)
                         {
@@ -91,9 +91,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlForeignKeyCollection"/> containing the foreign key definition instances.
         /// </returns>
-        public static SqlForeignKeyCollection GetForeignKeys(SqlDataProvider provider)
+        public static SqlForeignKeyCollection? GetForeignKeys(SqlDataProvider provider)
         {
-            SqlForeignKeyCollection result;
+            SqlForeignKeyCollection? result;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = da.GetForeignKeys();
@@ -110,9 +110,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlForeignKeyCollection"/> containing the foreign key definition instances.
         /// </returns>
-        public static async Task<SqlForeignKeyCollection> GetForeignKeysAsync(SqlDataProvider provider)
+        public static async Task<SqlForeignKeyCollection?> GetForeignKeysAsync(SqlDataProvider provider)
         {
-            SqlForeignKeyCollection result;
+            SqlForeignKeyCollection? result;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = await da.GetForeignKeysAsync().ConfigureAwait(false);
@@ -129,9 +129,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlIndexCollection"/> containing the index definition instances.
         /// </returns>
-        public static SqlIndexCollection GetIndexes(SqlDataProvider provider)
+        public static SqlIndexCollection? GetIndexes(SqlDataProvider provider)
         {
-            SqlIndexCollection result;
+            SqlIndexCollection? result;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = da.GetIndexes();
@@ -148,9 +148,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlIndexCollection"/> containing the index definition instances.
         /// </returns>
-        public static async Task<SqlIndexCollection> GetIndexesAsync(SqlDataProvider provider)
+        public static async Task<SqlIndexCollection?> GetIndexesAsync(SqlDataProvider provider)
         {
-            SqlIndexCollection result;
+            SqlIndexCollection? result;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = await da.GetIndexesAsync().ConfigureAwait(false);
@@ -167,9 +167,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlDataTypeCollection"/> containing the SQL data type definition instances.
         /// </returns>
-        public static SqlDataTypeCollection GetSqlDataTypes(SqlDataProvider provider)
+        public static SqlDataTypeCollection? GetSqlDataTypes(SqlDataProvider provider)
         {
-            SqlDataTypeCollection result;
+            SqlDataTypeCollection? result;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = da.GetSqlDataTypes();
@@ -225,9 +225,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlStoredProcedureCollection"/> containing the list.
         /// </returns>
-        public static async Task<SqlStoredProcedureCollection> GetProceduresAsync(SqlDataProvider provider)
+        public static async Task<SqlStoredProcedureCollection?> GetProceduresAsync(SqlDataProvider provider)
         {
-            SqlStoredProcedureCollection result;
+            SqlStoredProcedureCollection? result;
 
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
@@ -248,9 +248,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// A <see cref="SqlStoredProcedure"/> instance containing the definition, or
         /// <b>null</b> if not found.
         /// </returns>
-        public static SqlStoredProcedure GetProcedureByName(SqlDataProvider provider, string procedureName)
+        public static SqlStoredProcedure? GetProcedureByName(SqlDataProvider provider, string procedureName)
         {
-            SqlStoredProcedure procedure;
+            SqlStoredProcedure? procedure;
 
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
@@ -271,9 +271,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// A <see cref="SqlStoredProcedure"/> instance containing the definition, or
         /// <b>null</b> if not found.
         /// </returns>
-        public static async Task<SqlStoredProcedure> GetProcedureByNameAsync(SqlDataProvider provider, string procedureName)
+        public static async Task<SqlStoredProcedure?> GetProcedureByNameAsync(SqlDataProvider provider, string procedureName)
         {
-            SqlStoredProcedure procedure;
+            SqlStoredProcedure? procedure;
 
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
@@ -293,9 +293,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlStoredProcedureCollection"/> instance containing the list.
         /// </returns>
-        public static SqlStoredProcedureCollection GetStoredProceduresForTable(SqlDataProvider provider, string tableName)
+        public static SqlStoredProcedureCollection? GetStoredProceduresForTable(SqlDataProvider provider, string tableName)
         {
-            SqlStoredProcedureCollection result;
+            SqlStoredProcedureCollection? result;
 
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
@@ -315,9 +315,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlStoredProcedureCollection"/> instance containing the list.
         /// </returns>
-        public static async Task<SqlStoredProcedureCollection> GetStoredProceduresForTableAsync(SqlDataProvider provider, string tableName)
+        public static async Task<SqlStoredProcedureCollection?> GetStoredProceduresForTableAsync(SqlDataProvider provider, string tableName)
         {
-            SqlStoredProcedureCollection result;
+            SqlStoredProcedureCollection? result;
 
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
@@ -335,9 +335,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlDataTypeCollection"/> containing the table definition instances.
         /// </returns>
-        public static SqlTableCollection GetTables(SqlDataProvider provider)
+        public static SqlTableCollection? GetTables(SqlDataProvider provider)
         {
-            SqlTableCollection result;
+            SqlTableCollection? result;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = da.GetTables();
@@ -373,9 +373,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         /// <returns>
         /// A <see cref="SqlTableTypeCollection"/> containing the user-defined table definition instances.
         /// </returns>
-        public static SqlTableTypeCollection GetTableTypes(SqlDataProvider provider)
+        public static SqlTableTypeCollection? GetTableTypes(SqlDataProvider provider)
         {
-            SqlTableTypeCollection result;
+            SqlTableTypeCollection? result;
             using (SqlSchemaDataAccess da = new SqlSchemaDataAccess(provider))
             {
                 result = da.GetTableTypes();

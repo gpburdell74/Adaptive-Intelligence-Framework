@@ -532,7 +532,6 @@ namespace Adaptive.Intelligence.Shared.Test.IO
             Write<T>(writer, data2);
             Write<T>(writer, data3);
             writer.Flush();
-            writer = null;
 
             ms.Seek(0, SeekOrigin.Begin);
 

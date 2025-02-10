@@ -63,13 +63,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         {
             // If the matched table name is longer than the original candidate value,
             // subtract the string length.
-            if (ComparedTo.Length > CandidateValue.Length)
+            if (ComparedTo != null && CandidateValue != null && ComparedTo.Length > CandidateValue.Length)
             {
                 Sureness -= (ComparedTo.Length - CandidateValue.Length);
             }
 
             // If the first characters do not match, subtract 1 value from the Sureness value.
-            if (ComparedTo.Substring(0, 1) != CandidateValue.Substring(0, 1))
+            if (ComparedTo != null && CandidateValue != null && ComparedTo.Substring(0, 1) != CandidateValue.Substring(0, 1))
             {
                 Sureness--;
             }

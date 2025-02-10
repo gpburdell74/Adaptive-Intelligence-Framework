@@ -62,6 +62,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// </param>
         protected SqlDataAccessBase(SqlDataProvider providerReference)
         {
+            _connectionString = providerReference.ConnectionString ?? string.Empty;
             _provider = providerReference;
             _providerExternal = true;
         }

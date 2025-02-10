@@ -471,7 +471,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 string sql = Editor.Text;
 
                 // Ensure the query is good.
-                UserSqlExecutionResult parseResult = await _operations.ParseQueryAsync(_databaseName, sql).ConfigureAwait(false);
+                UserSqlExecutionResult parseResult = await _operations.ParseQueryAsync(_databaseName!, sql).ConfigureAwait(false);
                 if (parseResult.Success)
                 {
                     List<TSqlStatement>? statements = SqlDataProvider.GetStatements(sql);
@@ -483,7 +483,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                             if (snippet is SelectStatement)
                             {
                                 string queryString = sql.Substring(snippet.StartOffset, snippet.FragmentLength);
-                                DataTable? table = await _operations.GetDataTableAsync(_databaseName, queryString).ConfigureAwait(false);
+                                DataTable? table = await _operations.GetDataTableAsync(_databaseName!, queryString).ConfigureAwait(false);
 
                                 ContinueInMainThread(() =>
                                 {
@@ -501,7 +501,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                             else
                             {
                                 string queryString = sql.Substring(snippet.StartOffset, snippet.FragmentLength);
-                                UserSqlExecutionResult result = await _operations.ExecuteQueryAsync(_databaseName, queryString).ConfigureAwait(false);
+                                UserSqlExecutionResult result = await _operations.ExecuteQueryAsync(_databaseName!, queryString).ConfigureAwait(false);
                                 ContinueInMainThread(() =>
                                 {
                                     if (result.Success)
@@ -556,7 +556,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
             {
                 MessagesText.Text = string.Empty;
 
-                UserSqlExecutionResult result = await _operations.ParseQueryAsync(_databaseName, Editor.Text).ConfigureAwait(false);
+                UserSqlExecutionResult result = await _operations.ParseQueryAsync(_databaseName!, Editor.Text).ConfigureAwait(false);
 
                 ContinueInMainThread(() =>
                 {

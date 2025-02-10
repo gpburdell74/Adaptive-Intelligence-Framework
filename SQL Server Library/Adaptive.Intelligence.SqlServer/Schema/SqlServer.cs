@@ -172,7 +172,7 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             if (result.Success)
             {
                 dbNames = new List<string>();
-                dbNames.AddRange(result.DataContent);
+                dbNames.AddRange(result.DataContent!);
             }
             result.Dispose();
             provider.Dispose();
