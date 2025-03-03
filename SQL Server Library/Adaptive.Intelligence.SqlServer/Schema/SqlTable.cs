@@ -185,6 +185,21 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                 return string.Empty;
         }
         /// <summary>
+        /// Gets a value indicating whether the specified column can contain null values.
+        /// </summary>
+        /// <param name="columnName">
+        /// A string containing the name of the column.
+        /// </param>
+        /// <returns>
+        ///   <c>true</c> if the specified column exists and can contain nullable values; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsColumnNullable(string columnName)
+        {
+            SqlColumn? col = _columns?[columnName];
+
+            return (col != null && col.IsNullable);
+        }
+        /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>

@@ -277,9 +277,13 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                     // Find and load the existing standard CRUD stored procedures that may have been defined.
                     if (_sourceDatabase != null && provider != null)
                     {
-                        profile?.StandardStoredProcedures?.AddRange(
-                            await _sourceDatabase.GetStoredProceduresForTableAsync(provider.ConnectionString ?? string.Empty, 
-                            table.TableName ?? string.Empty).ConfigureAwait(false));
+                        SqlStoredProcedureCollection? list = await _sourceDatabase
+                            .GetStoredProceduresForTableAsync(
+                                provider.ConnectionString ?? string.Empty,
+                                table.TableName ?? string.Empty)
+                            .ConfigureAwait(false);
+                        if (list != null)
+                            profile?.StandardStoredProcedures?.AddRange(list);
                     }
                 }
             }

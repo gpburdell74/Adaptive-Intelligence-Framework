@@ -704,16 +704,17 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
                         // If the referenced field is null able, a LEFT JOIN must be used,
                         // otherwise, default to an INNER JOIN.
-                        joinClause.IsLeftJoin = (referencedTable.Columns[joinDefinition.ReferencedTableField].IsNullable);
+                        joinClause.IsLeftJoin = referencedTable.IsColumnNullable(joinDefinition.ReferencedTableField);
+
                         joinClause.ReferencedTable = new SqlCodeTableReferenceExpression(
                             referencedTable.Schema, referencedTable.TableName, null);
 
                         // Create the objects for the ON clause.
-                        joinClause.LeftColumn = new SqlCodeTableColumnReferenceExpression(profile.TableName, joinDefinition.KeyField);
+                        joinClause.LeftColumn = new SqlCodeTableColumnReferenceExpression(profile.TableName, joinDefinition.KeyField!);
                         joinClause.RightColumn = new SqlCodeTableColumnReferenceExpression(referencedTable.TableName, joinDefinition.ReferencedTableField);
                         joinClause.Operator = SqlComparisonOperator.EqualTo;
 
-                        fromClause.Joins.Add(joinClause);
+                        fromClause.Joins?.Add(joinClause);
                     }
                 }
             }

@@ -109,9 +109,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         /// <value>
         /// A string containing the name of the column on the table being referenced.
         /// </value>
-        public string? ReferencedTableField
+        public string ReferencedTableField
         {
-            get => _referencedTableField;
+            get => _referencedTableField ?? string.Empty;
             set => _referencedTableField = value;
         }
         /// <summary>

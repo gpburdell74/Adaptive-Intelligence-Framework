@@ -816,7 +816,7 @@ public sealed class SecureBinaryReader : ExceptionTrackingBase, ISafeBinaryReade
                 break;
 
             case decimal decimalValue:
-                converted = SafeConverter.DecimalFromArrray(value);
+                converted = SafeConverter.DecimalFromArray(value);
                 break;
 
             case string stringValue:

@@ -30,9 +30,10 @@
         /// <param name="name">
         /// A string containing the name of the parameter.
         /// </param>
-        public SqlCodeParameterReferenceExpression(string name)
+        public SqlCodeParameterReferenceExpression(string? name)
         {
-            _parameterName = new SqlCodeParameterNameExpression(name);
+            if (name != null)
+                _parameterName = new SqlCodeParameterNameExpression(name);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlCodeParameterReferenceExpression"/> class.

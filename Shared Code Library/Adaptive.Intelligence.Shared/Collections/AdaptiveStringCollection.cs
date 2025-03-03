@@ -121,7 +121,7 @@ namespace Adaptive.Intelligence.Shared
                     var pos = 0;
                     do
                     {
-                        isEqual = (this[pos] == other[pos]);
+                        isEqual = this[pos]?.CompareTo(other[pos]) == 0;
                         pos++;
                     } while (pos < len && isEqual);
                 }

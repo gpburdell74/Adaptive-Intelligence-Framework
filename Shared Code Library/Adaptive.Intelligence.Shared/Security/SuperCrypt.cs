@@ -179,7 +179,7 @@ namespace Adaptive.Intelligence.Shared.Security
                 // Create the key information from the provided data content.
                 //
                 // Use Rfc2898DeriveBytes to create a 48-byte set of key data (32 byte key, 16 byte IV).
-                byte[] derivedDataA = PasswordKeyCreator.CreatePrimaryKeyData(_codePhrase.ToString(), _password.ToString());
+                byte[] derivedDataA = PasswordKeyCreator.CreatePrimaryKeyData(_codePhrase.ToString()!, _password.ToString()!);
                 // Splice the bits of the derived data to create an new key set (32 byte key, 16 byte IV).
                 byte[]? splicedData = BitSplicer.SpliceBits(derivedDataA);
                 if (splicedData != null)

@@ -43,8 +43,8 @@
         public void DecimalToArrray_DecimalFromArrray_ShouldRoundTrip()
         {
             decimal originalValue = 123.456m;
-            var byteArray = SafeConverter.DecimalToArrray(originalValue);
-            var resultValue = SafeConverter.DecimalFromArrray(byteArray);
+            var byteArray = SafeConverter.DecimalToArray(originalValue);
+            var resultValue = SafeConverter.DecimalFromArray(byteArray);
             Assert.Equal(originalValue, resultValue);
         }
 

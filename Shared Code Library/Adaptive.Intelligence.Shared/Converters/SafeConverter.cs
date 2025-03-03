@@ -168,7 +168,7 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// A byte array representing the decimal value.
         /// </returns>
-        public static byte[] DecimalToArrray(decimal value)
+        public static byte[] DecimalToArray(decimal value)
         {
             // Translate to the 4-integer parts.
             int[] data = decimal.GetBits(value);
@@ -194,7 +194,7 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// The <see cref="decimal"/> value represented by the byte array.	
         /// </returns>
-        public static decimal DecimalFromArrray(byte[] data)
+        public static decimal DecimalFromArray(byte[] data)
         {
             decimal newValue = decimal.Zero;
 
