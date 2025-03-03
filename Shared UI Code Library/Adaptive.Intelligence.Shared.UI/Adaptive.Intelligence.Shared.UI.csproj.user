@@ -44,6 +44,12 @@
     <Compile Update="Controls\SimpleGaugeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Controls\Syntax Editors\JsonSyntaxEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Syntax Editors\SyntaxEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Controls\Text Boxes\IntegerTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
