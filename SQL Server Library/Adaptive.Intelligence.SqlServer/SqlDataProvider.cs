@@ -2242,7 +2242,7 @@ namespace Adaptive.SqlServer.Client
         /// An <see cref="IOperationalResult{T}"/> containing the result of the operation.
         /// If successful, the result contains an <see cref="ISafeSqlDataReader"/> containing the results for reading.
         /// </returns>
-        public async Task<IOperationalResult<ISafeSqlDataReader?>> GetReaderForStoredProcedureAsync(SqlCommand storedProcedure, IEnumerable<SqlParameter> sqlParamsList)
+        public async Task<IOperationalResult<ISafeSqlDataReader?>> GetReaderForStoredProcedureAsync(SqlCommand storedProcedure, IEnumerable<SqlParameter>? sqlParamsList)
         {
             OperationalResult<ISafeSqlDataReader?> result = new OperationalResult<ISafeSqlDataReader?>(false);
 
@@ -2257,9 +2257,12 @@ namespace Adaptive.SqlServer.Client
                 storedProcedure.CommandTimeout = int.MaxValue;
 
                 // Add the parameters.
-                SqlParameter[] list = sqlParamsList.ToArray();
-                if (list.Length > 0)
-                    storedProcedure.Parameters.AddRange(list);
+                if (sqlParamsList != null)
+                {
+                    SqlParameter[] list = sqlParamsList.ToArray();
+                    if (list.Length > 0)
+                        storedProcedure.Parameters.AddRange(list);
+                }
 
                 try
                 {

@@ -503,7 +503,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// <b>null</b> if the query operation failed.
         /// </returns>
         public async Task<ISafeSqlDataReader?> GetReaderForParameterizedStoredProcedureAsync(string storedProcedure,
-            IEnumerable<SqlParameter> sqlParamsList)
+            IEnumerable<SqlParameter>? sqlParamsList)
         {
             ISafeSqlDataReader? reader = null;
 
@@ -538,7 +538,7 @@ namespace Adaptive.Intelligence.SqlServer
         /// <b>null</b> if the query operation failed.
         /// </returns>
         public ISafeSqlDataReader? GetMultiResultSetReaderForParameterizedCommand(string storedProcedure,
-            IEnumerable<SqlParameter> sqlParamsList)
+            IEnumerable<SqlParameter>? sqlParamsList)
         {
             ISafeSqlDataReader? reader = null;
 
