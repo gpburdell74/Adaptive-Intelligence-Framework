@@ -15,6 +15,19 @@ namespace Adaptive.Intelligence.Shared
         public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
+        #region Dispose Method        
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
+        /// <b>false</b> to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            PropertyChanged = null;
+            base.Dispose(disposing);
+        }
+        #endregion
+
         #region Event Methods		
         /// <summary>
         /// Called when a property value is changed.

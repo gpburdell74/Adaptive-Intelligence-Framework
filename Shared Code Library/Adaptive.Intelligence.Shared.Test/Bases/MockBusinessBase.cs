@@ -28,19 +28,19 @@
             return success;
 
         }
-        protected override bool PerformLoad<IdType>(IdType? id) where IdType : default
+        protected override ResultType PerformLoad<IdType, ResultType>(IdType? id) where IdType : default
         {
             if (!SaveFailureFlagForTest)
-                return true;
+                return default(ResultType);
             else
                 throw new Exception("Test Load Exception");
 
         }
-        protected override async Task<bool> PerformLoadAsync<IdType>(IdType? id) where IdType : default
+        protected override async Task<ResultType> PerformLoadAsync<IdType, ResultType>(IdType? id) where IdType : default
         {
             await Task.Yield();
             if (!SaveFailureFlagForTest)
-                return true;
+                return default(ResultType);
             else
                 throw new Exception("Test Load Exception");
         }

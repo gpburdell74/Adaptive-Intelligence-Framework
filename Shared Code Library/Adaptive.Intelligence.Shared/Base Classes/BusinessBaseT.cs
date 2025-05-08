@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace Adaptive.Intelligence.Shared
 {
@@ -12,13 +13,19 @@ namespace Adaptive.Intelligence.Shared
     /// <typeparam name="T">
     /// The data type of the underlying entity.
     /// </typeparam>
-    public abstract class BusinessBase<T> : PropertyAwareBase, IValidatableObject
+    public abstract class BusinessBase<T> : BusinessBase
+            where T : class
     {
         #region Private Member Declarations		
         /// <summary>
         /// The entity containing the raw data.
         /// </summary>
         private T? _entity;
+
+        /// <summary>
+        /// The reflection property information cache.
+        /// </summary>
+        private Dictionary<string, PropertyInfo>? _propertyInfoCache;
         #endregion
 
         #region Constructor / Dispose Methods		
@@ -30,6 +37,9 @@ namespace Adaptive.Intelligence.Shared
         /// </remarks>
         protected BusinessBase()
         {
+            // Cache the property information for type: T.
+            CachePropertyInfo();
+
             _entity = Activator.CreateInstance<T>();
         }
         /// <summary>
@@ -38,6 +48,9 @@ namespace Adaptive.Intelligence.Shared
         /// <param name="entity">The entity.</param>
         protected BusinessBase(T entity)
         {
+            // Cache the property information for type: T.
+            CachePropertyInfo();
+
             _entity = entity;
         }
         /// <summary>
@@ -47,6 +60,10 @@ namespace Adaptive.Intelligence.Shared
         /// <b>false</b> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
+            if (!IsDisposed && disposing)
+                _propertyInfoCache?.Clear();
+
+            _propertyInfoCache = null;
             _entity = default;
             base.Dispose(disposing);
         }
@@ -59,17 +76,22 @@ namespace Adaptive.Intelligence.Shared
         /// <value>
         /// The entity of <typeparamref name="T"/> used to contain the data for the class.
         /// </value>
-        protected T? Entity => _entity;
-        #endregion
+        internal protected T? Entity => _entity;
 
-        #region Public Properties
+
         /// <summary>
-        /// Gets a value indicating whether the data on the business object is valid data.
+        /// Gets the reference to the underlying entity instance.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
-        /// </value>
-        public virtual bool IsValid => Validate();
+        /// <returns>
+        /// The reference to the <typeparamref name="T"/> instance containing the data for the object.
+        /// </returns>
+        public virtual T? GetEntity()
+        {
+            if (_entity is ICloneable cloneable)
+                return (T)cloneable.Clone();
+
+            return _entity;
+        }
         #endregion
 
         #region Abstract / Protected Methods
@@ -105,19 +127,6 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// The reference to the <typeparamref name="T"/> entity that was loaded, or <b>null</b>.
         /// </returns>
-        protected abstract T? PerformLoad<IdType>(IdType? id);
-        /// <summary>
-        /// When overridden in a derived class, perform the process of loading the content of the instance.
-        /// </summary>
-        /// <typeparam name="IdType">
-        /// The data type of the parameter used as an identity value to load the instance.
-        /// </typeparam>
-        /// <param name="id">
-        /// The <typeparamref name="IdType"/> data content used to identify the content to be loaded.
-        /// </param>
-        /// <returns>
-        /// The reference to the <typeparamref name="T"/> entity that was loaded, or <b>null</b>.
-        /// </returns>
         protected abstract Task<T?> PerformLoadAsync<IdType>(IdType? id);
         /// <summary>
         /// When overridden in a derived class, performs the operation to save / store the current instance.
@@ -139,15 +148,91 @@ namespace Adaptive.Intelligence.Shared
         /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b> .
         /// </returns>
         protected abstract Task<bool> PerformSaveAsync(T entity);
+        #endregion
+
+        #region Property Methods
+
         /// <summary>
-        /// Records, logs, or otherwise stores the exception information when an exception is caught.
+        /// Reads the value of the specified property.
         /// </summary>
-        /// <param name="ex">
-        /// The <see cref="Exception"/> instance that was caught.
+        /// <remarks>
+        /// This is used to apply the null checks, type checks, etc.  universally for all string properties.
+        /// </remarks>
+        /// <param name="propertyName">
+        /// A string containing the name of the property on the underlying entity to be read.
         /// </param>
-        protected virtual void RecordException(Exception ex)
+        /// <returns>
+        /// The property value of <typeparamref name="TProperty"/>, if successful.
+        /// </returns>
+        protected virtual TProperty? ReadProperty<TProperty>(string propertyName)
         {
-            ExceptionLog.LogException(ex);
+            var propValue = default(TProperty);
+            PropertyInfo? propInfo = GetPropertyInfo(propertyName);
+
+            // Ensure we can actually access and read the specified property.
+            if (propInfo != null && _entity != null && propInfo.CanRead)
+            {
+                // Get the value or null.
+                try
+                {
+                    propValue = (TProperty?)propInfo.GetValue(_entity);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
+                    propValue = default(TProperty);
+                }
+            }
+
+            return propValue;
+        }
+
+        /// <summary>
+        /// Sets the value of the specified property.
+        /// </summary>
+        /// <remarks>
+        /// This is used to apply the null checks, type checks, etc.  universally for all string properties.
+        /// </remarks>
+        /// <param name="propertyName">
+        /// A string containing the name of the property on the underlying entity to be written.
+        /// </param>
+        /// <param name="value">
+        /// The value to store in the property.
+        /// </param>
+        /// <typeparam name="TProperty">
+        /// The data type of the property value.
+        /// </typeparam>
+        protected virtual void SetProperty<TProperty>(string propertyName, TProperty? value)
+        {
+            PropertyInfo? propInfo = GetPropertyInfo(propertyName);
+
+            // Ensure we can actually access and read the specified property.
+            if (propInfo != null && _entity != null && propInfo.CanWrite)
+            {
+                // Do nothing if the value is not actually changed.
+                object? box = propInfo.GetValue(_entity);
+
+                int original = -1;
+                int newHash = -1;
+                if (value is not null)
+                    original = value.GetHashCode();
+
+                if (box != null)
+                    newHash = box.GetHashCode();
+
+                if (original != newHash)
+                {
+                    try
+                    {
+                        propInfo.SetValue(_entity, value);
+                        OnPropertyChanged(propertyName);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionLog.LogException(ex);
+                    }
+                }
+            }
         }
         #endregion
 
@@ -158,7 +243,7 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b> .
         /// </returns>
-        public virtual bool Delete()
+        public override bool Delete()
         {
             bool success = false;
             try
@@ -181,7 +266,7 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b> .
         /// </returns>
-        public virtual async Task<bool> DeleteAsync()
+        public override async Task<bool> DeleteAsync()
         {
             bool success = false;
             try
@@ -210,12 +295,12 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// <b>true</b> if the load operation is successful; otherwise, returns <b>false</b>.
         /// </returns>
-        public virtual T? Load<IdType>(IdType? id)
+        public new T? Load<IdType>(IdType? id)
         {
             _entity = default(T);
             try
             {
-                _entity = PerformLoad(id);
+                _entity = PerformLoad<IdType, T>(id);
             }
             catch (Exception ex)
             {
@@ -238,7 +323,7 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// <b>true</b> if the load operation is successful; otherwise, returns <b>false</b>.
         /// </returns>
-        public virtual async Task<T?> LoadAsync<IdType>(IdType? id)
+        public new async Task<T?> LoadAsync<IdType>(IdType? id)
         {
             _entity = default(T);
             try
@@ -259,7 +344,7 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b> .
         /// </returns>
-        public virtual bool Save()
+        public override bool Save()
         {
             bool success = false;
             try
@@ -281,7 +366,7 @@ namespace Adaptive.Intelligence.Shared
         /// <returns>
         /// <b>true</b> if the operation is successful; otherwise, returns <b>false</b> .
         /// </returns>
-        public virtual async Task<bool> SaveAsync()
+        public override async Task<bool> SaveAsync()
         {
             bool success = false;
             try
@@ -298,29 +383,68 @@ namespace Adaptive.Intelligence.Shared
             return success;
         }
 
+        #endregion
+
+        #region Private Methods / Functions
         /// <summary>
-        /// Performs a simple data validation on the instance.
+        /// Caches the property information for the underlying entity instance.
         /// </summary>
-        /// <returns>
-        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
-        /// </returns>
-        public virtual bool Validate()
+        private void CachePropertyInfo()
         {
-            IEnumerable<ValidationResult> resultList = Validate(new ValidationContext(this));
-            return !resultList.Any();
+            _propertyInfoCache?.Clear();
+            _propertyInfoCache = new Dictionary<string, PropertyInfo>();
+
+            try
+            {
+                PropertyInfo[] propertyList = typeof(T).GetProperties();
+
+                foreach (PropertyInfo propertyInfo in propertyList)
+                {
+                    _propertyInfoCache.Add(propertyInfo.Name, propertyInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.LogException(ex);
+            }
         }
+
         /// <summary>
-        /// Determines whether the specified object is valid.
+        /// Gets the property information instance for the specified property.
         /// </summary>
-        /// <param name="validationContext">
-        /// The <see cref="ValidationContext"/> instance, or <b>null</b>.
-        /// </param>
         /// <returns>
-        /// A collection that holds failed-validation information, if any.
+        /// A <see cref="PropertyInfo"/> instance for the specified property, or <b>null</b> if the operation fails.
         /// </returns>
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        private PropertyInfo? GetPropertyInfo(string propertyName)
         {
-            return new List<ValidationResult>();
+            PropertyInfo? propInfo = null;
+
+            if (_propertyInfoCache != null && _propertyInfoCache.ContainsKey(propertyName))
+            {
+                propInfo = _propertyInfoCache[propertyName];
+            }
+
+            // If not yet created, reference and add it.
+            if (propInfo == null)
+            {
+                if (_propertyInfoCache == null)
+                    _propertyInfoCache = new Dictionary<string, PropertyInfo>();
+
+                try
+                {
+                    propInfo = typeof(T).GetProperty(propertyName);
+                    if (propInfo != null)
+                    {
+                        _propertyInfoCache.Add(propertyName, propInfo);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
+                    propInfo = null;
+                }
+            }
+            return propInfo;
         }
         #endregion
     }

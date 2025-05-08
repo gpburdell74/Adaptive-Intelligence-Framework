@@ -86,10 +86,13 @@
         /// </returns>
         public bool IsSame(T itemToCheck)
         {
-            if (_buffer.Count == 0)
+            if ((itemToCheck == null) && (_buffer == null))
+                    return true;
+            
+            if (itemToCheck == null || _buffer == null ||  _buffer.Count == 0)
                 return false;
 
-            return (itemToCheck.Equals(_buffer!.Peek()));
+            return (itemToCheck.Equals(_buffer.Peek()));
         }
         /// <summary>
         /// Gets the last item on the stack and removes it.
