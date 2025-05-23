@@ -365,7 +365,7 @@
 			// StandardMessageBox
 			// 
 			AutoScaleDimensions = new SizeF(7F, 17F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleMode = AutoScaleMode.Dpi;
 			ClientSize = new Size(1092, 254);
 			ControlBox = false;
 			Controls.Add(ContainerPanel);

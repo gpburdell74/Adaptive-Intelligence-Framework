@@ -7,7 +7,6 @@ namespace Adaptive.Intelligence.Shared.Security
     /// Provides a utility class for performing AES symmetric cryptographic operations.
     /// </summary>
     /// <seealso cref="DisposableObjectBase" />
-    /// <seealso cref="AesCryptoServiceProvider"/>
     public sealed class AesProvider : DisposableObjectBase
     {
         #region Private Member Declarations

@@ -179,6 +179,11 @@ namespace Adaptive.Intelligence.Shared.UI
             }
         }
 
+        private void InitializeComponent()
+        {
+
+        }
+
         #endregion
 
         #region Private Methods / Functions

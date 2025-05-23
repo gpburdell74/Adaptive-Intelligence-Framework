@@ -372,6 +372,12 @@ namespace Adaptive.Intelligence.Shared.UI
 
             return formatFlags;
         }
+
+        private void InitializeComponent()
+        {
+
+        }
+
         /// <summary>
         /// Calculates the desired control size based on current settings.
         /// </summary>

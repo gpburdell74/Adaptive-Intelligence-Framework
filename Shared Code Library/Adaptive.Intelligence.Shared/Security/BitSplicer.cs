@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections;
+﻿using System.Collections;
 
 namespace Adaptive.Intelligence.Shared.Security
 {

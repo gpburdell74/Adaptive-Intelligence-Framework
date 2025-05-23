@@ -136,6 +136,12 @@ namespace Adaptive.Intelligence.Shared.UI
                 }
             }
         }
+
+        private void InitializeComponent()
+        {
+
+        }
+
         /// <summary>
         /// Handles the event when a drive item control is selected.
         /// </summary>

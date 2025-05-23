@@ -333,6 +333,12 @@ namespace Adaptive.Intelligence.Shared.UI
 
             g.DrawString(sizeText, Font, SystemBrushes.WindowFrame, new PointF(50, 32));
         }
+
+        private void InitializeComponent()
+        {
+
+        }
+
         /// <summary>
         /// Draws the usage percentage bar.
         /// </summary>

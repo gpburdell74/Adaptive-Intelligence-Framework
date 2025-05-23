@@ -485,7 +485,7 @@ namespace Adaptive.Intelligence.Shared.UI
 
             // DialogBase
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(850, 556);
             Font = new Font("Segoe UI", 9.75f);
             Name = "AdaptiveControlBase";

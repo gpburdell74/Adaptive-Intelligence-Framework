@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
 
 namespace Adaptive.Intelligence.Shared
 {
@@ -33,6 +34,24 @@ namespace Adaptive.Intelligence.Shared
         public static byte[] CreatePinnedArray(int length)
         {
             return GC.AllocateArray<byte>(length, true);
+        }
+        /// <summary>
+        /// Creates a byte array of the specified length filled with random data.
+        /// </summary>
+        /// <param name="length">
+        /// An integer specifying the length of the array.
+        /// </param>
+        /// <returns>
+        /// A byte array containing the random bytes.
+        /// </returns>
+        public static byte[] CreateRandomArray(int length)
+        {
+            RandomNumberGenerator rnd = RandomNumberGenerator.Create();
+            byte[] data = new byte[length];
+            rnd.GetBytes(data);
+            rnd.Dispose();
+
+            return data;
         }
         /// <summary>
         /// Concatenates the arrays.

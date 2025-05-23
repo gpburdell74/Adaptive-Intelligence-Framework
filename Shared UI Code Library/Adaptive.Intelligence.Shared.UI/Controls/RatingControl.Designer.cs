@@ -86,7 +86,7 @@
 			// RatingControl
 			// 
 			AutoScaleDimensions = new SizeF(7F, 17F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleMode = AutoScaleMode.Dpi;
 			Controls.Add(StarE);
 			Controls.Add(StarD);
 			Controls.Add(StarC);

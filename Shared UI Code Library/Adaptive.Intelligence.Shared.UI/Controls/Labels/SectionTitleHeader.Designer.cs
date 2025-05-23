@@ -53,7 +53,7 @@
 			// SectionTitleHeader
 			// 
 			AutoScaleDimensions = new SizeF(8F, 17F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleMode = AutoScaleMode.Dpi;
 			Controls.Add(TitleLabel);
 			Controls.Add(DividerLine);
 			Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);

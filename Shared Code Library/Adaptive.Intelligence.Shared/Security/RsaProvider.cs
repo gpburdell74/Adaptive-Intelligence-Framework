@@ -175,6 +175,31 @@ namespace Adaptive.Intelligence.Shared.Security
                     Convert.ToBase64String(_currentKey.Value.Exponent);
         }
         /// <summary>
+        /// Gets the RSA public key value for exporting to another client or consumer.
+        /// </summary>
+        /// <returns>
+        /// A byte array that contains the RSA public key for use by another client/user to encrypt data.
+        /// </returns>
+        public byte[]? GetKeyValueForExportAsByteArray()
+        {
+            if (_currentKey == null)
+                return null;
+            else if (!_currentKey.HasValue || _currentKey.Value.Modulus == null || _currentKey.Value.Exponent == null)
+                return null;
+            else
+            {
+                byte[] mod = _currentKey.Value.Modulus;
+                byte[] exp = _currentKey.Value.Exponent;
+
+                int modLen = mod.Length;
+                int expLen = exp.Length;
+                byte[] data = new byte[modLen + expLen];
+                Array.Copy(mod, 0, data, 0, modLen);
+                Array.Copy(exp, 0, data, modLen, expLen);
+                return data;
+            }
+        }
+        /// <summary>
         /// Gets the RSA private key value for storage and later re-importing.
         /// </summary>
         /// <returns>
