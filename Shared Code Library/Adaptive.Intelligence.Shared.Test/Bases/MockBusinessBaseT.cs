@@ -1,7 +1,16 @@
 ﻿namespace Adaptive.Intelligence.Shared.Tests.Bases
 {
-    public sealed class MockBusinessBase : BusinessBase
+    public sealed class MockBusinessBase<T> : BusinessBase<T>
+        where T: class
     {
+        public MockBusinessBase() : base()
+        {
+            
+        }
+        public MockBusinessBase(T entity) :base(entity)
+        {
+
+        }
         public bool SaveFailureFlagForTest { get; set; }
         public bool ThrowOnValidate { get; set; }
         // Flags for event handler invocation (for testing event wiring)
@@ -13,6 +22,18 @@
             base.RegisterEvents(instance);
         }
         public override bool PerformDelete()
+        {
+            bool success = false;
+
+            if (!SaveFailureFlagForTest)
+                success = true;
+            else
+                throw new Exception("Test Delete Exception");
+
+            return success;
+        }
+
+        public override bool PerformDelete(T entity)
         {
             bool success = false;
 
@@ -36,6 +57,19 @@
             return success;
 
         }
+        public override async Task<bool> PerformDeleteAsync(T entity)
+        {
+            await Task.Yield();
+            bool success = false;
+
+            if (!SaveFailureFlagForTest)
+                success = true;
+            else
+                throw new Exception("Test Delete Exception");
+
+            return success;
+
+        }
         protected override ResultType PerformLoad<IdType, ResultType>(IdType? id) where IdType : default
         {
 
@@ -45,15 +79,23 @@
                 throw new Exception("Test Load Exception");
 
         }
-        protected override async Task<ResultType> PerformLoadAsync<IdType, ResultType>(IdType? id) where IdType : default
+        protected override async Task<T> PerformLoadAsync<IdType, T>(IdType? id) where IdType : default
         {
             await Task.Yield();
             if (!SaveFailureFlagForTest)
-                return default(ResultType);
+                return default(T);
             else
                 throw new Exception("Test Load Exception");
         }
 
+        protected override async Task<T?> PerformLoadAsync<IdType>(IdType? id) where IdType : default
+        {
+            await Task.Yield();
+            if (!SaveFailureFlagForTest)
+                return default(T);
+            else
+                throw new Exception("Test Load Exception");
+        }
         protected override bool PerformSave()
         {
             if (!SaveFailureFlagForTest)
@@ -62,6 +104,26 @@
                 throw new Exception("Test Save Exception");
 
         }
+
+        protected override bool PerformSave(T entity)
+        {
+            if (!SaveFailureFlagForTest)
+                return true;
+            else
+                throw new Exception("Test Save Exception");
+
+        }
+        protected override async Task<bool> PerformSaveAsync(T entity)
+        {
+            await Task.Yield();
+            if (!SaveFailureFlagForTest)
+                return true;
+            else
+                throw new Exception("Test Save Exception");
+
+        }
+
+
         protected override async Task<bool> PerformSaveAsync()
         {
             await Task.Yield();
@@ -72,6 +134,19 @@
 
         }
 
+        public string? ReadPropertyCall()
+        {
+            return base.ReadProperty<string>("Data");
+        }
+
+        public void SetPropertyCall(string propertyName, string value)
+        {
+            base.SetProperty(propertyName, value);  
+        }
+        public void SetPropertyCall<T>(string propertyName, T value)
+        {
+            base.SetProperty(propertyName, value);
+        }
 
         // Helper to add a validation message
         public void AddValidationMessage(string message, bool isValid)
@@ -126,5 +201,6 @@
         {
             base.UnRegisterEvents(instance);
         }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests.Bases
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Adaptive.Intelligence.Shared.Tests.Bases
 {
     public class BusinessBaseTests
     {
@@ -111,6 +113,96 @@
         {
             MockBusinessBase businessObject = new MockBusinessBase();
             Assert.True(await businessObject.SaveAsync());
+        }
+
+        // ... (existing tests) ...
+
+        [Fact]
+        public void PropertyValidationChanged_Event_IsRaised()
+        {
+            var businessObject = new MockBusinessBase();
+            string? changedProperty = null;
+            businessObject.PropertyValidationChanged += (sender, e) =>
+            {
+                changedProperty = e.PropertyName;
+            };
+
+            businessObject.TriggerValidationChanged("TestProperty");
+
+            Assert.Equal("TestProperty", changedProperty);
+        }
+
+        [Fact]
+        public void ValidationMessages_AreCleared_OnValidate()
+        {
+            var businessObject = new MockBusinessBase();
+            businessObject.AddValidationMessage("Error", false);
+
+            Assert.False(businessObject.ValidationMessages.AreAllValid());
+
+            businessObject.Validate();
+
+            Assert.True(businessObject.ValidationMessages.AreAllValid());
+        }
+
+        [Fact]
+        public void Validate_HandlesException_AddsErrorMessage()
+        {
+            var businessObject = new MockBusinessBase();
+            businessObject.ThrowOnValidate = true;
+
+            businessObject.Validate();
+
+            Assert.False(businessObject.ValidationMessages.AreAllValid());
+            Assert.Contains(businessObject.ValidationMessages, m => m.Message == "The validation process failed.");
+        }
+
+        [Fact]
+        public void Validate_WithValidationContext_ReturnsValidationResults()
+        {
+            var businessObject = new MockBusinessBase();
+            var context = new ValidationContext(businessObject);
+
+            var results = businessObject.Validate(context);
+
+            Assert.NotNull(results);
+        }
+
+        [Fact]
+        public void Dispose_ClearsValidationMessages_AndEvents()
+        {
+            var businessObject = new MockBusinessBase();
+            businessObject.AddValidationMessage("Error", false);
+
+            businessObject.Dispose();
+
+            Assert.Null(businessObject.ValidationMessages);
+        }
+
+        [Fact]
+        public void RegisterEvents_And_UnRegisterEvents_WireAndUnwireEvents()
+        {
+            var parent = new MockBusinessBase();
+            var child = new MockBusinessBase();
+
+            parent.RegisterEventsTestCall(child);
+            child.TriggerPropertyChanged("ChildProp");
+            child.TriggerValidationChanged("ChildVal");
+
+            // If events are wired, parent's handlers should be called (simulate by setting flags)
+            Assert.True(parent.ChildPropertyChangedCalled);
+            Assert.True(parent.ChildValidationChangedCalled);
+
+            parent.ChildPropertyChangedCalled = false;
+            parent.ChildValidationChangedCalled = false;
+
+            parent.UnregisterEventsTestCall(child);
+            child.TriggerPropertyChanged("ChildProp");
+            child.TriggerValidationChanged("ChildVal");
+
+            // After unwiring, handlers should not be called
+            Assert.False(parent.ChildPropertyChangedCalled);
+            Assert.False(parent.ChildValidationChangedCalled);
         }
     }
 }

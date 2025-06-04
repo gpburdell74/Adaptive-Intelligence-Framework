@@ -78,7 +78,6 @@ namespace Adaptive.Intelligence.Shared
         /// </value>
         internal protected T? Entity => _entity;
 
-
         /// <summary>
         /// Gets the reference to the underlying entity instance.
         /// </summary>
