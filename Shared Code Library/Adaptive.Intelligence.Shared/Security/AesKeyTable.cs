@@ -62,6 +62,17 @@ namespace Adaptive.Intelligence.Shared.Security
         /// </param>
         public AesKeyTable(byte[] primary, byte[] secondary, byte[] tertiary, byte[] quaternary, byte[] quinary, byte[] senary)
         {
+            // Validate the array sizes.
+            if (primary.Length != KeyIVSize || 
+                secondary.Length != KeyIVSize ||
+                tertiary.Length != KeyIVSize ||
+                quaternary.Length != KeyIVSize ||
+                quinary.Length != KeyIVSize ||
+                senary.Length != KeyIVSize)
+            {
+                throw new ArgumentException(Resources.ErrorInvalidKeyContentLength);
+            }
+
             // Store the data securely in memory.
             _keyData =
             [
@@ -85,6 +96,9 @@ namespace Adaptive.Intelligence.Shared.Security
         /// </exception>
         public AesKeyTable(byte[] keyContent)
         {
+            if (keyContent == null)
+                throw new ArgumentNullException(nameof(keyContent)); 
+
             if (keyContent.Length != SixKeySize)
             {
                 throw new ArgumentException(Resources.ErrorInvalidKeyContentLength);

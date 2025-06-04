@@ -293,7 +293,8 @@ namespace Adaptive.Intelligence.Shared
         /// The <typeparamref name="IdType"/> data content used to identify the content to be loaded.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the load operation is successful; otherwise, returns <b>false</b>.
+        /// The new instance of <typeparamref name="T"/> indicaating the result of the load operation,
+        /// or <b>null</b>.
         /// </returns>
         public new T? Load<IdType>(IdType? id)
         {

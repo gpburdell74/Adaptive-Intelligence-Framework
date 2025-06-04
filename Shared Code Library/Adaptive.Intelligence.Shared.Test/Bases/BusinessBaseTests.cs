@@ -65,17 +65,17 @@
         }
 
         [Fact]
-        public void Load_ReturnsTrue()
+        public void Load_Boolean_ReturnsFalseAsDefault()
         {
             MockBusinessBase businessObject = new MockBusinessBase();
-            Assert.True(businessObject.Load<int>(32));
+            Assert.False(businessObject.Load<int>(32));
         }
 
         [Fact]
-        public async Task LoadAsync_ReturnsTrue()
+        public async Task LoadAsync_Boolean_ReturnsFalseAsDefault()
         {
             MockBusinessBase businessObject = new MockBusinessBase();
-            Assert.True(await businessObject.LoadAsync<int>(32));
+            Assert.False(await businessObject.LoadAsync<int>(32));
         }
 
         // Additional tests for Load, Save, etc. following a similar pattern

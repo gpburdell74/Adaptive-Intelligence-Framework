@@ -68,6 +68,11 @@
         /// The <see cref="IOperationalResult"/> to copy the field values to.
         /// </param>
         void CopyTo(IOperationalResult? newResult);
+        /// <summary>
+        /// Sets the instance's <see cref="Message"/> property to the provided value, and 
+        /// sets the <see cref="Success"/> property to <c>false</c>.
+        /// </summary>
+        void SetFailureMessage(string? message);
         #endregion
     }
 }

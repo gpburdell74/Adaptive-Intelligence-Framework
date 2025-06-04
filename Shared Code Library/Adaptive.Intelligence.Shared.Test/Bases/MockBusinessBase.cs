@@ -30,6 +30,7 @@
         }
         protected override ResultType PerformLoad<IdType, ResultType>(IdType? id) where IdType : default
         {
+
             if (!SaveFailureFlagForTest)
                 return default(ResultType);
             else
