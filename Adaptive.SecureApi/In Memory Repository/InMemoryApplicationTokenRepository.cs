@@ -1,6 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.SecureApi.Tokens;
+namespace Adaptive.Intelligence.SecureApi.Tokens;
 
 /// <summary>
 /// Provides a simple in-memory repository for app authorization tokens.

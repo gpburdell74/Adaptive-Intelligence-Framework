@@ -1,8 +1,8 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.SecureApi.Cryptography;
-using Adaptive.SecureApi.Sessions;
+﻿using Adaptive.Intelligence.SecureApi.Cryptography;
+using Adaptive.Intelligence.SecureApi.Sessions;
+using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.SecureApi;
+namespace Adaptive.Intelligence.SecureApi.Server;
 
 /// <summary>
 /// Contains the data for the secure session for the server.

@@ -1,8 +1,7 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.SecureApi.Server;
-using Adaptive.SecureApi.Tokens;
+﻿using Adaptive.Intelligence.SecureApi.Tokens;
+using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.SecureApi.Services;
+namespace Adaptive.Intelligence.SecureApi.Services;
 
 /// <summary>
 /// Provides an injectable service for creating application authorization token repository services.

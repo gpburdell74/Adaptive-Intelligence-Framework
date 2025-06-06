@@ -283,7 +283,7 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
     /// </param>
     /// <returns>
     /// The <see cref="Font"/> instance that was read.
-    /// <returns>
+    /// </returns>
     private Font ReadFont(OperationalResult result)
     {
         Font? newFont = null;

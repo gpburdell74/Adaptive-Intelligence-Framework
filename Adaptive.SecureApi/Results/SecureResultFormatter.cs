@@ -1,10 +1,10 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.SecureApi.Cryptography;
+﻿using Adaptive.Intelligence.SecureApi.Cryptography;
+using Adaptive.Intelligence.Shared;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using System.Text.Json;
 
-namespace Adaptive.SecureApi.Server;
+namespace Adaptive.Intelligence.SecureApi.Server;
 
 /// <summary>
 /// Provides a data formatter to ensure data content is encrypted for the <see cref="SecureOkObjectResult"/> class.

@@ -1,17 +1,14 @@
-﻿using Adaptive.SecureApi.Cryptography;
-using Adaptive.SecureApi.Server;
+﻿using Adaptive.Intelligence.SecureApi.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-namespace Adaptive.SecureApi.Server;
+namespace Adaptive.Intelligence.SecureApi.Server;
 
 /// <summary>
 /// An <see cref="SecureOkObjectResult"/> that when executed performs content negotiation, formats the entity body, and
 /// will produce a <see cref="StatusCodes.Status200OK"/> response if negotiation and formatting succeed.  This class
 /// also ensures the data content of the body is encrypted using the provided keys from the key exchange process.
 /// </summary>
-[DefaultStatusCode(DefaultStatusCode)]
 public sealed class SecureOkObjectResult : OkObjectResult, IDisposable
 {
     #region Private Member Declarations

@@ -1,13 +1,14 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.SecureApi.Cryptography;
+using Adaptive.Intelligence.SecureApi.Sessions;
+using Adaptive.Intelligence.SecureApi.Tokens;
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Logging;
-using Adaptive.SecureApi.Cryptography;
-using Microsoft.Extensions.Logging;
+using Adaptive.SecureApi.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Adaptive.SecureApi.Sessions;
-using Adaptive.SecureApi.Tokens;
+using Microsoft.Extensions.Logging;
 
-namespace Adaptive.SecureApi.Server;
+namespace Adaptive.Intelligence.SecureApi.Server;
 
 /// <summary>
 /// Provides a base definition for creating Azure Functions that execute in the non-secured area of the API.

@@ -272,7 +272,6 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
             }
             catch (Exception ex)
             {
-                containerStream = null;
                 ExceptionLog.LogException(ex);
             }
 

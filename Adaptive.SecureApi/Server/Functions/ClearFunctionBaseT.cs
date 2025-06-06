@@ -1,7 +1,8 @@
 ﻿using Adaptive.Intelligence.Shared;
+using Adaptive.SecureApi.Server;
 using Microsoft.Extensions.Logging;
 
-namespace Adaptive.SecureApi.Server;
+namespace Adaptive.Intelligence.SecureApi.Server;
 
 /// <summary>
 /// Provides a base definition for creating Azure Functions that execute in the non-secured area of the API.

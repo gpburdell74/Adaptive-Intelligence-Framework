@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Adaptive.SecureApi;
+namespace Adaptive.Intelligence.SecureApi.Server;
 
 /// <summary>
 /// Represents a security failure result of an HTTP operation.

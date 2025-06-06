@@ -1,7 +1,7 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.SecureApi.Sessions;
+﻿using Adaptive.Intelligence.SecureApi.Sessions;
+using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.SecureApi.Server;
+namespace Adaptive.Intelligence.SecureApi.Server;
 
 /// <summary>
 /// Provides a simple in-memory only storage / repository for session data.

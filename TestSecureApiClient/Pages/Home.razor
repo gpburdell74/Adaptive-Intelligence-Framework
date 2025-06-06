@@ -1,0 +1,29 @@
+﻿@using Adaptive.Intelligence.Shared
+@using Adaptive.Intelligence.SecureApi.Client;
+
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<button id="StartSessionBUtton" onclick="HandleStartSessionClicked">Start Session</button>
+
+@code{
+
+	private IClientSession? _session = null;
+	private SecureApiClient? _client = null;
+
+
+	private async Task HandleStartSessionClicked()
+	{
+		_client = new SecureApiClient("https://localhost:5001/");
+
+		OperationalResult result = new OperationalResult();
+
+		_session = await _client.StartSessionAsync(result);
+	}
+
+}

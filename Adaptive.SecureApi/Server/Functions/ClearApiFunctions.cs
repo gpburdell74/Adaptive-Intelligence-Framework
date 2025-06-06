@@ -1,8 +1,9 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.SecureApi;
+using Adaptive.Intelligence.SecureApi.Server;
+using Adaptive.Intelligence.SecureApi.Sessions;
+using Adaptive.Intelligence.SecureApi.Tokens;
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Security;
-using Adaptive.SecureApi.Entities;
-using Adaptive.SecureApi.Sessions;
-using Adaptive.SecureApi.Tokens;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;

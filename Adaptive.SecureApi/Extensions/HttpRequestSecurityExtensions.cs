@@ -1,8 +1,8 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.SecureApi.Cryptography;
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Logging;
-using Adaptive.SecureApi.Cryptography;
-using Microsoft.AspNetCore.Http;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace Adaptive.SecureApi.Server;
 
