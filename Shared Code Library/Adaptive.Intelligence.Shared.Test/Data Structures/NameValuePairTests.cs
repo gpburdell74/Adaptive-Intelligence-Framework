@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Test.Data_Structures
+﻿namespace Adaptive.Intelligence.Shared.Test.DataStructures
 {
     public class NameValuePairTests
     {

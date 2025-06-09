@@ -187,7 +187,7 @@ namespace Adaptive.Intelligence.Shared
             if (instance != null)
             {
                 instance.PropertyChanged += HandleChildObjectPropertyChanged;
-                instance.PropertyValidationChanged += HandleChildObjectPropertyChanged;
+                instance.PropertyValidationChanged += HandleChildObjectValidationPropertyChanged;
             }
         }
 

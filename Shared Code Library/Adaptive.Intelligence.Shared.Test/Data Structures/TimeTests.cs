@@ -1,6 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
 
-namespace Adaptive.Intelligence.Shared.Test.Data_Structures
+namespace Adaptive.Intelligence.Shared.Tests.DataStructures
 {
     public class TimeTests
     {

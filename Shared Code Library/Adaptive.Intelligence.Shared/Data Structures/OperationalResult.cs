@@ -159,6 +159,18 @@
                     newResult.Exceptions?.AddRange(Exceptions);
             }
         }
+        /// <summary>
+        /// Sets the instance's <see cref="Message" /> property to the provided value, and
+        /// sets the <see cref="Success" /> property to <c>false</c>.
+        /// </summary>
+        /// <param name="message">
+        /// A string containing the message describing the failure.
+        /// </param>
+        public virtual void SetFailureMessage(string? message)
+        {
+            Success = false;
+            Message = message;
+        }
         #endregion
     }
 }
