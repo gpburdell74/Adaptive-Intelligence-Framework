@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.Intelligence.Secur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.Intelligence.SecureApi.Client", "Adaptive.Intelligence.SecureApi.Client\Adaptive.Intelligence.SecureApi.Client.csproj", "{45F45B42-6E9A-43F8-A578-7E61C185E435}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.BlazorBasic", "Adaptive.BlazorBasic\Adaptive.BlazorBasic.csproj", "{B1968138-1055-4007-9326-F33421B88EE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +145,14 @@ Global
 		{45F45B42-6E9A-43F8-A578-7E61C185E435}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45F45B42-6E9A-43F8-A578-7E61C185E435}.Release|x64.ActiveCfg = Release|Any CPU
 		{45F45B42-6E9A-43F8-A578-7E61C185E435}.Release|x64.Build.0 = Release|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Debug|x64.Build.0 = Debug|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Release|x64.ActiveCfg = Release|Any CPU
+		{B1968138-1055-4007-9326-F33421B88EE9}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,43 @@
+﻿using Adaptive.BlazorBasic.LanguageService;
+using Adaptive.Intelligence.Shared.Logging;
+
+namespace Adaptive.BlazorBasic.Parser;
+
+/// <summary>
+/// Provides a token to represent a number value with no decimal point.
+/// </summary>
+/// <seealso cref="TokenBase" />
+/// <seealso cref="IDataTypeToken{T}" />
+public class IntegerToken : TokenBase, IDataTypeToken<int>
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="IntegerToken"/> class.
+    /// </summary>
+    /// <param name="text">
+    /// A string containing the text the token was created from.
+    /// </param>
+    public IntegerToken(string? text) : base(TokenType.Integer, text)
+    {
+    }
+
+    /// <summary>
+    /// Gets the value being represented.
+    /// </summary>
+    /// <returns>
+    /// The <see cref="int"/> value, if it can be provided/parsed.
+    /// </returns>
+    public int GetValue()
+    {
+        int value = 0;
+        try
+        {
+            value = Convert.ToInt32(Text);
+        }
+        catch (Exception ex)
+        {
+            ExceptionLog.LogException(ex);
+        }
+        return value;
+    }
+
+}

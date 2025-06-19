@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Adaptive.BlazorBasic\Adaptive.BlazorBasic.csproj" />
     <ProjectReference Include="..\Adaptive.TvaZip\Adaptive.Taz.csproj" />
     <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
     <ProjectReference Include="..\SQL Server Library\Adaptive.Intelligence.SqlServer\Adaptive.Intelligence.SqlServer.csproj" />
