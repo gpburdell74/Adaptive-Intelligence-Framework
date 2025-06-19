@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains the constants definitions for the text delimiters to use.
 /// </summary>
-internal static class Delimiters
+internal static class DelimiterNames
 {
     /// <summary>
     /// The space character.

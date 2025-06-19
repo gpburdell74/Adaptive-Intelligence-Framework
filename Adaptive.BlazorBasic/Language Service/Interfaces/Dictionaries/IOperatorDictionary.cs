@@ -29,6 +29,28 @@ public interface IOperatorDictionary : ILanguageDefinitionDictionary
     /// </returns>
     string? GetOperatorName(StandardOperatorTypes operatorType);
 
+
+    /// <summary>
+    /// Gets the type of the token used to represent the specific operator when parsing.
+    /// </summary>
+    /// <param name="operatorText">
+    /// A string containing the operator text.
+    /// </param>
+    /// <returns>
+    /// A <see cref="TokenType"/> enumerated value indicating the token type.
+    /// </returns>
+    TokenType GetTokenType(string operatorText);
+
+    /// <summary>
+    /// Gets the type of the token used to represent the specific operator when parsing.
+    /// </summary>
+    /// <param name="operatorText">
+    /// A <see cref="StandardOperatorTypes"/> enumerated value indicating the type of operator.
+    /// </param>
+    /// <returns>
+    /// A <see cref="TokenType"/> enumerated value indicating the token type.
+    /// </returns>
+    TokenType GetTokenType(StandardOperatorTypes operatorText);
     /// <summary>
     /// Populates the dictionary with the operators from the specified language service.
     /// </summary>

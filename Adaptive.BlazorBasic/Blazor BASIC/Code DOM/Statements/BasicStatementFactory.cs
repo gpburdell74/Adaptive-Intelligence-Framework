@@ -22,30 +22,33 @@ public static class BasicStatementFactory
     {
         ILanguageCodeStatement? newStatement = null;
 
-        IToken commandToken = codeLine[0];
-        TokenType type = commandToken.TokenType;
-
-        switch (type)
+        IToken? commandToken = codeLine[0];
+        if (commandToken != null)
         {
-            case TokenType.FunctionName:
-                break;
+            TokenType type = commandToken.TokenType;
 
-            case TokenType.ProcedureName:
-                break;
+            switch (type)
+            {
+                case TokenType.FunctionName:
+                    break;
 
-            case TokenType.ReservedFunction:
-                break;
+                case TokenType.ProcedureName:
+                    break;
 
-            case TokenType.ReservedWord:
-                newStatement = CreateStatementByReservedWord(service, codeLine);
-                break;
+                case TokenType.ReservedFunction:
+                    break;
 
-            case TokenType.VariableName:
-                break;
+                case TokenType.ReservedWord:
+                    newStatement = CreateStatementByReservedWord(service, codeLine);
+                    break;
 
-            default:
-                throw new Exception();
-                break;
+                case TokenType.VariableName:
+                    break;
+
+                default:
+                    throw new Exception();
+                    break;
+            }
         }
 
         return newStatement;

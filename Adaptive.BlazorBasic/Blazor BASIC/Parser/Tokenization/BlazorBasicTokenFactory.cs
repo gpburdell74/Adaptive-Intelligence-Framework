@@ -31,7 +31,6 @@ public class BlazorBasicTokenFactory : DisposableObjectBase, ITokenFactory<Blazo
     {
         // Populate the static dictionaries with the known token types.
         _service = service;
-        _singleList = _service.GetSingleCharacterTokenValuesFromDictionaries();
     }
     /// <summary>
     /// Releases unmanaged and - optionally - managed resources.
@@ -241,9 +240,10 @@ public class BlazorBasicTokenFactory : DisposableObjectBase, ITokenFactory<Blazo
     /// <summary>
     /// Initializes the factory instance using the specified language provider reference.
     /// </summary>
-    /// <param name="provider">The <see cref="ILanguageService" /> instance to use.</param>
-    public void Initialize(ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> provider)
+    /// <param name="service">The <see cref="ILanguageService{F, K}" /> instance to use.</param>
+    public void Initialize(ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> service)
     {
+        _singleList = service.GetSingleCharacterTokenValuesFromDictionaries();
     }
 
     /// <summary>

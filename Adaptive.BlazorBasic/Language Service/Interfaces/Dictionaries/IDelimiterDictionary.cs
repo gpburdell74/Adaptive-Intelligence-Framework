@@ -30,6 +30,28 @@ public interface IDelimiterDictionary : ILanguageDefinitionDictionary
     string? GetDelimiterText(StandardDelimiterTypes delimiter);
 
     /// <summary>
+    /// Gets the type of the token used to represent the specific delimiter when parsing.
+    /// </summary>
+    /// <param name="delimiter">
+    /// A string containing the delimiter text.
+    /// </param>
+    /// <returns>
+    /// A <see cref="TokenType"/> enumerated value indicating the token type.
+    /// </returns>
+    TokenType GetTokenType(string delimiter);
+
+    /// <summary>
+    /// Gets the type of the token used to represent the specific delimiter when parsing.
+    /// </summary>
+    /// <param name="delimiter">
+    /// A <see cref="StandardDelimiterTypes"/> enumerated value indicating the type of delimiter.
+    /// </param>
+    /// <returns>
+    /// A <see cref="TokenType"/> enumerated value indicating the token type.
+    /// </returns>
+    TokenType GetTokenType(StandardDelimiterTypes delimiter);
+
+    /// <summary>
     /// Populates the dictionary with the delimiters from the specified language provider.
     /// </summary>
     /// <param name="service">

@@ -10,11 +10,16 @@ namespace Adaptive.BlazorBasic;
 /// <seealso cref="IDelimiterDictionary" />
 public class BlazorBasicDelimiterDictionary : DisposableObjectBase, IDelimiterDictionary
 {
-    #region Private Member Declarations    
+    #region Private Member Declarations
     /// <summary>
     /// The list.
     /// </summary>
     private Dictionary<string, StandardDelimiterTypes>? _list;
+
+    /// <summary>
+    /// The delimiter type to token type map.
+    /// </summary>
+    private Dictionary<StandardDelimiterTypes, TokenType>? _tokenMap;
     #endregion
 
     #region Constructor
@@ -27,6 +32,7 @@ public class BlazorBasicDelimiterDictionary : DisposableObjectBase, IDelimiterDi
     public BlazorBasicDelimiterDictionary()
     {
         _list = new Dictionary<string, StandardDelimiterTypes>();
+        _tokenMap = new Dictionary<StandardDelimiterTypes, TokenType>();
     }
     /// <summary>
     /// Releases unmanaged and - optionally - managed resources.
@@ -36,9 +42,13 @@ public class BlazorBasicDelimiterDictionary : DisposableObjectBase, IDelimiterDi
     protected override void Dispose(bool disposing)
     {
         if (!IsDisposed && disposing)
+        {
             _list?.Clear();
+            _tokenMap?.Clear();
+        }
 
         _list = null;
+        _tokenMap = null;
         base.Dispose(disposing);
     }
     #endregion
@@ -72,6 +82,36 @@ public class BlazorBasicDelimiterDictionary : DisposableObjectBase, IDelimiterDi
     }
 
     /// <summary>
+    /// Gets the type of the token used to represent the specific delimiter when parsing.
+    /// </summary>
+    /// <param name="delimiter">A string containing the delimiter text.</param>
+    /// <returns>
+    /// A <see cref="TokenType" /> enumerated value indicating the token type.
+    /// </returns>
+    public TokenType GetTokenType(string delimiter)
+    {
+        if (_list == null)
+            return TokenType.NoneOrUnknown;
+        
+        return GetTokenType(_list[delimiter]);
+    }
+
+    /// <summary>
+    /// Gets the type of the token used to represent the specific delimiter when parsing.
+    /// </summary>
+    /// <param name="delimiterType"></param>
+    /// <returns>
+    /// A <see cref="TokenType" /> enumerated value indicating the token type.
+    /// </returns>
+    public TokenType GetTokenType(StandardDelimiterTypes delimiterType)
+    {
+        if (_tokenMap == null || !_tokenMap.ContainsKey(delimiterType))
+            return TokenType.NoneOrUnknown;
+
+        return _tokenMap[delimiterType];
+    }
+
+    /// <summary>
     /// Populates the dictionary with the delimiters from the specified language provider.
     /// </summary>
     /// <param name="service">
@@ -86,6 +126,22 @@ public class BlazorBasicDelimiterDictionary : DisposableObjectBase, IDelimiterDi
             _list!.Add(delimiter, service.MapDelimiter(delimiter));
         }
         delimiters.Clear();
+
+        if (_tokenMap != null)
+        {
+            _tokenMap.Add(StandardDelimiterTypes.BlockEnd, TokenType.BlockEndDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.BlockStart, TokenType.BlockStartDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.CharacterLiteral, TokenType.CharacterDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.ExpressionEnd, TokenType.ExpressionEndDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.ExpressionStart, TokenType.ExpressionStartDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.Separator, TokenType.SeparatorDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.SizingStart, TokenType.SizingStartDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.SizingEnd, TokenType.SizingEndDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.StringLiteral, TokenType.StringDelimiter);
+            _tokenMap.Add(StandardDelimiterTypes.Other, TokenType.NoneOrUnknown);
+            _tokenMap.Add(StandardDelimiterTypes.Unknown, TokenType.NoneOrUnknown);
+        }
+
     }
     /// <summary>
     /// Gets a value indicating whether the specified code is a delimiter in the language being implemented.

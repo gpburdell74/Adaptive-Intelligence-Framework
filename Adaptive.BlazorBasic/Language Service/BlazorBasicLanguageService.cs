@@ -313,7 +313,23 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </remarks>
     public StandardDataTypes MapDataType(string dataTypeName)
     {
-        return _dataTypes!.GetDataType(dataTypeName);
+        return dataTypeName switch
+        {
+            DataTypeNames.TypeBool => StandardDataTypes.Boolean,
+            DataTypeNames.TypeByte => StandardDataTypes.Byte,
+            DataTypeNames.TypeChar => StandardDataTypes.Char,
+            DataTypeNames.TypeShort => StandardDataTypes.ShortInteger,
+            DataTypeNames.TypeInteger => StandardDataTypes.Integer,
+            DataTypeNames.TypeLong => StandardDataTypes.LongInteger,
+            DataTypeNames.TypeFloat => StandardDataTypes.Float,
+            DataTypeNames.TypeDouble => StandardDataTypes.Double,
+            DataTypeNames.TypeDate => StandardDataTypes.Date,
+            DataTypeNames.TypeDateTime => StandardDataTypes.DateTime,
+            DataTypeNames.TypeTime => StandardDataTypes.Time,
+            DataTypeNames.TypeString => StandardDataTypes.String,
+            DataTypeNames.TypeObject => StandardDataTypes.Object,
+            _ => StandardDataTypes.Unknown
+        };
     }
 
     /// <summary>
@@ -328,7 +344,22 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </remarks>
     public StandardDelimiterTypes MapDelimiter(string delimiter)
     {
-        return _delimiters!.GetDelimiterType(delimiter);
+        return delimiter switch
+        {
+            DelimiterNames.DelimiterSpace => StandardDelimiterTypes.Separator,
+            DelimiterNames.DelimiterCr => StandardDelimiterTypes.Separator,
+            DelimiterNames.DelimiterLf => StandardDelimiterTypes.Separator,
+            DelimiterNames.DelimiterChar => StandardDelimiterTypes.CharacterLiteral,
+            DelimiterNames.DelimiterString => StandardDelimiterTypes.StringLiteral,
+            DelimiterNames.DelimiterOpenParens => StandardDelimiterTypes.ExpressionStart,
+            DelimiterNames.DelimiterCloseParens => StandardDelimiterTypes.ExpressionEnd,
+            DelimiterNames.DelimiterOpenBracket => StandardDelimiterTypes.SizingStart,
+            DelimiterNames.DelimiterCloseBracket => StandardDelimiterTypes.SizingEnd,
+            DelimiterNames.DelimiterOpenBlockBracket => StandardDelimiterTypes.BlockStart,
+            DelimiterNames.DelimiterCloseBlockBracket => StandardDelimiterTypes.BlockEnd,
+            DelimiterNames.DelimiterListSeparator => StandardDelimiterTypes.Separator,
+            _ => StandardDelimiterTypes.Unknown
+        };
     }
 
     /// <summary>
@@ -340,7 +371,7 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public TokenType MapDelimiterToken(string delimiterText)
     {
-        return _tokenFactory!.DetermineTokenType(delimiterText);
+        return Delimiters.GetTokenType(delimiterText);
     }
 
     /// <summary>
@@ -355,7 +386,19 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </remarks>
     public BlazorBasicFunctions MapFunction(string functionName)
     {
-        return _functions!.GetFunctionType(functionName);
+        return functionName switch
+        {
+            FunctionNames.FunctionAbs => BlazorBasicFunctions.Abs,
+            FunctionNames.FunctionAsc => BlazorBasicFunctions.Asc,
+            FunctionNames.FunctionChr => BlazorBasicFunctions.Chr,
+            FunctionNames.FunctionCos => BlazorBasicFunctions.Cos,
+            FunctionNames.FunctionLTrim => BlazorBasicFunctions.LTrim,
+            FunctionNames.FunctionRTrim => BlazorBasicFunctions.RTrim,
+            FunctionNames.FunctionSin => BlazorBasicFunctions.Sin,
+            FunctionNames.FunctionTrim => BlazorBasicFunctions.Trim,
+            FunctionNames.FunctionVer => BlazorBasicFunctions.Ver,
+            _ => BlazorBasicFunctions.Unknown
+        };
     }
 
     /// <summary>
@@ -370,7 +413,30 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </remarks>
     public BlazorBasicKeywords MapKeyword(string keyword)
     {
-        return _keywords!.GetKeywordType(keyword);
+        return keyword switch
+        {
+            KeywordNames.CommandNoOp => BlazorBasicKeywords.NoOp,
+            KeywordNames.CommandCommentShort => BlazorBasicKeywords.Comment,
+            KeywordNames.CommandCommentRemark => BlazorBasicKeywords.Comment,
+            KeywordNames.CommandClose => BlazorBasicKeywords.Close,
+            KeywordNames.CommandCls => BlazorBasicKeywords.Cls,
+            KeywordNames.CommandDim => BlazorBasicKeywords.Dim,
+            KeywordNames.CommandDo => BlazorBasicKeywords.Do,
+            KeywordNames.CommandEnd => BlazorBasicKeywords.End,
+            KeywordNames.CommandFor => BlazorBasicKeywords.For,
+            KeywordNames.CommandFunction => BlazorBasicKeywords.Function,
+            KeywordNames.CommandIf => BlazorBasicKeywords.If,
+            KeywordNames.CommandInput => BlazorBasicKeywords.Input,
+            KeywordNames.CommandLet => BlazorBasicKeywords.Let,
+            KeywordNames.CommandLoop => BlazorBasicKeywords.Loop,
+            KeywordNames.CommandOpen => BlazorBasicKeywords.Open,
+            KeywordNames.CommandNext => BlazorBasicKeywords.Next,
+            KeywordNames.CommandPrint => BlazorBasicKeywords.Print,
+            KeywordNames.CommandProcedure => BlazorBasicKeywords.Procedure,
+            KeywordNames.CommandRead => BlazorBasicKeywords.Read,
+            KeywordNames.CommandWrite => BlazorBasicKeywords.Write,
+            _ => BlazorBasicKeywords.Unknown
+        };
     }
 
     /// <summary>
@@ -385,7 +451,34 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </remarks>
     public StandardOperatorTypes MapOperator(string operatorCode)
     {
-        return _operators!.GetOperator(operatorCode);
+        return operatorCode switch
+        {
+            OperatorNames.OperatorAdd => StandardOperatorTypes.Arithmetic,
+            OperatorNames.OperatorSubtract => StandardOperatorTypes.Arithmetic,
+            OperatorNames.OperatorMultiply => StandardOperatorTypes.Arithmetic,
+            OperatorNames.OperatorDivide => StandardOperatorTypes.Arithmetic,
+            OperatorNames.OperatorModulus => StandardOperatorTypes.Arithmetic,
+            OperatorNames.OperatorExponent => StandardOperatorTypes.Arithmetic,
+            OperatorNames.OperatorAssignment => StandardOperatorTypes.Assignment,
+            OperatorNames.OperatorBitwiseAnd => StandardOperatorTypes.Bitwise,
+            OperatorNames.OperatorBitwiseOr => StandardOperatorTypes.Bitwise,
+            OperatorNames.OperatorGreaterThan => StandardOperatorTypes.Comparison,
+            OperatorNames.OperatorGreaterThanOrEqualTo => StandardOperatorTypes.Comparison,
+            OperatorNames.OperatorLessThan => StandardOperatorTypes.Comparison,
+            OperatorNames.OperatorLessThanOrEqualTo => StandardOperatorTypes.Comparison,
+            OperatorNames.OperatorNotEqualTo => StandardOperatorTypes.Comparison,
+            OperatorNames.OperatorEqualTo => StandardOperatorTypes.Comparison,
+            OperatorNames.OperatorLogicalAnd => StandardOperatorTypes.Logical,
+            OperatorNames.OperatorLogicalOr => StandardOperatorTypes.Logical,
+            OperatorNames.OperatorLogicalNot => StandardOperatorTypes.Logical,
+            OperatorNames.OperatorLogicalAndShort => StandardOperatorTypes.Logical,
+            OperatorNames.OperatorLogicalOrShort => StandardOperatorTypes.Logical,
+            OperatorNames.OperatorLogicalNotShort => StandardOperatorTypes.Logical,
+            OperatorNames.OperatorIncrement => StandardOperatorTypes.Increment,
+            OperatorNames.OperatorDecrement => StandardOperatorTypes.Decrement,
+            _ => StandardOperatorTypes.Unknown
+        };
+
     }
 
     /// <summary>
@@ -397,7 +490,7 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public TokenType MapOperatorToken(string operatorText)
     {
-        return _tokenFactory!.DetermineTokenType(operatorText);
+        return Operators.GetTokenType(operatorText);
     }
 
     /// <summary>
@@ -409,7 +502,18 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public List<string> RenderBuiltInFunctions()
     {
-        return _functions!.RenderUniqueKeys();
+        return new List<string>(9)
+        {
+            FunctionNames.FunctionAbs,
+            FunctionNames.FunctionAsc,
+            FunctionNames.FunctionChr,
+            FunctionNames.FunctionCos,
+            FunctionNames.FunctionLTrim,
+            FunctionNames.FunctionRTrim,
+            FunctionNames.FunctionSin,
+            FunctionNames.FunctionTrim,
+            FunctionNames.FunctionVer
+        };
     }
 
     /// <summary>
@@ -421,7 +525,22 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public List<string> RenderDataTypes()
     {
-        return _dataTypes!.RenderUniqueKeys();
+        return new List<string>(13)
+        {
+            DataTypeNames.TypeBool,
+            DataTypeNames.TypeByte,
+            DataTypeNames.TypeChar,
+            DataTypeNames.TypeShort,
+            DataTypeNames.TypeInteger,
+            DataTypeNames.TypeLong,
+            DataTypeNames.TypeFloat,
+            DataTypeNames.TypeDouble,
+            DataTypeNames.TypeDate,
+            DataTypeNames.TypeDateTime,
+            DataTypeNames.TypeTime,
+            DataTypeNames.TypeString,
+            DataTypeNames.TypeObject
+        };
     }
 
     /// <summary>
@@ -433,7 +552,21 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public List<string> RenderDelimiters()
     {
-        return _delimiters!.RenderUniqueKeys();
+        return new List<string>(12)
+        {
+            DelimiterNames.DelimiterSpace,
+            DelimiterNames.DelimiterCr,
+            DelimiterNames.DelimiterLf,
+            DelimiterNames.DelimiterChar,
+            DelimiterNames.DelimiterString,
+            DelimiterNames.DelimiterOpenParens,
+            DelimiterNames.DelimiterCloseParens,
+            DelimiterNames.DelimiterOpenBracket,
+            DelimiterNames.DelimiterCloseBracket,
+            DelimiterNames.DelimiterOpenBlockBracket,
+            DelimiterNames.DelimiterCloseBlockBracket,
+            DelimiterNames.DelimiterListSeparator
+        };
     }
 
     /// <summary>
@@ -445,7 +578,29 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public List<string> RenderKeywordNames()
     {
-        return _keywords!.RenderUniqueKeys();
+        return new List<string>(20)
+        {
+            KeywordNames.CommandNoOp,
+            KeywordNames.CommandCommentShort,
+            KeywordNames.CommandCommentRemark,
+            KeywordNames.CommandClose,
+            KeywordNames.CommandCls,
+            KeywordNames.CommandDim,
+            KeywordNames.CommandDo,
+            KeywordNames.CommandEnd,
+            KeywordNames.CommandFor,
+            KeywordNames.CommandFunction,
+            KeywordNames.CommandIf,
+            KeywordNames.CommandInput,
+            KeywordNames.CommandLet,
+            KeywordNames.CommandLoop,
+            KeywordNames.CommandOpen,
+            KeywordNames.CommandNext,
+            KeywordNames.CommandPrint,
+            KeywordNames.CommandProcedure,
+            KeywordNames.CommandRead,
+            KeywordNames.CommandWrite
+        };
     }
 
     /// <summary>
@@ -457,7 +612,32 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public List<string> RenderOperators()
     {
-        return _operators!.RenderUniqueKeys();
+        return new List<string>(20)
+        {
+            OperatorNames.OperatorAdd,
+            OperatorNames.OperatorSubtract,
+            OperatorNames.OperatorMultiply,
+            OperatorNames.OperatorDivide,
+            OperatorNames.OperatorModulus,
+            OperatorNames.OperatorExponent,
+            OperatorNames.OperatorAssignment,
+            OperatorNames.OperatorBitwiseAnd,
+            OperatorNames.OperatorBitwiseOr,
+            OperatorNames.OperatorGreaterThan,
+            OperatorNames.OperatorGreaterThanOrEqualTo,
+            OperatorNames.OperatorLessThan,
+            OperatorNames.OperatorLessThanOrEqualTo,
+            OperatorNames.OperatorNotEqualTo,
+            OperatorNames.OperatorEqualTo,
+            OperatorNames.OperatorLogicalAnd,
+            OperatorNames.OperatorLogicalOr,
+            OperatorNames.OperatorLogicalNot,
+            OperatorNames.OperatorLogicalAndShort,
+            OperatorNames.OperatorLogicalOrShort,
+            OperatorNames.OperatorLogicalNotShort,
+            OperatorNames.OperatorIncrement,
+            OperatorNames.OperatorDecrement
+        };
     }
     #endregion
 }
