@@ -18,5 +18,7 @@ public class UserDefinedItemToken : TokenBase, IUserDefinedToken
     /// </param>
     public UserDefinedItemToken(string? text) : base(TokenType.UserDefinedItem, text)
     {
+        if (text == "OUTPUT")
+            System.Diagnostics.Debug.Write("X");
     }
 }

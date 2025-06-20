@@ -435,6 +435,9 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
             KeywordNames.CommandProcedure => BlazorBasicKeywords.Procedure,
             KeywordNames.CommandRead => BlazorBasicKeywords.Read,
             KeywordNames.CommandWrite => BlazorBasicKeywords.Write,
+            KeywordNames.IOAppend => BlazorBasicKeywords.Append,
+            KeywordNames.IOOutput => BlazorBasicKeywords.Output,
+            KeywordNames.KeywordAs => BlazorBasicKeywords.As,
             _ => BlazorBasicKeywords.Unknown
         };
     }
@@ -578,7 +581,7 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// </returns>
     public List<string> RenderKeywordNames()
     {
-        return new List<string>(20)
+        return new List<string>(24)
         {
             KeywordNames.CommandNoOp,
             KeywordNames.CommandCommentShort,
@@ -599,7 +602,10 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
             KeywordNames.CommandPrint,
             KeywordNames.CommandProcedure,
             KeywordNames.CommandRead,
-            KeywordNames.CommandWrite
+            KeywordNames.CommandWrite,
+            KeywordNames.IOAppend,
+            KeywordNames.IOOutput,
+            KeywordNames.KeywordAs
         };
     }
 

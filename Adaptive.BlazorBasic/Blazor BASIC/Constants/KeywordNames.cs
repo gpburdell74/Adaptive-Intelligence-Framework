@@ -88,7 +88,14 @@ internal static class KeywordNames
     public const string CommandWrite = "WRITE";
     #endregion
 
-    #region I/O Reserved Words    
+    #region Sub Command Reserved Words
+    /// <summary>
+    /// Indicates an "AS" keyword.
+    /// </summary>
+    public const string KeywordAs = "AS";
+    #endregion
+
+    #region I/O Reserved Words
     /// <summary>
     /// The I/O append keyword.
     /// </summary>

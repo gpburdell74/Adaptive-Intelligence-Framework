@@ -90,6 +90,14 @@ public static class BasicStatementFactory
                 newStatement = new BasicCommentStatement(codeLine);
                 break;
 
+            case BlazorBasicKeywords.Do:
+                newStatement = new BasicDoStatement(codeLine);
+                break;
+
+            case BlazorBasicKeywords.Input:
+                newStatement = new BasicInputStatement(codeLine);
+                break;
+
             case BlazorBasicKeywords.Open:
                 newStatement = new BasicOpenStatement(codeLine);
                 break;

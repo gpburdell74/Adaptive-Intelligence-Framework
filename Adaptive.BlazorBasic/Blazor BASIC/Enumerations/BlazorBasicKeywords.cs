@@ -12,7 +12,15 @@ public enum BlazorBasicKeywords
     /// <summary>
     /// Indicates a NOOP command.
     /// </summary>
-    NoOp = 1,
+    NoOp,
+    /// <summary>
+    /// Indicates an APPEND keyword.
+    /// </summary>
+    Append,
+    /// <summary>
+    /// Indicates an AS keyword.
+    /// </summary>
+    As,
     /// <summary>
     /// Indicates a comment: ' or REM
     /// </summary>
@@ -69,6 +77,10 @@ public enum BlazorBasicKeywords
     /// Indicates an OPEN (file) command.
     /// </summary>
     Open,
+    /// <summary>
+    /// Indicates an OUTPUT keyword.
+    /// </summary>
+    Output,
     /// <summary>
     /// Indicates a PRINT command.
     /// </summary>

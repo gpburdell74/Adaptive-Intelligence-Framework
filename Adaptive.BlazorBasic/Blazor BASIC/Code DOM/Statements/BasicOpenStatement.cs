@@ -93,8 +93,33 @@ public class BasicOpenStatement : BasicCodeStatement
         }
         nextIndex += 2;
 
-        IToken directionToken = codeLine[nextIndex];
+        IToken? directionToken = codeLine[nextIndex];
+        if (directionToken != null && directionToken.TokenType == TokenType.ReservedWord &&
+            (directionToken.Text == "OUTPUT" ||
+            directionToken.Text == "INPUT" ||
+            directionToken.Text == "APPEND"))
+        {
+            _fileDirection = new BasicFileDirectionExpression(directionToken.Text);
+            nextIndex += 2;
+        }
+        else
+        {
+            throw new Exception("?SYNTAX ERROR");
+        }
 
+        IToken? asToken = codeLine[nextIndex];
+        if (asToken.TokenType != TokenType.ReservedWord ||
+            asToken.Text.ToUpper() != "AS")
+        {
+            throw new Exception("Expected 'AS'.");
+        }
+        nextIndex += 2;
+
+        IToken? numberToken = codeLine[nextIndex];
+        if (numberToken != null)
+        {
+            _fileNumber = new BasicFileNumberExpression(numberToken.Text!);
+        }
     }
     #endregion
 

@@ -1,4 +1,6 @@
-﻿namespace Adaptive.BlazorBasic.LanguageService;
+﻿using System.Text;
+
+namespace Adaptive.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Represents a single line of code that has been tokenized, and manages the tokens for that line.
@@ -41,7 +43,26 @@ public interface ITokenizedCodeLine : IDisposable
     List<IToken>? TokenList { get; }
     #endregion
 
-    #region Methods
+    #region Methods    
+    /// <summary>
+    /// Combines the values of each of the tokens into a single string.
+    /// </summary>
+    /// <param name="startIndex">The ordinal index of the first token.</param>
+    /// <param name="endIndex">
+    /// The ordinal index of the last token.
+    /// </param>
+    /// <returns>
+    /// A string containing the combined text values.
+    /// </returns>
+    public string CombineValues(int startIndex, int endIndex)
+    {
+        StringBuilder builder = new StringBuilder();
+        for(int index = startIndex; index<=endIndex; index++)
+        {
+            builder.Append(this[index].Text);
+        }
+        return builder.ToString();
+    }
     /// <summary>
     /// Substitutes the new token for the token at the specified index.
     /// </summary>

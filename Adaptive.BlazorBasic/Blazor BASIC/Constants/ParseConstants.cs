@@ -28,24 +28,32 @@ internal static class ParseConstants
 
     #region Character Strings
     /// <summary>
-    /// A double space as a string.
-    /// </summary>
-    public const string DoubleSpace = Constants.TwoSpaces;
-    /// <summary>
-    /// The TAB character as as string.
-    /// </summary>
-    public const string Tab = Constants.Tab;
-    /// <summary>
     /// The carriage return (CR) character as as string.
     /// </summary>
     public const string CarriageReturn = Constants.CarriageReturn;
+    /// <summary>
+    /// The double quote string.
+    /// </summary>
+    public const string DoubleQuote = "\"";
+    /// <summary>
+    /// A double space as a string.
+    /// </summary>
+    public const string DoubleSpace = Constants.TwoSpaces;
     /// <summary>
     /// The linefeed (LF) character as as string.
     /// </summary>
     public const string Linefeed = Constants.Linefeed;
     /// <summary>
+    /// The number/pound sign.
+    /// </summary>
+    public const string NumberSign = "#";
+    /// <summary>
     /// The space character as as string.
     /// </summary>
     public const string Space = Constants.Space;
+    /// <summary>
+    /// The TAB character as as string.
+    /// </summary>
+    public const string Tab = Constants.Tab;
     #endregion
 }
