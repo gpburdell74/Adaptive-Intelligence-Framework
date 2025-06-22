@@ -1,6 +1,8 @@
 ﻿using Adaptive.BlazorBasic.LanguageService;
 using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -9,16 +11,16 @@ namespace Adaptive.BlazorBasic.CodeDom;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicFileNameExpression : DisposableObjectBase, ILanguageCodeExpression
+public class BasicFileNameExpression : BasicExpression, ILanguageCodeExpression
 {
-    #region Constructor / Dispose Methods    
+    #region Constructor / Dispose Methods
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicFileNameExpression"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicFileNameExpression()
+    public BasicFileNameExpression(BlazorBasicLanguageService service) : base(service)
     {
 
     }
@@ -29,7 +31,7 @@ public class BasicFileNameExpression : DisposableObjectBase, ILanguageCodeExpres
     /// <param name="pathAndFileName">
     /// A string containing the fully-qualified path and name of the file.
     /// </param>
-    public BasicFileNameExpression(string pathAndFileName)
+    public BasicFileNameExpression(BlazorBasicLanguageService service, string pathAndFileName) : base(service)
     {
         FileName = pathAndFileName;
     }
@@ -40,7 +42,7 @@ public class BasicFileNameExpression : DisposableObjectBase, ILanguageCodeExpres
     /// <param name="token">
     /// The <see cref="IToken"/> token instance to be parsed into a file path and name.
     /// </param>
-    public BasicFileNameExpression(IToken token)
+    public BasicFileNameExpression(BlazorBasicLanguageService service, IToken token) : base(service)
     {
 
     }
@@ -54,6 +56,16 @@ public class BasicFileNameExpression : DisposableObjectBase, ILanguageCodeExpres
     {
         FileName = null;
         base.Dispose(disposing);
+    }
+
+    protected override void ParseLiteralContent(string? expression)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 

@@ -1,7 +1,10 @@
 ﻿using Adaptive.BlazorBasic.CodeDom;
-using Adaptive.BlazorBasic.LanguageService;
 using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService;
+using Adaptive.LanguageService.Parsing;
+using Adaptive.LanguageService.Tokenization;
 using System.Text;
 
 namespace Adaptive.BlazorBasic.Parser;
@@ -17,7 +20,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// <summary>
     /// The language service instance.
     /// </summary>
-    private ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords>? _service;
+    private BlazorBasicLanguageService? _service;
 
     /// <summary>
     /// The logger instance.
@@ -27,7 +30,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// <summary>
     /// The token factory instance.
     /// </summary>
-    private ITokenFactory<BlazorBasicFunctions, BlazorBasicKeywords>? _tokenFactory;
+    private BlazorBasicTokenFactory? _tokenFactory;
     #endregion
 
     #region Constructor / Dispose Methods
@@ -35,18 +38,18 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// Initializes a new instance of the <see cref="BlazorBasicParserWorker"/> class.
     /// </summary>
     /// <param name="languageService">
-    /// A reference to the <see cref="ILanguageService{F, K}"/> language service instance.
+    /// A reference to the <see cref="BlazorBasicLanguageService"/> language service instance.
     /// </param>
     /// <param name="logger">
-    /// A reference to the logging service instance.
+    /// A reference to the <see cref="IParserOutputLogger"/> logging service instance.
     /// </param>
     /// <param name="factory">
-    /// The reference to the <see cref="ITokenFactory{F, K}"/> instance to use.
+    /// The reference to the <see cref="BlazorBasicTokenFactory"/> instance to use.
     /// </param>
     public BlazorBasicParserWorker(
-            ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> languageService, 
-            IParserOutputLogger logger, 
-            ITokenFactory<BlazorBasicFunctions, BlazorBasicKeywords> factory)
+            BlazorBasicLanguageService languageService, 
+            IParserOutputLogger logger,
+            BlazorBasicTokenFactory factory)
     {
         _service = languageService;
         _log = logger;
@@ -210,7 +213,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// <param name="codeLines">
     /// A <see cref="List{T}" /> of strings each containing the code line to be parsed.</param>
     /// <returns>
-    /// A <see cref="List{T}" /> of <see cref="ITokenList" /> instances of successful; otherwise,
+    /// A <see cref="List{T}" /> of <see cref="ITokenizedCodeLine" /> instances of successful; otherwise,
     /// returns <b>null</b>.
     /// </returns>
     public List<ITokenizedCodeLine>? TokenizeCodeLines(List<string>? codeLines)
@@ -357,7 +360,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     }
     #endregion
 
-    #region Private Methods / Functions    
+    #region Private Methods / Functions
     /// <summary>
     /// Processes the procedure declaration.
     /// </summary>
@@ -377,46 +380,69 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
 
         if ((separator == null) || 
             (separator.TokenType != TokenType.SeparatorDelimiter) || 
-            (nameToken == null))
+            (nameToken == null) ||
+            (nameToken.Text == null))
         {
             // Throw SYNTAX ERROR.
-            throw new Exception();
+            throw new SyntaxErrorException(lineNumber, "Invalid procedure declaration syntax.");
         }
 
         table.AddUserProcedureDeclaration(lineNumber, nameToken.Text, codeLine);
         codeLine.Substitute(2, BlazorBasicTokenFactory.CreateToken(nameToken.Text, TokenType.ProcedureName));
 
     }
+    /// <summary>
+    /// Processes the function declaration.
+    /// </summary>
+    /// <param name="table">
+    /// The reference to the user-defined items table.
+    /// </param>
+    /// <param name="lineNumber">
+    /// An integer specifying the line number.
+    /// </param>
+    /// <param name="codeLine">
+    /// An <see cref="ITokenizedCodeLine"/> instance containing the line of code parsed into tokens.
+    /// The code line.</param>
     private void ProcessFunctionDeclaration(IUserReferenceTable table, int lineNumber, ITokenizedCodeLine codeLine)
     {
+        IToken? separator = codeLine[1];
         IToken? nameToken = codeLine[2];
-        if (nameToken == null)
+
+        if ((separator == null) ||
+            (separator.TokenType != TokenType.SeparatorDelimiter) ||
+            (nameToken == null) ||
+            (nameToken.Text == null))
         {
             // Throw SYNTAX ERROR.
-            throw new Exception();
+            throw new SyntaxErrorException(lineNumber, "Invalid function declaration syntax.");
         }
 
         table.AddUserFunctionDeclaration(lineNumber, nameToken.Text, codeLine);
         codeLine.Substitute(2, BlazorBasicTokenFactory.CreateToken(nameToken.Text, TokenType.FunctionName));
     }
+    /// <summary>
+    /// Processes the variable declaration.
+    /// </summary>
+    /// <param name="table">
+    /// The reference to the user-defined items table.
+    /// </param>
+    /// <param name="lineNumber">
+    /// An integer specifying the line number.
+    /// </param>
+    /// <param name="codeLine">
+    /// An <see cref="ITokenizedCodeLine"/> instance containing the line of code parsed into tokens.
+    /// The code line.</param>
     private void ProcessVariableDeclaration(IUserReferenceTable table, int lineNumber, ITokenizedCodeLine codeLine)
     {
         IToken? nameToken = codeLine[2];
-        if (nameToken == null)
+        if (nameToken == null || nameToken.Text == null)
         {
             // Throw SYNTAX ERROR.
-            throw new Exception();
+            throw new SyntaxErrorException(lineNumber, "Invalid variable declaration syntax.");
         }
 
         table.AddUserVariableDeclaration(lineNumber, nameToken.Text, codeLine);
         codeLine.Substitute(2, BlazorBasicTokenFactory.CreateToken(nameToken.Text, TokenType.VariableName));
-    }
-
-    private object TranslateToCodeStatement(ITokenizedCodeLine codeLine)
-    {
-        ILanguageCodeStatement statement = BasicStatementFactory.CreateStatementByCommand(_service, codeLine);
-
-        return 1;
     }
     #endregion
 }

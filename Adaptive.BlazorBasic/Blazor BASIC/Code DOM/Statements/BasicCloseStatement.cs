@@ -1,4 +1,5 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
+﻿using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -20,7 +21,7 @@ public class BasicCloseStatement : BasicCodeStatement
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicCloseStatement()
+    public BasicCloseStatement(BlazorBasicLanguageService service) : base(service)
     {
     }
 
@@ -28,7 +29,7 @@ public class BasicCloseStatement : BasicCodeStatement
     /// Initializes a new instance of the <see cref="BasicCloseStatement"/> class.
     /// </summary>
     /// <param name="codeLine">An <see cref="ITokenizedCodeLine" /> containing the code line to be parsed.</param>
-    public BasicCloseStatement(ITokenizedCodeLine codeLine) : base(codeLine)
+    public BasicCloseStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service, codeLine)
     {
     }
     #endregion

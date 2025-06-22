@@ -1,5 +1,7 @@
 ﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -8,7 +10,7 @@ namespace Adaptive.BlazorBasic.CodeDom;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicLiteralStringExpression : DisposableObjectBase, ILanguageCodeExpression
+public class BasicLiteralStringExpression : BasicExpression, ILanguageCodeExpression
 {
     #region Private Member Declarations    
     /// <summary>
@@ -24,7 +26,7 @@ public class BasicLiteralStringExpression : DisposableObjectBase, ILanguageCodeE
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicLiteralStringExpression()
+    public BasicLiteralStringExpression(BlazorBasicLanguageService service) : base(service)
     {
         _value = string.Empty;
     }
@@ -34,7 +36,7 @@ public class BasicLiteralStringExpression : DisposableObjectBase, ILanguageCodeE
     /// <param name="stringContent">
     /// A string containing the data type name.
     /// </param>
-    public BasicLiteralStringExpression(string stringContent) : base()
+    public BasicLiteralStringExpression(BlazorBasicLanguageService service, string stringContent) : base(service)
     {
         _value = stringContent;
     }
@@ -47,6 +49,16 @@ public class BasicLiteralStringExpression : DisposableObjectBase, ILanguageCodeE
     {
         _value = null;
         base.Dispose(disposing);
+    }
+
+    protected override void ParseLiteralContent(string? expression)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 

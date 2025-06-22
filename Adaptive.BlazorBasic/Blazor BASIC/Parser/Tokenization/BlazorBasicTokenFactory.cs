@@ -1,12 +1,22 @@
 ﻿using Adaptive.BlazorBasic.LanguageService;
+using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService;
+using Adaptive.LanguageService.Services;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.Parser;
 
 /// <summary>
 /// Provides methods / functions for creating <see cref="IToken"/> and <see cref="TokenBase"/> instances.
 /// </summary>
-public class BlazorBasicTokenFactory : DisposableObjectBase, ITokenFactory<BlazorBasicFunctions, BlazorBasicKeywords>
+/// <seealso cref="DisposableObjectBase"/>
+/// <seealso cref="ITokenFactory{a,b,c,d,e,f,g,h,i,j,k}"/>
+public sealed class BlazorBasicTokenFactory : 
+    DisposableObjectBase, 
+    ITokenFactory<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, 
+        StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators,
+        BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>
 {
     #region Private Member Declarations
     /// <summary>
@@ -17,7 +27,7 @@ public class BlazorBasicTokenFactory : DisposableObjectBase, ITokenFactory<Blazo
     /// <summary>
     /// The language service instance.
     /// </summary>
-    private ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords>? _service;
+    private BlazorBasicLanguageService? _service;
     #endregion
 
     #region Constructor / Dispose Methods
@@ -25,9 +35,9 @@ public class BlazorBasicTokenFactory : DisposableObjectBase, ITokenFactory<Blazo
     /// Initializes the <see cref="BlazorBasicTokenFactory"/> class.
     /// </summary>
     /// <param name="service">
-    /// The <see cref="ILanguageService{FunctionsEnum, KeywordsEnum}"/> language service instance.
+    /// The <see cref="BlazorBasicLanguageService"/> language service instance.
     /// </param>
-    public BlazorBasicTokenFactory(ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> service)
+    public BlazorBasicTokenFactory(BlazorBasicLanguageService service)
     {
         // Populate the static dictionaries with the known token types.
         _service = service;
@@ -240,8 +250,10 @@ public class BlazorBasicTokenFactory : DisposableObjectBase, ITokenFactory<Blazo
     /// <summary>
     /// Initializes the factory instance using the specified language provider reference.
     /// </summary>
-    /// <param name="service">The <see cref="ILanguageService{F, K}" /> instance to use.</param>
-    public void Initialize(ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> service)
+    /// <param name="service">
+    /// The <see cref="BlazorBasicLanguageService" /> instance to use.
+    /// </param>
+    public void Initialize(BlazorBasicLanguageService service)
     {
         _singleList = service.GetSingleCharacterTokenValuesFromDictionaries();
     }
@@ -318,6 +330,17 @@ public class BlazorBasicTokenFactory : DisposableObjectBase, ITokenFactory<Blazo
         }
         return isNumber;
     }
-
     #endregion
+
+    #region Explicit Interface Implementations    
+    /// <summary>
+    /// Initializes the factory instance using the specified language service reference.
+    /// </summary>
+    /// <param name="service">The <see cref="ILanguageService" /> instance to use to initialize the factory.</param>
+    void ITokenFactory<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.Initialize(ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators> service)
+    {
+        Initialize((BlazorBasicLanguageService)service);
+    }
+    #endregion
+
 }

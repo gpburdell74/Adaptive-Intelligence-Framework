@@ -1,5 +1,5 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.Parser;
 

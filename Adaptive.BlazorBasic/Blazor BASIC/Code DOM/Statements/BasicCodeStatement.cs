@@ -1,6 +1,7 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.LanguageService.CodeDom;
+﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -16,34 +17,45 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
 {
     #region Private Member Declarations
     /// <summary>
+    /// The reference to the language service.
+    /// </summary>
+    private BlazorBasicLanguageService?  _service;
+    /// <summary>
     /// The command expression.
     /// </summary>
     private ILanguageKeywordExpression? _commandExpression;
     /// <summary>
     /// The expressions list containing everything after the first command/keyword value.
     /// </summary>
-    private List<ILanguageCodeExpression> _expressionsList;
+    private List<ILanguageCodeExpression>? _expressionsList;
     #endregion
 
     #region Constructor / Dispose Methods    
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicCodeStatement"/> class.
     /// </summary>
-    /// <remarks>
-    /// This is the default constructor.
-    /// </remarks>
-    public BasicCodeStatement()
+    /// <param name="service">
+    /// The reference to the <see cref="BlazorBasicLanguageService"/> to use to find and compare
+    /// text to language reserved words and operators and other items.
+    /// </param>
+    public BasicCodeStatement(BlazorBasicLanguageService service)
     {
+        _service = service;
         _expressionsList = new List<ILanguageCodeExpression>();
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicCodeStatement"/> class.
     /// </summary>
+    /// <param name="service">
+    /// The reference to the <see cref="BlazorBasicLanguageService"/> to use to find and compare
+    /// text to language reserved words and operators and other items.
+    /// </param>
     /// <param name="codeLine">
     /// An <see cref="ITokenizedCodeLine"/> containing the code line to be parsed.
     /// </param>
-    public BasicCodeStatement(ITokenizedCodeLine codeLine)
+    public BasicCodeStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
+        _service = service;
         _expressionsList = new List<ILanguageCodeExpression>();
         LineNumber = codeLine.LineNumber;
         ParseIntoExpressions(codeLine);
@@ -61,6 +73,7 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
             _commandExpression?.Dispose();
         }
 
+        _service = null;
         _expressionsList = null;
         _commandExpression = null;
         OriginalCode = null;
@@ -73,7 +86,7 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// Gets or sets the reference to the command expression.
     /// </summary>
     /// <value>
-    /// An <see cref="ILanguageKeywordExpression"> instance specifying the command to be invoked.
+    /// An <see cref="ILanguageKeywordExpression"/> instance specifying the command to be invoked.
     /// </value>
     public ILanguageKeywordExpression? CommandExpression => _commandExpression;
 
@@ -109,6 +122,26 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// A string containing the command text that was parsed.
     /// </value>
     public string? OriginalCode { get; set; } = string.Empty;
+    #endregion
+
+
+    #region Protected Properties
+    /// <summary>
+    /// Gets the reference to the language service.
+    /// </summary>
+    /// <value>
+    /// The reference to the <see cref="BlazorBasicLanguageService"/> to use to find and compare
+    /// text to language reserved words and operators and other items.
+    /// </value>
+    protected BlazorBasicLanguageService Service
+    {
+        get
+        {
+            if (_service == null)
+                throw new Exception("Engine Error!");
+            return _service;
+        }
+    }
     #endregion
 
     #region Protected Methods / Functions    

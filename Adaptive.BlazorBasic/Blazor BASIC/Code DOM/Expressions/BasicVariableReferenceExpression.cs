@@ -1,5 +1,7 @@
 ﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -8,7 +10,7 @@ namespace Adaptive.BlazorBasic.CodeDom;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicVariableReferenceExpression : DisposableObjectBase, ILanguageCodeExpression
+public class BasicVariableReferenceExpression : BasicExpression, ILanguageCodeExpression
 {
     #region Private Member Declarations
     /// <summary>
@@ -24,7 +26,7 @@ public class BasicVariableReferenceExpression : DisposableObjectBase, ILanguageC
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicVariableReferenceExpression()
+    public BasicVariableReferenceExpression(BlazorBasicLanguageService service) : base(service)
     {
 
     }
@@ -34,7 +36,7 @@ public class BasicVariableReferenceExpression : DisposableObjectBase, ILanguageC
     /// <param name="variableName">
     /// A string containing the name of the variable.
     /// </param>
-    public BasicVariableReferenceExpression(string variableName)
+    public BasicVariableReferenceExpression(BlazorBasicLanguageService service, string variableName) : base(service)
     {
         _variableName = variableName;
     }
@@ -47,6 +49,16 @@ public class BasicVariableReferenceExpression : DisposableObjectBase, ILanguageC
     {
         _variableName = null;
         base.Dispose(disposing);
+    }
+
+    protected override void ParseLiteralContent(string? expression)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 

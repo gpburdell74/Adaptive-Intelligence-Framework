@@ -13,7 +13,7 @@ public enum BlazorBasicFunctions
     /// The ABS() function.
     /// </summary>
     Abs,
-    /// <sumary>
+    /// <summary>
     /// The ASC() function.
     /// </summary>
     Asc,

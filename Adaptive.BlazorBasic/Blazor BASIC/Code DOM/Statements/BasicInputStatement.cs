@@ -1,6 +1,6 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.LanguageService.CodeDom;
-using System;
+﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -43,7 +43,7 @@ public class BasicInputStatement : BasicCodeStatement
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicInputStatement()
+    public BasicInputStatement(BlazorBasicLanguageService service) : base(service)
     {
     }
 
@@ -51,7 +51,7 @@ public class BasicInputStatement : BasicCodeStatement
     /// Initializes a new instance of the <see cref="BasicInputStatement"/> class.
     /// </summary>
     /// <param name="codeLine">An <see cref="ITokenizedCodeLine" /> containing the code line to be parsed.</param>
-    public BasicInputStatement(ITokenizedCodeLine codeLine) : base(codeLine)
+    public BasicInputStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service, codeLine)
     {
 
     }
@@ -154,13 +154,13 @@ public class BasicInputStatement : BasicCodeStatement
     private void ParseOnlyVariableName(ITokenizedCodeLine codeLine)
     {
         string variableName = codeLine[2]!.Text!;
-        _variableReferenceExpression = new BasicVariableReferenceExpression(variableName);
+        _variableReferenceExpression = new BasicVariableReferenceExpression(Service, variableName);
 
     }
     private void ParseWithFileNumber(ITokenizedCodeLine codeLine)
     {
         string fileNumber = codeLine[2]!.Text!;
-        _fileNumberExpression = new BasicFileNumberExpression(fileNumber);
+        _fileNumberExpression = new BasicFileNumberExpression(Service, fileNumber);
 
         int index = 2;
         int nextIndex = -1;
@@ -175,7 +175,7 @@ public class BasicInputStatement : BasicCodeStatement
         string? variableName = codeLine[nextIndex]!.Text!;
         if (variableName == null)
             throw new Exception("?SYNTAX ERROR");
-        _variableReferenceExpression = new BasicVariableReferenceExpression(variableName);
+        _variableReferenceExpression = new BasicVariableReferenceExpression(Service, variableName);
     }
     private void ParseWithStringLiteralPrompt(ITokenizedCodeLine codeLine)
     {
@@ -191,7 +191,7 @@ public class BasicInputStatement : BasicCodeStatement
             index++;
         } while (index < codeLine.Count && nextIndex == -1);
 
-        _promptExpression = new BasicLiteralStringExpression(codeLine.CombineValues(4, nextIndex - 1));
+        _promptExpression = new BasicLiteralStringExpression(Service, codeLine.CombineValues(4, nextIndex - 1));
 
         nextIndex = -1;
         do
@@ -206,7 +206,7 @@ public class BasicInputStatement : BasicCodeStatement
         string? variableName = codeLine[nextIndex]!.Text!;
         if (variableName == null)
             throw new Exception("?SYNTAX ERROR");
-        _variableReferenceExpression = new BasicVariableReferenceExpression(variableName);
+        _variableReferenceExpression = new BasicVariableReferenceExpression(Service, variableName);
     }
     #endregion
 }

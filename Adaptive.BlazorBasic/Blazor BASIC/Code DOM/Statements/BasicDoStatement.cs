@@ -1,4 +1,5 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
+﻿using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -18,14 +19,14 @@ public class BasicDoStatement : BasicCodeStatement
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicDoStatement()
+    public BasicDoStatement(BlazorBasicLanguageService service) : base(service)
     {
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicDoStatement"/> class.
     /// </summary>
     /// <param name="codeLine">An <see cref="ITokenizedCodeLine" /> containing the code line to be parsed.</param>
-    public BasicDoStatement(ITokenizedCodeLine codeLine) : base(codeLine)
+    public BasicDoStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service,codeLine)
     {
     }
     #endregion

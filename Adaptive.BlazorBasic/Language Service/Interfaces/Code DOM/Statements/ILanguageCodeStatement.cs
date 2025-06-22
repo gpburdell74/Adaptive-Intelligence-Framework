@@ -12,7 +12,7 @@ public interface ILanguageCodeStatement : ILanguageCodeObject
     /// <value>
     /// An <see cref="ILanguageKeywordExpression"/> containing the expression instance defining the command.
     /// </value>
-    ILanguageKeywordExpression CommandExpression { get; }
+    ILanguageKeywordExpression? CommandExpression { get; }
 
     /// <summary>
     /// Gets the reference to the list of expressions.
@@ -21,5 +21,5 @@ public interface ILanguageCodeStatement : ILanguageCodeObject
     /// A <see cref="List{T}"/> of <see cref="ILanguageCodeExpression"/> instances containing the remainder
     /// of the expressions in the remaining statement code.
     /// </value>
-    List<ILanguageCodeExpression> Expressions { get; }
+    List<ILanguageCodeExpression>? Expressions { get; }
 }

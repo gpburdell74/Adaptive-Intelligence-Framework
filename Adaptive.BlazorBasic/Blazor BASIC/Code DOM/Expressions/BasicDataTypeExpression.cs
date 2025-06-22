@@ -1,49 +1,58 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.LanguageService.CodeDom;
-using Adaptive.Intelligence.Shared;
+﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents a data type expression.
 /// </summary>
-/// <seealso cref="DisposableObjectBase" />
+/// <seealso cref="BasicExpression" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicDataTypeExpression : DisposableObjectBase, ILanguageCodeExpression
+public class BasicDataTypeExpression : BasicExpression, ILanguageCodeExpression
 {
-    #region Constructor / Dispose Methods
+    #region Constructors
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicDataTypeExpression"/> class.
     /// </summary>
-    /// <remarks>
-    /// This is the default constructor.
-    /// </remarks>
-    public BasicDataTypeExpression()
+    /// <param name="service">
+    /// The reference to the language service instance being injected.
+    /// </param>
+    public BasicDataTypeExpression(BlazorBasicLanguageService service) : base(service)
     {
-
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicDataTypeExpression"/> class.
     /// </summary>
+    /// <param name="service">
+    /// The reference to the language service instance being injected.
+    /// </param>
     /// <param name="dataTypeSpec">
     /// A string containing the data type name.
     /// </param>
-    public BasicDataTypeExpression(string dataTypeSpec) : base()
+    public BasicDataTypeExpression(BlazorBasicLanguageService service, string dataTypeSpec) : base(service, dataTypeSpec)
     {
-        ParseDataTypeExpression(dataTypeSpec.Trim());
     }
     /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
+    /// Initializes a new instance of the <see cref="BasicDataTypeExpression"/> class.
     /// </summary>
-    /// <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
-    /// <b>false</b> to release only unmanaged resources.</param>
-    protected override void Dispose(bool disposing)
+    /// <param name="service">
+    /// The reference to the language service instance being injected.
+    /// </param>
+    /// <param name="codeLine">A <see cref="ITokenizedCodeLine" /> containing the code tokens for the entire line of code.</param>
+    /// <param name="startIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to start parsing the expression.</param>
+    /// <param name="endIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to end parsing the expression.</param>
+    public BasicDataTypeExpression(
+        BlazorBasicLanguageService service, 
+        ITokenizedCodeLine codeLine, 
+        int startIndex, 
+        int endIndex) : base(service, codeLine, startIndex, endIndex)
     {
-        base.Dispose(disposing);
     }
     #endregion
 
-    #region Public Properties    
+    #region Public Properties
     /// <summary>
     /// Gets or sets the type of the data.
     /// </summary>
@@ -72,29 +81,56 @@ public class BasicDataTypeExpression : DisposableObjectBase, ILanguageCodeExpres
     public int Size { get; set; }
     #endregion
 
-    #region Private Methods/Functions    
+    #region Protected Methods    
     /// <summary>
-    /// Parses the data type expression.
+    /// Parses the content expression into a parameter definition.
     /// </summary>
-    /// <param name="dataTypeSpec">
-    /// A string containing the data type specification in the format:
-    ///    "AS [datatypename]"
+    /// <param name="expression">
+    /// A string containing the expression to be parsed.
     /// </param>
-    /// <exception cref="ArgumentException">
-    /// Thrown when the data type specification does no start with the AS keyword.
-    /// </exception>
-    private void ParseDataTypeExpression(string dataTypeSpec)
+    protected override void ParseLiteralContent(string expression)
     {
-        if (dataTypeSpec.Trim().ToLower().Substring(0, 3) != "as ")
+        string codeToParse = NormalizeString(expression);
+
+        if (codeToParse.ToUpper().Substring(0, 3) != KeywordNames.KeywordAs + ParseConstants.Space)
         {
             // Throw an error here.
+            throw new InvalidArgumentException(0, "Data type specification must start with 'as '.");
+        }
+
+        string dataType = expression.Substring(3).Trim();
+        DataType = Service.DataTypes.GetDataType(dataType);
+    }
+
+    /// <summary>
+    /// Parses the code line.
+    /// </summary>
+    /// <param name="codeLine">
+    /// A <see cref="ITokenizedCodeLine" /> containing the code tokens for the entire line of code.
+    /// </param>
+    /// <param name="startIndex">
+    /// An integer indicating the ordinal position in <paramref name="codeLine" /> to start parsing the expression.
+    /// </param>
+    /// <param name="endIndex">
+    /// An integer indicating the ordinal position in <paramref name="codeLine" /> to end parsing the expression.
+    /// </param>
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        if (endIndex > startIndex + 1)
+            throw new SyntaxErrorException(codeLine.LineNumber);
+
+        IToken? asToken = codeLine[startIndex];
+        if (asToken == null || asToken.TokenType != TokenType.ReservedWord || asToken.Text.ToLower() != "as")
+        {
             throw new ArgumentException("Data type specification must start with 'as '.");
         }
 
-        string dataType = dataTypeSpec.Substring(3).Trim();
+        IToken? typeToken = codeLine[endIndex];
+        if (typeToken == null || typeToken.TokenType != TokenType.DataTypeName)
+            throw new SyntaxErrorException(codeLine.LineNumber, "Unknown data type specified.");
 
-        // TODO:
-        //DataType = BasicDataTypeDictionary.Standard.GetDataType(dataType);
+        DataType = Service.DataTypes.GetDataType(typeToken.Text);
+
     }
     #endregion
 }

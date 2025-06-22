@@ -1,4 +1,5 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
+﻿using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService.Tokenization;
 using System.Text;
 
 namespace Adaptive.BlazorBasic.CodeDom;
@@ -32,7 +33,7 @@ public class BasicCommentStatement : BasicCodeStatement
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicCommentStatement()
+    public BasicCommentStatement(BlazorBasicLanguageService service) : base(service)
     {
     }
     /// <summary>
@@ -41,7 +42,7 @@ public class BasicCommentStatement : BasicCodeStatement
     /// <param name="commentText">
     /// A string containing the comment text.
     /// </param>
-    public BasicCommentStatement(string commentText)
+    public BasicCommentStatement(BlazorBasicLanguageService service, string commentText) : base(service)
     {
         _commentText = commentText;
     }
@@ -49,7 +50,7 @@ public class BasicCommentStatement : BasicCodeStatement
     /// Initializes a new instance of the <see cref="BasicCommentStatement"/> class.
     /// </summary>
     /// <param name="codeLine">An <see cref="ITokenizedCodeLine" /> containing the code line to be parsed.</param>
-    public BasicCommentStatement(ITokenizedCodeLine codeLine) : base(codeLine)
+    public BasicCommentStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service, codeLine)
     {
     }
     /// <summary>
@@ -64,7 +65,7 @@ public class BasicCommentStatement : BasicCodeStatement
     }
     #endregion
 
-    #region Public Properties    
+    #region Public Properties
     /// <summary>
     /// Gets the comment text.
     /// </summary>

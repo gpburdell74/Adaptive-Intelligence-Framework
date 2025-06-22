@@ -1,6 +1,6 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Logging;
+using Adaptive.LanguageService.Parsing;
 using System.Diagnostics;
 using System.Text;
 

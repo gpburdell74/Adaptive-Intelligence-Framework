@@ -1,5 +1,7 @@
 ﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -8,7 +10,7 @@ namespace Adaptive.BlazorBasic.CodeDom;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicParameterDefinitionExpression : DisposableObjectBase, ILanguageCodeExpression
+public class BasicParameterDefinitionExpression : BasicExpression, ILanguageCodeExpression
 {
     #region Constructor / Dispose Methods    
     /// <summary>
@@ -17,7 +19,7 @@ public class BasicParameterDefinitionExpression : DisposableObjectBase, ILanguag
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicParameterDefinitionExpression()
+    public BasicParameterDefinitionExpression(BlazorBasicLanguageService service) : base(service)
     {
 
     }
@@ -27,7 +29,7 @@ public class BasicParameterDefinitionExpression : DisposableObjectBase, ILanguag
     /// <param name="expression">
     /// A string containing the expression to be parsed.
     /// </param>
-    public BasicParameterDefinitionExpression(string expression) : base()
+    public BasicParameterDefinitionExpression(BlazorBasicLanguageService service, string expression) : base(service)
     {
         ParseContent(expression);
     }
@@ -93,8 +95,18 @@ public class BasicParameterDefinitionExpression : DisposableObjectBase, ILanguag
             ParameterName = expression.Substring(0, index);
 
             // Parse the data type.
-            DataType = new BasicDataTypeExpression(expression.Substring(index, expression.Length - index));
+            DataType = new BasicDataTypeExpression(Service, expression.Substring(index, expression.Length - index));
         }
+    }
+
+    protected override void ParseLiteralContent(string? expression)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

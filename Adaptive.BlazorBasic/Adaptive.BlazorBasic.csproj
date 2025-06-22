@@ -32,7 +32,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Adaptive.LanguageService\Adaptive.LanguageService.csproj" />
     <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Blazor BASIC\Dictionaries\" />
+    <Folder Include="Language Service\Enumerations\" />
   </ItemGroup>
 
 </Project>

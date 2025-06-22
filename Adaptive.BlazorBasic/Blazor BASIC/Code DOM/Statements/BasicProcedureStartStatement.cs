@@ -1,4 +1,6 @@
 ﻿using Adaptive.BlazorBasic.LanguageService;
+using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -22,7 +24,7 @@ public class BasicProcedureStartStatement : BasicCodeStatement
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicProcedureStartStatement() : base()
+    public BasicProcedureStartStatement(BlazorBasicLanguageService service) : base(service)
     {
 
     }
@@ -30,7 +32,7 @@ public class BasicProcedureStartStatement : BasicCodeStatement
     /// Initializes a new instance of the <see cref="BasicProcedureStartStatement"/> class.
     /// </summary>
     /// <param name="codeLine">An <see cref="ITokenizedCodeLine" /> containing the code line to be parsed.</param>
-    public BasicProcedureStartStatement(ITokenizedCodeLine codeLine) : base(codeLine)
+    public BasicProcedureStartStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service, codeLine)
     {
     }
     #endregion

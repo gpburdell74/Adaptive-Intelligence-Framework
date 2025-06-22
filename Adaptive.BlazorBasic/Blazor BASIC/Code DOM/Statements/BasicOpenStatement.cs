@@ -1,4 +1,5 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
+﻿using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -13,7 +14,7 @@ namespace Adaptive.BlazorBasic.CodeDom;
 /// <seealso cref="BasicCodeStatement" />
 public class BasicOpenStatement : BasicCodeStatement
 {
-    #region Private Member Declarations    
+    #region Private Member Declarations
     /// <summary>
     /// The file name expression.
     /// </summary>
@@ -35,14 +36,14 @@ public class BasicOpenStatement : BasicCodeStatement
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BasicOpenStatement()
+    public BasicOpenStatement(BlazorBasicLanguageService service) : base(service)
     {
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicOpenStatement"/> class.
     /// </summary>
     /// <param name="codeLine">An <see cref="ITokenizedCodeLine" /> containing the code line to be parsed.</param>
-    public BasicOpenStatement(ITokenizedCodeLine codeLine) : base(codeLine)
+    public BasicOpenStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service, codeLine)
     {
     }
     /// <summary>
@@ -99,7 +100,7 @@ public class BasicOpenStatement : BasicCodeStatement
             directionToken.Text == "INPUT" ||
             directionToken.Text == "APPEND"))
         {
-            _fileDirection = new BasicFileDirectionExpression(directionToken.Text);
+            _fileDirection = new BasicFileDirectionExpression(Service, directionToken.Text);
             nextIndex += 2;
         }
         else
@@ -118,7 +119,7 @@ public class BasicOpenStatement : BasicCodeStatement
         IToken? numberToken = codeLine[nextIndex];
         if (numberToken != null)
         {
-            _fileNumber = new BasicFileNumberExpression(numberToken.Text!);
+            _fileNumber = new BasicFileNumberExpression(Service, numberToken.Text!);
         }
     }
     #endregion
@@ -138,7 +139,7 @@ public class BasicOpenStatement : BasicCodeStatement
         }
         else if (codeLine[2].TokenType == TokenType.VariableName)
         {
-            _fileName = new BasicFileNameExpression(codeLine[2]);
+            _fileName = new BasicFileNameExpression(Service, codeLine[2]);
             // Next token is a separator, so the next valid token is #5.
             nextIndex = 4;
         }
@@ -146,7 +147,7 @@ public class BasicOpenStatement : BasicCodeStatement
                  (codeLine.TokenList[4].TokenType == TokenType.StringDelimiter))
         {
             // File name is a string literal.
-            _fileName = new BasicFileNameExpression(codeLine[3]);
+            _fileName = new BasicFileNameExpression(Service, codeLine[3]);
             nextIndex = 6;
         }
         else

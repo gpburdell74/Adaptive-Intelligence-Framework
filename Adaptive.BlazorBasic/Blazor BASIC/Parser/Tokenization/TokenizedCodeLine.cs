@@ -1,5 +1,7 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
+﻿using Adaptive.BlazorBasic.Services;
 using Adaptive.Intelligence.Shared;
+using Adaptive.LanguageService.Tokenization;
+using System.Text;
 
 namespace Adaptive.BlazorBasic.Parser;
 
@@ -14,7 +16,7 @@ public class TokenizedCodeLine : DisposableObjectBase, ITokenizedCodeLine
     /// <summary>
     /// The service reference.
     /// </summary>
-    private ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords>? _service;
+    private BlazorBasicLanguageService? _service;
 
     /// <summary>
     /// The list of tokens.
@@ -27,9 +29,9 @@ public class TokenizedCodeLine : DisposableObjectBase, ITokenizedCodeLine
     /// Initializes a new instance of the <see cref="TokenizedCodeLine"/> class.
     /// </summary>
     /// <param name="service">
-    /// The reference to the language service instance.
+    /// The reference to the <see cref="BlazorBasicLanguageService"/> instance.
     /// </param>
-    public TokenizedCodeLine(ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> service)
+    public TokenizedCodeLine(BlazorBasicLanguageService service)
     {
         _service = service;
         _tokens = new List<IToken>();
@@ -116,6 +118,24 @@ public class TokenizedCodeLine : DisposableObjectBase, ITokenizedCodeLine
         if (_tokens != null)
             _tokens.Add(token);
     }
+    /// <summary>
+    /// Combines the values of each of the tokens into a single string.
+    /// </summary>
+    /// <param name="startIndex">The ordinal index of the first token.</param>
+    /// <param name="endIndex">The ordinal index of the last token.</param>
+    /// <returns>
+    /// A string containing the combined text values.
+    /// </returns>
+    public string CombineValues(int startIndex, int endIndex)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        for (int index = startIndex; index <= endIndex; index++)
+            builder.Append(this[index]!.Text);
+
+        return builder.ToString();
+    }
+
     /// <summary>
     /// Substitutes the new token for the token at the specified index.
     /// </summary>

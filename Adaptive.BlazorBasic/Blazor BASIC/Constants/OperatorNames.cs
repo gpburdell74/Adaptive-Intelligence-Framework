@@ -46,9 +46,17 @@ internal static class OperatorNames
     /// </summary>
     public const string OperatorBitwiseAnd = "&";
     /// <summary>
+    /// The operator for a bitwise and.
+    /// </summary>
+    public const string OperatorBitwiseLongAnd = "AND";
+    /// <summary>
     /// The operator for a bitwise or.
     /// </summary>
     public const string OperatorBitwiseOr = "|";
+    /// <summary>
+    /// The operator for a bitwise or.
+    /// </summary>
+    public const string OperatorBitwiseLongOr = "OR";
     #endregion
 
     #region Comparison Operators
@@ -92,7 +100,7 @@ internal static class OperatorNames
     /// </summary>
     public const string OperatorLogicalNot = "NOT";
     /// <summary>
-    /// The (short) operator for a logical AND operation. (&&)
+    /// The (short) operator for a logical AND operation. (&amp;&amp;)
     /// </summary>
     public const string OperatorLogicalAndShort = "&&";
     /// <summary>

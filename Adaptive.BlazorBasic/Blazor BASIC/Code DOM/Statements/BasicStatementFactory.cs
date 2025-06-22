@@ -1,5 +1,6 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.LanguageService.CodeDom;
+﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
+using Adaptive.BlazorBasic.Services;
+using Adaptive.LanguageService.Tokenization;
 
 namespace Adaptive.BlazorBasic.CodeDom;
 
@@ -18,7 +19,7 @@ public static class BasicStatementFactory
     /// <returns>
     /// An <see cref="ILanguageCodeStatement"/> instance representing the code statement created from the provided code line.
     /// </returns>
-    public static ILanguageCodeStatement? CreateStatementByCommand(ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> service, ITokenizedCodeLine codeLine)
+    public static ILanguageCodeStatement? CreateStatementByCommand(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
         ILanguageCodeStatement? newStatement = null;
 
@@ -61,7 +62,7 @@ public static class BasicStatementFactory
     /// Creates the statement object for the specified reserved word value.
     /// </summary>
     /// <param name="service">
-    /// The reference to the <see cref="ILanguageService{FunctionsEnum, KeywordsEnum}"/> instance.
+    /// The reference to the <see cref="BlazorBasicLanguageService"/> instance.
     /// </param>
     /// <param name="codeLine">
     /// A string containing the code line to be parsed.
@@ -69,7 +70,7 @@ public static class BasicStatementFactory
     /// <returns>
     /// The <see cref="ILanguageCodeStatement"/> instance, or <b>null</b> if the operation fails.
     /// </returns>
-    private static ILanguageCodeStatement? CreateStatementByReservedWord(ILanguageService<BlazorBasicFunctions, BlazorBasicKeywords> service, ITokenizedCodeLine codeLine)
+    private static ILanguageCodeStatement? CreateStatementByReservedWord(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
         ILanguageCodeStatement? newStatement = null;
 
@@ -79,31 +80,35 @@ public static class BasicStatementFactory
         switch (keyword)
         {
             case BlazorBasicKeywords.Close:
-                newStatement = new BasicCloseStatement(codeLine);
+                newStatement = new BasicCloseStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Cls:
-                newStatement = new BasicClsStatement(codeLine);
+                newStatement = new BasicClsStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Comment:
-                newStatement = new BasicCommentStatement(codeLine);
+                newStatement = new BasicCommentStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Do:
-                newStatement = new BasicDoStatement(codeLine);
+                newStatement = new BasicDoStatement(service, codeLine);
+                break;
+
+            case BlazorBasicKeywords.If:
+                newStatement = new BasicIfStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Input:
-                newStatement = new BasicInputStatement(codeLine);
+                newStatement = new BasicInputStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Open:
-                newStatement = new BasicOpenStatement(codeLine);
+                newStatement = new BasicOpenStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Procedure:
-                newStatement = new BasicProcedureStartStatement(codeLine);
+                newStatement = new BasicProcedureStartStatement(service, codeLine);
                 break;
 
             default:

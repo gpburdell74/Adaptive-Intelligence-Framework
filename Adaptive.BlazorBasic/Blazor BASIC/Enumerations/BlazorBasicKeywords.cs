@@ -90,9 +90,17 @@ public enum BlazorBasicKeywords
     /// </summary>
     Procedure,
     /// <summary>
+    /// Indicates a file is to be opened for random access.
+    /// </summary>
+    Random,
+    /// <summary>
     /// Indicates a READ command.
     /// </summary>
     Read,
+    /// <summary>
+    /// Indicates a THEN keyword.
+    /// </summary>
+    Then,
     /// <summary>
     /// Indicates a WRITE command.
     /// </summary>

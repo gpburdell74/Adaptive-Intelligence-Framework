@@ -93,6 +93,11 @@ internal static class KeywordNames
     /// Indicates an "AS" keyword.
     /// </summary>
     public const string KeywordAs = "AS";
+    /// <summary>
+    /// Indicates a "THEN" keyword.
+    /// </summary>
+    public const string KeywordThen = "THEN";
+
     #endregion
 
     #region I/O Reserved Words
@@ -108,5 +113,9 @@ internal static class KeywordNames
     /// The I/O output keyword.
     /// </summary>
     public const string IOOutput = "OUTPUT";
+    /// <summary>
+    /// The I/O random keyword.
+    /// </summary>
+    public const string IORandom = "RANDOM";
     #endregion
 }
