@@ -1,8 +1,8 @@
-﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
-using Adaptive.BlazorBasic.Services;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.CodeDom;
+namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents the INPUT command.

@@ -1,13 +1,13 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a token to represent an assignment operator.
 /// </summary>
 /// <seealso cref="TokenBase" />
 /// <seealso cref="IOperatorToken" />
-public class AssignmentOperatorToken : TokenBase, IOperatorToken
+public class AssignmentOperatorToken : TokenBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AssignmentOperatorToken"/> class.

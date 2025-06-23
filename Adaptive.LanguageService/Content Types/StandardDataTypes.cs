@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService;
+﻿namespace Adaptive.Intelligence.LanguageService;
 
 /// <summary>
 /// Lists the standard data types the language service supports.

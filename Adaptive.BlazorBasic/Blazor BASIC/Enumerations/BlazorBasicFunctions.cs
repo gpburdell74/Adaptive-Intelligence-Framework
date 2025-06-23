@@ -1,4 +1,4 @@
-﻿namespace Adaptive.BlazorBasic;
+﻿namespace Adaptive.Intelligence.BlazorBasic;
 
 /// <summary>
 /// Lists the built-in functions that are supported.

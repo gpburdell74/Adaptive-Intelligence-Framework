@@ -1,13 +1,13 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a token to represent an arithmetic operator such as + - / * ^ and %.
 /// </summary>
 /// <seealso cref="TokenBase" />
 /// <seealso cref="IOperatorToken" />
-public class ArithmeticOperatorToken : TokenBase, IOperatorToken
+public class ArithmeticOperatorToken : TokenBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ArithmeticOperatorToken"/> class.

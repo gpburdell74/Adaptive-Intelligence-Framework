@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Adaptive.LanguageService.Parsing;
+namespace Adaptive.Intelligence.LanguageService.Parsing;
 
 /// <summary>
 /// Provides the signature definition for the parsing operation(s) output logging system.

@@ -1,6 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.BlazorBasic;
+namespace Adaptive.Intelligence.BlazorBasic;
 
 /// <summary>
 /// Provides the character and string constants used in parsing operations.

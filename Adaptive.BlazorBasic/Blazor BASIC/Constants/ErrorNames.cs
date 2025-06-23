@@ -1,4 +1,4 @@
-﻿namespace Adaptive.BlazorBasic;
+﻿namespace Adaptive.Intelligence.BlazorBasic;
 
 /// <summary>
 /// Provides the name constants for all the error codes.

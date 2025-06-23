@@ -1,24 +1,17 @@
-﻿using Adaptive.LanguageService.Services;
+﻿using Adaptive.Intelligence.LanguageService.Services;
 
-namespace Adaptive.LanguageService.Tokenization;
+namespace Adaptive.Intelligence.LanguageService.Tokenization;
 
 /// <summary>
 /// Provides the signature definition for implementing factory methods for creating tokens.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface ITokenFactory<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType,
-    AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> : IDisposable
+public interface ITokenFactory<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> : IDisposable
     where DelimiterType : Enum
     where ErrorType : Enum
     where FunctionType : Enum
     where KeywordType : Enum
     where OperatorType : Enum
-    where AssignmentType : Enum
-    where BitwiseType : Enum
-    where ComparisonType : Enum
-    where LogicalType : Enum
-    where MathType : Enum
-    where OperationalType : Enum
 {
     /// <summary>
     /// Determines whether the provided text matches a single-length character token.
@@ -76,8 +69,7 @@ public interface ITokenFactory<DelimiterType, ErrorType, FunctionType, KeywordTy
     /// Initializes the factory instance using the specified language service reference.
     /// </summary>
     /// <param name="service">
-    /// The <see cref="ILanguageService"/> instance to use to initialize the factory.
+    /// The <see cref="ILanguageService{D, E, F, K, O}"/> instance to use to initialize the factory.
     /// </param>
-    void Initialize(ILanguageService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType,
-    AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> service);
+    void Initialize(ILanguageService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> service);
 }

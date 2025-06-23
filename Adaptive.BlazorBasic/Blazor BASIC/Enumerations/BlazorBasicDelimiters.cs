@@ -1,4 +1,4 @@
-﻿namespace Adaptive.BlazorBasic;
+﻿namespace Adaptive.Intelligence.BlazorBasic;
 
 /// <summary>
 /// Lists the types of raw text delimiters used in parsing Blazor BASIC.

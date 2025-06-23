@@ -1,4 +1,4 @@
-﻿namespace Adaptive.BlazorBasic;
+﻿namespace Adaptive.Intelligence.BlazorBasic;
 
 /// <summary>
 /// Contains the list of data type names.

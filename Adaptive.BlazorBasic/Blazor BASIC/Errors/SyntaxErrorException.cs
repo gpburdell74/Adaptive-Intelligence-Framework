@@ -1,4 +1,4 @@
-﻿namespace Adaptive.BlazorBasic;
+﻿namespace Adaptive.Intelligence.BlazorBasic;
 
 /// <summary>
 /// Represents a syntax error.

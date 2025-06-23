@@ -1,6 +1,6 @@
-﻿using Adaptive.LanguageService.Providers;
+﻿using Adaptive.Intelligence.LanguageService.Providers;
 
-namespace Adaptive.LanguageService;
+namespace Adaptive.Intelligence.LanguageService.Dictionaries;
 
 /// <summary>
 /// Provides the signature definition for implementations for miscellaneous error dictionaries.

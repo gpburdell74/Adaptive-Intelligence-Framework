@@ -1,13 +1,13 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a token to represent a comparison operator.
 /// </summary>
 /// <seealso cref="TokenBase" />
 /// <seealso cref="IOperatorToken" />
-public class ComparisonOperatorToken : TokenBase, IOperatorToken
+public class ComparisonOperatorToken : TokenBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ComparisonOperatorToken"/> class.

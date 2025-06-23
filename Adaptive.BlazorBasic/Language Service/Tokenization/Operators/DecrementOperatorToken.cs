@@ -1,13 +1,13 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a token to represent a decrement operator, such as: --
 /// </summary>
 /// <seealso cref="TokenBase" />
 /// <seealso cref="IOperatorToken" />
-public class DecrementOperatorToken : TokenBase, IOperatorToken
+public class DecrementOperatorToken : TokenBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DecrementOperatorToken"/> class.

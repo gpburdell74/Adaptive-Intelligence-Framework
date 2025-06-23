@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService;
+﻿namespace Adaptive.Intelligence.LanguageService;
 
 /// <summary>
 /// Lists the types of content that may be parsed from a language code file.
@@ -116,7 +116,7 @@ public enum LanguageContentType
     /// </summary>
     OperatorAssignment,
     /// <summary>
-    /// Indicates an bitwise operator type (such as & or |).
+    /// Indicates an bitwise operator type (such as &amp; or |).
     /// </summary>
     OperatorBitwise,
     /// <summary>
@@ -129,7 +129,7 @@ public enum LanguageContentType
     /// </summary>
     OperatorOperational,
     /// <summary>
-    /// Indicates an logical operator type (such as AND, OR, NOT, &&, ||, !)
+    /// Indicates an logical operator type (such as AND, OR, NOT, &amp;&amp;, ||, !)
     /// </summary>
     OperatorLogical,
     /// <summary>

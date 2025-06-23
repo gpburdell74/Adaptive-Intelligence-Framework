@@ -1,6 +1,6 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.LanguageService;
+namespace Adaptive.Intelligence.LanguageService.Dictionaries;
 
 /// <summary>
 /// Provides the signature definition for storing and referencing user-defined elements, such as procedures, functions, and variables.

@@ -1,22 +1,21 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.Services;
+﻿using Adaptive.Intelligence.BlazorBasic.LanguageService;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.Services;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService;
-using Adaptive.LanguageService.Services;
-using Adaptive.LanguageService.Tokenization;
+using Microsoft.CodeAnalysis.Host;
 
-namespace Adaptive.BlazorBasic.Parser;
+namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
 /// <summary>
 /// Provides methods / functions for creating <see cref="IToken"/> and <see cref="TokenBase"/> instances.
 /// </summary>
 /// <seealso cref="DisposableObjectBase"/>
-/// <seealso cref="ITokenFactory{a,b,c,d,e,f,g,h,i,j,k}"/>
+/// <seealso cref="ITokenFactory{D,E,F,K,O}"/>
 public sealed class BlazorBasicTokenFactory : 
     DisposableObjectBase, 
-    ITokenFactory<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, 
-        StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators,
-        BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>
+    ITokenFactory<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators>
 {
     #region Private Member Declarations
     /// <summary>
@@ -89,7 +88,7 @@ public sealed class BlazorBasicTokenFactory :
     /// </returns>
     public static IToken CreateToken(string originalData, TokenType tokenType)
     {
-        TokenBase newToken;
+        IToken newToken;
 
         switch (tokenType)
         {
@@ -336,8 +335,9 @@ public sealed class BlazorBasicTokenFactory :
     /// <summary>
     /// Initializes the factory instance using the specified language service reference.
     /// </summary>
-    /// <param name="service">The <see cref="ILanguageService" /> instance to use to initialize the factory.</param>
-    void ITokenFactory<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.Initialize(ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators> service)
+    /// <param name="service">The <see cref="ILanguageService{D,E,F,K,O}" /> instance to use to initialize the factory.</param>
+    void ITokenFactory<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators>.
+        Initialize(ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators> service)
     {
         Initialize((BlazorBasicLanguageService)service);
     }

@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService.Providers;
+﻿namespace Adaptive.Intelligence.LanguageService.Providers;
 
 /// <summary>
 /// Provides the signature definition for implementations that define the list of keywords.

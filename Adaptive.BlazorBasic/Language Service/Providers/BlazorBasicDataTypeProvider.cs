@@ -1,8 +1,8 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService;
-using Adaptive.LanguageService.Providers;
+﻿using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.Providers;
+using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides the implementation for the provider that defines the list of data types.

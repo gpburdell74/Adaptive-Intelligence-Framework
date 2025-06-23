@@ -1,30 +1,25 @@
-﻿using Adaptive.BlazorBasic.Parser;
+﻿using Adaptive.Intelligence.BlazorBasic.Parser;
+using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Parsing;
+using Adaptive.Intelligence.LanguageService.Services;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService;
-using Adaptive.LanguageService.Parsing;
-using Adaptive.LanguageService.Services;
-using Adaptive.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.Services;
+namespace Adaptive.Intelligence.BlazorBasic.Services;
 
 /// <summary>
 /// Provides the code parsing service for the Blazor BASIC language.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="IParsingService{a,b,c,d,e,f,g,h,i,j,k}" />
+/// <seealso cref="IParsingService{D,E,F,K,O}" />
 public sealed class BlazorBasicParsingService : DisposableObjectBase, 
     IParsingService<
             BlazorBasicDelimiters,
             BlazorBasicErrorCodes,
             BlazorBasicFunctions,
             BlazorBasicKeywords,
-            StandardOperators,
-            BlazorBasicAssignmentOperators,
-            BlazorBasicBitwiseOperators,
-            BlazorBasicComparisonOperators,
-            BlazorBasicLogicalOperators,
-            BlazorBasicMathOperators,
-            BlazorBasicOperationalOperators>
+            StandardOperators>
 {
     #region Private Member Declarations    
     /// <summary>
@@ -50,7 +45,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
 
     #region Constructor / Dispose Methods    
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParser"/> class.
+    /// Initializes a new instance of the <see cref="BlazorBasicParsingService"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the <see cref="BlazorBasicLanguageService"/> service instance.
@@ -103,10 +98,14 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// Gets the reference to the language service used during the parsing operations.
     /// </summary>
     /// <value>
-    /// The <see cref="ILanguageService{a,b,c,d,e,f,g,h,i,j,k}" /> instance.
+    /// The <see cref="ILanguageService{D,E,F,K,O}" /> instance.
     /// </value>
-    public ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>?
-        Service => _service;
+    public ILanguageService<
+        BlazorBasicDelimiters, 
+        BlazorBasicErrorCodes, 
+        BlazorBasicFunctions, 
+        BlazorBasicKeywords, 
+        StandardOperators>? Service => _service;
     #endregion
 
     #region Public Methods / Functions    

@@ -1,7 +1,7 @@
-﻿using Adaptive.LanguageService.Providers;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Providers;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.LanguageService;
+namespace Adaptive.Intelligence.LanguageService.Dictionaries;
 
 /// <summary>
 /// Provides the signature definition for delimiters in the language.

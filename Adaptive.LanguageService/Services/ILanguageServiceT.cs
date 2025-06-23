@@ -1,23 +1,17 @@
-﻿namespace Adaptive.LanguageService.Services;
+﻿using Adaptive.Intelligence.LanguageService.Dictionaries;
+
+namespace Adaptive.Intelligence.LanguageService.Services;
 
 /// <summary>
 /// Provides the signature definition for a comprehensive language service.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface ILanguageService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType,
-    AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> : ILanguageService
+public interface ILanguageService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> : ILanguageService
     where DelimiterType : Enum
     where ErrorType : Enum
     where FunctionType : Enum
     where KeywordType : Enum
     where OperatorType : Enum
-    where AssignmentType : Enum
-    where BitwiseType : Enum
-    where ComparisonType : Enum
-    where LogicalType : Enum
-    where MathType : Enum
-    where OperationalType : Enum
-
 {
     #region Properties
 
@@ -58,9 +52,9 @@ public interface ILanguageService<DelimiterType, ErrorType, FunctionType, Keywor
     /// Gets the reference to the operators dictionary.
     /// </summary>
     /// <value>
-    /// The <see cref="IOperatorDictionary"/> containing the list of operators.
+    /// The <see cref="IOperatorDictionary{T}"/> containing the list of operators.
     /// </value>
-    IOperatorDictionary<OperatorType, AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> Operators { get; }
+    IOperatorDictionary<OperatorType> Operators { get; }
     #endregion
 
     #endregion
@@ -70,10 +64,8 @@ public interface ILanguageService<DelimiterType, ErrorType, FunctionType, Keywor
     /// Initializes the language service with the code providers supplied from the provider service.
     /// </summary>
     /// <param name="providerService">
-    /// The <see cref="ILanguageProviderService{}"/> provider service implementation.
+    /// The <see cref="ILanguageProviderService{D,E,F,K,O}"/> provider service implementation.
     /// </param>
-    void Initialize(ILanguageProviderService<
-        DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType,
-        AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> providerService);
+    void Initialize(ILanguageProviderService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> providerService);
     #endregion
 }

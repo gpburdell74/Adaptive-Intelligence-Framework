@@ -1,8 +1,7 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.Services;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.CodeDom;
+namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents the code statement marking the end of a procedure (END PROCEDURE)

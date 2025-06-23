@@ -1,6 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.LanguageService;
+namespace Adaptive.Intelligence.LanguageService.Dictionaries;
 
 /// <summary>
 /// Provides the base definition for a two-way look-up dictionary implementation.
@@ -98,7 +98,7 @@ public abstract class TwoWayDictionaryBase<PrimaryValue, SecondaryValue> : Dispo
         {
             PrimaryValue key = keyValues[count];
             SecondaryValue data = dataValues[count];
-            AddEntry(key, data);
+            AddEntry(key,NormalizeKeyValue(key),  data);
         }
     }
     /// <summary>

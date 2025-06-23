@@ -1,6 +1,7 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.LanguageService.Parsing;
+namespace Adaptive.Intelligence.LanguageService.Parsing;
 
 /// <summary>
 /// Provides the signature definition for the internal worker object used to support a code/language parser instance.

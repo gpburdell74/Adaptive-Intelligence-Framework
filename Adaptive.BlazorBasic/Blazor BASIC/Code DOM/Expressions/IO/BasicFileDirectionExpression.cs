@@ -1,9 +1,8 @@
-﻿using Adaptive.BlazorBasic.LanguageService.CodeDom;
-using Adaptive.BlazorBasic.Services;
-using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.CodeDom;
+namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents a code expression for an I/O operation indicating the direction of the I/O or manner of creation of a file.

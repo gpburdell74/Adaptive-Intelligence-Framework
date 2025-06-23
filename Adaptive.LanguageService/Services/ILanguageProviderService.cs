@@ -1,24 +1,17 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Dictionaries;
 
-namespace Adaptive.LanguageService.Services;
+namespace Adaptive.Intelligence.LanguageService.Services;
 
 /// <summary>
 /// Provides the signature definition for a service that creates and manages <see cref="ICodeProvider"/> instances.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface ILanguageProviderService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType,
-    AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> : IDisposable 
+public interface ILanguageProviderService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> : IDisposable 
     where DelimiterType : Enum
     where ErrorType : Enum
     where FunctionType : Enum
     where KeywordType : Enum
     where OperatorType : Enum
-    where AssignmentType : Enum
-    where BitwiseType : Enum
-    where ComparisonType : Enum
-    where LogicalType : Enum
-    where MathType : Enum
-    where OperationalType : Enum
 {
     /// <summary>
     /// Creates the data type dictionary.
@@ -61,8 +54,7 @@ public interface ILanguageProviderService<DelimiterType, ErrorType, FunctionType
     /// <returns>
     /// An <see cref="IOperatorDictionary{T}"/> that contains the operators used in the language.
     /// </returns>
-    IOperatorDictionary<OperatorType, AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> 
-        CreateOperatorDictionary();
+    IOperatorDictionary<OperatorType> CreateOperatorDictionary();
     /// <summary>
     /// Creates the list of single-character delimiters.
     /// </summary>

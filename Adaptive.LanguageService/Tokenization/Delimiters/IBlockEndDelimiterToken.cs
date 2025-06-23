@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService.Tokenization;
+﻿namespace Adaptive.Intelligence.LanguageService.Tokenization;
 
 /// <summary>
 /// Provides a token to represent a delimiter marking the end of a code block definition.

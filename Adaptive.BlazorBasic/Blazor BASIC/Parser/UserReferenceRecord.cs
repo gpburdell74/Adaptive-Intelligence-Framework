@@ -1,7 +1,7 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
+using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.BlazorBasic.Parser;
+namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
 /// <summary>
 /// Represents a code item that is a user-defined value that references a procedure, function, or variable.

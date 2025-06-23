@@ -1,4 +1,4 @@
-﻿namespace Adaptive.BlazorBasic.LanguageService.CodeDom;
+﻿namespace Adaptive.Intelligence.LanguageService.CodeDom;
 
 /// <summary>
 /// Provides the signature definition for instances that represent generic code expressions.

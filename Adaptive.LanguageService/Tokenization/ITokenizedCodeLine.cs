@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService.Tokenization;
+﻿namespace Adaptive.Intelligence.LanguageService.Tokenization;
 
 /// <summary>
 /// Represents a single line of code that has been tokenized, and manages the tokens for that line.

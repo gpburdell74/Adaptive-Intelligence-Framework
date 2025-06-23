@@ -1,7 +1,6 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.Parser;
-using Adaptive.BlazorBasic.Services;
-using Adaptive.LanguageService.Providers;
+﻿using Adaptive.Intelligence.BlazorBasic.LanguageService;
+using Adaptive.Intelligence.BlazorBasic.Parser;
+using Adaptive.Intelligence.BlazorBasic.Services;
 
 namespace Test_Console;
 
@@ -15,15 +14,9 @@ internal class Program
              new BlazorBasicDataTypeProvider(),
         new BlazorBasicDelimiterProvider(),
         new BlazorBasicErrorProvider(),
-        new BasicFunctionProvider(),
+        new BlazorBasicFunctionProvider(),
         new BlazorBasicKeywordProvider(),
-        new OperatorProvider(
-            new AssignmentOperatorProvider(),
-            new BitwiseOperatorProvider(),
-            new ComparisonOperatorProvider(),
-            new LogicalOperatorProvider(),
-            new MathOperatorProvider(),
-            new OperationalOperatorProvider()));
+        new BlazorBasicOperatorProvider());
 
         BlazorBasicLanguageService service = new BlazorBasicLanguageService(providerService);
         ParserOutputLogger logger = new ParserOutputLogger();

@@ -1,10 +1,10 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
+﻿using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Providers;
+using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService;
-using Adaptive.LanguageService.Providers;
-using Adaptive.LanguageService.Services;
 
-namespace Adaptive.BlazorBasic.Services;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides the service for creating dictionaries and language provider instances for Blazor BASIC.
@@ -16,13 +16,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
         BlazorBasicErrorCodes,
         BlazorBasicFunctions, 
         BlazorBasicKeywords, 
-        StandardOperators,
-        BlazorBasicAssignmentOperators, 
-        BlazorBasicBitwiseOperators,
-        BlazorBasicComparisonOperators,
-        BlazorBasicLogicalOperators,
-        BlazorBasicMathOperators,
-        BlazorBasicOperationalOperators>
+        StandardOperators>
 {
     #region Private Member Declarations
     /// <summary>
@@ -116,7 +110,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the data type dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IDataTypeDictionary"/> that contains the data types used in the language.
+    /// An <see cref="BlazorBasicDataTypeDictionary"/> that contains the data types used in the language.
     /// </returns>
     public BlazorBasicDataTypeDictionary CreateDataTypeDictionary()
     {
@@ -131,7 +125,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the delimiter dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IDataTypeDictionary"/> that contains the delimiters used in the language.
+    /// An <see cref="BlazorBasicDelimiterDictionary"/> that contains the delimiters used in the language.
     /// </returns>
     public BlazorBasicDelimiterDictionary CreateDelimiterDictionary()
     {
@@ -147,7 +141,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the errors dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IErrorDictionary{T}"/> that contains the error types used in the language.
+    /// An <see cref="BlazorBasicErrorDictionary"/> that contains the error types used in the language.
     /// </returns>
     public BlazorBasicErrorDictionary CreateErrorDictionary()
     {
@@ -163,7 +157,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the built-in functions dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IDataTypeDictionary"/> that contains the built in functions used in the language.
+    /// An <see cref="BlazorBasicFunctionDictionary"/> that contains the built in functions used in the language.
     /// </returns>
     public BlazorBasicFunctionDictionary CreateFunctionsDictionary()
     {
@@ -178,7 +172,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the keyword / reserved word dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IDataTypeDictionary"/> that contains the keywords used in the language.
+    /// An <see cref="BlazorBasicKeywordsDictionary"/> that contains the keywords used in the language.
     /// </returns>
     public BlazorBasicKeywordsDictionary CreateKeywordsDictionary()
     {
@@ -193,7 +187,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the operators dictionary and sub-dictionaries.
     /// </summary>
     /// <returns>
-    /// An <see cref="IOperatorDictionary{A,B,C,D,E,F,G}"/> that contains the operators used in the language.
+    /// An <see cref="BlazorBasicOperatorDictionary"/> that contains the operators used in the language.
     /// </returns>
     public BlazorBasicOperatorDictionary CreateOperatorDictionary()
     {
@@ -212,7 +206,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// parsing: 1+1 or myVariable=3.
     /// </remarks>
     /// <returns>
-    /// An <see cref="IDataTypeDictionary"/> that contains the list of delimiters that are single-character length.
+    /// A <see cref="List{T}"/> of strings that contains the list of delimiters that are single-character length.
     /// </returns>
     public List<string> GetSingleCharacterDelimiters()
     {
@@ -243,13 +237,8 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
         BlazorBasicErrorCodes,
         BlazorBasicFunctions,
         BlazorBasicKeywords,
-        StandardOperators,
-        BlazorBasicAssignmentOperators,
-        BlazorBasicBitwiseOperators,
-        BlazorBasicComparisonOperators,
-        BlazorBasicLogicalOperators,
-        BlazorBasicMathOperators,
-        BlazorBasicOperationalOperators>.CreateDataTypeDictionary()
+    StandardOperators>
+    .CreateDataTypeDictionary()
     {
         return CreateDataTypeDictionary();
     }
@@ -266,13 +255,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
         BlazorBasicErrorCodes, 
         BlazorBasicFunctions, 
         BlazorBasicKeywords, 
-        StandardOperators, 
-        BlazorBasicAssignmentOperators, 
-        BlazorBasicBitwiseOperators, 
-        BlazorBasicComparisonOperators, 
-        BlazorBasicLogicalOperators, 
-        BlazorBasicMathOperators, 
-        BlazorBasicOperationalOperators>.CreateDelimiterDictionary()
+        StandardOperators>.CreateDelimiterDictionary()
     {
         return CreateDelimiterDictionary();
     }
@@ -281,7 +264,7 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the errors dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IErrorDictionary" /> that contains the error types used in the language.
+    /// An <see cref="IErrorDictionary{T}" /> that contains the error types used in the language.
     /// </returns>
     IErrorDictionary<BlazorBasicErrorCodes>
     ILanguageProviderService<
@@ -289,29 +272,61 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
         BlazorBasicErrorCodes,
         BlazorBasicFunctions,
         BlazorBasicKeywords,
-        StandardOperators,
-        BlazorBasicAssignmentOperators,
-        BlazorBasicBitwiseOperators,
-        BlazorBasicComparisonOperators,
-        BlazorBasicLogicalOperators,
-        BlazorBasicMathOperators,
-        BlazorBasicOperationalOperators>.CreateErrorDictionary()
+        StandardOperators>
+        .CreateErrorDictionary()
     {
         return CreateErrorDictionary();
     }
-
-    IBuiltInFunctionDictionary<BlazorBasicFunctions> ILanguageProviderService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.CreateFunctionsDictionary()
+    /// <summary>
+    /// Creates the built-in functions dictionary.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="IBuiltInFunctionDictionary{T}" /> that contains the built in functions used in the language.
+    /// </returns>
+    IBuiltInFunctionDictionary<BlazorBasicFunctions> 
+        ILanguageProviderService<
+            BlazorBasicDelimiters, 
+            BlazorBasicErrorCodes, 
+            BlazorBasicFunctions, 
+            BlazorBasicKeywords, 
+            StandardOperators>
+        .CreateFunctionsDictionary()
     {
         return CreateFunctionsDictionary();
     }
 
-    IKeywordDictionary<BlazorBasicKeywords> ILanguageProviderService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.CreateKeywordsDictionary()
+    /// <summary>
+    /// Creates the keyword / reserved word dictionary.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="IKeywordDictionary{T}" /> that contains the keywords used in the language.
+    /// </returns>
+    IKeywordDictionary<BlazorBasicKeywords> 
+        ILanguageProviderService<
+            BlazorBasicDelimiters, 
+            BlazorBasicErrorCodes, 
+            BlazorBasicFunctions, 
+            BlazorBasicKeywords, 
+            StandardOperators>
+        .CreateKeywordsDictionary()
     {
         return CreateKeywordsDictionary();
     }
 
-    IOperatorDictionary<StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators> 
-        ILanguageProviderService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.CreateOperatorDictionary()
+    /// <summary>
+    /// Creates the operators dictionary and sub-dictionaries.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="IOperatorDictionary{T}" /> that contains the operators used in the language.
+    /// </returns>
+    IOperatorDictionary<StandardOperators> 
+        ILanguageProviderService<
+            BlazorBasicDelimiters, 
+            BlazorBasicErrorCodes, 
+            BlazorBasicFunctions, 
+            BlazorBasicKeywords, 
+            StandardOperators>
+        .CreateOperatorDictionary()
     {
         return CreateOperatorDictionary();
     }

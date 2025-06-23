@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService.Tokenization;
+﻿namespace Adaptive.Intelligence.LanguageService.Tokenization;
 
 /// <summary>
 /// Provides the signature definition for a token to represent a number value without a decimal point.

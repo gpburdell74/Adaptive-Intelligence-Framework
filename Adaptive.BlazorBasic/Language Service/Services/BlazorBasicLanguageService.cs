@@ -1,30 +1,26 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.BlazorBasic.Parser;
+﻿using Adaptive.Intelligence.BlazorBasic.LanguageService;
+using Adaptive.Intelligence.BlazorBasic.Parser;
+using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Parsing;
+using Adaptive.Intelligence.LanguageService.Services;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService;
-using Adaptive.LanguageService.Parsing;
-using Adaptive.LanguageService.Services;
-using Adaptive.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.Services;
+namespace Adaptive.Intelligence.BlazorBasic.Services;
 
 /// <summary>
 /// Provides the implementation of the language service for the Blazor BASIC Language.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService<
-    BlazorBasicDelimiters,
-    BlazorBasicErrorCodes,
-    BlazorBasicFunctions,
-    BlazorBasicKeywords,
-    StandardOperators,
-    BlazorBasicAssignmentOperators,
-    BlazorBasicBitwiseOperators,
-    BlazorBasicComparisonOperators,
-    BlazorBasicLogicalOperators,
-    BlazorBasicMathOperators,
-    BlazorBasicOperationalOperators>
-
+public class BlazorBasicLanguageService : 
+    DisposableObjectBase, 
+    ILanguageService<
+        BlazorBasicDelimiters,
+        BlazorBasicErrorCodes,
+        BlazorBasicFunctions,
+        BlazorBasicKeywords,
+        StandardOperators>
 {
     #region Private Member Declarations
 
@@ -36,13 +32,7 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
         BlazorBasicErrorCodes,
         BlazorBasicFunctions,
         BlazorBasicKeywords,
-        StandardOperators,
-        BlazorBasicAssignmentOperators,
-        BlazorBasicBitwiseOperators,
-        BlazorBasicComparisonOperators,
-        BlazorBasicLogicalOperators,
-        BlazorBasicMathOperators,
-        BlazorBasicOperationalOperators>? _providerService;
+        StandardOperators>? _providerService;
 
     /// <summary>
     /// The data types dictionary.
@@ -255,12 +245,60 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
             return _parsingElements;
         }
     }
+    #endregion
 
-    IDelimiterDictionary<BlazorBasicDelimiters> ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.Delimiters => Delimiters;
-    IErrorDictionary<BlazorBasicErrorCodes> ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.Errors => Errors;
-    IBuiltInFunctionDictionary<BlazorBasicFunctions> ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.Functions => Functions;
-    IKeywordDictionary<BlazorBasicKeywords> ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.Keywords => Keywords;
-    IOperatorDictionary<StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators> ILanguageService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators>.Operators => Operators;
+    #region Interface Implementation Properties    
+    /// <summary>
+    /// Gets the reference to the delimiters dictionary.
+    /// </summary>
+    /// <value>
+    /// The <see cref="!:IDelimiterDictionary" /> containing the list of valid delimiter definitions.
+    /// </value>
+    IDelimiterDictionary<BlazorBasicDelimiters>
+        ILanguageService<
+            BlazorBasicDelimiters,
+            BlazorBasicErrorCodes,
+            BlazorBasicFunctions,
+            BlazorBasicKeywords,
+            StandardOperators>
+        .Delimiters => _delimiters;
+
+    /// <summary>
+    /// Gets the reference to the error types dictionary.
+    /// </summary>
+    /// <value>
+    /// The <see cref="IErrorDictionary{T}" /> containing the list of valid error types.
+    /// </value>
+    IErrorDictionary<BlazorBasicErrorCodes>
+        ILanguageService<
+            BlazorBasicDelimiters,
+            BlazorBasicErrorCodes,
+            BlazorBasicFunctions,
+            BlazorBasicKeywords,
+            StandardOperators>.Errors => _errors;
+
+    IBuiltInFunctionDictionary<BlazorBasicFunctions>
+        ILanguageService<
+            BlazorBasicDelimiters,
+            BlazorBasicErrorCodes,
+            BlazorBasicFunctions,
+            BlazorBasicKeywords,
+            StandardOperators>.Functions { get; }
+    IKeywordDictionary<BlazorBasicKeywords>
+        ILanguageService<
+            BlazorBasicDelimiters,
+            BlazorBasicErrorCodes,
+            BlazorBasicFunctions,
+            BlazorBasicKeywords,
+            StandardOperators>.Keywords => _keywords;
+        
+    IOperatorDictionary<StandardOperators>
+        ILanguageService<
+            BlazorBasicDelimiters,
+            BlazorBasicErrorCodes,
+            BlazorBasicFunctions,
+            BlazorBasicKeywords,
+            StandardOperators>.Operators => _operators;
 
     #endregion
 
@@ -364,19 +402,14 @@ public class BlazorBasicLanguageService : DisposableObjectBase, ILanguageService
     /// This is the explicit interface implementation.
     /// </remarks>
     /// <param name="providerService">
-    /// The <see cref="ILanguageProviderService{a,b,c,d,e,f,g,h,i,j,k}" /> provider service implementation.</param>
+    /// The <see cref="ILanguageProviderService{D,E,F,K,O}" /> provider service implementation.</param>
     void ILanguageService<
         BlazorBasicDelimiters, 
         BlazorBasicErrorCodes, 
         BlazorBasicFunctions, 
         BlazorBasicKeywords, 
-        StandardOperators, 
-        BlazorBasicAssignmentOperators, 
-        BlazorBasicBitwiseOperators, 
-        BlazorBasicComparisonOperators, 
-        BlazorBasicLogicalOperators, 
-        BlazorBasicMathOperators, 
-        BlazorBasicOperationalOperators>.Initialize(ILanguageProviderService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators, BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators, BlazorBasicOperationalOperators> providerService)
+        StandardOperators>
+        .Initialize(ILanguageProviderService<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators> providerService)
     {
         Initialize((BlazorBasicProviderService)providerService);
     }

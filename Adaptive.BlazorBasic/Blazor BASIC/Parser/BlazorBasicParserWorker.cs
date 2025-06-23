@@ -1,13 +1,13 @@
-﻿using Adaptive.BlazorBasic.CodeDom;
-using Adaptive.BlazorBasic.LanguageService.CodeDom;
-using Adaptive.BlazorBasic.Services;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Parsing;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService;
-using Adaptive.LanguageService.Parsing;
-using Adaptive.LanguageService.Tokenization;
 using System.Text;
 
-namespace Adaptive.BlazorBasic.Parser;
+namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
 /// <summary>
 /// Provides the parsing methods and functions for the Blazor BASIC language.
@@ -16,7 +16,7 @@ namespace Adaptive.BlazorBasic.Parser;
 /// <seealso cref="ICodeParserWorker" />
 public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
 {
-    #region Private Member Declarations    
+    #region Private Member Declarations
     /// <summary>
     /// The language service instance.
     /// </summary>

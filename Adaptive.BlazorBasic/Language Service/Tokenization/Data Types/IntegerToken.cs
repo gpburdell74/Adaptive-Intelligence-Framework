@@ -1,7 +1,7 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
-using Adaptive.LanguageService.Tokenization;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a token to represent a number value with no decimal point.

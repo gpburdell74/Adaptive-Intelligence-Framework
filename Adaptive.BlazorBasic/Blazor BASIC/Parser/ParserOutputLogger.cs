@@ -1,10 +1,10 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.LanguageService.Parsing;
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Logging;
-using Adaptive.LanguageService.Parsing;
 using System.Diagnostics;
 using System.Text;
 
-namespace Adaptive.BlazorBasic.Parser;
+namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
 /// <summary>
 /// Provides the logging mechanism for the parsing output.

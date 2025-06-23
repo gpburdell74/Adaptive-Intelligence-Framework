@@ -1,25 +1,18 @@
-﻿using Adaptive.LanguageService.Parsing;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Parsing;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.LanguageService.Services;
+namespace Adaptive.Intelligence.LanguageService.Services;
 
 /// <summary>
 /// Provides the signature definition for a language parsing service implementation.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface IParsingService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType,
-    AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType> : IDisposable
+public interface IParsingService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> : IDisposable
     where DelimiterType : Enum
     where ErrorType : Enum
     where FunctionType : Enum
     where KeywordType : Enum
     where OperatorType : Enum
-    where AssignmentType : Enum
-    where BitwiseType : Enum
-    where ComparisonType : Enum
-    where LogicalType : Enum
-    where MathType : Enum
-    where OperationalType : Enum
 {
     #region Properties
     /// <summary>
@@ -34,10 +27,9 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// Gets the reference to the language service used during the parsing operations.
     /// </summary>
     /// <value>
-    /// The <see cref="ILanguageService"/> instance.
+    /// The <see cref="ILanguageService{D,E,F,K,O}"/> instance.
     /// </value>
-    ILanguageService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType,
-        AssignmentType, BitwiseType, ComparisonType, LogicalType, MathType, OperationalType>? Service { get; }
+    ILanguageService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType>? Service { get; }
     #endregion
 
     /// <summary>

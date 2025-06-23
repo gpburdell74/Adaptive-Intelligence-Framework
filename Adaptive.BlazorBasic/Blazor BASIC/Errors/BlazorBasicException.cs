@@ -1,6 +1,6 @@
-﻿using Adaptive.BlazorBasic.Services;
+﻿using Adaptive.Intelligence.BlazorBasic.Services;
 
-namespace Adaptive.BlazorBasic;
+namespace Adaptive.Intelligence.BlazorBasic;
 
 /// <summary>
 /// Represents an error / exception in the Blazor BASIC language.

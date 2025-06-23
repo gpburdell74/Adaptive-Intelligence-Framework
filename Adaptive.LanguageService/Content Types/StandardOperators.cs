@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService;
+﻿namespace Adaptive.Intelligence.LanguageService;
 
 /// <summary>
 /// Lists the standard operators the language service supports.
@@ -14,7 +14,7 @@ public enum StandardOperators
     /// </summary>
     AssignmentEquals = 1,
     /// <summary>
-    /// Indicates the single-character bitwise AND operator ( & ).
+    /// Indicates the single-character bitwise AND operator ( &amp; ).
     /// </summary>
     BitwiseShortAnd,
     /// <summary>
@@ -54,51 +54,51 @@ public enum StandardOperators
     /// </summary>
     ComparisonNotEqualTo,
     /// <summary>
-    /// Indicates the AND operator (AND)
+    /// Indicates the AND operator (AND).
     /// </summary>
     LogicalAnd,
     /// <summary>
-    /// Indicates the AND operator (&&)
+    /// Indicates the AND operator (&amp;&amp;).
     /// </summary>
     LogicalAndShort,
     /// <summary>
-    /// Indicates the OR operator (OR)
+    /// Indicates the OR operator (OR).
     /// </summary>
     LogicalOr,
     /// <summary>
-    /// Indicates the OR operator (||)
+    /// Indicates the OR operator (||).
     /// </summary>
     LogicalOrShort,
     /// <summary>
-    /// Indicates the NOT operator (NOT)
+    /// Indicates the NOT operator (NOT).
     /// </summary>
     LogicalNot,
     /// <summary>
-    /// Indicates the NOT operator (!)
+    /// Indicates the NOT operator (!).
     /// </summary>
     LogicalNotShort,
     /// <summary>
-    /// Indicates the addition operator (+)
+    /// Indicates the addition operator (+).
     /// </summary>
     MathAdd,
     /// <summary>
-    /// Indicates the subtraction operator (-)
+    /// Indicates the subtraction operator (-).
     /// </summary>
     MathSubtract,
     /// <summary>
-    /// Indicates the multiplication operator (*)
+    /// Indicates the multiplication operator (*).
     /// </summary>
     MathMultiply,
     /// <summary>
-    /// Indicates the division operator (/)
+    /// Indicates the division operator (/).
     /// </summary>
     MathDivide,
     /// <summary>
-    /// Indicates the Exponent operator (^)
+    /// Indicates the Exponent operator (^).
     /// </summary>
     MathExponent,
     /// <summary>
-    /// Indicates the modulus operator (%)
+    /// Indicates the modulus operator (%).
     /// </summary>
     MathModulus,
     /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService;
+﻿namespace Adaptive.Intelligence.LanguageService;
 
 /// <summary>
 /// Lists the standard operator types the language service supports.
@@ -18,7 +18,7 @@ public enum StandardOperatorTypes
     /// </summary>
     Assignment,
     /// <summary>
-    /// Indicates an bitwise operator type (such as & or |).
+    /// Indicates an bitwise operator type (such as &amp; or |).
     /// </summary>
     Bitwise,
     /// <summary>
@@ -34,7 +34,7 @@ public enum StandardOperatorTypes
     /// </summary>
     Increment,
     /// <summary>
-    /// Indicates an logical operator type (such as AND, OR, NOT, &&, ||, !)
+    /// Indicates an logical operator type (such as AND, OR, NOT, &amp;&amp;, ||, !)
     /// </summary>
     Logical,
     /// <summary>

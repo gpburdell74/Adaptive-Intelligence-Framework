@@ -1,7 +1,7 @@
-﻿using Adaptive.LanguageService;
-using Adaptive.LanguageService.Providers;
+﻿using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Providers;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a two-way look-up dictionary for built-in functions.
@@ -22,7 +22,7 @@ public sealed class BlazorBasicFunctionDictionary : TwoWayDictionaryBase<string,
     }
     #endregion
 
-    #region Public Methods / Functions    
+    #region Public Methods / Functions
     /// <summary>
     /// Gets the text/name for the built-in function.
     /// </summary>
@@ -51,7 +51,9 @@ public sealed class BlazorBasicFunctionDictionary : TwoWayDictionaryBase<string,
     /// <summary>
     /// Populates the dictionary with the functions from the specified language provider.
     /// </summary>
-    /// <param name="provider">The <see cref="T:Adaptive.LanguageService.Providers.IBuiltInFunctionProvider" /> provider instance used to provide the list.</param>
+    /// <param name="provider">
+    /// The <see cref="IBuiltInFunctionProvider" /> provider instance used to provide the list.
+    /// </param>
     public void InitializeDictionary(IBuiltInFunctionProvider provider)
     {
         // Get the list of delimiters.

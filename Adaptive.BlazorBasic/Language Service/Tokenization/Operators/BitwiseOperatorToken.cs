@@ -1,13 +1,12 @@
-﻿using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a token to represent a bitwise operator such as AND or OR (&amp; or |).
 /// </summary>
 /// <seealso cref="TokenBase" />
-/// <seealso cref="IOperatorToken" />
-public class BitwiseOperatorToken : TokenBase, IOperatorToken
+public class BitwiseOperatorToken : TokenBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BitwiseOperatorToken"/> class.

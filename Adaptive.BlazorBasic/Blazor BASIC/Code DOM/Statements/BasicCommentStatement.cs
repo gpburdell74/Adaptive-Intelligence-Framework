@@ -1,8 +1,8 @@
-﻿using Adaptive.BlazorBasic.Services;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
 
-namespace Adaptive.BlazorBasic.CodeDom;
+namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents a comment statement

@@ -1,4 +1,6 @@
-﻿namespace Adaptive.LanguageService.Services;
+﻿using Adaptive.Intelligence.LanguageService.Dictionaries;
+
+namespace Adaptive.Intelligence.LanguageService.Services;
 
 /// <summary>
 /// Provides the signature definition for a basic language service.
@@ -7,8 +9,6 @@
 public interface ILanguageService: IDisposable
 {
     #region Properties
-
-    #region Dictionaries
     /// <summary>
     /// Gets the reference to the data types dictionary.
     /// </summary>
@@ -24,7 +24,5 @@ public interface ILanguageService: IDisposable
     /// The <see cref="IParsingElementDictionary"/> containing the list of valid parsing elements.
     /// </value>
     IParsingElementDictionary ParsingElements { get; }
-    #endregion
-
     #endregion
 }

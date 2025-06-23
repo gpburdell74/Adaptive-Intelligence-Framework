@@ -1,14 +1,13 @@
-﻿using Adaptive.BlazorBasic.LanguageService;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides a token to represent an increment operator, such as: ++
 /// </summary>
 /// <seealso cref="TokenBase" />
 /// <seealso cref="IOperatorToken" />
-public class IncrementOperatorToken : TokenBase, IOperatorToken
+public class IncrementOperatorToken : TokenBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="IncrementOperatorToken"/> class.

@@ -1,9 +1,9 @@
-﻿using Adaptive.BlazorBasic.Services;
+﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService.Tokenization;
 using System.Text;
 
-namespace Adaptive.BlazorBasic.Parser;
+namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
 /// <summary>
 /// Represents and manages the tokens for a line of code.

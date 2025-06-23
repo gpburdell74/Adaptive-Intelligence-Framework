@@ -1,4 +1,4 @@
-﻿namespace Adaptive.LanguageService;
+﻿namespace Adaptive.Intelligence.LanguageService.Dictionaries;
 
 /// <summary>
 /// Provides the signature definition and marker interface for code dictionary implementations.

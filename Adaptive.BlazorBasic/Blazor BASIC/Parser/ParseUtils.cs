@@ -1,4 +1,4 @@
-﻿namespace Adaptive.BlazorBasic.Parser;
+﻿namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
 /// <summary>
 /// Provides common utility methods and functions for parsing operations.

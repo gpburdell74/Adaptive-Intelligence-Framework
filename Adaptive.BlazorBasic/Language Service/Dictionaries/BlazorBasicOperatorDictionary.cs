@@ -1,55 +1,58 @@
-﻿using Adaptive.LanguageService;
-using Adaptive.LanguageService.Providers;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Providers;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
-namespace Adaptive.BlazorBasic.LanguageService;
-
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides the operator dictionary for the Blazor BASIC language.
 /// </summary>
 /// <seealso cref="TwoWayDictionaryBase{K, V}" />
-/// <seealso cref="IOperatorDictionary{A, B, C, D, E, F, G}" />
+/// <seealso cref="IOperatorDictionary{T}" />
 public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, StandardOperators>,
-        IOperatorDictionary<StandardOperators, BlazorBasicAssignmentOperators, BlazorBasicBitwiseOperators,
-        BlazorBasicComparisonOperators, BlazorBasicLogicalOperators, BlazorBasicMathOperators,
-        BlazorBasicOperationalOperators>
+        IOperatorDictionary<StandardOperators>
 {
     #region Private Member Declarations
     /// <summary>
     /// The dictionary for assignment operators.
     /// </summary>
-    private IAssignmentOperatorDictionary<BlazorBasicAssignmentOperators>? _assignment;
+    private IOperatorDictionary<StandardOperators>? _assignment;
 
     /// <summary>
     /// The dictionary for bitwise operators.
     /// </summary>
-    private IBitwiseOperatorDictionary<BlazorBasicBitwiseOperators>? _bitwise;
+    private IOperatorDictionary<StandardOperators>? _bitwise;
 
     /// <summary>
     /// The dictionary for comparison operators.
     /// </summary>
-    private IComparisonOperatorDictionary<BlazorBasicComparisonOperators>? _comparison;
+    private IOperatorDictionary<StandardOperators>? _comparison;
 
     /// <summary>
     /// The dictionary for logical operators.
     /// </summary>
-    private ILogicalOperatorDictionary<BlazorBasicLogicalOperators>? _logical;
+    private IOperatorDictionary<StandardOperators>? _logical;
 
     /// <summary>
     /// The dictionary for arithmetic operators.
     /// </summary>
-    private IMathOperatorDictionary<BlazorBasicMathOperators>? _math;
+    private IOperatorDictionary<StandardOperators>? _math;
 
     /// <summary>
     /// The dictionary for operational/functional operators.
     /// </summary>
-    private IOperationalOperatorDictionary<BlazorBasicOperationalOperators>? _ops;
+    private IOperatorDictionary<StandardOperators>? _ops;
 
     /// <summary>
     /// The delimiter type to token type map.
     /// </summary>
     private Dictionary<StandardOperators, TokenType>? _tokenMap;
+
+    /// <summary>
+    /// The operator to operator type map.
+    /// </summary>
+    private Dictionary<StandardOperators, StandardOperatorTypes>? _typeMap;
     #endregion
 
     #region Constructor 
@@ -78,6 +81,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
             _math?.Dispose();
             _ops?.Dispose();
             _tokenMap?.Clear();
+            _typeMap?.Clear();
 
         }
         _assignment = null;
@@ -87,6 +91,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
         _math = null;
         _ops = null;
         _tokenMap = null;
+        _typeMap = null;
 
         base.Dispose(disposing);
     }
@@ -97,9 +102,9 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     /// Gets the reference to the dictionary for assignment operators.
     /// </summary>
     /// <value>
-    /// The <see cref="IAssignmentOperatorDictionary{T}"/> of <see cref="BlazorBasicAssignmentOperators"/> instance.
+    /// The <see cref="IOperatorDictionary{T}"/> of <see cref="StandardOperators"/> instance.
     /// </value>
-    public IAssignmentOperatorDictionary<BlazorBasicAssignmentOperators> AssignmentOperators
+    public IOperatorDictionary<StandardOperators> AssignmentOperators
     {
         get
         {
@@ -113,9 +118,9 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     /// Gets the reference to the dictionary for bitwise operators.
     /// </summary>
     /// <value>
-    /// The <see cref="IBitwiseOperatorDictionary{T}"/> of <see cref="BlazorBasicBitwiseOperators"/> instance.
+    /// The <see cref="IOperatorDictionary{T}"/> of <see cref="StandardOperators"/> instance.
     /// </value>
-    public IBitwiseOperatorDictionary<BlazorBasicBitwiseOperators> BitwiseOperators
+    public IOperatorDictionary<StandardOperators> BitwiseOperators
     {
         get
         {
@@ -129,9 +134,9 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     /// Gets the reference to the dictionary for comparison operators.
     /// </summary>
     /// <value>
-    /// The <see cref="IComparisonOperatorDictionary{T}"/> of <see cref="BlazorBasicComparisonOperators"/> instance.
+    /// The <see cref="IOperatorDictionary{T}"/> of <see cref="StandardOperators"/> instance.
     /// </value>
-    public IComparisonOperatorDictionary<BlazorBasicComparisonOperators> ComparisonOperators
+    public IOperatorDictionary<StandardOperators> ComparisonOperators
     {
         get
         {
@@ -145,9 +150,9 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     /// Gets the reference to the dictionary for logical operators.
     /// </summary>
     /// <value>
-    /// The <see cref="ILogicalOperatorDictionary{T}"/> of <see cref="BlazorBasicLogicalOperators"/> instance.
+    /// The <see cref="IOperatorDictionary{T}"/> of <see cref="StandardOperators"/> instance.
     /// </value>
-    public ILogicalOperatorDictionary<BlazorBasicLogicalOperators> LogicalOperators
+    public IOperatorDictionary<StandardOperators> LogicalOperators
     {
         get
         {
@@ -161,9 +166,9 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     /// Gets the reference to the dictionary for arithmetic operators.
     /// </summary>
     /// <value>
-    /// The <see cref="IMathOperatorDictionary{T}"/> of <see cref="BlazorBasicMathOperators"/> instance.
+    /// The <see cref="IOperatorDictionary{T}"/> of <see cref="StandardOperators"/> instance.
     /// </value>
-    public IMathOperatorDictionary<BlazorBasicMathOperators> MathOperators
+    public IOperatorDictionary<StandardOperators> MathOperators
     {
         get
         {
@@ -177,9 +182,9 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     /// Gets the reference to the dictionary for operational/functional operators.
     /// </summary>
     /// <value>
-    /// The <see cref="IOperationalOperatorDictionary{T}"/> of <see cref="BlazorBasicOperationalOperators"/> instance.
+    /// The <see cref="IOperatorDictionary{T}"/> of <see cref="StandardOperators"/> instance.
     /// </value>
-    public IOperationalOperatorDictionary<BlazorBasicOperationalOperators> OperationalOperators
+    public IOperatorDictionary<StandardOperators> OperationalOperators
     {
         get
         {
@@ -245,6 +250,21 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
         InitializeSubDictionaries(provider);
 
         InitializeTokenMap();
+        InitializeTypeMap();
+    }
+    /// <summary>
+    /// Gets the type of the operator.
+    /// </summary>
+    /// <param name="operatorItem"></param>
+    /// <returns>
+    /// A <see cref="StandardOperatorTypes" /> enumerated value indicating the type of operator.
+    /// </returns>
+    public StandardOperatorTypes GetOperatorType(StandardOperators operatorItem)
+    {
+        if (_typeMap == null)
+            return StandardOperatorTypes.Unknown;
+
+        return _typeMap[operatorItem];
     }
 
     /// <summary>
@@ -310,20 +330,12 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     /// </param>
     private void InitializeSubDictionaries(IOperatorProvider provider)
     {
-
-        _assignment = new BlazorBasicAssignmentOperatorDictionary();
-        _bitwise = new BlazorBasicBitwiseOperatorDictionary();
-        _comparison = new BlazorBasicComparisonOperatorDictionary();
-        _logical = new BlazorBasicLogicalOperatorDictionary();
-        _math = new BlazorBasicMathOperatorDictionary();
-        _ops = new BlazorBasicOperationalOperatorDictionary();
-
-        _assignment.InitializeDictionary(provider.AssignmentOperators);
-        _bitwise.InitializeDictionary(provider.BitwiseOperators);
-        _comparison.InitializeDictionary(provider.ComparisonOperators);
-        _logical.InitializeDictionary(provider.LogicalOperators);
-        _math.InitializeDictionary(provider.MathOperators);
-        _ops.InitializeDictionary(provider.OperationOperators);
+        CreateAssignmentsDictionary();
+        CreateBitwiseDictionary();
+        CreateComparisonDictionary();
+        CreateLogicalDictionary();
+        CreateMathDictionary();
+        CreateOpsDictionary();
     }
     /// <summary>
     /// Initializes the token map.
@@ -358,6 +370,119 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
             { StandardOperators.OpsIncrement, TokenType.IncrementOperator },
             { StandardOperators.OpsDecrement, TokenType.DecrementOperator }
         };
+    }
+    private void InitializeTypeMap()
+    {
+        _typeMap = new Dictionary<StandardOperators, StandardOperatorTypes>()
+        {
+            { StandardOperators.AssignmentEquals, StandardOperatorTypes.Assignment },
+            { StandardOperators.BitwiseShortAnd, StandardOperatorTypes.Bitwise },
+            { StandardOperators.BitwiseLongAnd, StandardOperatorTypes.Bitwise },
+            { StandardOperators.BitwiseShortOr, StandardOperatorTypes.Bitwise },
+            { StandardOperators.BitwiseLongOr, StandardOperatorTypes.Bitwise },
+            { StandardOperators.ComparisonEqualTo, StandardOperatorTypes.Comparison },
+            { StandardOperators.ComparisonGreaterThan, StandardOperatorTypes.Comparison },
+            { StandardOperators.ComparisonGreaterThanOrEqualTo, StandardOperatorTypes.Comparison },
+            { StandardOperators.ComparisonLessThan, StandardOperatorTypes.Comparison },
+            { StandardOperators.ComparisonLessThanOrEqualTo, StandardOperatorTypes.Comparison },
+            { StandardOperators.ComparisonNotEqualTo, StandardOperatorTypes.Comparison },
+            { StandardOperators.LogicalAnd, StandardOperatorTypes.Logical },
+            { StandardOperators.LogicalAndShort, StandardOperatorTypes.Logical },
+            { StandardOperators.LogicalOr, StandardOperatorTypes.Logical },
+            { StandardOperators.LogicalOrShort, StandardOperatorTypes.Logical },
+            { StandardOperators.LogicalNot, StandardOperatorTypes.Logical },
+            { StandardOperators.LogicalNotShort, StandardOperatorTypes.Logical },
+            { StandardOperators.MathAdd, StandardOperatorTypes.Arithmetic },
+            { StandardOperators.MathSubtract, StandardOperatorTypes.Arithmetic },
+            { StandardOperators.MathMultiply, StandardOperatorTypes.Arithmetic },
+            { StandardOperators.MathDivide, StandardOperatorTypes.Arithmetic },
+            { StandardOperators.MathExponent, StandardOperatorTypes.Arithmetic },
+            { StandardOperators.MathModulus, StandardOperatorTypes.Arithmetic },
+            { StandardOperators.OpsIncrement, StandardOperatorTypes.Increment },
+            { StandardOperators.OpsDecrement, StandardOperatorTypes.Decrement }
+        };
+    }
+    /// <summary>
+    /// Creates and adds the assignment operators to the dictionary.
+    /// </summary>
+    private void CreateAssignmentsDictionary()
+    {
+        _assignment?.Dispose();
+
+        _assignment = new BlazorBasicOperatorDictionary();
+        _assignment.AddEntry(OperatorNames.OperatorAssignment, StandardOperators.AssignmentEquals);
+    }
+    /// <summary>
+    /// Creates and adds the bitwise operators to the dictionary.
+    /// </summary>
+    private void CreateBitwiseDictionary()
+    {
+        _bitwise?.Dispose();
+
+        _bitwise = new BlazorBasicOperatorDictionary();
+        _bitwise.AddEntry(OperatorNames.OperatorBitwiseAnd, StandardOperators.BitwiseShortAnd);
+        _bitwise.AddEntry(OperatorNames.OperatorBitwiseLongAnd, StandardOperators.BitwiseLongAnd);
+        _bitwise.AddEntry(OperatorNames.OperatorBitwiseOr, StandardOperators.BitwiseShortOr);
+        _bitwise.AddEntry(OperatorNames.OperatorBitwiseLongOr, StandardOperators.BitwiseLongOr);
+    }
+    /// <summary>
+    /// Creates and adds the comparison operators to the dictionary.
+    /// </summary>
+    private void CreateComparisonDictionary()
+    {
+        _comparison?.Dispose();
+
+        _comparison = new BlazorBasicOperatorDictionary();
+        _comparison.AddEntry(OperatorNames.OperatorGreaterThan, StandardOperators.ComparisonGreaterThan);
+        _comparison.AddEntry(OperatorNames.OperatorGreaterThanOrEqualTo, StandardOperators.ComparisonGreaterThanOrEqualTo);
+        _comparison.AddEntry(OperatorNames.OperatorLessThan, StandardOperators.ComparisonLessThan);
+        _comparison.AddEntry(OperatorNames.OperatorLessThanOrEqualTo, StandardOperators.ComparisonLessThanOrEqualTo);
+        _comparison.AddEntry(OperatorNames.OperatorEqualTo, StandardOperators.ComparisonEqualTo);
+        _comparison.AddEntry(OperatorNames.OperatorNotEqualTo, StandardOperators.ComparisonNotEqualTo);
+    }
+    /// <summary>
+    /// Creates and adds the logical operators to the dictionary.
+    /// </summary>
+    private void CreateLogicalDictionary()
+    {
+        _logical?.Dispose();
+
+        _logical = new BlazorBasicOperatorDictionary();
+        _logical.AddEntry(OperatorNames.OperatorLogicalAnd, StandardOperators.LogicalAnd);
+        _logical.AddEntry(OperatorNames.OperatorLogicalAndShort, StandardOperators.LogicalAndShort);
+        _logical.AddEntry(OperatorNames.OperatorLogicalOr, StandardOperators.LogicalOr);
+        _logical.AddEntry(OperatorNames.OperatorLogicalOrShort, StandardOperators.LogicalOrShort);
+        _logical.AddEntry(OperatorNames.OperatorLogicalNot, StandardOperators.LogicalNot);
+        _logical.AddEntry(OperatorNames.OperatorLogicalNotShort, StandardOperators.LogicalNotShort);
+    }
+    /// <summary>
+    /// Creates and adds the arithmetic operators to the dictionary.
+    /// </summary>
+
+    private void CreateMathDictionary()
+    {
+        _math?.Dispose();
+
+        _math = new BlazorBasicOperatorDictionary();
+        _math.AddEntry(OperatorNames.OperatorAdd, StandardOperators.MathAdd);
+        _math.AddEntry(OperatorNames.OperatorSubtract, StandardOperators.MathSubtract);
+        _math.AddEntry(OperatorNames.OperatorMultiply, StandardOperators.MathMultiply);
+        _math.AddEntry(OperatorNames.OperatorDivide, StandardOperators.MathDivide);
+        _math.AddEntry(OperatorNames.OperatorModulus, StandardOperators.MathModulus);
+        _math.AddEntry(OperatorNames.OperatorExponent, StandardOperators.MathExponent);
+    }
+    /// <summary>
+    /// Creates and adds the operational / functional operators to the dictionary.
+    /// </summary>
+
+    private void CreateOpsDictionary()
+    {
+        _ops?.Dispose();
+
+        _ops = new BlazorBasicOperatorDictionary();
+        _ops.AddEntry(OperatorNames.OperatorDecrement, StandardOperators.OpsDecrement);
+        _ops.AddEntry(OperatorNames.OperatorIncrement, StandardOperators.OpsIncrement);
+
     }
     #endregion
 }

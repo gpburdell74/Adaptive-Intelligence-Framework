@@ -1,7 +1,7 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService.Providers;
+﻿using Adaptive.Intelligence.LanguageService.Providers;
+using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides the implementation for the provider that defines the list of errors and error codes.
@@ -12,11 +12,11 @@ public sealed class BlazorBasicErrorProvider : DisposableObjectBase, IErrorProvi
     /// Renders the list of error ID values (e.g. error codes) for mapping.
     /// </summary>
     /// <returns>
-    /// A <see cref="T:System.Collections.Generic.List`1" /> of unique ID values used for mapping ID to text content.
+    /// A <see cref="List{T}" /> of unique ID values used for mapping ID to text content.
     /// </returns>
     public List<int> RenderErrorIds()
     {
-        return new List<int>()
+        return new List<int>(27)
         {
             (int)BlazorBasicErrorCodes.Success,
             (int)BlazorBasicErrorCodes.Syntax,
@@ -52,11 +52,11 @@ public sealed class BlazorBasicErrorProvider : DisposableObjectBase, IErrorProvi
     /// Renders the list of error names for mapping.
     /// </summary>
     /// <returns>
-    /// A <see cref="T:System.Collections.Generic.List`1" /> of unique name values used for mapping text to ID values.
+    /// A <see cref="List{T}" /> of unique name values used for mapping text to ID values.
     /// </returns>
     public List<string> RenderErrorNames()
     {
-        return new List<string>()
+        return new List<string>(27)
         {
             ErrorNames.ErrorSuccess,
             ErrorNames.ErrorSyntax,
@@ -82,6 +82,7 @@ public sealed class BlazorBasicErrorProvider : DisposableObjectBase, IErrorProvi
             ErrorNames.ErrorPathFileAccessError,
             ErrorNames.ErrorPathNotFound,
             ErrorNames.ErrorOutOfStackSpace,
+            ErrorNames.ErrorInvalidHandle,
             ErrorNames.ErrorUnknown,
             ErrorNames.ErrorKernelPanic
         };

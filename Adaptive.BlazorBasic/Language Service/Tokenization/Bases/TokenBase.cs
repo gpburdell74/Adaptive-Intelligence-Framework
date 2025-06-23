@@ -1,7 +1,7 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.LanguageService.Tokenization;
+﻿using Adaptive.Intelligence.LanguageService.Tokenization;
+using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides the base definition for token types used in parsing code text.

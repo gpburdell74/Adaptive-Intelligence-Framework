@@ -31,9 +31,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.Intelligence.Secur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.Intelligence.SecureApi.Client", "Adaptive.Intelligence.SecureApi.Client\Adaptive.Intelligence.SecureApi.Client.csproj", "{45F45B42-6E9A-43F8-A578-7E61C185E435}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.BlazorBasic", "Adaptive.BlazorBasic\Adaptive.BlazorBasic.csproj", "{B1968138-1055-4007-9326-F33421B88EE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.Intelligence.BlazorBasic", "Adaptive.BlazorBasic\Adaptive.Intelligence.BlazorBasic.csproj", "{B1968138-1055-4007-9326-F33421B88EE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.LanguageService", "Adaptive.LanguageService\Adaptive.LanguageService.csproj", "{6EE70502-EFD6-404D-8A6F-A80128A35E7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.Intelligence.LanguageService", "Adaptive.LanguageService\Adaptive.Intelligence.LanguageService.csproj", "{6EE70502-EFD6-404D-8A6F-A80128A35E7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

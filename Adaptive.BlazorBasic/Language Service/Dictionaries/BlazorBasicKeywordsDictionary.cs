@@ -1,7 +1,7 @@
-﻿using Adaptive.LanguageService;
-using Adaptive.LanguageService.Providers;
+﻿using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Providers;
 
-namespace Adaptive.BlazorBasic.LanguageService;
+namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 
 /// <summary>
 /// Provides the built-in keywords dictionary for the Blazor BASIC language.
