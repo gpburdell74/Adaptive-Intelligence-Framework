@@ -10,9 +10,9 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// <remarks>
 /// This generally represents the "AS OUTPUT" or "AS INPUT", etc., section of an OPEN statement.
 /// </remarks>
-/// <seealso cref="DisposableObjectBase" />
+/// <seealso cref="BlazorBasicExpression" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicFileDirectionExpression : BasicExpression, ILanguageCodeExpression
+public class BasicFileDirectionExpression : BlazorBasicExpression, ILanguageCodeExpression
 {
     #region Private Member Declarations    
     /// <summary>
@@ -138,8 +138,50 @@ public class BasicFileDirectionExpression : BasicExpression, ILanguageCodeExpres
                 throw new InvalidArgumentException(0, "Invalid file direction specified: " + expression);
 
         }
-        #endregion
     }
+    #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public override string? Render()
+    {
+        string modeText = string.Empty;
+        
+        switch (_mode)
+        {
+            case FileMode.Append:
+                modeText =KeywordNames.IOAppend;
+                break;
+
+            case FileMode.CreateNew:
+                modeText = KeywordNames.IOOutput;
+                break;
+
+            case FileMode.Open:
+            case FileMode.OpenOrCreate:
+                switch (_access)
+                {
+                    case FileAccess.Read:
+                        modeText = KeywordNames.IOInput;
+                        break;
+
+                    case FileAccess.Write:
+                        modeText = KeywordNames.IOOutput;
+                        break;
+
+                    case FileAccess.ReadWrite:
+                        modeText = KeywordNames.IORandom;
+                        break;
+                }
+                break;
+        }
+        return modeText;
+    }
+    #endregion
 }
 
- 

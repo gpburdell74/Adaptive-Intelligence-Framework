@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
@@ -31,6 +32,15 @@ public class BasicClsStatement : BasicCodeStatement
     }
     #endregion
 
+
+    /// <summary>
+    /// Gets the value of how the current number of tabs being printed is to be modified.
+    /// </summary>
+    /// <value>
+    /// The tab modification.
+    /// </value>
+    public override RenderTabState TabModification => RenderTabState.None;
+
     #region Protected Method Overrides
     /// <summary>
     /// Parses the specified code content.
@@ -41,6 +51,19 @@ public class BasicClsStatement : BasicCodeStatement
     protected override void ParseIntoExpressions(ITokenizedCodeLine codeLine)
     {
         LineNumber = codeLine.LineNumber;
+    }
+    #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public override string? Render()
+    {
+        return KeywordNames.CommandCls;
     }
     #endregion
 }

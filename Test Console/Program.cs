@@ -1,6 +1,9 @@
-﻿using Adaptive.Intelligence.BlazorBasic.LanguageService;
+﻿using Adaptive.Intelligence.BlazorBasic;
+using Adaptive.Intelligence.BlazorBasic.LanguageService;
 using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom;
+using System.Text;
 
 namespace Test_Console;
 
@@ -27,9 +30,17 @@ internal class Program
 
 
         FileStream sourceStream = new FileStream(file, FileMode.Open, FileAccess.Read);
-        List<object> finalList = parsingService.ParseCodeContent(sourceStream);
+        List<ILanguageCodeStatement> finalList = parsingService.ParseCodeContent(sourceStream);
         sourceStream.Close();
         sourceStream.Dispose();
+
+        BlazorBasicStatementRenderer renderer = new BlazorBasicStatementRenderer();
+        renderer.UseTabs = true;
+
+        foreach (ILanguageCodeStatement statement in finalList)
+        {
+            Console.WriteLine(renderer.RenderStatement(statement));
+        }
 
         Console.WriteLine("");
         Console.WriteLine("Press [Enter] To Exit");

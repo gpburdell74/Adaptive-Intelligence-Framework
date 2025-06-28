@@ -4,7 +4,7 @@ using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using Microsoft.CodeAnalysis.Host;
+using System.Text;
 
 namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
@@ -258,6 +258,20 @@ public sealed class BlazorBasicTokenFactory :
     }
 
     /// <summary>
+    /// Determines whether the specified character is a delimiter.
+    /// </summary>
+    /// <param name="c">
+    /// The character to be examined.
+    /// </param>
+    /// <returns>
+    /// <c>true</c> if the specified character is a delimiter; otherwise, <c>false</c>.
+    /// </returns>
+    public bool IsDelimiter(char c)
+    {
+        return _service!.Delimiters.IsDelimiter(c.ToString());
+    }
+
+    /// <summary>
     /// Determines whether the specified character matches one of the known single-character tokens.
     /// </summary>
     /// <remarks>
@@ -329,9 +343,118 @@ public sealed class BlazorBasicTokenFactory :
         }
         return isNumber;
     }
+
+    /// <summary>
+    /// Parses the provided list of lines of code into a list of tokens for each line.
+    /// </summary>
+    /// <param name="codeLines">
+    /// A <see cref="List{T}" /> of strings each containing the code line to be parsed.</param>
+    /// <returns>
+    /// A <see cref="List{T}" /> of <see cref="ITokenizedCodeLine" /> instances of successful; otherwise,
+    /// returns <b>null</b>.
+    /// </returns>
+    public List<ITokenizedCodeLine>? TokenizeCodeLines(List<string>? codeLines)
+    {
+        List<ITokenizedCodeLine>? codeList = null;
+
+        // Return empty if a null or empty list is provided.
+        if (codeLines != null && codeLines.Count > 0)
+        {
+            codeList = new List<ITokenizedCodeLine>();
+            // For each line of code, parse into a list of basic language tokens.
+            int length = codeLines.Count;
+            for (int count = 0; count < length; count++)
+            {
+                ITokenizedCodeLine? lineTokenList = TokenizeLine(codeLines[count]);
+                if (lineTokenList != null)
+                    codeList.Add(lineTokenList);
+            }
+        }
+        return codeList;
+    }
+
+    /// <summary>
+    /// Parses the provided line of code into a list of tokens.
+    /// </summary>
+    /// <param name="codeLine">
+    /// A string containing the code line to be parsed.
+    /// </param>
+    /// <returns>
+    /// A <see cref="ITokenizedCodeLine" /> instance of successful; otherwise,
+    /// returns <b>null</b>.
+    /// </returns>
+    public ITokenizedCodeLine? TokenizeLine(string? codeLine)
+    {
+        TokenizedCodeLine? tokenList = null;
+
+        if (_service != null)
+        {
+            tokenList = new TokenizedCodeLine(_service);
+            codeLine = codeLine.Trim();
+
+            if (!string.IsNullOrEmpty(codeLine))
+            {
+                int length = codeLine.Length;
+                if (length > 0)
+                {
+                    int pos = 0;
+                    StringBuilder itemBuffer = new StringBuilder();
+
+                    do
+                    {
+                        char currentChar = codeLine[pos];
+                        if (!IsDelimiter(currentChar))
+                        {
+                            bool isToken = IsSingleCharToken(currentChar.ToString());
+                            if (isToken)
+                            {
+                                string data = itemBuffer.ToString();
+                                itemBuffer.Clear();
+                                if (data.Length > 0)
+                                {
+                                    IToken codeToken = CreateToken(data);
+                                    tokenList.Add(codeToken);
+                                }
+
+                                IToken delimiterToken = CreateToken(currentChar.ToString());
+                                tokenList.Add(delimiterToken);
+                            }
+                            else
+                            {
+                                itemBuffer.Append(currentChar);
+                            }
+                        }
+                        else
+                        {
+                            string data = itemBuffer.ToString();
+                            itemBuffer.Clear();
+                            if (data.Length > 0)
+                            {
+                                IToken codeToken = CreateToken(data);
+                                tokenList.Add(codeToken);
+                            }
+
+                            IToken delimiterToken = CreateToken(currentChar.ToString());
+                            tokenList.Add(delimiterToken);
+                        }
+                        pos++;
+                    } while (pos < length);
+
+                    if (itemBuffer.Length > 0)
+                    {
+                        string data = itemBuffer.ToString();
+                        itemBuffer.Clear();
+                        IToken codeToken = CreateToken(data);
+                        tokenList.Add(codeToken);
+                    }
+                }
+            }
+        }
+        return tokenList;
+    }
     #endregion
 
-    #region Explicit Interface Implementations    
+    #region Explicit Interface Implementations
     /// <summary>
     /// Initializes the factory instance using the specified language service reference.
     /// </summary>

@@ -1,4 +1,5 @@
-﻿using Adaptive.Intelligence.BlazorBasic.LanguageService;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
+using Adaptive.Intelligence.BlazorBasic.LanguageService;
 using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.Dictionaries;
@@ -245,6 +246,23 @@ public class BlazorBasicLanguageService :
             return _parsingElements;
         }
     }
+
+    /// <summary>
+    /// Gets the reference to the token factory implementation to use.
+    /// </summary>
+    /// <value>
+    /// The <see cref="ITokenFactory{D,E,F,K,O}" /> instance
+    /// to use to tokenize literal string content.
+    /// </value>
+    public BlazorBasicTokenFactory TokenFactory
+    {
+        get
+        {
+            if (_tokenFactory == null)
+                throw new Exception();
+            return _tokenFactory;
+        }
+    }
     #endregion
 
     #region Interface Implementation Properties    
@@ -300,6 +318,21 @@ public class BlazorBasicLanguageService :
             BlazorBasicKeywords,
             StandardOperators>.Operators => _operators;
 
+    /// <summary>
+    /// Gets the reference to the token factory implementation to use.
+    /// </summary>
+    /// <value>
+    /// The <see cref="T:Adaptive.Intelligence.LanguageService.Tokenization.ITokenFactory`5" /> instance
+    /// to use to tokenize literal string content.
+    /// </value>
+    /// <exception cref="Adaptive.Intelligence.Shared.ExceptionEventArgs.Exception"></exception>
+    ITokenFactory<BlazorBasicDelimiters, BlazorBasicErrorCodes, BlazorBasicFunctions, BlazorBasicKeywords, StandardOperators>
+        ILanguageService<
+            BlazorBasicDelimiters,
+            BlazorBasicErrorCodes,
+            BlazorBasicFunctions,
+            BlazorBasicKeywords,
+            StandardOperators>.TokenFactory => TokenFactory;
     #endregion
 
     #region Public Methods / Functions
@@ -313,7 +346,45 @@ public class BlazorBasicLanguageService :
     {
         return (IParserOutputLogger) new ParserOutputLogger();
     }
+    /// <summary>
+    /// Determines the code block type from the provided keyword.
+    /// </summary>
+    /// <param name="text">
+    /// A string containing the keyword.
+    /// </param>
+    /// <returns>
+    /// A <see cref="BlockType"/> enumerated vlaue indicating the code block type.
+    /// </returns>
+    public BlockType DetermineBlockType(string text)
+    {
+        BlockType blockType = BlockType.NoneOrUnknown;
 
+        text = text.ToUpper().Trim();
+
+        switch(text)
+        {
+            case KeywordNames.CommandIf:
+                blockType = BlockType.If;
+                break;
+
+            case KeywordNames.CommandLoop:
+            case KeywordNames.CommandDo:
+                blockType = BlockType.Loop;
+                break;
+
+            case KeywordNames.CommandProcedure:
+                blockType = BlockType.Procedure;
+                break;
+
+            case KeywordNames.CommandFunction:
+                blockType = BlockType.Function;
+                break;
+
+            default:
+                throw new SyntaxErrorException(0);
+        }
+        return blockType;
+    }
     /// <summary>
     /// Gets the list of single character token values with their mapping from the populated dictionaries.
     /// </summary>

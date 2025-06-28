@@ -51,6 +51,17 @@ public interface ITokenFactory<DelimiterType, ErrorType, FunctionType, KeywordTy
     TokenType DetermineTokenType(string originalCode);
 
     /// <summary>
+    /// Determines whether the specified character is a delimiter.
+    /// </summary>
+    /// <param name="c">
+    /// The character to be examined.
+    /// </param>
+    /// <returns>
+    /// <c>true</c> if the specified character is a delimiter; otherwise, <c>false</c>.
+    /// </returns>
+    bool IsDelimiter(char c);
+
+    /// <summary>
     /// Determines whether the specified original code is numeric.
     /// </summary>
     /// <remarks>
@@ -72,4 +83,29 @@ public interface ITokenFactory<DelimiterType, ErrorType, FunctionType, KeywordTy
     /// The <see cref="ILanguageService{D, E, F, K, O}"/> instance to use to initialize the factory.
     /// </param>
     void Initialize(ILanguageService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> service);
+
+
+    /// <summary>
+    /// Parses the provided list of lines of code into a list of tokens for each line.
+    /// </summary>
+    /// <param name="codeLines">
+    /// A <see cref="List{T}" /> of strings each containing the code line to be parsed.</param>
+    /// <returns>
+    /// A <see cref="List{T}" /> of <see cref="ITokenizedCodeLine" /> instances of successful; otherwise,
+    /// returns <b>null</b>.
+    /// </returns>
+    List<ITokenizedCodeLine>? TokenizeCodeLines(List<string>? codeLines);
+
+    /// <summary>
+    /// Parses the provided line of code into a list of tokens.
+    /// </summary>
+    /// <param name="codeLine">
+    /// A string containing the code line to be parsed.
+    /// </param>
+    /// <returns>
+    /// A <see cref="ITokenizedCodeLine" /> instance of successful; otherwise,
+    /// returns <b>null</b>.
+    /// </returns>
+    ITokenizedCodeLine? TokenizeLine(string? codeLine);
+
 }

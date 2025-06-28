@@ -22,4 +22,21 @@ public interface ILanguageCodeStatement : ILanguageCodeObject
     /// of the expressions in the remaining statement code.
     /// </value>
     List<ILanguageCodeExpression>? Expressions { get; }
+
+    /// <summary>
+    /// Gets the state of the tab / indentions when rendering.
+    /// </summary>
+    /// <value>
+    /// A <see cref="RenderTabState"/> indicating how to modify the indentation when rendering.
+    /// </value>
+    RenderTabState TabModification { get; }
+
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    string? Render();
+
 }

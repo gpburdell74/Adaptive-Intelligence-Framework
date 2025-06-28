@@ -5,7 +5,6 @@ using Adaptive.Intelligence.LanguageService.Dictionaries;
 using Adaptive.Intelligence.LanguageService.Parsing;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using System.Text;
 
 namespace Adaptive.Intelligence.BlazorBasic.Parser;
 
@@ -79,6 +78,9 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// <summary>
     /// Creates the code statements and expressions from the provided tokenized code lines.
     /// </summary>
+    /// <param name="userReferences">
+    /// A <see cref="UserReferenceTable"/> instance containing the user reference definitions.
+    /// </param>
     /// <param name="tokenizedCodeLines">
     /// A <see cref="List{T}"/> of <see cref="ITokenizedCodeLine"/> instances containing the items to be 
     /// translated into code statements and expressions.
@@ -86,7 +88,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// <returns>
     /// A <see cref="List{T}"/> of <see cref="ILanguageCodeStatement"/> instances containing the Code DOM for the line.
     /// </returns>
-    public List<ILanguageCodeStatement> CreateCodeStatements(List<ITokenizedCodeLine> tokenizedCodeLines)
+    public List<ILanguageCodeStatement> CreateCodeStatements(UserReferenceTable userReferences, List<ITokenizedCodeLine> tokenizedCodeLines)
     {
         List<ILanguageCodeStatement> list = new List<ILanguageCodeStatement>();
 
@@ -98,10 +100,31 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             do
             {
                 ITokenizedCodeLine codeLine = tokenizedCodeLines[line];
-
+                PerformSubstitutions(userReferences, codeLine);
                 ILanguageCodeStatement? statement = BasicStatementFactory.CreateStatementByCommand(_service, codeLine);
+
                 if (statement != null)
                 {
+                    // Ensure we add the parameter definitions to the list of "variables".
+                    if (statement is BasicFunctionStartStatement functionStart)
+                    {
+                        foreach (BlazorBasicParameterDefinitionExpression paramExpression in functionStart.Parameters.ParameterList)
+                        {
+                            userReferences.AddUserVariableDeclaration(functionStart.LineNumber,
+                                paramExpression.ParameterName, null);
+                        }
+                    }
+                    else if (statement is BasicProcedureStartStatement procedureStart)
+                    {
+                        if (procedureStart.Parameters != null)
+                        {
+                            foreach (BlazorBasicParameterDefinitionExpression paramExpression in procedureStart.Parameters.ParameterList)
+                            {
+                                userReferences.AddUserVariableDeclaration(procedureStart.LineNumber,
+                                    paramExpression.ParameterName, null);
+                            }
+                        }
+                    }
                     list.Add(statement);
                 }
 
@@ -111,20 +134,6 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
         }
 
         return list;
-    }
-
-    /// <summary>
-    /// Determines whether the specified character is a delimiter.
-    /// </summary>
-    /// <param name="c">
-    /// The character to be examined.
-    /// </param>
-    /// <returns>
-    /// <c>true</c> if the specified character is a delimiter; otherwise, <c>false</c>.
-    /// </returns>
-    public bool IsDelimiter(char c)
-    {
-        return _service!.Delimiters.IsDelimiter(c.ToString());
     }
 
     /// <summary>
@@ -169,8 +178,14 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             if (!string.IsNullOrEmpty(rawLine))
             {
                 string? preProcessed = PreProcess(rawLine);
-                if (!string.IsNullOrEmpty(preProcessed))
+                if (preProcessed == null)
+                    codeLines.Add(string.Empty);
+                else
                     codeLines.Add(preProcessed);
+            }
+            else
+            {
+                codeLines.Add(string.Empty);
             }
         } while (rawLine != null);
 
@@ -206,109 +221,6 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
         reader.Close();
 
         return codeLines;
-    }
-    /// <summary>
-    /// Parses the provided list of lines of code into a list of tokens for each line.
-    /// </summary>
-    /// <param name="codeLines">
-    /// A <see cref="List{T}" /> of strings each containing the code line to be parsed.</param>
-    /// <returns>
-    /// A <see cref="List{T}" /> of <see cref="ITokenizedCodeLine" /> instances of successful; otherwise,
-    /// returns <b>null</b>.
-    /// </returns>
-    public List<ITokenizedCodeLine>? TokenizeCodeLines(List<string>? codeLines)
-    {
-        List<ITokenizedCodeLine>? codeList = null;
-
-        // Return empty if a null or empty list is provided.
-        if (codeLines != null && codeLines.Count > 0)
-        {
-            codeList = new List<ITokenizedCodeLine>();
-            // For each line of code, parse into a list of basic language tokens.
-            int length = codeLines.Count;
-            for (int count = 0; count < length; count++)
-            {
-                ITokenizedCodeLine? lineTokenList = TokenizeLine(codeLines[count]);
-                if (lineTokenList != null)
-                    codeList.Add(lineTokenList);
-            }
-        }
-        return codeList;
-    }
-    /// <summary>
-    /// Parses the provided line of code into a list of tokens.
-    /// </summary>
-    /// <param name="codeLine">
-    /// A string containing the code line to be parsed.
-    /// </param>
-    /// <returns>
-    /// A <see cref="ITokenizedCodeLine" /> instance of successful; otherwise,
-    /// returns <b>null</b>.
-    /// </returns>
-    public ITokenizedCodeLine? TokenizeLine(string? codeLine)
-    {
-        TokenizedCodeLine? tokenList = null;
-
-        if (_service != null && _tokenFactory != null && !string.IsNullOrEmpty(codeLine))
-        {
-            codeLine = codeLine.Trim();
-            tokenList = new TokenizedCodeLine(_service);
-            int length = codeLine.Length;
-            if (length > 0)
-            {
-                int pos = 0;
-                StringBuilder itemBuffer = new StringBuilder();
-
-                do
-                {
-                    char currentChar = codeLine[pos];
-                    if (!IsDelimiter(currentChar))
-                    {
-                        bool isToken = _tokenFactory.IsSingleCharToken(currentChar.ToString());
-                        if (isToken)
-                        {
-                            string data = itemBuffer.ToString();
-                            itemBuffer.Clear();
-                            if (data.Length > 0)
-                            {
-                                IToken codeToken = _tokenFactory.CreateToken(data);
-                                tokenList.Add(codeToken);
-                            }
-
-                            IToken delimiterToken = _tokenFactory.CreateToken(currentChar.ToString());
-                            tokenList.Add(delimiterToken);
-                        }
-                        else
-                        {
-                            itemBuffer.Append(currentChar);
-                        }
-                    }
-                    else
-                    {
-                        string data = itemBuffer.ToString();
-                        itemBuffer.Clear();
-                        if (data.Length > 0)
-                        {
-                            IToken codeToken = _tokenFactory.CreateToken(data);
-                            tokenList.Add(codeToken);
-                        }
-
-                        IToken delimiterToken = _tokenFactory.CreateToken(currentChar.ToString());
-                        tokenList.Add(delimiterToken);
-                    }
-                    pos++;
-                } while (pos < length);
-
-                if (itemBuffer.Length > 0)
-                {
-                    string data = itemBuffer.ToString();
-                    itemBuffer.Clear();
-                    IToken codeToken = _tokenFactory.CreateToken(data);
-                    tokenList.Add(codeToken);
-                }
-            }
-        }
-        return tokenList;
     }
 
     /// <summary>
@@ -348,6 +260,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
                                     ProcessVariableDeclaration(table, lineCount, codeLine);
 
                                 break;
+
                             default:
                                 break;
                         }
@@ -443,6 +356,32 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
 
         table.AddUserVariableDeclaration(lineNumber, nameToken.Text, codeLine);
         codeLine.Substitute(2, BlazorBasicTokenFactory.CreateToken(nameToken.Text, TokenType.VariableName));
+    }
+
+    private void PerformSubstitutions(UserReferenceTable userReferences, ITokenizedCodeLine line)
+    {
+        for (int index = 0; index < line.Count;index++)
+        {
+            IToken token = line[index];
+            if (token.TokenType == TokenType.UserDefinedItem)
+            {
+                if (userReferences.IsFunction(token))
+                {
+                    line.Substitute(index,
+                        BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.FunctionName));
+                }
+                else if (userReferences.IsProcedure(token))
+                {
+                    line.Substitute(index,
+                        BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.ProcedureName));
+                }
+                else if (userReferences.IsVariable(line.LineNumber,token))
+                {
+                    line.Substitute(index,
+                        BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.VariableName));
+                }
+            }
+        }
     }
     #endregion
 }

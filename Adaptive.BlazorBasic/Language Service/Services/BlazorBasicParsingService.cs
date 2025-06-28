@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Dictionaries;
 using Adaptive.Intelligence.LanguageService.Parsing;
 using Adaptive.Intelligence.LanguageService.Services;
@@ -116,7 +117,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// A string containing the entire raw text to be parsed.  Each line must be separated by a carriage-return/newline pair.
     /// </param>
     /// <returns></returns>
-    public List<object> ParseCodeContent(string rawText)
+    public List<ILanguageCodeStatement> ParseCodeContent(string rawText)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(string)");
 
@@ -129,7 +130,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="rawText">An <see cref="IEnumerable{T}" /> of strings containing the complete list of source code to be parsed.</param>
     /// <returns></returns>
-    public List<object> ParseCodeContent(IEnumerable<string> rawText)
+    public List<ILanguageCodeStatement> ParseCodeContent(IEnumerable<string> rawText)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(IEnumerable<string>)");
 
@@ -146,7 +147,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
         }
 
         // Translate the code lines into tokens.
-        List<ITokenizedCodeLine>? tokensList = _worker.TokenizeCodeLines(preProcessedList);
+        List<ITokenizedCodeLine>? tokensList = _service.TokenFactory.TokenizeCodeLines(preProcessedList);
         preProcessedList.Clear();
 
         return ParseCodeContent(tokensList);
@@ -157,9 +158,9 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="sourceStream">An open <see cref="Stream" /> to read the complete list of source code to be parsed</param>
     /// <returns></returns>
-    public List<object> ParseCodeContent(Stream sourceStream)
+    public List<ILanguageCodeStatement> ParseCodeContent(Stream sourceStream)
     {
-        List<object>? parsedContentList = null;
+        List<ILanguageCodeStatement>? parsedContentList = null;
 
         _log?.WriteLine(nameof(ParseCodeContent) + "(Stream)");
         if (_worker == null)
@@ -168,16 +169,16 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
         List<string>? preProcessed = _worker.PreProcessStream(sourceStream);
         if (preProcessed != null)
         {
-            List<ITokenizedCodeLine>? tokensList = _worker.TokenizeCodeLines(preProcessed);
+            List<ITokenizedCodeLine>? tokensList = _service.TokenFactory.TokenizeCodeLines(preProcessed);
             preProcessed.Clear();
             if (tokensList != null)
                 parsedContentList = ParseCodeContent(tokensList);
             else
-                parsedContentList = new List<object>();
+                parsedContentList = new List<ILanguageCodeStatement>();
         }
         else
         {
-            parsedContentList = new List<object>();
+            parsedContentList = new List<ILanguageCodeStatement>();
         }
 
         return parsedContentList;
@@ -188,7 +189,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="tokenizedCodeLines">An <see cref="List{T}" /> of <see cref="ITokenizedCodeLine" /> instances containing the tokenized list of code items.</param>
     /// <returns></returns>
-    public List<object> ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines)
+    public List<ILanguageCodeStatement> ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(List<ITokenizedCodeLines>)");
 
@@ -199,10 +200,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
         _userRefTable = _worker.FindUserDeclarations(tokenizedCodeLines);
 
         // Generate the CodeDOM for each line of code.
-        _worker.CreateCodeStatements(tokenizedCodeLines);
-
-        // Return the results.
-        return new List<object>();
+        return _worker.CreateCodeStatements((UserReferenceTable)_userRefTable, tokenizedCodeLines);
     }
     #endregion
 

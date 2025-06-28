@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.LanguageService.Dictionaries;
+using Adaptive.Intelligence.LanguageService.Tokenization;
 
 namespace Adaptive.Intelligence.LanguageService.Services;
 
@@ -55,6 +56,15 @@ public interface ILanguageService<DelimiterType, ErrorType, FunctionType, Keywor
     /// The <see cref="IOperatorDictionary{T}"/> containing the list of operators.
     /// </value>
     IOperatorDictionary<OperatorType> Operators { get; }
+
+    /// <summary>
+    /// Gets the reference to the token factory implementation to use.
+    /// </summary>
+    /// <value>
+    /// The <see cref="ITokenFactory{DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType}"/> instance
+    /// to use to tokenize literal string content.
+    /// </value>
+    ITokenFactory<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> TokenFactory { get; }
     #endregion
 
     #endregion

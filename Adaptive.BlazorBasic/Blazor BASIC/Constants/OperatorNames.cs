@@ -81,6 +81,10 @@ internal static class OperatorNames
     /// </summary>
     public const string OperatorNotEqualTo = "!=";
     /// <summary>
+    /// The operator for not equal to.
+    /// </summary>
+    public const string OperatorNotEqualTo2 = "<>";
+    /// <summary>
     /// The operator for equal to.
     /// </summary>
     public const string OperatorEqualTo = "==";

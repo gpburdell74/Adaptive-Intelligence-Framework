@@ -98,9 +98,17 @@ public enum BlazorBasicKeywords
     /// </summary>
     Read,
     /// <summary>
+    /// Indicates a RETURN command.
+    /// </summary>
+    Return,
+    /// <summary>
     /// Indicates a THEN keyword.
     /// </summary>
     Then,
+    /// <summary>
+    /// Indicates an UNTIL keyword.
+    /// </summary>
+    Until,
     /// <summary>
     /// Indicates a WRITE command.
     /// </summary>

@@ -9,7 +9,7 @@ namespace Adaptive.Intelligence.BlazorBasic.Parser;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="IUserReferenceTable" />
-internal class UserReferenceTable : DisposableObjectBase, IUserReferenceTable
+public sealed class UserReferenceTable : DisposableObjectBase, IUserReferenceTable
 {
     #region Private Member Declarations
     /// <summary>
@@ -107,7 +107,30 @@ internal class UserReferenceTable : DisposableObjectBase, IUserReferenceTable
         record.NormalizedName = lineNumber.ToString("0000000") + ParseUtils.NormalizeAsKey(variableName);
         record.Name = variableName;
         record.CodeLine = codeLine;
-        _procedures!.Add(record.NormalizedName, record);
+        _variables!.Add(record.NormalizedName, record);
     }
+
+    public bool IsFunction(IToken token)
+    {
+        return _functions.ContainsKey(token.Text.ToUpper().Trim());
+    }
+    public bool IsProcedure(IToken token)
+    {
+        return _procedures.ContainsKey(token.Text.ToUpper().Trim());
+    }
+
+    public bool IsVariable(int lineNumber, IToken token)
+    {
+        bool isvar = false;
+
+        foreach(string k in _variables.Keys)
+        {
+            UserReferenceRecord record = _variables[k];
+            if (record.Name.ToUpper().Trim() == token.Text.ToUpper().Trim())
+                isvar = true;
+        }
+        return isvar;
+    }
+
     #endregion
 }

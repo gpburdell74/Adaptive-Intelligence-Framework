@@ -43,6 +43,9 @@ public sealed class BlazorBasicKeywordProvider : DisposableObjectBase, IKeywordP
             (int)BlazorBasicKeywords.Random,
             (int)BlazorBasicKeywords.As,
             (int)BlazorBasicKeywords.Then,
+            (int)BlazorBasicKeywords.Until,
+            (int)BlazorBasicKeywords.End,
+            (int)BlazorBasicKeywords.Return
 
         };
     }
@@ -81,8 +84,10 @@ public sealed class BlazorBasicKeywordProvider : DisposableObjectBase, IKeywordP
             KeywordNames.IOOutput,
             KeywordNames.IORandom,
             KeywordNames.KeywordAs,
-            KeywordNames.KeywordThen
-
+            KeywordNames.KeywordThen,
+            KeywordNames.KeywordUntil,
+            KeywordNames.KeywordEnd,
+            KeywordNames.CommandReturn
         };
     }
 }

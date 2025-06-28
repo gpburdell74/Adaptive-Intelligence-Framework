@@ -23,35 +23,42 @@ public static class BasicStatementFactory
     {
         ILanguageCodeStatement? newStatement = null;
 
-        IToken? commandToken = codeLine[0];
-        if (commandToken != null)
+        if (codeLine.Count == 0)
+            newStatement = new BlazorBasicEmptyStatement(service, codeLine);
+        else
         {
-            TokenType type = commandToken.TokenType;
-
-            switch (type)
+            IToken? commandToken = codeLine[0];
+            if (commandToken != null)
             {
-                case TokenType.FunctionName:
-                    break;
+                TokenType type = commandToken.TokenType;
 
-                case TokenType.ProcedureName:
-                    break;
+                switch (type)
+                {
+                    case TokenType.FunctionName:
+                        break;
 
-                case TokenType.ReservedFunction:
-                    break;
+                    case TokenType.ProcedureName:
+                        break;
 
-                case TokenType.ReservedWord:
-                    newStatement = CreateStatementByReservedWord(service, codeLine);
-                    break;
+                    case TokenType.ReservedFunction:
+                        break;
 
-                case TokenType.VariableName:
-                    break;
+                    case TokenType.ReservedWord:
+                        newStatement = CreateStatementByReservedWord(service, codeLine);
+                        break;
 
-                default:
-                    throw new Exception();
-                    break;
+                    case TokenType.VariableName:
+                        if (codeLine[2].TokenType == TokenType.AssignmentOperator)
+                        {
+                            newStatement = CreateStatementByReservedWord(service, codeLine);
+                        }
+                        break;
+
+                    default:
+                        throw new Exception();
+                }
             }
         }
-
         return newStatement;
     }
     #endregion
@@ -91,28 +98,66 @@ public static class BasicStatementFactory
                 newStatement = new BasicCommentStatement(service, codeLine);
                 break;
 
+            case BlazorBasicKeywords.Dim:
+                newStatement = new BasicVariableDeclarationStatement(service, codeLine);
+                break;
+
             case BlazorBasicKeywords.Do:
                 newStatement = new BasicDoStatement(service, codeLine);
+                break;
+
+            case BlazorBasicKeywords.End:
+                newStatement = new BasicEndStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.If:
                 newStatement = new BasicIfStatement(service, codeLine);
                 break;
 
+            case BlazorBasicKeywords.Function:
+                newStatement = new BasicFunctionStartStatement(service, codeLine);
+                break;
+
             case BlazorBasicKeywords.Input:
                 newStatement = new BasicInputStatement(service, codeLine);
+                break;
+
+            case BlazorBasicKeywords.Let:
+                newStatement = new BasicVariableAssignmentExpression(service, codeLine);
+                break;
+
+            case BlazorBasicKeywords.Loop:
+                newStatement = new BasicLoopStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Open:
                 newStatement = new BasicOpenStatement(service, codeLine);
                 break;
 
+            case BlazorBasicKeywords.Print:
+                newStatement = new BasicPrintStatement(service, codeLine);
+                break;
+
             case BlazorBasicKeywords.Procedure:
                 newStatement = new BasicProcedureStartStatement(service, codeLine);
                 break;
 
+            case BlazorBasicKeywords.Return:
+                newStatement = new BasicReturnStatement(service, codeLine);
+                break;
+
+            case BlazorBasicKeywords.Write:
+                newStatement = new BasicWriteStatement(service, codeLine);
+                break;
+
             default:
-                throw new Exception("Not yet implemented.");
+                if (codeLine[0].TokenType == TokenType.VariableName)
+                {
+                    newStatement = new BasicVariableAssignmentExpression(service, codeLine);
+                }
+                else
+                    throw new Exception("Not yet implemented.");
+                break;
         }
 
         return newStatement;

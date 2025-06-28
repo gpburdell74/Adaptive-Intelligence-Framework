@@ -32,6 +32,10 @@ internal static class ParseConstants
     /// </summary>
     public const string CarriageReturn = Constants.CarriageReturn;
     /// <summary>
+    /// The comma character as as string.
+    /// </summary>
+    public const string Comma = Constants.Comma;
+    /// <summary>
     /// The double quote string.
     /// </summary>
     public const string DoubleQuote = "\"";

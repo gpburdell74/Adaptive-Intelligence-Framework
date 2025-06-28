@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
+using System.Text;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -70,6 +71,14 @@ public class BasicOpenStatement : BasicCodeStatement
     #endregion
 
     #region Public Properties
+
+    /// <summary>
+    /// Gets the value of how the current number of tabs being printed is to be modified.
+    /// </summary>
+    /// <value>
+    /// The tab modification.
+    /// </value>
+    public override RenderTabState TabModification => RenderTabState.None;
     #endregion
 
     #region Protected Method Overrides
@@ -157,6 +166,46 @@ public class BasicOpenStatement : BasicCodeStatement
         }
 
         return nextIndex;
+    }
+    #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public override string? Render()
+    {
+        // OPEN <fileName> FOR <direction> AS #<fileHandle>
+
+        StringBuilder builder = new StringBuilder();
+
+        // OPEN 
+        builder.Append(KeywordNames.CommandOpen);
+        builder.Append(ParseConstants.Space);
+
+        // <fileName>
+        builder.Append(ParseConstants.DoubleQuote + _fileName.Render() + ParseConstants.DoubleQuote);
+
+        // FOR 
+        builder.Append(ParseConstants.Space);
+        builder.Append(KeywordNames.CommandFor);
+        builder.Append(ParseConstants.Space);
+
+        // <direction>
+        builder.Append(_fileDirection.Render());
+        builder.Append(ParseConstants.Space);
+
+        // AS 
+        builder.Append(KeywordNames.KeywordAs);
+        builder.Append(ParseConstants.Space);
+
+        // #<fileHandle>
+        builder.Append(_fileNumber.Render());
+        return builder.ToString();
     }
     #endregion
 }

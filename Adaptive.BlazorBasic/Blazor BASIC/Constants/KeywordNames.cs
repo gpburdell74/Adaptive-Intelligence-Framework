@@ -83,6 +83,10 @@ internal static class KeywordNames
     /// </summary>
     public const string CommandRead = "READ";
     /// <summary>
+    /// Indicates a RETURN command.
+    /// </summary>
+    public const string CommandReturn = "RETURN";
+    /// <summary>
     /// Indicates a WRITE command.
     /// </summary>
     public const string CommandWrite = "WRITE";
@@ -94,9 +98,17 @@ internal static class KeywordNames
     /// </summary>
     public const string KeywordAs = "AS";
     /// <summary>
+    /// Indicates an "END" keyword.
+    /// </summary>
+    public const string KeywordEnd = "END";
+    /// <summary>
     /// Indicates a "THEN" keyword.
     /// </summary>
     public const string KeywordThen = "THEN";
+    /// <summary>
+    /// Indicates an "UNTIL" keyword.
+    /// </summary>
+    public const string KeywordUntil = "UNTIL";
 
     #endregion
 

@@ -57,6 +57,59 @@ public interface ITokenizedCodeLine : IDisposable
     string CombineValues(int startIndex, int endIndex);
 
     /// <summary>
+    /// Finds the index of the first token of the specified type in the current instance.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    int IndexOf(TokenType tokenType);
+
+    /// <summary>
+    /// Finds the index of the first token of the specified type in the current instance that
+    /// matches the specified text.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <param name="textMatch">
+    /// A string containing the text value to match on.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    int IndexOf(TokenType tokenType, string textMatch);
+
+    /// <summary>
+    /// Finds the index of the last token of the specified type in the current instance.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    int LastIndexOf(TokenType tokenType);
+
+    /// <summary>
+    /// Extracts a list of the tokens in the current instance starting at the specified index
+    /// and ending at the specified index.
+    /// </summary>
+    /// <param name="leftIndex">
+    /// An integer containing the ordinal index at which to start.
+    /// </param>
+    /// <param name="rightIndex">
+    /// An integer containing the ordinal index at which to end.
+    /// </param>
+    /// <returns>
+    /// A <see cref="List{T}"/> containing the sub-list of <see cref="IToken"/> instances, if successful;
+    /// otherwise returns an empty list.
+    /// </returns>
+    List<IToken> SubExpression(int leftIndex, int rightIndex);
+
+    /// <summary>
     /// Substitutes the new token for the token at the specified index.
     /// </summary>
     /// <param name="index">

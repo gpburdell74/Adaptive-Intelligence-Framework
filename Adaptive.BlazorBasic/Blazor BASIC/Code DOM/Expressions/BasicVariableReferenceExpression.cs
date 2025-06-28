@@ -10,7 +10,7 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicVariableReferenceExpression : BasicExpression, ILanguageCodeExpression
+public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguageCodeExpression
 {
     #region Private Member Declarations
     /// <summary>
@@ -71,4 +71,18 @@ public class BasicVariableReferenceExpression : BasicExpression, ILanguageCodeEx
     /// </value>
     public string? VariableName => _variableName;
     #endregion
+
+    #region Public Methods / Functions
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public override string? Render()
+    {
+        return _variableName;
+    }
+    #endregion
+
 }

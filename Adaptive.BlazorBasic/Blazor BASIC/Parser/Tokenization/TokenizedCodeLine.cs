@@ -137,6 +137,131 @@ public class TokenizedCodeLine : DisposableObjectBase, ITokenizedCodeLine
     }
 
     /// <summary>
+    /// Finds the index of the first token of the specified type in the current instance.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    public int IndexOf(TokenType tokenType)
+    {
+        int ordinalIndex = -1;
+
+        if (Count > 0)
+        {
+            int searchIndex = 0;
+            do
+            {
+                IToken? current = this[searchIndex];
+                if (current != null && current.TokenType == tokenType)
+                    ordinalIndex = searchIndex;
+                searchIndex++;
+            } while (searchIndex < Count && ordinalIndex == -1);
+        }
+
+        return ordinalIndex;
+    }
+
+    /// <summary>
+    /// Finds the index of the first token of the specified type in the current instance that
+    /// matches the specified text.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <param name="textMatch">
+    /// A string containing the text value to match on.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    public int IndexOf(TokenType tokenType, string textMatch)
+    {
+        int ordinalIndex = -1;
+
+        if (Count > 0)
+        {
+            int searchIndex = 0;
+            do
+            {
+                IToken? current = this[searchIndex];
+                if (current != null && current.TokenType == tokenType &&
+                    string.Compare(current.Text, textMatch, true) == 0)
+
+                    ordinalIndex = searchIndex;
+                searchIndex++;
+            } while (searchIndex < Count && ordinalIndex == -1);
+        }
+
+        return ordinalIndex;
+    }
+
+    /// <summary>
+    /// Finds the index of the last token of the specified type in the current instance.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    public int LastIndexOf(TokenType tokenType)
+    {
+        int ordinalIndex = -1;
+
+        if (Count > 0)
+        {
+            int searchIndex = Count - 1;
+            do
+            {
+                IToken? current = this[searchIndex];
+                if (current != null && current.TokenType == tokenType)
+                    ordinalIndex = searchIndex;
+                searchIndex--;
+            } while (searchIndex >= 0 && ordinalIndex == -1);
+        }
+
+        return ordinalIndex;
+    }
+
+
+    /// <summary>
+    /// Extracts a list of the tokens in the current instance starting at the specified index
+    /// and ending at the specified index.
+    /// </summary>
+    /// <param name="leftIndex">
+    /// An integer containing the ordinal index at which to start.
+    /// </param>
+    /// <param name="rightIndex">
+    /// An integer containing the ordinal index at which to end.
+    /// </param>
+    /// <returns>
+    /// A <see cref="List{T}"/> containing the sub-list of <see cref="IToken"/> instances, if successful;
+    /// otherwise returns an empty list.
+    /// </returns>
+    public List<IToken> SubExpression(int leftIndex, int rightIndex)
+    {
+        int length = rightIndex - leftIndex;
+        if (length < 0)
+            throw new SyntaxErrorException(LineNumber);
+
+        if (leftIndex < 0 || rightIndex > Count-1)
+            throw new SyntaxErrorException(LineNumber);
+
+        length++;
+        List<IToken> returnList = new List<IToken>(length);
+        for(int index = leftIndex; index <= rightIndex; index++)
+        {
+            IToken? token = this[index];
+            if (token != null)
+                returnList.Add(token);
+        }
+        return returnList;
+    }
+
+    /// <summary>
     /// Substitutes the new token for the token at the specified index.
     /// </summary>
     /// <param name="index">An integer containing the ordinal index.</param>
@@ -147,7 +272,7 @@ public class TokenizedCodeLine : DisposableObjectBase, ITokenizedCodeLine
     public IToken? Substitute(int index, IToken newToken)
     {
         IToken? original = null;
-        if (_tokens != null && index > 0 && index < _tokens!.Count)
+        if (_tokens != null && index > -1 && index < _tokens!.Count)
         {
             // Capture the original and substitute the new instance.
             original = _tokens[index];

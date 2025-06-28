@@ -439,6 +439,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
         _comparison.AddEntry(OperatorNames.OperatorLessThanOrEqualTo, StandardOperators.ComparisonLessThanOrEqualTo);
         _comparison.AddEntry(OperatorNames.OperatorEqualTo, StandardOperators.ComparisonEqualTo);
         _comparison.AddEntry(OperatorNames.OperatorNotEqualTo, StandardOperators.ComparisonNotEqualTo);
+        _comparison.AddEntry(OperatorNames.OperatorNotEqualTo2, StandardOperators.ComparisonNotEqualTo);
     }
     /// <summary>
     /// Creates and adds the logical operators to the dictionary.

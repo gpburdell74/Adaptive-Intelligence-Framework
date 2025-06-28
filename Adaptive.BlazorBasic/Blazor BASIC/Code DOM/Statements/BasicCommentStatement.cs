@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
 
@@ -73,6 +74,14 @@ public class BasicCommentStatement : BasicCodeStatement
     /// A string containing the comment text.
     /// </value>
     public string? CommentText => _commentText;
+    /// <summary>
+    /// Gets the value of how the current number of tabs being printed is to be modified.
+    /// </summary>
+    /// <value>
+    /// The tab modification.
+    /// </value>
+    public override RenderTabState TabModification => RenderTabState.None;
+
     #endregion
 
     #region Protected Method Overrides
@@ -92,6 +101,21 @@ public class BasicCommentStatement : BasicCodeStatement
             builder.Append(codeLine[index].Text);
         }
         _commentText = builder.ToString();
+    }
+    #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public override string? Render()
+    {
+        return KeywordNames.CommandCommentShort + ParseConstants.Space +
+            _commentText;
     }
     #endregion
 }

@@ -10,17 +10,6 @@ namespace Adaptive.Intelligence.LanguageService.Parsing;
 public interface ICodeParserWorker : IDisposable
 {
     /// <summary>
-    /// Determines whether the specified character is a delimiter.
-    /// </summary>
-    /// <param name="c">
-    /// The character to be examined.
-    /// </param>
-    /// <returns>
-    ///   <c>true</c> if the specified character is a delimiter; otherwise, <c>false</c>.
-    /// </returns>
-    bool IsDelimiter(char c);
-
-    /// <summary>
     /// Iterates through the tokenized code lines to find user declarations of procedures, functions, variables, and 
     /// any other necessary user-defined items for reference.
     /// </summary>
@@ -64,28 +53,4 @@ public interface ICodeParserWorker : IDisposable
     /// A <see cref="List{T}"/> of strings containing the code lines, or <b>null</b> if the operation fails.
     /// </returns>
     Task<List<string>?> PreProcessStreamAsync(Stream sourceStream);
-
-    /// <summary>
-    /// Parses the provided line of code into a list of tokens.
-    /// </summary>
-    /// <param name="codeLine">
-    /// A string containing the code line to be parsed.
-    /// </param>
-    /// <returns>
-    /// An <see cref="ITokenizedCodeLine"/> instance of successful; otherwise, 
-    /// returns <b>null</b>.
-    /// </returns>
-    ITokenizedCodeLine? TokenizeLine(string? codeLine);
-
-    /// <summary>
-    /// Parses the provided list of lines of code into a list of tokens for each line.
-    /// </summary>
-    /// <param name="codeLines">
-    /// A <see cref="List{T}"/> of strings each containing the code line to be parsed.
-    /// </param>
-    /// <returns>
-    /// A <see cref="List{T}"/> of <see cref="ITokenizedCodeLine"/> instances of successful; otherwise, 
-    /// returns <b>null</b>.
-    /// </returns>
-    List<ITokenizedCodeLine>? TokenizeCodeLines(List<string>? codeLines);
 }

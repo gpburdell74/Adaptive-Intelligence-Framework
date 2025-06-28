@@ -18,9 +18,9 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 ///     CLOSE #1
 ///     
 /// </example>
-/// <seealso cref="DisposableObjectBase" />
+/// <seealso cref="BlazorBasicExpression" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicFileNumberExpression : BasicExpression, ILanguageCodeExpression
+public class BasicFileNumberExpression : BlazorBasicExpression, ILanguageCodeExpression
 {
     #region Private Member Declarations    
     /// <summary>
@@ -115,4 +115,19 @@ public class BasicFileNumberExpression : BasicExpression, ILanguageCodeExpressio
         ParseLiteralContent(token.Text);
     }
     #endregion
+
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public override string? Render()
+    {
+        return ParseConstants.NumberSign + FileNumber.ToString();
+    }
+    #endregion
+
 }

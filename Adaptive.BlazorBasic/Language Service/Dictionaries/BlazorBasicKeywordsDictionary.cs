@@ -83,7 +83,6 @@ public sealed class BlazorBasicKeywordsDictionary : TwoWayDictionaryBase<string,
     /// <returns>
     /// <c>true</c> if the text can be matched to a known keyword; otherwise, <c>false</c>.
     /// </returns>
-    /// <exception cref="System.NotImplementedException"></exception>
     public bool IsKeyword(string? code)
     {
         return IsInDictionary(NormalizeString(code));

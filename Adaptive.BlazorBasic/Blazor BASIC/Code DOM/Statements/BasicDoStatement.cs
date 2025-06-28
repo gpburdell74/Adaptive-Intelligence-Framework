@@ -32,6 +32,9 @@ public class BasicDoStatement : BasicCodeStatement
     }
     #endregion
 
+    public override RenderTabState TabModification => RenderTabState.IndentAfter;
+
+
     #region Protected Method Overrides
     /// <summary>
     /// Parses the specified code content.
@@ -44,6 +47,19 @@ public class BasicDoStatement : BasicCodeStatement
         LineNumber = codeLine.LineNumber;
         if (codeLine.Count > 1)
             throw new Exception("?SYNTAX ERROR");
+    }
+    #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public override string? Render()
+    {
+        return KeywordNames.CommandDo;
     }
     #endregion
 }

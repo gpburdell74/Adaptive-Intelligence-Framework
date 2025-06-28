@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
+using System.Text;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -98,6 +99,14 @@ public class BasicInputStatement : BasicCodeStatement
     /// A <see cref="BasicVariableReferenceExpression"/> instance, or <b>null</b> if not used.
     /// </value>
     public BasicVariableReferenceExpression? VariableReferenceExpression => _variableReferenceExpression;
+
+    /// <summary>
+    /// Gets the value of how the current number of tabs being printed is to be modified.
+    /// </summary>
+    /// <value>
+    /// The tab modification.
+    /// </value>
+    public override RenderTabState TabModification => RenderTabState.None;
     #endregion
 
     #region Protected Method Overrides    
@@ -191,7 +200,7 @@ public class BasicInputStatement : BasicCodeStatement
             index++;
         } while (index < codeLine.Count && nextIndex == -1);
 
-        _promptExpression = new BasicLiteralStringExpression(Service, codeLine.CombineValues(4, nextIndex - 1));
+        _promptExpression = new BlazorBasicLiteralStringExpression(Service, codeLine.CombineValues(4, nextIndex - 1));
 
         nextIndex = -1;
         do
@@ -207,6 +216,41 @@ public class BasicInputStatement : BasicCodeStatement
         if (variableName == null)
             throw new Exception("?SYNTAX ERROR");
         _variableReferenceExpression = new BasicVariableReferenceExpression(Service, variableName);
+    }
+    #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public override string? Render()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        // INPUT [variableName] OR
+        // INPUT #<fileHandle>, [VariableName] OR
+        // INPUT [prompt string],[variableName]
+        builder.Append(KeywordNames.CommandInput);
+        builder.Append(ParseConstants.Space);
+
+        if (_fileNumberExpression != null)
+        {
+            builder.Append(_fileNumberExpression.Render());
+            builder.Append(ParseConstants.Comma);
+            builder.Append(ParseConstants.Space);
+        }
+        else if (_promptExpression != null)
+        {
+            builder.Append(_promptExpression.Render());
+            builder.Append(ParseConstants.Comma);
+            builder.Append(ParseConstants.Space);
+        }
+
+        builder.Append(_variableReferenceExpression.Render());
+        return builder.ToString();
     }
     #endregion
 }

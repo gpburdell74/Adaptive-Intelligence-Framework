@@ -10,7 +10,7 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ILanguageCodeExpression" />
-public abstract class BasicExpression : DisposableObjectBase, ILanguageCodeExpression
+public abstract class BlazorBasicExpression : DisposableObjectBase, ILanguageCodeExpression
 {
     #region Private Member Declarations
     /// <summary>
@@ -21,18 +21,18 @@ public abstract class BasicExpression : DisposableObjectBase, ILanguageCodeExpre
 
     #region Constructors
     /// <summary>
-    /// Initializes a new instance of the <see cref="BasicExpression"/> class.
+    /// Initializes a new instance of the <see cref="BlazorBasicExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the <see cref="BlazorBasicLanguageService"/> to use to find and compare
     /// text to language reserved words and operators and other items.
     /// </param>
-    protected BasicExpression(BlazorBasicLanguageService service)
+    protected BlazorBasicExpression(BlazorBasicLanguageService service)
     {
         _service = service;
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BasicExpression"/> class.
+    /// Initializes a new instance of the <see cref="BlazorBasicExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the <see cref="BlazorBasicLanguageService"/> to use to find and compare
@@ -41,13 +41,13 @@ public abstract class BasicExpression : DisposableObjectBase, ILanguageCodeExpre
     /// <param name="expression">
     /// A string containing the expression to be parsed.
     /// </param>
-    protected BasicExpression(BlazorBasicLanguageService service, string expression) : base()
+    protected BlazorBasicExpression(BlazorBasicLanguageService service, string expression) : base()
     {
         _service = service;
         ParseLiteralContent(expression);
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BasicCodeConditionalExpression"/> class.
+    /// Initializes a new instance of the <see cref="BlazorBasicCodeConditionalExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the <see cref="BlazorBasicLanguageService"/> to use to find and compare
@@ -62,7 +62,7 @@ public abstract class BasicExpression : DisposableObjectBase, ILanguageCodeExpre
     /// <param name="endIndex">
     /// An integer indicating the ordinal position in <paramref name="codeLine"/> to end parsing the expression.
     /// </param>
-    protected BasicExpression(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine, int startIndex, int endIndex) : base()
+    protected BlazorBasicExpression(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine, int startIndex, int endIndex) : base()
     {
         _service = service;
         ParseCodeLine(codeLine, startIndex, endIndex);
@@ -110,15 +110,26 @@ public abstract class BasicExpression : DisposableObjectBase, ILanguageCodeExpre
     /// Parses the code line.
     /// </summary>
     /// <param name="codeLine">
-    /// A <see cref="ITokenizedCodeLine"/> containing the code tokens for the entire line of code.
+    /// A <see cref="List{T}"/> of <see cref="IToken"/> instances containing the expression to be parsed.
+    /// </param>
+    protected virtual void ParseCodeLine(List<IToken> codeLine)
+    {
+    }
+    /// <summary>
+    /// Parses the code line.
+    /// </summary>
+    /// <param name="codeLine">
+    /// A <see cref="ITokenizedCodeLine" /> containing the code tokens for the entire line of code.
     /// </param>
     /// <param name="startIndex">
-    /// An integer indicating the ordinal position in <paramref name="codeLine"/> to start parsing the expression.
+    /// An integer indicating the ordinal position in <paramref name="codeLine" /> to start parsing the expression.
     /// </param>
     /// <param name="endIndex">
-    /// An integer indicating the ordinal position in <paramref name="codeLine"/> to end parsing the expression.
+    /// An integer indicating the ordinal position in <paramref name="codeLine" /> to end parsing the expression.
     /// </param>
-    protected abstract void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex);
+    protected virtual void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+    }
     #endregion
 
     #region Protected Methods / Functions    
@@ -140,4 +151,13 @@ public abstract class BasicExpression : DisposableObjectBase, ILanguageCodeExpre
     }
     #endregion
 
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public abstract string? Render();
+    #endregion
 }

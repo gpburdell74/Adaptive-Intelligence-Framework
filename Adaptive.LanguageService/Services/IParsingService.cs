@@ -1,4 +1,5 @@
-﻿using Adaptive.Intelligence.LanguageService.Parsing;
+﻿using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Parsing;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
 namespace Adaptive.Intelligence.LanguageService.Services;
@@ -41,7 +42,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<object> ParseCodeContent(string rawText);
+    List<ILanguageCodeStatement> ParseCodeContent(string rawText);
 
     /// <summary>
     /// Parses the content of the code.
@@ -52,7 +53,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<object> ParseCodeContent(IEnumerable<string> rawText);
+    List<ILanguageCodeStatement> ParseCodeContent(IEnumerable<string> rawText);
 
     /// <summary>
     /// Parses the content of the code.
@@ -63,7 +64,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<object> ParseCodeContent(Stream sourceStream);
+    List<ILanguageCodeStatement> ParseCodeContent(Stream sourceStream);
 
     /// <summary>
     /// Parses the content of the code.
@@ -74,5 +75,5 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<object> ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines);
+    List<ILanguageCodeStatement> ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines);
 }

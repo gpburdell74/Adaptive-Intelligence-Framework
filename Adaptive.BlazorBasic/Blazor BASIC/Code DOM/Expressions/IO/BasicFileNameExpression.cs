@@ -7,9 +7,9 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// <summary>
 /// Represents an expression that renders a file path and name value.
 /// </summary>
-/// <seealso cref="DisposableObjectBase" />
+/// <seealso cref="BlazorBasicExpression" />
 /// <seealso cref="ILanguageCodeExpression" />
-public class BasicFileNameExpression : BasicExpression, ILanguageCodeExpression
+public class BasicFileNameExpression : BlazorBasicExpression, ILanguageCodeExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -42,7 +42,7 @@ public class BasicFileNameExpression : BasicExpression, ILanguageCodeExpression
     /// </param>
     public BasicFileNameExpression(BlazorBasicLanguageService service, IToken token) : base(service)
     {
-
+        FileName = token.Text;
     }
 
     /// <summary>
@@ -75,6 +75,19 @@ public class BasicFileNameExpression : BasicExpression, ILanguageCodeExpression
     /// A string containing the fully-qualified path and name of the file, or <b>null</b> if not specified.
     /// </value>
     public string? FileName { get; set; }
+    #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public override string? Render()
+    {
+        return FileName;
+    }
     #endregion
 
 }

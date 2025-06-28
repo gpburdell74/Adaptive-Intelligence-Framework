@@ -88,7 +88,11 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// <value>
     /// An <see cref="ILanguageKeywordExpression"/> instance specifying the command to be invoked.
     /// </value>
-    public ILanguageKeywordExpression? CommandExpression => _commandExpression;
+    public ILanguageKeywordExpression? CommandExpression
+    {
+        get => _commandExpression;
+        protected set => _commandExpression = value;
+    }
 
     /// <summary>
     /// Gets the reference to the list of expressions that make up the remainder of the statement.
@@ -122,6 +126,14 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// A string containing the command text that was parsed.
     /// </value>
     public string? OriginalCode { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the value of how the current number of tabs being printed is to be modified.
+    /// </summary>
+    /// <value>
+    /// A <see cref="RenderTabState"/> enumerated value indicating the tab state.
+    /// </value>
+    public abstract RenderTabState TabModification { get; }
     #endregion
 
 
@@ -142,6 +154,8 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
             return _service;
         }
     }
+
+    
     #endregion
 
     #region Protected Methods / Functions    
@@ -153,4 +167,25 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// </param>
     protected abstract void ParseIntoExpressions(ITokenizedCodeLine codeLine);
     #endregion
+
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Renders the content of the expression into a string.
+    /// </summary>
+    /// <returns>
+    /// A string containing the expression rendered into Blazor BASIC code.
+    /// </returns>
+    public abstract string? Render();
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+        return Render() ?? string.Empty;
+    }
+    #endregion
+
 }
