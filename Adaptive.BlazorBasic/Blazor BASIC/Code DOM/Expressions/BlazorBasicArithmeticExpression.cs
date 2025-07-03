@@ -1,7 +1,9 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
@@ -112,6 +114,59 @@ public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILang
 
     #region Public Methods / Functions
     /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public double? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
+    {
+        double a = 0;
+        if (LeftExpression != null)
+        {
+            object leftResult = LeftExpression.Evaluate<object>(engine, environment, scope);
+            a = Convert.ToDouble(leftResult);
+        }
+        double b = 0;
+        if (RightExpression != null)
+        {
+            object rightResult = RightExpression.Evaluate<object>(engine, environment, scope);
+            b = Convert.ToDouble(rightResult);
+        }
+
+        return PerformOp(a, b);
+    }
+
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object?)Evaluate(engine, environment, scope);
+    }
+
+    /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>
     /// <returns>
@@ -132,4 +187,37 @@ public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILang
     }
     #endregion
 
+    private double PerformOp(double a, double b)
+    {
+        double result = 0;
+
+        switch(Operator)
+        {
+            case BlazorBasicMathOperators.Add:
+                result = a + b;
+                break;
+
+            case BlazorBasicMathOperators.Subtract:
+                result = a - b;
+                break;
+
+            case BlazorBasicMathOperators.Multiply:
+                result = a * b;
+                break;
+
+            case BlazorBasicMathOperators.Divide:
+                result = a / b;
+                break;
+
+            case BlazorBasicMathOperators.Exponent:
+                result =(int)a ^(int)b;
+                break;
+
+            case BlazorBasicMathOperators.Modulus:
+                result = a % b;
+                break;
+
+        }
+        return result;
+    }
 }

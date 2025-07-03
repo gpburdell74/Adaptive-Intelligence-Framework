@@ -54,6 +54,10 @@ public enum BlazorBasicErrorCodes
     /// </summary>
     InvalidArgument = 16,
     /// <summary>
+    /// Indicates an invalid or bad data type is specified.
+    /// </summary>
+    BadDataType = 17,
+    /// <summary>
     /// Indicates a general parsing or processing engine error.
     /// </summary>
     EngineError = 50,
@@ -77,6 +81,10 @@ public enum BlazorBasicErrorCodes
     /// Indicates a file is already open error.
     /// </summary>
     FileAlreadyOpen = 55,
+    /// <summary>
+    /// Indicates the requested file handle is already in use.
+    /// </summary>
+    FileHandleInUse = 56,
     /// <summary>
     /// Indicates a bad file name error.
     /// </summary>
@@ -102,9 +110,17 @@ public enum BlazorBasicErrorCodes
     /// </summary>
     OutOfStackSpace = 256,
     /// <summary>
+    /// Indicates a general I/O error.
+    /// </summary>
+    IOError = 257,
+    /// <summary>
     /// Indicates an invalid handle error.
     /// </summary>
     InvalidHandle = 258,
+    /// <summary>
+    /// Indicates a feature or operation not supported error.
+    /// </summary>
+    NotSupported = 259,
     /// <summary>
     /// Indicates a unknown or undefined error.
     /// </summary>

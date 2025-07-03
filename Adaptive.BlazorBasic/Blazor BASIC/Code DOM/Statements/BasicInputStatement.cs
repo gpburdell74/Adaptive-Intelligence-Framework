@@ -188,21 +188,15 @@ public class BasicInputStatement : BasicCodeStatement
     }
     private void ParseWithStringLiteralPrompt(ITokenizedCodeLine codeLine)
     {
-        int index = 3;
-        string data = codeLine[2]!.Text!;
+        int startIndex = codeLine.IndexOf(TokenType.StringDelimiter);
+        int endIndex = codeLine.IndexOf(startIndex+1, TokenType.StringDelimiter);
+
+        _promptExpression = new BlazorBasicLiteralStringExpression(Service,
+            codeLine.CombineValues(startIndex + 1, endIndex - 1));
+
 
         int nextIndex = -1;
-        do
-        {
-            IToken token = codeLine[index];
-            if (token.TokenType == TokenType.StringDelimiter)
-                nextIndex = index;
-            index++;
-        } while (index < codeLine.Count && nextIndex == -1);
-
-        _promptExpression = new BlazorBasicLiteralStringExpression(Service, codeLine.CombineValues(4, nextIndex - 1));
-
-        nextIndex = -1;
+        int index = endIndex + 1;
         do
         {
             IToken token = codeLine[index];

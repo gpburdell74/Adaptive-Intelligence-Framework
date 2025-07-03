@@ -20,7 +20,7 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 ///     
 /// </example>
 /// <seealso cref="BasicCodeStatement" />
-public class BasicVariableAssignmentExpression : BasicCodeStatement
+public class BasicVariableAssignmentStatement : BasicCodeStatement
 {
     #region Private Member Declarations    
     /// <summary>
@@ -35,12 +35,12 @@ public class BasicVariableAssignmentExpression : BasicCodeStatement
 
     #region Constructor / Dispose Methods    
     /// <summary>
-    /// Initializes a new instance of the <see cref="BasicVariableAssignmentExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicVariableAssignmentStatement"/> class.
     /// </summary>
     /// <param name="service">The reference to the <see cref="BlazorBasicLanguageService" /> to use to find and compare
     /// text to language reserved words and operators and other items.</param>
     /// <param name="codeLine">An <see cref="ITokenizedCodeLine" /> containing the code line to be parsed.</param>
-    public BasicVariableAssignmentExpression(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service, codeLine)
+    public BasicVariableAssignmentStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine) : base(service, codeLine)
     {
         CommandExpression = new BlazorBasicReservedWordExpression(service, KeywordNames.CommandLet);
     }

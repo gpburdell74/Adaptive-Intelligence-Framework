@@ -84,7 +84,7 @@ public class BasicPrintStatement : BasicCodeStatement
     protected override void ParseIntoExpressions(ITokenizedCodeLine codeLine)
     {
         if (codeLine.Count < 3)
-            throw new SyntaxErrorException(codeLine.LineNumber);
+            throw new BasicSyntaxErrorException(codeLine.LineNumber);
 
         // Expected:
         // PRINT<space> <data content> [..., data expression, data expression, data expression ... ]

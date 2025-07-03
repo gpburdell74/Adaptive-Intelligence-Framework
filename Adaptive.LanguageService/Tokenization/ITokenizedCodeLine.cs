@@ -68,6 +68,20 @@ public interface ITokenizedCodeLine : IDisposable
     int IndexOf(TokenType tokenType);
 
     /// <summary>
+    /// Finds the index of the first token of the specified type in the current instance.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <param name="startIndex">
+    /// The index at which to start searching.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    int IndexOf(int startIndex, TokenType tokenType);
+
+    /// <summary>
     /// Finds the index of the first token of the specified type in the current instance that
     /// matches the specified text.
     /// </summary>

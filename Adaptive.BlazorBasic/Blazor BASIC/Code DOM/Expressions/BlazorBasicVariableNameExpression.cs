@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
@@ -102,7 +103,25 @@ public sealed class BlazorBasicVariableNameExpression : BlazorBasicExpression
     }
     #endregion
 
-    #region Public Methods / Functions 
+    #region Public Methods / Functions
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">The execution engine instance.</param>
+    /// <param name="environment">The execution environment instance.</param>
+    /// <param name="scope">The <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// The result of the object evaluation.
+    /// </returns>
+    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    {
+        return VariableName;
+    }
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object?)scope.GetVariable(VariableName).GetValue();
+    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>
@@ -113,6 +132,7 @@ public sealed class BlazorBasicVariableNameExpression : BlazorBasicExpression
     {
         return VariableName;
     }
+
     #endregion
 
 

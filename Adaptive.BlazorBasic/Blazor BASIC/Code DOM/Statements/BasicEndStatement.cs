@@ -50,6 +50,13 @@ public class BasicEndStatement : BasicCodeStatement
     #endregion
 
     /// <summary>
+    /// Gets the type of the block.
+    /// </summary>
+    /// <value>
+    /// The type of the block.
+    /// </value>
+    public BlockType BlockType => _blockType;
+    /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
     /// </summary>
     /// <value>

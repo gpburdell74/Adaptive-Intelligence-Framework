@@ -84,7 +84,7 @@ public class BasicReturnStatement : BasicCodeStatement
     protected override void ParseIntoExpressions(ITokenizedCodeLine codeLine)
     {
         if (codeLine.Count < 3)
-            throw new SyntaxErrorException(codeLine.LineNumber);
+            throw new BasicSyntaxErrorException(codeLine.LineNumber);
 
         // 0 - RETURN
         // 1  - space

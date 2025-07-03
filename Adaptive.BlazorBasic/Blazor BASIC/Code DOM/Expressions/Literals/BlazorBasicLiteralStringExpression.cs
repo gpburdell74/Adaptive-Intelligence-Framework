@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
 
@@ -47,7 +48,24 @@ public class BlazorBasicLiteralStringExpression : BlazorBasicLiteralExpression<s
     }
     #endregion
 
-    #region Protected Method Overrides    
+    #region Protected Method Overrides
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="engine">The execution engine instance.</param>
+    /// <param name="environment">The execution environment instance.</param>
+    /// <param name="scope">The <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// The result of the object evaluation.
+    /// </returns>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object)Value;
+    }
+
+
     /// <summary>
     /// Parses the content expression into a parameter definition.
     /// </summary>

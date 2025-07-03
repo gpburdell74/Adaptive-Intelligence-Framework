@@ -67,7 +67,7 @@ public static class BlazorBasicExpressionFactory
                 break;
 
             default:
-                throw new SyntaxErrorException(lineNumber);
+                throw new BasicSyntaxErrorException(lineNumber);
         }
         return expression;
     }
@@ -172,7 +172,7 @@ public static class BlazorBasicExpressionFactory
                     break;
 
                 default:
-                    throw new SyntaxErrorException(lineNumber);
+                    throw new BasicSyntaxErrorException(lineNumber);
             }
         }
         return newExpression;

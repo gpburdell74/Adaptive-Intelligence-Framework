@@ -1,6 +1,8 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
+using System.Linq.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -90,7 +92,47 @@ public class BlazorBasicArithmeticOperatorExpression : BlazorBasicExpression, IL
     }
     #endregion
 
-    #region Public Methods / Functions    
+    #region Public Methods / Functions
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public BlazorBasicMathOperators? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    {
+        return Operator;  
+    }
+
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object?)Evaluate(engine, environment, scope);
+    }
+
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>

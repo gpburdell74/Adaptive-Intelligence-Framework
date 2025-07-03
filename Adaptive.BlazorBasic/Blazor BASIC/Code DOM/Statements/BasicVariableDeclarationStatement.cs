@@ -91,7 +91,7 @@ public class BasicVariableDeclarationStatement : BasicCodeStatement
     protected override void ParseIntoExpressions(ITokenizedCodeLine codeLine)
     {
         if (codeLine.Count < 5)
-            throw new SyntaxErrorException(codeLine.LineNumber);
+            throw new BasicSyntaxErrorException(codeLine.LineNumber);
 
         // Expected:
         // DIM<space><name><space>AS<datatypename>
@@ -100,12 +100,12 @@ public class BasicVariableDeclarationStatement : BasicCodeStatement
 
         if (nameToken == null || string.IsNullOrEmpty(nameToken.Text))
         {
-            throw new SyntaxErrorException(codeLine.LineNumber, "No variable name specified.");
+            throw new BasicSyntaxErrorException(codeLine.LineNumber, "No variable name specified.");
         }
 
         if (dataTypeToken == null || string.IsNullOrEmpty(dataTypeToken.Text))
         {
-            throw new SyntaxErrorException(codeLine.LineNumber, "No data type name specified.");
+            throw new BasicSyntaxErrorException(codeLine.LineNumber, "No data type name specified.");
         }
 
         _variable = new BasicVariableReferenceExpression(Service, nameToken.Text!);

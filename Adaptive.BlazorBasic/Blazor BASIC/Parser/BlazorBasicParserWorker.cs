@@ -97,12 +97,17 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             int line = 0;
             int length = tokenizedCodeLines.Count;
 
+            bool inString = false;
+
             do
             {
                 ITokenizedCodeLine codeLine = tokenizedCodeLines[line];
+                if (codeLine.Count > 0 && codeLine[0].Text == "INPUT")
+                    System.Diagnostics.Debug.WriteLine("X");
+
                 PerformSubstitutions(userReferences, codeLine);
                 ILanguageCodeStatement? statement = BasicStatementFactory.CreateStatementByCommand(_service, codeLine);
-
+                
                 if (statement != null)
                 {
                     // Ensure we add the parameter definitions to the list of "variables".
@@ -297,7 +302,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             (nameToken.Text == null))
         {
             // Throw SYNTAX ERROR.
-            throw new SyntaxErrorException(lineNumber, "Invalid procedure declaration syntax.");
+            throw new BasicSyntaxErrorException(lineNumber, "Invalid procedure declaration syntax.");
         }
 
         table.AddUserProcedureDeclaration(lineNumber, nameToken.Text, codeLine);
@@ -327,7 +332,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             (nameToken.Text == null))
         {
             // Throw SYNTAX ERROR.
-            throw new SyntaxErrorException(lineNumber, "Invalid function declaration syntax.");
+            throw new BasicSyntaxErrorException(lineNumber, "Invalid function declaration syntax.");
         }
 
         table.AddUserFunctionDeclaration(lineNumber, nameToken.Text, codeLine);
@@ -351,7 +356,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
         if (nameToken == null || nameToken.Text == null)
         {
             // Throw SYNTAX ERROR.
-            throw new SyntaxErrorException(lineNumber, "Invalid variable declaration syntax.");
+            throw new BasicSyntaxErrorException(lineNumber, "Invalid variable declaration syntax.");
         }
 
         table.AddUserVariableDeclaration(lineNumber, nameToken.Text, codeLine);
@@ -360,25 +365,51 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
 
     private void PerformSubstitutions(UserReferenceTable userReferences, ITokenizedCodeLine line)
     {
+        bool inString = false;
+
         for (int index = 0; index < line.Count;index++)
         {
             IToken token = line[index];
-            if (token.TokenType == TokenType.UserDefinedItem)
+            if (token.TokenType == TokenType.StringDelimiter)
             {
-                if (userReferences.IsFunction(token))
+                inString = !inString;
+                index++;
+                token = line[index];
+                if (token.TokenType == TokenType.StringDelimiter)
                 {
-                    line.Substitute(index,
-                        BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.FunctionName));
+                    inString = false;
+                    index++;
+                    if (index >= line.Count)
+                        break;
+                    else
+                        token = line[index];
                 }
-                else if (userReferences.IsProcedure(token))
+            }
+
+            // Don't process items within quoted literal strings.
+            if (inString)
+            {
+                token.TokenType = TokenType.LiteralContent;
+            }
+            else
+            {
+                if (token.TokenType == TokenType.UserDefinedItem)
                 {
-                    line.Substitute(index,
-                        BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.ProcedureName));
-                }
-                else if (userReferences.IsVariable(line.LineNumber,token))
-                {
-                    line.Substitute(index,
-                        BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.VariableName));
+                    if (userReferences.IsFunction(token))
+                    {
+                        line.Substitute(index,
+                            BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.FunctionName));
+                    }
+                    else if (userReferences.IsProcedure(token))
+                    {
+                        line.Substitute(index,
+                            BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.ProcedureName));
+                    }
+                    else if (userReferences.IsVariable(line.LineNumber, token))
+                    {
+                        line.Substitute(index,
+                            BlazorBasicTokenFactory.CreateToken(token.Text, TokenType.VariableName));
+                    }
                 }
             }
         }

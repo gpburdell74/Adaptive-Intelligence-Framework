@@ -96,7 +96,7 @@ public class BasicWriteStatement : BasicCodeStatement
     protected override void ParseIntoExpressions(ITokenizedCodeLine codeLine)
     {
         if (codeLine.Count < 6)
-            throw new SyntaxErrorException(codeLine.LineNumber);
+            throw new BasicSyntaxErrorException(codeLine.LineNumber);
 
         // Expected:
         // WRITE<space><#><integer>, <data content> [..., data expression, data expression, data expression ... ]

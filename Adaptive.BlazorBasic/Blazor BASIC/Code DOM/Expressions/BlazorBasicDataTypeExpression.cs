@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Linq.Expressions;
 using System.Text;
@@ -101,7 +102,7 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     public int Size { get; set; }
     #endregion
 
-    #region Protected Methods    
+    #region Protected Methods
     /// <summary>
     /// Parses the content expression into a parameter definition.
     /// </summary>
@@ -138,7 +139,7 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
     {
         if (endIndex > startIndex + 1)
-            throw new SyntaxErrorException(codeLine.LineNumber);
+            throw new BasicSyntaxErrorException(codeLine.LineNumber);
 
         if (endIndex - startIndex > 0)
         {
@@ -150,7 +151,7 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
 
             IToken? typeToken = codeLine[endIndex];
             if (typeToken == null || typeToken.TokenType != TokenType.DataTypeName)
-                throw new SyntaxErrorException(codeLine.LineNumber, "Unknown data type specified.");
+                throw new BasicSyntaxErrorException(codeLine.LineNumber, "Unknown data type specified.");
 
             DataType = Service.DataTypes.GetDataType(typeToken.Text);
         }
@@ -163,6 +164,45 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     #endregion
 
     #region Public Methods / Functions    
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    {
+        return Render();
+    }
+
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object?)Evaluate(engine, environment, scope);
+    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>

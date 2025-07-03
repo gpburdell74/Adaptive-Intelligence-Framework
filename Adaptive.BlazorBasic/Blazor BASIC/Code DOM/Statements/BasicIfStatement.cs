@@ -59,6 +59,7 @@ public class BasicIfStatement : BasicCodeStatement
     }
     #endregion
 
+    public BlazorBasicCodeConditionalExpression ConditionalExpression => _condition;
 
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
@@ -90,7 +91,7 @@ public class BasicIfStatement : BasicCodeStatement
 
         int thenIndex = codeLine.IndexOf(TokenType.ReservedWord, "THEN");
         if (thenIndex == -1)
-            throw new SyntaxErrorException(codeLine.LineNumber, "Expected: THEN");
+            throw new BasicSyntaxErrorException(codeLine.LineNumber, "Expected: THEN");
 
         int rightIndex = codeLine.LastIndexOf(TokenType.ExpressionEndDelimiter);
         if (rightIndex == -1)

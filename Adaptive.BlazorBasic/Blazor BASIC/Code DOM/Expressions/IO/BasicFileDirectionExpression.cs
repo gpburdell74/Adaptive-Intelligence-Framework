@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
@@ -98,7 +99,7 @@ public class BasicFileDirectionExpression : BlazorBasicExpression, ILanguageCode
     {
         IToken? token = codeLine[startIndex];
         if (token == null)
-            throw new SyntaxErrorException(codeLine.LineNumber);
+            throw new BasicSyntaxErrorException(codeLine.LineNumber);
             
         ParseLiteralContent(token.Text);
     }
@@ -109,7 +110,7 @@ public class BasicFileDirectionExpression : BlazorBasicExpression, ILanguageCode
     protected override void ParseLiteralContent(string? expression)
     {
         if (expression == null)
-            throw new SyntaxErrorException(0);
+            throw new BasicSyntaxErrorException(0);
 
         BlazorBasicKeywords keyword = Service.Keywords.GetKeywordType(expression);
         switch (keyword)
@@ -135,13 +136,30 @@ public class BasicFileDirectionExpression : BlazorBasicExpression, ILanguageCode
                 break;
 
             default:
-                throw new InvalidArgumentException(0, "Invalid file direction specified: " + expression);
+                throw new BasicInvalidArgumentException(0, "Invalid file direction specified: " + expression);
 
         }
     }
     #endregion
 
-    #region Public Methods / Functions    
+    #region Public Methods / Functions
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="engine">The execution engine instance.</param>
+    /// <param name="environment">The execution environment instance.</param>
+    /// <param name="scope">The <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// The result of the object evaluation.
+    /// </returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object)string.Empty;
+    }
+
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>
@@ -182,6 +200,7 @@ public class BasicFileDirectionExpression : BlazorBasicExpression, ILanguageCode
         }
         return modeText;
     }
+
     #endregion
 }
 

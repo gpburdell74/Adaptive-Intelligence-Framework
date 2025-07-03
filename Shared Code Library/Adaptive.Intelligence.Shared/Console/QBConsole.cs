@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Adaptive.Intelligence.Shared.Logging;
+using System.Text;
 
 namespace Adaptive.Intelligence.Shared.Console
 {
@@ -386,8 +387,15 @@ namespace Adaptive.Intelligence.Shared.Console
             for (int count = 0; count < 256; count++)
                 data[count] = (byte)count;
 
-            System.Console.OutputEncoding = Encoding.GetEncoding(437);
-            _characterSet = Encoding.GetEncoding(437).GetChars(data);
+            try
+            {
+                System.Console.OutputEncoding = Encoding.GetEncoding(437);
+                _characterSet = Encoding.GetEncoding(437).GetChars(data);
+            }
+            catch(Exception ex)
+            {
+                ExceptionLog.LogException(ex);
+            }
         }
         /// <summary>
         /// Initializes the console for use.

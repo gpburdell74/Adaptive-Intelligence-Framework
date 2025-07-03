@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.BlazorBasic;
+using Adaptive.Intelligence.BlazorBasic.Execution;
 using Adaptive.Intelligence.BlazorBasic.LanguageService;
 using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.BlazorBasic.Services;
@@ -30,18 +31,15 @@ internal class Program
 
 
         FileStream sourceStream = new FileStream(file, FileMode.Open, FileAccess.Read);
-        List<ILanguageCodeStatement> finalList = parsingService.ParseCodeContent(sourceStream);
+        IExecutionUnit execUnit = parsingService.ParseCodeContent(sourceStream);
         sourceStream.Close();
         sourceStream.Dispose();
 
-        BlazorBasicStatementRenderer renderer = new BlazorBasicStatementRenderer();
-        renderer.UseTabs = true;
+        BlazorBasicExecutionEngine engine = new BlazorBasicExecutionEngine();
+        engine.Load(execUnit);
+        engine.Execute();
 
-        foreach (ILanguageCodeStatement statement in finalList)
-        {
-            Console.WriteLine(renderer.RenderStatement(statement));
-        }
-
+        
         Console.WriteLine("");
         Console.WriteLine("Press [Enter] To Exit");
         Console.ReadLine();

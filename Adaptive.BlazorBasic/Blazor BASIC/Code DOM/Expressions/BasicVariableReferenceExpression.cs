@@ -1,7 +1,9 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
+using System.Linq.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -73,6 +75,25 @@ public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguage
     #endregion
 
     #region Public Methods / Functions
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return ((BlazorBasicVariable<T>)scope.GetVariable(VariableName)).Value;
+    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>

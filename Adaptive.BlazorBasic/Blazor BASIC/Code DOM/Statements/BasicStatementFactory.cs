@@ -107,7 +107,7 @@ public static class BasicStatementFactory
                 break;
 
             case BlazorBasicKeywords.End:
-                newStatement = new BasicEndStatement(service, codeLine);
+                newStatement = CreateSpecificEndStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.If:
@@ -123,7 +123,7 @@ public static class BasicStatementFactory
                 break;
 
             case BlazorBasicKeywords.Let:
-                newStatement = new BasicVariableAssignmentExpression(service, codeLine);
+                newStatement = new BasicVariableAssignmentStatement(service, codeLine);
                 break;
 
             case BlazorBasicKeywords.Loop:
@@ -153,7 +153,7 @@ public static class BasicStatementFactory
             default:
                 if (codeLine[0].TokenType == TokenType.VariableName)
                 {
-                    newStatement = new BasicVariableAssignmentExpression(service, codeLine);
+                    newStatement = new BasicVariableAssignmentStatement(service, codeLine);
                 }
                 else
                     throw new Exception("Not yet implemented.");
@@ -164,4 +164,28 @@ public static class BasicStatementFactory
     }
     #endregion
 
+    private static ILanguageCodeStatement CreateSpecificEndStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
+    {
+        ILanguageCodeStatement endStatement;
+
+        switch(codeLine[2].Text)
+        {
+            case KeywordNames.CommandIf:
+                endStatement = new BasicEndStatement(service, codeLine);
+                break;
+
+            case KeywordNames.CommandFunction:
+                endStatement = new BasicFunctionEndStatement(service, codeLine);
+                break;
+
+            case KeywordNames.CommandProcedure:
+                endStatement = new BasicProcedureEndStatement(service, codeLine);
+                break;
+
+            default:
+                endStatement = new BasicEndStatement(service, codeLine);
+                break;
+        }
+        return endStatement;
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
@@ -96,6 +97,13 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
 
     #region Public Properties
     /// <summary>
+    /// Gets the data type of the parameter variable.
+    /// </summary>
+    /// <value>
+    /// A <see cref="BlazorBasicDataTypeExpression"/> representing the type of data.
+    /// </value>
+    public BlazorBasicDataTypeExpression? DataType => _dataType;
+    /// <summary>
     /// Gets the name of the parameter.
     /// </summary>
     /// <value>
@@ -136,7 +144,7 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
         {
             ITokenizedCodeLine? codeLine = Service.TokenFactory.TokenizeLine(expression);
             if (codeLine == null)
-                throw new SyntaxErrorException(0, "Could not parse the content.");
+                throw new BasicSyntaxErrorException(0, "Could not parse the content.");
 
             // Before whitespace removal:
             //      Standard case:   <parameterName><space>AS<space><dataTypeName>
@@ -187,6 +195,45 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
     #endregion
 
     #region Public Methods / Functions    
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    {
+        return "";
+    }
+
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object?)"";
+    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>

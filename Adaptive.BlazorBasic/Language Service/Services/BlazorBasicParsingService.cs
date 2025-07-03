@@ -158,7 +158,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="sourceStream">An open <see cref="Stream" /> to read the complete list of source code to be parsed</param>
     /// <returns></returns>
-    public List<ILanguageCodeStatement> ParseCodeContent(Stream sourceStream)
+    public IExecutionUnit ParseCodeContent(Stream sourceStream)
     {
         List<ILanguageCodeStatement>? parsedContentList = null;
 
@@ -181,7 +181,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
             parsedContentList = new List<ILanguageCodeStatement>();
         }
 
-        return parsedContentList;
+        return new BlazorBasicExecutionUnit(parsedContentList);
     }
 
     /// <summary>

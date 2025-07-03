@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
 
@@ -149,7 +150,7 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
         {
             ITokenizedCodeLine? codeLine = Service.TokenFactory.TokenizeLine(expression);
             if (codeLine == null)
-                throw new SyntaxErrorException(0);
+                throw new BasicSyntaxErrorException(0);
 
             ParseCodeLine(codeLine, 0, codeLine.Count-1);
         }
@@ -182,6 +183,45 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
     #endregion
 
     #region Public Methods / Functions
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    {
+        return "";
+    }
+
+    /// <summary>
+    /// Evaluates the expression.
+    /// </summary>
+    /// <param name="engine">
+    /// The reference to the execution engine instance.
+    /// </param>
+    /// <param name="environment">
+    /// The reference to the execution environment instance.
+    /// </param>
+    /// <param name="scope">
+    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// variables are declared.</param>
+    /// <returns>
+    /// A string containing the user-defined text value.
+    /// </returns>
+    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    {
+        return (T?)(object?)"";
+    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>

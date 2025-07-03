@@ -4,22 +4,22 @@
 /// Represents a syntax error.
 /// </summary>
 /// <seealso cref="BlazorBasicException" />
-public class SyntaxErrorException : BlazorBasicException
+public class BasicHandleInUseException : BlazorBasicException
 {
     #region Constructors
     /// <summary>
-    /// Initializes a new instance of the <see cref="SyntaxErrorException"/> class.
+    /// Initializes a new instance of the <see cref="BasicHandleInUseException"/> class.
     /// </summary>
     /// <param name="lineNumber">An integer indicating the line number on which the error occurred.</param>
-    public SyntaxErrorException(int lineNumber) : base(lineNumber, BlazorBasicErrorCodes.Syntax)
+    public BasicHandleInUseException(int lineNumber) : base(lineNumber, BlazorBasicErrorCodes.FileHandleInUse)
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="SyntaxErrorException"/> class.
+    /// Initializes a new instance of the <see cref="BasicHandleInUseException"/> class.
     /// </summary>
     /// <param name="lineNumber">The line number.</param>
     /// <param name="message">The message.</param>
-    public SyntaxErrorException(int lineNumber, string message) : base(lineNumber, BlazorBasicErrorCodes.Syntax, message)
+    public BasicHandleInUseException(int lineNumber, string message) : base(lineNumber, BlazorBasicErrorCodes.FileHandleInUse, message)
     {
     }
     #endregion

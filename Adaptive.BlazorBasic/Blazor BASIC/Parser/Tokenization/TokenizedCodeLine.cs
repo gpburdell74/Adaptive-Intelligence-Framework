@@ -164,6 +164,35 @@ public class TokenizedCodeLine : DisposableObjectBase, ITokenizedCodeLine
         return ordinalIndex;
     }
 
+
+    /// <summary>
+    /// Finds the index of the first token of the specified type in the current instance.
+    /// </summary>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token to find.
+    /// </param>
+    /// <returns>
+    /// An integer specifying the ordinal index of the specified token, or -1 if not found.
+    /// </returns>
+    public int IndexOf(int startIndex,TokenType tokenType)
+    {
+        int ordinalIndex = -1;
+
+        if (Count > 0)
+        {
+            int searchIndex = startIndex;
+            do
+            {
+                IToken? current = this[searchIndex];
+                if (current != null && current.TokenType == tokenType)
+                    ordinalIndex = searchIndex;
+                searchIndex++;
+            } while (searchIndex < Count && ordinalIndex == -1);
+        }
+
+        return ordinalIndex;
+    }
+
     /// <summary>
     /// Finds the index of the first token of the specified type in the current instance that
     /// matches the specified text.
@@ -245,10 +274,10 @@ public class TokenizedCodeLine : DisposableObjectBase, ITokenizedCodeLine
     {
         int length = rightIndex - leftIndex;
         if (length < 0)
-            throw new SyntaxErrorException(LineNumber);
+            throw new BasicSyntaxErrorException(LineNumber);
 
         if (leftIndex < 0 || rightIndex > Count-1)
-            throw new SyntaxErrorException(LineNumber);
+            throw new BasicSyntaxErrorException(LineNumber);
 
         length++;
         List<IToken> returnList = new List<IToken>(length);

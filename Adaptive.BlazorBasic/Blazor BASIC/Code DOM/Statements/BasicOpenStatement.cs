@@ -71,7 +71,18 @@ public class BasicOpenStatement : BasicCodeStatement
     #endregion
 
     #region Public Properties
-
+    /// <summary>
+    /// The file name expression.
+    /// </summary>
+    public BasicFileNameExpression? FileName => _fileName;
+    /// <summary>
+    /// The file direction expression (INPUT, OUTPUT, APPEND)
+    /// </summary>
+    public BasicFileDirectionExpression? FileDirection =>  _fileDirection;
+    /// <summary>
+    /// The file number / handle expression (#1, #2, etc.).
+    /// </summary>
+    public BasicFileNumberExpression? FileNumber => _fileNumber;
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
     /// </summary>

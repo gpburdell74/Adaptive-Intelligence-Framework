@@ -110,6 +110,10 @@ public enum TokenType
     /// </summary>
     BlockEndDelimiter,
     /// <summary>
+    /// Indicates the token representing literal content.
+    /// </summary>
+    LiteralContent,
+    /// <summary>
     /// Indicates the token representing an error in the parsing process.
     /// </summary>
     Error

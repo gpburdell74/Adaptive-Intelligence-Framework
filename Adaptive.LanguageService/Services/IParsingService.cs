@@ -64,7 +64,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<ILanguageCodeStatement> ParseCodeContent(Stream sourceStream);
+    IExecutionUnit? ParseCodeContent(Stream sourceStream);
 
     /// <summary>
     /// Parses the content of the code.

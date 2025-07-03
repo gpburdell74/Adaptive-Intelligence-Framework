@@ -13,7 +13,7 @@ public abstract class TokenBase : DisposableObjectBase, IToken
     /// <summary>
     /// The token type.
     /// </summary>
-    private readonly TokenType _type;
+    private TokenType _type;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -58,6 +58,6 @@ public abstract class TokenBase : DisposableObjectBase, IToken
     /// <value>
     /// A <see cref="TokenType" /> enumerated value indicating the type of the token.
     /// </value>
-    public TokenType TokenType => _type;
+    public TokenType TokenType { get => _type; set => _type = value; }
     #endregion
 }

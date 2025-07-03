@@ -381,7 +381,7 @@ public class BlazorBasicLanguageService :
                 break;
 
             default:
-                throw new SyntaxErrorException(0);
+                throw new BasicSyntaxErrorException(0);
         }
         return blockType;
     }

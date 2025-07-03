@@ -18,6 +18,6 @@ public interface IToken : IDisposable
     /// <value>
     /// A <see cref="TokenType"/> enumerated value indicating the type of the token.
     /// </value>
-    TokenType TokenType { get; }
+    TokenType TokenType { get; set; }
 }
 

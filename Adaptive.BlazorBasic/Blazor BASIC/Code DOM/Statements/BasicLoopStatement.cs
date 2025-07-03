@@ -62,7 +62,13 @@ public class BasicLoopStatement : BasicCodeStatement
     }
     #endregion
 
-
+    /// <summary>
+    /// Gets the reference to the conditional expression.
+    /// </summary>
+    /// <value>
+    /// The <see cref="BlazorBasicExpression"/> used to determine when the loop ends.
+    /// </value>
+    public BlazorBasicExpression? ConditionExpression => _condition;
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
     /// </summary>
