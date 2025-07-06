@@ -119,7 +119,7 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
 
     private void CreateProceduresAndFunctions(IExecutionUnit codeUnit)
     {
-        List<ILanguageCodeStatement> statements = codeUnit.Statements;
+        BlazorBasicCodeStatementsTable statements = (BlazorBasicCodeStatementsTable) codeUnit.Statements;
         int length = statements.Count;
         int index = 0;
 
@@ -139,7 +139,7 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
                 index++;
         } while (index < length);
     }
-    private int AddProcedure(List<ILanguageCodeStatement> statements, int currentIndex)
+    private int AddProcedure(BlazorBasicCodeStatementsTable statements, int currentIndex)
     {
         int returnIndex = -1;
         int length = statements.Count;
@@ -171,7 +171,7 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
 
     }
 
-    private int AddFunction(List<ILanguageCodeStatement> statements, int currentIndex)
+    private int AddFunction(BlazorBasicCodeStatementsTable statements, int currentIndex)
     {
         int returnIndex = -1;
         int length = statements.Count;

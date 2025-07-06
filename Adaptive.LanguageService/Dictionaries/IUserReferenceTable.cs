@@ -49,4 +49,9 @@ public interface IUserReferenceTable : IDisposable
     /// An <see cref="ITokenizedCodeLine"/> containing the tokens for the line of code.
     /// </param>
     void AddUserVariableDeclaration(int lineNumber, string variableName, ITokenizedCodeLine codeLine);
+
+
+    bool IsVariable(string variableName);
+    bool IsProcedure(string variableName);
+    bool IsFunction(string variableName);
 }

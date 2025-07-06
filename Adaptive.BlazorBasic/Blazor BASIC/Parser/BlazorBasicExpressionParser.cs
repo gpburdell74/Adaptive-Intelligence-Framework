@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
@@ -54,9 +55,9 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     /// <param name="list">
     /// The <see cref="ManagedTokenList"/> instance containing the tokens to be parsed.
     /// </param>
-    public List<BlazorBasicExpression>? ParseExpression(ManagedTokenList list)
+    public List<BasicExpression>? ParseExpression(ManagedTokenList list)
     {
-        List<BlazorBasicExpression>? subExpressionList = null;
+        List<BasicExpression>? subExpressionList = null;
         _parsingIndex = 0;
         if (list.Count > 0)
         {
@@ -75,11 +76,11 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     /// The reference to the <see cref="ManagedTokenList"/> containing the data to process.
     /// </param>
     /// <returns>
-    /// A <see cref="List{T}"/> of <see cref="BlazorBasicExpression"/> instances.
+    /// A <see cref="List{T}"/> of <see cref="BasicExpression"/> instances.
     /// </returns>
-    private List<BlazorBasicExpression>? ParseContent(ManagedTokenList list)
+    private List<BasicExpression>? ParseContent(ManagedTokenList list)
     {
-        List<BlazorBasicExpression>? expressionList = new List<BlazorBasicExpression>();
+        List<BasicExpression>? expressionList = new List<BasicExpression>();
         int length = list.Count;
         bool done = false;
 
@@ -131,12 +132,12 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     /// Processes the arithmetic operator token.
     /// </summary>
     /// <param name="expressionList">
-    /// The <see cref="List{T}"/> of <see cref="BlazorBasicExpression"/> to add expressions to.
+    /// The <see cref="List{T}"/> of <see cref="BasicExpression"/> to add expressions to.
     /// </param>
     /// <param name="operatorText">
     /// A string containing the operator text.
     /// </param>
-    private void ProcessArithmeticOperator(List<BlazorBasicExpression> expressionList, string operatorText)
+    private void ProcessArithmeticOperator(List<BasicExpression> expressionList, string operatorText)
     {
         _parsingIndex++;
         expressionList.Add(
@@ -146,7 +147,7 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     /// Processes the expression start delimiter token and related operations for processing sub-expressions.
     /// </summary>
     /// <param name="expressionList">
-    /// The <see cref="List{T}"/> of <see cref="BlazorBasicExpression"/> to add expressions to.
+    /// The <see cref="List{T}"/> of <see cref="BasicExpression"/> to add expressions to.
     /// </param>
     /// <param name="tokenList">
     /// The reference to the original <see cref="ManagedTokenList"/> list.
@@ -154,12 +155,12 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     /// <param name="originalToken">
     /// The original <see cref="IToken"/> instance.
     /// </param>
-    private void ProcessExpressionStartDelimiter(List<BlazorBasicExpression> expressionList, ManagedTokenList tokenList, IToken originalToken)
+    private void ProcessExpressionStartDelimiter(List<BasicExpression> expressionList, ManagedTokenList tokenList, IToken originalToken)
     {
         _parsingIndex++;
 
         // Recursively parse the sub-expression.
-        List<BlazorBasicExpression>? expList = ParseContent(tokenList);
+        List<BasicExpression>? expList = ParseContent(tokenList);
         if (expList != null)
         {
 
@@ -175,12 +176,12 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     /// Processes the literal floating point number token.
     /// </summary>
     /// <param name="expressionList">
-    /// The <see cref="List{T}"/> of <see cref="BlazorBasicExpression"/> to add expressions to.
+    /// The <see cref="List{T}"/> of <see cref="BasicExpression"/> to add expressions to.
     /// </param>
     /// <param name="originalToken">
     /// The original <see cref="IToken"/> instance.
     /// </param>
-    private void ProcessFloatingPointLiteral(List<BlazorBasicExpression> expressionList, IToken originalToken)
+    private void ProcessFloatingPointLiteral(List<BasicExpression> expressionList, IToken originalToken)
     {
         _parsingIndex++;
         expressionList.Add(
@@ -191,28 +192,28 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     /// Processes the literal integer token.
     /// </summary>
     /// <param name="expressionList">
-    /// The <see cref="List{T}"/> of <see cref="BlazorBasicExpression"/> to add expressions to.
+    /// The <see cref="List{T}"/> of <see cref="BasicExpression"/> to add expressions to.
     /// </param>
     /// <param name="originalToken">
     /// The original <see cref="IToken"/> instance.
     /// </param>
-    private void ProcessIntegerLiteral(List<BlazorBasicExpression> expressionList, IToken originalToken)
+    private void ProcessIntegerLiteral(List<BasicExpression> expressionList, IToken originalToken)
     {
         _parsingIndex++;
         expressionList.Add(
-            new BlazorBasicLiteralIntegerExpression(_service!, new ManagedTokenList { originalToken }));
+            new BasicLiteralIntegerExpression(_service!, new ManagedTokenList { originalToken }));
     }
 
     /// <summary>
     /// Processes the variable name token.
     /// </summary>
     /// <param name="expressionList">
-    /// The <see cref="List{T}"/> of <see cref="BlazorBasicExpression"/> to add expressions to.
+    /// The <see cref="List{T}"/> of <see cref="BasicExpression"/> to add expressions to.
     /// </param>
     /// <param name="originalToken">
     /// The original <see cref="IToken"/> instance.
     /// </param>
-    private void ProcessVariableName(List<BlazorBasicExpression> expressionList, IToken originalToken)
+    private void ProcessVariableName(List<BasicExpression> expressionList, IToken originalToken)
     {
         _parsingIndex++;
         expressionList.Add(

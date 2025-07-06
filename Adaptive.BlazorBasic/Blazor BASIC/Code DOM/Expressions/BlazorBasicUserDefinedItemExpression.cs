@@ -2,14 +2,16 @@
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents and manages a procedure call expression.
 /// </summary>
-/// <seealso cref="BlazorBasicExpression" />
-public sealed class BlazorBasicUserDefinedItemExpression : BlazorBasicExpression
+/// <seealso cref="BasicExpression" />
+public sealed class BlazorBasicUserDefinedItemExpression : BasicExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -95,7 +97,7 @@ public sealed class BlazorBasicUserDefinedItemExpression : BlazorBasicExpression
     /// Parses the code line.
     /// </summary>
     /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
+    protected void ParseCodeLine(List<IToken> codeLine)
     {
         StringBuilder builder = new StringBuilder();
 
@@ -137,29 +139,14 @@ public sealed class BlazorBasicUserDefinedItemExpression : BlazorBasicExpression
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
         return UserDefinedText;
     }
 
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <param name="engine">
-    /// The reference to the execution engine instance.
-    /// </param>
-    /// <param name="environment">
-    /// The reference to the execution environment instance.
-    /// </param>
-    /// <param name="scope">
-    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// A string containing the user-defined text value.
-    /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
     {
-        return (T?)(object?)UserDefinedText;
+        throw new NotImplementedException();
     }
     #endregion
 

@@ -1,9 +1,9 @@
-﻿namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
+﻿namespace Adaptive.Intelligence.LanguageService;
 
 /// <summary>
-/// Lists the types of code blocks that are currently supported.
+/// Lists the types of code blocks to be supported.
 /// </summary>
-public enum BlockType
+public enum CodeBlockType
 {
     /// <summary>
     /// Indicates the block type is unknown.
@@ -26,3 +26,4 @@ public enum BlockType
     /// </summary>
     Loop
 }
+

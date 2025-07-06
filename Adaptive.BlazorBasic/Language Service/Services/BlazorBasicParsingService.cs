@@ -1,4 +1,5 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Parser;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
+using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Dictionaries;
@@ -6,6 +7,7 @@ using Adaptive.Intelligence.LanguageService.Parsing;
 using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
+using System.Drawing;
 
 namespace Adaptive.Intelligence.BlazorBasic.Services;
 
@@ -14,7 +16,7 @@ namespace Adaptive.Intelligence.BlazorBasic.Services;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="IParsingService{D,E,F,K,O}" />
-public sealed class BlazorBasicParsingService : DisposableObjectBase, 
+public sealed class BlazorBasicParsingService : DisposableObjectBase,
     IParsingService<
             BlazorBasicDelimiters,
             BlazorBasicErrorCodes,
@@ -102,10 +104,10 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// The <see cref="ILanguageService{D,E,F,K,O}" /> instance.
     /// </value>
     public ILanguageService<
-        BlazorBasicDelimiters, 
-        BlazorBasicErrorCodes, 
-        BlazorBasicFunctions, 
-        BlazorBasicKeywords, 
+        BlazorBasicDelimiters,
+        BlazorBasicErrorCodes,
+        BlazorBasicFunctions,
+        BlazorBasicKeywords,
         StandardOperators>? Service => _service;
     #endregion
 
@@ -117,7 +119,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// A string containing the entire raw text to be parsed.  Each line must be separated by a carriage-return/newline pair.
     /// </param>
     /// <returns></returns>
-    public List<ILanguageCodeStatement> ParseCodeContent(string rawText)
+    public ILanguageCodeStatementsTable ParseCodeContent(string rawText)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(string)");
 
@@ -130,7 +132,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="rawText">An <see cref="IEnumerable{T}" /> of strings containing the complete list of source code to be parsed.</param>
     /// <returns></returns>
-    public List<ILanguageCodeStatement> ParseCodeContent(IEnumerable<string> rawText)
+    public ILanguageCodeStatementsTable ParseCodeContent(IEnumerable<string> rawText)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(IEnumerable<string>)");
 
@@ -150,7 +152,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
         List<ITokenizedCodeLine>? tokensList = _service.TokenFactory.TokenizeCodeLines(preProcessedList);
         preProcessedList.Clear();
 
-        return ParseCodeContent(tokensList);
+        return (BlazorBasicCodeStatementsTable)ParseCodeContent(tokensList);
     }
 
     /// <summary>
@@ -160,7 +162,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// <returns></returns>
     public IExecutionUnit ParseCodeContent(Stream sourceStream)
     {
-        List<ILanguageCodeStatement>? parsedContentList = null;
+        BlazorBasicCodeStatementsTable? parsedContentList = null;
 
         _log?.WriteLine(nameof(ParseCodeContent) + "(Stream)");
         if (_worker == null)
@@ -172,13 +174,13 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
             List<ITokenizedCodeLine>? tokensList = _service.TokenFactory.TokenizeCodeLines(preProcessed);
             preProcessed.Clear();
             if (tokensList != null)
-                parsedContentList = ParseCodeContent(tokensList);
+                parsedContentList = (BlazorBasicCodeStatementsTable)ParseCodeContent(tokensList);
             else
-                parsedContentList = new List<ILanguageCodeStatement>();
+                parsedContentList = new BlazorBasicCodeStatementsTable();
         }
         else
         {
-            parsedContentList = new List<ILanguageCodeStatement>();
+            parsedContentList = new BlazorBasicCodeStatementsTable();
         }
 
         return new BlazorBasicExecutionUnit(parsedContentList);
@@ -189,7 +191,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="tokenizedCodeLines">An <see cref="List{T}" /> of <see cref="ITokenizedCodeLine" /> instances containing the tokenized list of code items.</param>
     /// <returns></returns>
-    public List<ILanguageCodeStatement> ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines)
+    public ILanguageCodeStatementsTable ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(List<ITokenizedCodeLines>)");
 
@@ -200,8 +202,71 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
         _userRefTable = _worker.FindUserDeclarations(tokenizedCodeLines);
 
         // Generate the CodeDOM for each line of code.
-        return _worker.CreateCodeStatements((UserReferenceTable)_userRefTable, tokenizedCodeLines);
+        BlazorBasicCodeStatementsTable statementList = _worker.CreateCodeStatements((UserReferenceTable)_userRefTable, tokenizedCodeLines);
+
+        // Ensure for all function and procedure calls, the parameter values can be expressed and thus
+        // assigned correctly.
+        AdjustParameterValueDefinitions(statementList);
+
+        return statementList;
     }
     #endregion
 
+    private void AdjustParameterValueDefinitions(BlazorBasicCodeStatementsTable statementList)
+    {
+        foreach (ILanguageCodeStatement statement in statementList)
+        {
+            if (statement is BasicProcedureCallStatement procCallStatement)
+            {
+                CorrelateParametersAndVariableExpressions(statementList, procCallStatement);
+            }
+        }
+    }
+
+    private void CorrelateParametersAndVariableExpressions(BlazorBasicCodeStatementsTable statementList, BasicProcedureCallStatement procCallStatement)
+    {
+        BasicProcedureStartStatement? definition = statementList.FindProcedureDefinition(procCallStatement.ProcedureName);
+        if (definition == null)
+        {
+
+        }
+        else
+        {
+            if (definition.ParameterCount != procCallStatement.Parameters.Count)
+            {
+                // Invalid argument list.
+            }
+            else
+            {
+                int index = 0;
+                int length = definition.ParameterCount;
+
+                for (index = 0; index < length; index++)
+                {
+                    BlazorBasicParameterValueExpression valueExp =
+                        procCallStatement.Parameters[index];
+
+                    BasicParameterDefinitionExpression? paramDef =
+                        definition.Parameters.ParameterList[index];
+
+                    valueExp.ParameterName = paramDef.ParameterName;
+                    valueExp.DataType = paramDef.DataType;
+
+                    if (valueExp.OriginalData is string nameTest)
+                    {
+                        if (_userRefTable.IsVariable(nameTest))
+                        {
+                        }
+                        else if (_userRefTable.IsFunction(nameTest))
+                        {
+
+                        }
+                        else if (_userRefTable.IsFunction(nameTest))
+                        {
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

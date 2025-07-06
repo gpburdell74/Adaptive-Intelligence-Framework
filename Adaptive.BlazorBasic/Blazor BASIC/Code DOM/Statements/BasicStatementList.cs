@@ -1,6 +1,9 @@
 ﻿using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.Shared;
 using System.Data;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -43,7 +46,7 @@ public class BasicCodeStatementList : List<ILanguageCodeStatement>
             BasicCodeStatement statement = (BasicCodeStatement)this[pos];
             if (statement is BasicEndStatement endStatement)
             {
-                if (endStatement.BlockType == BlockType.If)
+                if (endStatement.BlockType == CodeBlockType.If)
                     returnIndex = pos;
             }
             pos++;

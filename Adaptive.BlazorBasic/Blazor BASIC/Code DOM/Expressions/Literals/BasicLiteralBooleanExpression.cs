@@ -1,57 +1,42 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
+namespace Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 /// <summary>
-/// Represents an integer literal.
+/// Represents a character literal.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeExpression" />
-public sealed class BlazorBasicLiteralIntegerExpression : BlazorBasicLiteralExpression<long>
+/// <seealso cref="BasicLiteralExpression{T}" />
+/// <seealso cref="ICodeLiteralBooleanExpression"/>
+public sealed class BasicLiteralBooleanExpression : BasicLiteralExpression<bool>, ICodeLiteralBooleanExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicLiteralIntegerExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicLiteralBooleanExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// A reference to the <see cref="BlazorBasicLanguageService"/> being used.
     /// </param>
-    public BlazorBasicLiteralIntegerExpression(BlazorBasicLanguageService service) : base(service)
+    public BasicLiteralBooleanExpression(BlazorBasicLanguageService service) : base(service)
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicLiteralIntegerExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicLiteralBooleanExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// A reference to the <see cref="BlazorBasicLanguageService"/> being used.
     /// </param>
     /// <param name="value">
-    /// An integer containing the data value.
+    /// The <see cref="char"/> value being represented.
     /// </param>
-    public BlazorBasicLiteralIntegerExpression(BlazorBasicLanguageService service, long value) : base(service)
+    public BasicLiteralBooleanExpression(BlazorBasicLanguageService service, bool value) : base(service)
     {
         Value = value;
     }
-    
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicLiteralIntegerExpression"/> class.
-    /// </summary>
-    /// <param name="service">
-    /// The reference to the language service instance.
-    /// </param>
-    /// <param name="codeLine">
-    /// The <see cref="List{T}"/> of <see cref="IToken"/> instances from the parent code line instance 
-    /// containing the data to be parsed.
-    /// </param>
-    public BlazorBasicLiteralIntegerExpression(BlazorBasicLanguageService service, List<IToken> codeLine) : base(service)
-    {
-        ParseCodeLine(codeLine);
-    }
-
     /// <summary>
     /// Releases unmanaged and - optionally - managed resources.
     /// </summary>
@@ -59,7 +44,7 @@ public sealed class BlazorBasicLiteralIntegerExpression : BlazorBasicLiteralExpr
     /// <b>false</b> to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
-        Value = 0;
+        Value = false;
         base.Dispose(disposing);
     }
     #endregion
@@ -71,30 +56,30 @@ public sealed class BlazorBasicLiteralIntegerExpression : BlazorBasicLiteralExpr
     /// <param name="expression">A string containing the expression to be parsed.</param>
     protected override void ParseLiteralContent(string? expression)
     {
-        try
-        {
-            Value = long.Parse(expression ?? "0");
-        }
-        catch(Exception ex)
-        {
-            throw new BasicSyntaxErrorException(0);
-        }
-    }
-    /// <summary>
-    /// Parses the code line.
-    /// </summary>
-    /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
-    {
-        ParseLiteralContent(codeLine[0].Text);
+        if (string.IsNullOrEmpty(expression))
+            Value = false;
+        else
+            Value = bool.Parse(expression);
     }
     #endregion
 
-    #region Public Methods / Functions    
+    #region Protected Method Overrides
+    /// <summary>
+    /// Parses the code line.
+    /// </summary>
+    /// <param name="codeLine">A <see cref="ITokenizedCodeLine" /> containing the code tokens for the entire line of code.</param>
+    /// <param name="startIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to start parsing the expression.</param>
+    /// <param name="endIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to end parsing the expression.</param>
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        
+    }
+    #endregion
+
+    #region Public Methods / Functions
     /// <summary>
     /// Evaluates the expression.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// <param name="engine">The execution engine instance.</param>
     /// <param name="environment">The execution environment instance.</param>
     /// <param name="scope">The <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IScopeContainer" /> instance, such as a procedure or function, in which scoped
@@ -102,10 +87,9 @@ public sealed class BlazorBasicLiteralIntegerExpression : BlazorBasicLiteralExpr
     /// <returns>
     /// The result of the object evaluation.
     /// </returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return (T?)(object)Value;
+        return Value;
     }
 
     /// <summary>
@@ -114,11 +98,12 @@ public sealed class BlazorBasicLiteralIntegerExpression : BlazorBasicLiteralExpr
     /// <returns>
     /// A string containing the expression rendered into Blazor BASIC code.
     /// </returns>
-    /// <exception cref="System.NotImplementedException"></exception>
     public override string? Render()
     {
-        return Value.ToString();
+        if (Value == true)
+            return "True";
+        else
+            return "False";
     }
     #endregion
-
 }

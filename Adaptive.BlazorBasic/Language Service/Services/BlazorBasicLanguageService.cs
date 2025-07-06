@@ -353,31 +353,31 @@ public class BlazorBasicLanguageService :
     /// A string containing the keyword.
     /// </param>
     /// <returns>
-    /// A <see cref="BlockType"/> enumerated vlaue indicating the code block type.
+    /// A <see cref="CodeBlockType"/> enumerated value indicating the code block type.
     /// </returns>
-    public BlockType DetermineBlockType(string text)
+    public CodeBlockType DetermineCodeBlockType(string text)
     {
-        BlockType blockType = BlockType.NoneOrUnknown;
+        CodeBlockType blockType = CodeBlockType.NoneOrUnknown;
 
         text = text.ToUpper().Trim();
 
         switch(text)
         {
             case KeywordNames.CommandIf:
-                blockType = BlockType.If;
+                blockType = CodeBlockType.If;
                 break;
 
             case KeywordNames.CommandLoop:
             case KeywordNames.CommandDo:
-                blockType = BlockType.Loop;
+                blockType = CodeBlockType.Loop;
                 break;
 
             case KeywordNames.CommandProcedure:
-                blockType = BlockType.Procedure;
+                blockType = CodeBlockType.Procedure;
                 break;
 
             case KeywordNames.CommandFunction:
-                blockType = BlockType.Function;
+                blockType = CodeBlockType.Function;
                 break;
 
             default:

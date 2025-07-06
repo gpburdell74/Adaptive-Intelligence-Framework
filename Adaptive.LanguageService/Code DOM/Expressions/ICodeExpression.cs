@@ -1,15 +1,15 @@
 ﻿using Adaptive.Intelligence.LanguageService.Execution;
 
-namespace Adaptive.Intelligence.LanguageService.CodeDom;
+namespace Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 /// <summary>
 /// Provides the signature definition for instances that represent generic code expressions.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface ILanguageCodeExpression : ILanguageCodeObject
+public interface ICodeExpression : ICodeObject
 {
     /// <summary>
-    /// Evaluates the expression.
+    /// Evaluates the expression during execution.
     /// </summary>
     /// <param name="engine">
     /// The execution engine instance.
@@ -21,19 +21,16 @@ public interface ILanguageCodeExpression : ILanguageCodeObject
     /// The <see cref="IScopeContainer"/> instance, such as a procedure or function, in which scoped
     /// variables are declared.
     /// </param>
-    /// <typeparam name="T">
-    /// The data type of the result produced by the evaluation of the expression.
-    /// </typeparam>
     /// <returns>
-    /// The result of the object evaluation.
+    /// The result of the expression evaluation.
     /// </returns>
-    T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope);
+    object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope);
 
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>
     /// <returns>
-    /// A string containing the expression rendered into Blazor BASIC code.
+    /// A string containing the expression rendered into a string containing the code content.
     /// </returns>
     string? Render();
 }

@@ -1,5 +1,8 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Parser;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
 
@@ -8,8 +11,12 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// <summary>
 /// Provides static methods / functions for creating CodeDOM expression instances.
 /// </summary>
-public static class BlazorBasicExpressionFactory
+public class BlazorBasicExpressionFactory : ICodeExpressionFactory
 {
+    private readonly static BlazorBasicExpressionFactory _factory = new BlazorBasicExpressionFactory();
+
+    public static BlazorBasicExpressionFactory Instance => _factory;
+
     #region Public Factory Methods / Functions
     /// <summary>
     /// Creates the expression from a single token.
@@ -24,11 +31,11 @@ public static class BlazorBasicExpressionFactory
     /// The reference to the <see cref="IToken"/> instance.
     /// </param>
     /// <returns>
-    /// A <see cref="BlazorBasicExpression"/> instance containing the CodeDom expression.
+    /// A <see cref="BasicExpression"/> instance containing the CodeDom expression.
     /// </returns>
-    public static BlazorBasicExpression CreateExpressionFromSingleToken(BlazorBasicLanguageService service, int lineNumber, IToken token)
+    public static BasicExpression CreateExpressionFromSingleToken(BlazorBasicLanguageService service, int lineNumber, IToken token)
     {
-        BlazorBasicExpression expression;
+        BasicExpression expression;
 
         ManagedTokenList singleItemList = new ManagedTokenList { token };
 
@@ -59,7 +66,7 @@ public static class BlazorBasicExpressionFactory
                 break;
 
             case TokenType.Integer:
-                expression = new BlazorBasicLiteralIntegerExpression(service, singleItemList);
+                expression = new BasicLiteralIntegerExpression(service, singleItemList);
                 break;
 
             case TokenType.FloatingPoint:
@@ -82,12 +89,12 @@ public static class BlazorBasicExpressionFactory
     /// The <see cref="List{T}"/> of <see cref="IToken"/> instances.
     /// </param>
     /// <returns>
-    /// A <see cref="BlazorBasicExpression"/> instance.
+    /// A <see cref="BasicExpression"/> instance.
     /// </returns>
-    public static BlazorBasicExpression CreateFromTokens(BlazorBasicLanguageService service, int lineNumber, ManagedTokenList tokenList,
+    public static BasicExpression CreateFromTokens(BlazorBasicLanguageService service, int lineNumber, ManagedTokenList tokenList,
         int startIndex = 0)
     {
-        BlazorBasicExpression newExpression;
+        BasicExpression newExpression;
         // Create the sub-list as specified by the starting index.
         ManagedTokenList subList = tokenList.CreateCopy(startIndex).Trim();
 
@@ -148,7 +155,7 @@ public static class BlazorBasicExpressionFactory
                     break;
 
                 case TokenType.Integer:
-                    newExpression = new BlazorBasicLiteralIntegerExpression(service, subList);
+                    newExpression = new BasicLiteralIntegerExpression(service, subList);
                     break;
 
                 case TokenType.FloatingPoint:
@@ -166,9 +173,9 @@ public static class BlazorBasicExpressionFactory
                 case TokenType.StringDelimiter:
                     IToken stringToken = tokenList[startIndex + 1];
                     if (stringToken.TokenType == TokenType.StringDelimiter)
-                        newExpression = new BlazorBasicLiteralStringExpression(service, string.Empty);
+                        newExpression = new BasicLiteralStringExpression(service, string.Empty);
                     else
-                        newExpression = new BlazorBasicLiteralStringExpression(service, stringToken.Text);
+                        newExpression = new BasicLiteralStringExpression(service, stringToken.Text);
                     break;
 
                 default:
@@ -177,12 +184,12 @@ public static class BlazorBasicExpressionFactory
         }
         return newExpression;
     }
-    public static BlazorBasicExpression CreateArithmeticExpression
+    public static BasicExpression CreateArithmeticExpression
         (BlazorBasicLanguageService service, int lineNumber, ManagedTokenList subList)
     {
         BlazorBasicExpressionParser parser = new BlazorBasicExpressionParser(service);
         
-        List<BlazorBasicExpression> list = parser.ParseExpression(subList);
+        List<BasicExpression> list = parser.ParseExpression(subList);
 
         while (list.Count > 3)
         {
@@ -197,7 +204,7 @@ public static class BlazorBasicExpressionFactory
         }
 
         if (list.Count < 3)
-            list.Add(new BlazorBasicLiteralIntegerExpression(service, 0));
+            list.Add(new BasicLiteralIntegerExpression(service, 0));
 
         BlazorBasicBasicArithmeticExpression finalExpression = new BlazorBasicBasicArithmeticExpression(
             service,
@@ -214,16 +221,16 @@ public static class BlazorBasicExpressionFactory
         return new BlazorBasicLiteralCharacterExpression(service, subList[1].Text[0]);
     }
 
-    public static ExpressionNodeTree CreateExpressionTree(BlazorBasicLanguageService service, ManagedTokenList list)
+    public static ExpressionNodeTree xreateExpressionTree(BlazorBasicLanguageService service, ManagedTokenList list)
     {
         ExpressionNodeTree tree = new ExpressionNodeTree();
         ManagedTokenList simpleList = list.RemoveSeparators();
 
-        List<BlazorBasicExpression> expressionList = new List<BlazorBasicExpression>();
+        List<BasicExpression> expressionList = new List<BasicExpression>();
         int index = 0;
         while (index < simpleList.Count)
         {
-            List<BlazorBasicExpression> subList = ParseExpression(service, simpleList, ref index, tree);
+            List<BasicExpression> subList = xParseExpression(service, simpleList, ref index, tree);
             BlazorBasicComplexExpression exp = new BlazorBasicComplexExpression(service);
             exp.Expressions = subList;
             expressionList.Add(exp);
@@ -232,7 +239,7 @@ public static class BlazorBasicExpressionFactory
         return tree;
     }
 
-    public static BlazorBasicLiteralStringExpression CreateStringLiteralExpression
+    public static BasicLiteralStringExpression CreateStringLiteralExpression
        (BlazorBasicLanguageService service, int lineNumber, ManagedTokenList subList)
     {
         StringBuilder builder = new StringBuilder();
@@ -241,13 +248,13 @@ public static class BlazorBasicExpressionFactory
         {
             builder.Append(subList[index].Text);
         }
-        return new BlazorBasicLiteralStringExpression(service, builder.ToString());
+        return new BasicLiteralStringExpression(service, builder.ToString());
     }
 
     
-    public static List<BlazorBasicExpression> ParseExpression(BlazorBasicLanguageService service, ManagedTokenList list, ref int index, ExpressionNodeTree tree)
+    public static List<BasicExpression> xParseExpression(BlazorBasicLanguageService service, ManagedTokenList list, ref int index, ExpressionNodeTree tree)
     {
-        List<BlazorBasicExpression> subExpressionList = new List<BlazorBasicExpression>();
+        List<BasicExpression> subExpressionList = new List<BasicExpression>();
         int length = list.Count;
         bool done = false;
         if (index < list.Count)
@@ -255,13 +262,13 @@ public static class BlazorBasicExpressionFactory
             do
             {
                 IToken token = list[index];
-                BlazorBasicExpression? expression = null;
+                BasicExpression? expression = null;
 
                 switch (token.TokenType)
                 {
                     case TokenType.ExpressionStartDelimiter:
                         index++;
-                        List<BlazorBasicExpression> expList = ParseExpression(service, list, ref index, tree);
+                        List<BasicExpression> expList = xParseExpression(service, list, ref index, tree);
                         expression = new BlazorBasicComplexExpression(service);
                         ((BlazorBasicComplexExpression)expression).Expressions = expList;
                         subExpressionList.Add(expression);
@@ -292,7 +299,7 @@ public static class BlazorBasicExpressionFactory
 
                     case TokenType.Integer:
                         index++;
-                        expression = new BlazorBasicLiteralIntegerExpression(service, new ManagedTokenList { token });
+                        expression = new BasicLiteralIntegerExpression(service, new ManagedTokenList { token });
                         subExpressionList.Add(expression);
                         break;
 
@@ -304,6 +311,31 @@ public static class BlazorBasicExpressionFactory
         }
         
         return subExpressionList;
+    }
+
+    public ICodeExpression CreateExpressionFromSingleToken(ILanguageService service, int lineNumber, IToken token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ICodeExpression CreateFromTokens(ILanguageService service, int lineNumber, ManagedTokenList tokenList, int startIndex = 0)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ICodeExpression CreateArithmeticExpression(ILanguageService service, int lineNumber, ManagedTokenList subList)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ICodeLiteralCharExpression CreateLiteralCharExpression(ILanguageService service, int lineNumber, ManagedTokenList subList)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ICodeLiteralStringExpression CreateStringLiteralExpression(ILanguageService service, int lineNumber, ManagedTokenList subList)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

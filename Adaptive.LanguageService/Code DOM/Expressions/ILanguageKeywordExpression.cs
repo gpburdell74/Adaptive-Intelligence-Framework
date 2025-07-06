@@ -1,10 +1,10 @@
-﻿namespace Adaptive.Intelligence.LanguageService.CodeDom;
+﻿namespace Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 /// <summary>
 /// Provides the signature definition for a keyword expression.
 /// </summary>
-/// <seealso cref="ILanguageCodeExpression" />
-public interface ILanguageKeywordExpression : ILanguageCodeExpression
+/// <seealso cref="ICodeExpression" />
+public interface ILanguageKeywordExpression : ICodeExpression
 {
     /// <summary>
     /// Gets or sets the keyword value of the expression.

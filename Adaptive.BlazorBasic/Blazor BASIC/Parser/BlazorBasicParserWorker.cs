@@ -88,9 +88,9 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// <returns>
     /// A <see cref="List{T}"/> of <see cref="ILanguageCodeStatement"/> instances containing the Code DOM for the line.
     /// </returns>
-    public List<ILanguageCodeStatement> CreateCodeStatements(UserReferenceTable userReferences, List<ITokenizedCodeLine> tokenizedCodeLines)
+    public BlazorBasicCodeStatementsTable CreateCodeStatements(UserReferenceTable userReferences, List<ITokenizedCodeLine> tokenizedCodeLines)
     {
-        List<ILanguageCodeStatement> list = new List<ILanguageCodeStatement>();
+        BlazorBasicCodeStatementsTable list = new BlazorBasicCodeStatementsTable();
 
         if (_service != null)
         {
@@ -102,9 +102,6 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             do
             {
                 ITokenizedCodeLine codeLine = tokenizedCodeLines[line];
-                if (codeLine.Count > 0 && codeLine[0].Text == "INPUT")
-                    System.Diagnostics.Debug.WriteLine("X");
-
                 PerformSubstitutions(userReferences, codeLine);
                 ILanguageCodeStatement? statement = BasicStatementFactory.CreateStatementByCommand(_service, codeLine);
                 
@@ -113,7 +110,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
                     // Ensure we add the parameter definitions to the list of "variables".
                     if (statement is BasicFunctionStartStatement functionStart)
                     {
-                        foreach (BlazorBasicParameterDefinitionExpression paramExpression in functionStart.Parameters.ParameterList)
+                        foreach (BasicParameterDefinitionExpression paramExpression in functionStart.Parameters.ParameterList)
                         {
                             userReferences.AddUserVariableDeclaration(functionStart.LineNumber,
                                 paramExpression.ParameterName, null);
@@ -123,7 +120,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
                     {
                         if (procedureStart.Parameters != null)
                         {
-                            foreach (BlazorBasicParameterDefinitionExpression paramExpression in procedureStart.Parameters.ParameterList)
+                            foreach (BasicParameterDefinitionExpression paramExpression in procedureStart.Parameters.ParameterList)
                             {
                                 userReferences.AddUserVariableDeclaration(procedureStart.LineNumber,
                                     paramExpression.ParameterName, null);

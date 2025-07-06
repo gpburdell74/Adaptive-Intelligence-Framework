@@ -1,13 +1,10 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Parser;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Text;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
@@ -16,8 +13,8 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents a conditional expression in Blazor BASIC.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BlazorBasicCodeConditionalExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="ICodeExpression" />
+public class BlazorBasicCodeConditionalExpression : BasicExpression, ICodeExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -81,9 +78,9 @@ public class BlazorBasicCodeConditionalExpression : BlazorBasicExpression, ILang
     /// Gets or sets the reference to the left expression.
     /// </summary>
     /// <value>
-    /// An <see cref="ILanguageCodeExpression"/> to be evaluated as the left-side of the conditional.
+    /// An <see cref="ICodeExpression"/> to be evaluated as the left-side of the conditional.
     /// </value>
-    public ILanguageCodeExpression? LeftExpression { get; set; }
+    public ICodeExpression? LeftExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the comparison operator.
@@ -97,9 +94,9 @@ public class BlazorBasicCodeConditionalExpression : BlazorBasicExpression, ILang
     /// Gets or sets the reference to the right expression.
     /// </summary>
     /// <value>
-    /// An <see cref="ILanguageCodeExpression"/> to be evaluated as the right-side of the conditional.
+    /// An <see cref="ICodeExpression"/> to be evaluated as the right-side of the conditional.
     /// </value>
-    public ILanguageCodeExpression? RightExpression { get; set; }
+    public ICodeExpression? RightExpression { get; set; }
     #endregion
 
     #region Private Methods / Functions
@@ -129,7 +126,7 @@ public class BlazorBasicCodeConditionalExpression : BlazorBasicExpression, ILang
     /// Parses the code line.
     /// </summary>
     /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
+    protected void ParseCodeLine(List<IToken> codeLine)
     {
         int lineNumber = -1;
 
@@ -281,12 +278,12 @@ public class BlazorBasicCodeConditionalExpression : BlazorBasicExpression, ILang
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public bool? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public bool? EvaluateAsBoolean(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
         bool evalResult = false;
 
-        object leftResult = LeftExpression.Evaluate<object>(engine, environment, scope);
-        object rightResult = RightExpression.Evaluate<object>(engine, environment, scope);
+        object leftResult = LeftExpression.Evaluate(engine, environment, scope);
+        object rightResult = RightExpression.Evaluate(engine, environment, scope);
 
         switch(Operator)
         {
@@ -333,10 +330,16 @@ public class BlazorBasicCodeConditionalExpression : BlazorBasicExpression, ILang
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
     {
-        return (T?)(object?)Evaluate(engine, environment, scope);
+        return EvaluateAsBoolean(engine, environment, scope);
     }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 
 }

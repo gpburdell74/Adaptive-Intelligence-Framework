@@ -3,6 +3,8 @@ using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -30,7 +32,7 @@ public class BasicVariableAssignmentStatement : BasicCodeStatement
     /// <summary>
     /// The expression containing the value to assign to the variable.
     /// </summary>
-    private BlazorBasicExpression? _expression;
+    private BasicExpression? _expression;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -69,9 +71,9 @@ public class BasicVariableAssignmentStatement : BasicCodeStatement
     /// Gets the reference to the expression defining the value to be assigned.
     /// </summary>
     /// <value>
-    /// A <see cref="BlazorBasicExpression"/> instance representing the value.
+    /// A <see cref="BasicExpression"/> instance representing the value.
     /// </value>
-    public BlazorBasicExpression? Expression => _expression;
+    public BasicExpression? Expression => _expression;
     /// <summary>
     /// Gets the reference to the expression providing the variable name.
     /// </summary>

@@ -1,9 +1,10 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
 
-namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
+namespace Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 
 /// <summary>
 /// Represents a line of code to be executed in Blazor BASIC.
@@ -27,7 +28,7 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// <summary>
     /// The expressions list containing everything after the first command/keyword value.
     /// </summary>
-    private List<ILanguageCodeExpression>? _expressionsList;
+    private List<ICodeExpression>? _expressionsList;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -41,7 +42,7 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     public BasicCodeStatement(BlazorBasicLanguageService service)
     {
         _service = service;
-        _expressionsList = new List<ILanguageCodeExpression>();
+        _expressionsList = new List<ICodeExpression>();
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicCodeStatement"/> class.
@@ -56,7 +57,7 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     public BasicCodeStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
         _service = service;
-        _expressionsList = new List<ILanguageCodeExpression>();
+        _expressionsList = new List<ICodeExpression>();
         LineNumber = codeLine.LineNumber;
         ParseIntoExpressions(codeLine);
     }
@@ -93,15 +94,14 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
         get => _commandExpression;
         protected set => _commandExpression = value;
     }
-
     /// <summary>
     /// Gets the reference to the list of expressions that make up the remainder of the statement.
     /// </summary>
     /// <value>
-    /// A <see cref="List{T}" /> of <see cref="ILanguageCodeExpression" /> instances containing the remainder
+    /// A <see cref="List{T}" /> of <see cref="ICodeExpression" /> instances containing the remainder
     /// of the expressions in the remaining statement code.
     /// </value>
-    public List<ILanguageCodeExpression> Expressions => _expressionsList;
+    public List<ICodeExpression> Expressions => _expressionsList;
 
     /// <summary>
     /// Gets or sets the line number.
@@ -136,7 +136,6 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     public abstract RenderTabState TabModification { get; }
     #endregion
 
-
     #region Protected Properties
     /// <summary>
     /// Gets the reference to the language service.
@@ -155,6 +154,7 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
         }
     }
 
+    
     
     #endregion
 

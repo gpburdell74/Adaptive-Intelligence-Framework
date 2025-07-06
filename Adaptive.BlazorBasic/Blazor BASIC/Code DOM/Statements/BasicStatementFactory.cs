@@ -1,6 +1,8 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -38,6 +40,7 @@ public static class BasicStatementFactory
                         break;
 
                     case TokenType.ProcedureName:
+                        newStatement = CreateProcedurCallStatement(service, codeLine);
                         break;
 
                     case TokenType.ReservedFunction:
@@ -82,6 +85,8 @@ public static class BasicStatementFactory
         ILanguageCodeStatement? newStatement = null;
 
         string command = codeLine[0].Text.ToLower().Trim();
+        System.Diagnostics.Debug.WriteLine(command);
+
         BlazorBasicKeywords keyword = service.Keywords.GetKeywordType(command);
 
         switch (keyword)
@@ -187,5 +192,10 @@ public static class BasicStatementFactory
                 break;
         }
         return endStatement;
+    }
+
+    private static ILanguageCodeStatement CreateProcedurCallStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
+    {
+        return new BasicProcedureCallStatement(service, codeLine);
     }
 }

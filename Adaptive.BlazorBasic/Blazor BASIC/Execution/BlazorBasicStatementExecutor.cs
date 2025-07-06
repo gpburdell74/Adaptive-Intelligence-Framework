@@ -1,9 +1,12 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 using Adaptive.Intelligence.BlazorBasic.Execution;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.IO;
+using System;
 
 namespace Adaptive.Intelligence.BlazorBasic;
 
@@ -74,6 +77,10 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
             case BasicWriteStatement writeStatement:
                 ExecuteWriteStatement(engine, environment, scopeContainer, writeStatement);
                 _statementIndex++;
+                break;
+
+            case BasicProcedureCallStatement procCallStatement:
+                ExecuteProcedureCall(engine, environment, scopeContainer, procCallStatement);
                 break;
 
             case BasicCommentStatement:
@@ -177,7 +184,7 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
     public bool PerformEvalAsBoolean(BlazorBasicExecutionEngine engine,
         BlazorBasicExecutionEnvironment environment,
         IScopeContainer scopeContainer,
-        BlazorBasicExpression expression)
+        BasicExpression expression)
     {
         object result = PerformEval(engine, environment, scopeContainer, expression);
         if (result is bool boolResult)
@@ -189,7 +196,7 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
     public object PerformEval(BlazorBasicExecutionEngine engine,
         BlazorBasicExecutionEnvironment environment,
         IScopeContainer scopeContainer,
-        BlazorBasicExpression expression)
+        BasicExpression expression)
     {
         object data = null;
 
@@ -199,15 +206,15 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
                 data = booleanConditional.Evaluate(engine, environment, scopeContainer);
                 break;
 
-            case BlazorBasicLiteralStringExpression literalString:
-                data = literalString.Evaluate<string>(engine, environment, scopeContainer);
+            case BasicLiteralStringExpression literalString:
+                data = (string)literalString.Evaluate(engine, environment, scopeContainer);
                 break;
 
             case BlazorBasicLiteralCharacterExpression literalChar:
                 data = literalChar.Value;
                 break;
 
-            case BlazorBasicLiteralIntegerExpression literalInt32:
+            case BasicLiteralIntegerExpression literalInt32:
                 data = literalInt32.Value;
                 break;
 
@@ -277,7 +284,7 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
     {
         if (inputStatement.PromptExpression != null)
         {
-            object data = PerformEval(engine, environment, scopeContainer, (BlazorBasicExpression)inputStatement.PromptExpression);
+            object data = PerformEval(engine, environment, scopeContainer, (BasicExpression)inputStatement.PromptExpression);
             if (data is string stringData)
             {
                 Console.Write(data);
@@ -341,7 +348,7 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
         else
             streamWriter = new StreamWriter(fs);
 
-        foreach (BlazorBasicExpression expression in writeStatement.Expressions)
+        foreach (BasicExpression expression in writeStatement.Expressions)
         {
             object data = PerformEval(engine, environment, scopeContainer, expression);
             if (isBinary)
@@ -365,6 +372,23 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
         IScopeContainer scopeContainer,
         BasicCloseStatement closeStatement)
     {
-        environment.CloseFile(closeStatement.LineNumber, closeStatement.FileNumberExpression.FileNumber);
+        environment.CloseFile(0, closeStatement.FileNumberExpression.FileNumber);
+    }
+
+    private void ExecuteProcedureCall(BlazorBasicExecutionEngine engine,
+        BlazorBasicExecutionEnvironment environment,
+        IScopeContainer scopeContainer,
+        BasicProcedureCallStatement procCallStatement)
+    {
+        
+        List<object> paramValueList = new List<object>();
+            
+        foreach(BlazorBasicParameterValueExpression exp in procCallStatement.Parameters)
+        {
+            object a = exp.Evaluate(engine, environment, scopeContainer);
+            paramValueList.Add(a);
+        }
+        engine.CallProcedure(environment, scopeContainer, procCallStatement.ProcedureName,
+            paramValueList);
     }
 }

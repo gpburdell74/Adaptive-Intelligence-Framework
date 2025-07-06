@@ -1,5 +1,5 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
@@ -10,8 +10,8 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents an floating-point literal.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeExpression" />
-public sealed class BlazorBasicLiteralFloatingPointExpression : BlazorBasicLiteralExpression<float>
+/// <seealso cref="ICodeExpression" />
+public sealed class BlazorBasicLiteralFloatingPointExpression : BasicLiteralExpression<float>
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -83,7 +83,7 @@ public sealed class BlazorBasicLiteralFloatingPointExpression : BlazorBasicLiter
     /// Parses the code line.
     /// </summary>
     /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
+    protected void ParseCodeLine(List<IToken> codeLine)
     {
         ParseLiteralContent(codeLine[0].Text);
     }
@@ -102,9 +102,9 @@ public sealed class BlazorBasicLiteralFloatingPointExpression : BlazorBasicLiter
     /// The result of the object evaluation.
     /// </returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
     {
-        return (T?)(object)Value;
+        return Value;
     }
 
     /// <summary>
@@ -117,6 +117,11 @@ public sealed class BlazorBasicLiteralFloatingPointExpression : BlazorBasicLiter
     public override string? Render()
     {
         return Value.ToString();
+    }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 

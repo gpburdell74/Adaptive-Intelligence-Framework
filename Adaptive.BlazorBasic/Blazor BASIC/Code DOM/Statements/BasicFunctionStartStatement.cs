@@ -3,6 +3,8 @@ using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -54,7 +56,7 @@ public class BasicFunctionStartStatement : BasicCodeStatement
     /// <b>false</b> to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
-        _parameterExpressions?.Dispose();
+        //_parameterExpressions?.Dispose();
 
         _functionName = null;
         _parameterExpressions = null;
@@ -196,14 +198,14 @@ public class BasicFunctionStartStatement : BasicCodeStatement
     }
     #endregion
 
-    private List<BlazorBasicParameterDefinitionExpression> SplitIntoParameters(ManagedTokenList tokenList)
+    private List<BasicParameterDefinitionExpression> SplitIntoParameters(ManagedTokenList tokenList)
     {
         int startIndex = tokenList.FindFirstToken(TokenType.ExpressionStartDelimiter);
         int endIndex = tokenList.FindLastToken(TokenType.ExpressionEndDelimiter);
 
         ManagedTokenList tokenSubList = tokenList.CreateCopy(startIndex, endIndex).RemoveSeparators();
 
-        List<BlazorBasicParameterDefinitionExpression> parameterList = new List<BlazorBasicParameterDefinitionExpression>();
+        List<BasicParameterDefinitionExpression> parameterList = new List<BasicParameterDefinitionExpression>();
 
         int pos = 0;
         do
@@ -221,8 +223,8 @@ public class BasicFunctionStartStatement : BasicCodeStatement
 
             }
             dataTypeToken = tokenSubList[pos];
-            BlazorBasicParameterDefinitionExpression expression =
-                new BlazorBasicParameterDefinitionExpression(Service, nameToken, dataTypeToken, isArray);
+            BasicParameterDefinitionExpression expression =
+                new BasicParameterDefinitionExpression(Service, nameToken, dataTypeToken, isArray);
             pos++;
 
         } while (pos < tokenSubList.Count);

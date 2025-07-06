@@ -2,6 +2,9 @@
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -34,7 +37,7 @@ public class BasicInputStatement : BasicCodeStatement
     /// <summary>
     /// The prompt expression.
     /// </summary>
-    private ILanguageCodeExpression? _promptExpression;
+    private ICodeExpression? _promptExpression;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -89,9 +92,9 @@ public class BasicInputStatement : BasicCodeStatement
     /// Gets the reference to the prompt expression.
     /// </summary>
     /// <value>
-    /// An <see cref="ILanguageCodeExpression"/> instance, or <b>null</b> if not used.
+    /// An <see cref="ICodeExpression"/> instance, or <b>null</b> if not used.
     /// </value>
-    public ILanguageCodeExpression? PromptExpression => _promptExpression;
+    public ICodeExpression? PromptExpression => _promptExpression;
     /// <summary>
     /// Gets the reference to the file number expression.
     /// </summary>
@@ -191,7 +194,7 @@ public class BasicInputStatement : BasicCodeStatement
         int startIndex = codeLine.IndexOf(TokenType.StringDelimiter);
         int endIndex = codeLine.IndexOf(startIndex+1, TokenType.StringDelimiter);
 
-        _promptExpression = new BlazorBasicLiteralStringExpression(Service,
+        _promptExpression = new BasicLiteralStringExpression(Service,
             codeLine.CombineValues(startIndex + 1, endIndex - 1));
 
 

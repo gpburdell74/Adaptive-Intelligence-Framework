@@ -1,6 +1,6 @@
-﻿using Adaptive.Intelligence.LanguageService.Tokenization;
+﻿using System.Text;
 
-namespace Adaptive.Intelligence.BlazorBasic.Parser;
+namespace Adaptive.Intelligence.LanguageService.Tokenization;
 
 /// <summary>
 /// Provides additional methods and functions for managing and querying lists of <see cref="IToken"/>
@@ -14,17 +14,23 @@ public class ManagedTokenList : List<IToken>
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagedTokenList"/> class.
     /// </summary>
+    /// <remarks>
+    /// This is the default constructor.
+    /// </remarks>
     public ManagedTokenList()
     {
     }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagedTokenList"/> class.
     /// </summary>
-    /// <param name="capacity">The number of elements that the new list can initially store.</param>
+    /// <param name="capacity">
+    /// An integer specifying the number of elements that the new list can initially store.
+    /// </param>
     public ManagedTokenList(int capacity) : base(capacity)
     {
-
     }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagedTokenList"/> class.
     /// </summary>
@@ -64,6 +70,44 @@ public class ManagedTokenList : List<IToken>
 
     #region Public Methods / Functions
     /// <summary>
+    /// Copies the content from the source list, removes the leading and trailing whitespace tokens,
+    /// and adds the remainder to the current list.
+    /// </summary>
+    /// <param name="sourceList">
+    /// The source <see cref="List{T}"/> of <see cref="IToken"/> to copy the content from.
+    /// </param>
+    public void CopyFromSourceAndTrim(List<IToken> sourceList)
+    {
+        Clear();
+
+        bool start = false;
+        int index = 0;
+        int length = sourceList.Count;
+
+        do
+        {
+            IToken token = sourceList[index];
+            if (token.TokenType != TokenType.SeparatorDelimiter)
+            {
+                start = true;
+            }
+            if (start)
+                Add(token);
+            index++;
+        } while (index < length);
+
+        if (Count > 0)
+        {
+            int lastIndex = Count - 1;
+            while (this[lastIndex].TokenType == TokenType.SeparatorDelimiter)
+            {
+                index = lastIndex;
+                RemoveAt(index);
+            }
+        }
+    }
+
+    /// <summary>
     /// Creates a copy of the current list from the original, starting at the specified index.
     /// </summary>
     /// <param name="startIndex">
@@ -82,6 +126,7 @@ public class ManagedTokenList : List<IToken>
 
         return newList;
     }
+
     /// <summary>
     /// Creates a copy of the current list from the original, starting at the specified index.
     /// </summary>
@@ -156,6 +201,34 @@ public class ManagedTokenList : List<IToken>
     }
 
     /// <summary>
+    /// Finds the next token in the current list of the specified type.
+    /// </summary>
+    /// <param name="startIndex">
+    /// An integer specifying the ordinal index at which to start searching.
+    /// </param>
+    /// <param name="tokenType">
+    /// A <see cref="TokenType"/> enumerated value indicating the type of token.
+    /// </param>
+    /// <returns>
+    /// The ordinal index of the first token of the specified type, or -1 if not found.
+    /// </returns>
+    public int FindNextToken(int startIndex, TokenType tokenType)
+    {
+        int tokenIndex = -1;
+        int index = startIndex;
+        int length = Count;
+
+        while (index < length && tokenIndex == -1)
+        {
+            if (this[index].TokenType == tokenType)
+                tokenIndex = index;
+            index++;
+        }
+
+        return tokenIndex;
+    }
+
+    /// <summary>
     /// Gets the indices of each token that has the specified token type.
     /// </summary>
     /// <param name="tokenType">
@@ -169,12 +242,37 @@ public class ManagedTokenList : List<IToken>
         List<int> indices = new List<int>();
 
         int length = Count - 1;
-        for(int count = 0; count < length; count++)
+        for (int count = 0; count < length; count++)
         {
             if (this[count].TokenType == tokenType)
                 indices.Add(count);
         }
         return indices;
+    }
+
+    /// <summary>
+    /// Gets the string value between two string delimiter tokens.
+    /// </summary>
+    /// <param name="startIndex">
+    /// The start index of the first string delimiter token.
+    /// </param>
+    /// <returns>
+    /// A string value containing the combined literal content of the tokens after the
+    /// first string delimiter and the next string delimiter.
+    /// </returns>
+    public string? GetString(int startIndex)
+    {
+        StringBuilder builder = new StringBuilder();
+        if (this[startIndex].TokenType == TokenType.StringDelimiter)
+        {
+            startIndex++;
+            while (startIndex < Count && this[startIndex].TokenType != TokenType.StringDelimiter)
+            {
+                builder.Append(this[startIndex].Text);
+                startIndex++;
+            }
+        }
+        return builder.ToString();
     }
 
     /// <summary>
@@ -191,7 +289,7 @@ public class ManagedTokenList : List<IToken>
 
         while (index < length && !hasMathOperator)
         {
-            if (this[index].TokenType ==TokenType.ArithmeticOperator)
+            if (this[index].TokenType == TokenType.ArithmeticOperator)
                 hasMathOperator = true;
             index++;
         }
@@ -208,7 +306,7 @@ public class ManagedTokenList : List<IToken>
     {
         return (
             (FindFirstToken(TokenType.CharacterDelimiter) == 0) &&
-            (FindLastToken(TokenType.CharacterDelimiter) == Count-1));
+            (FindLastToken(TokenType.CharacterDelimiter) == Count - 1));
     }
 
     /// <summary>
@@ -223,6 +321,7 @@ public class ManagedTokenList : List<IToken>
             (FindFirstToken(TokenType.StringDelimiter) == 0) &&
             (FindLastToken(TokenType.StringDelimiter) == Count - 1));
     }
+
     /// <summary>
     /// Removes the separator delimiter tokens from the current list.
     /// </summary>
@@ -243,7 +342,7 @@ public class ManagedTokenList : List<IToken>
                 newList.Add(token);
             }
         }
-         
+
         return newList;
     }
 
@@ -280,43 +379,6 @@ public class ManagedTokenList : List<IToken>
             }
         }
         return newList;
-    }
-    /// <summary>
-    /// Copies the content from the source list, removes the leading and trailing whitespace tokens,
-    /// and adds the remainder to the current list.
-    /// </summary>
-    /// <param name="sourceList">
-    /// The source <see cref="List{T}"/> of <see cref="IToken"/> to copy the content from.
-    /// </param>
-    private void CopyFromSourceAndTrim(List<IToken>  sourceList)
-    {
-        Clear();
-
-        bool start = false;
-        int index = 0;
-        int length = sourceList.Count;
-
-        do
-        {
-            IToken token = sourceList[index];
-            if (token.TokenType != TokenType.SeparatorDelimiter)
-            {
-                start = true;
-            }
-            if (start)
-                Add(token);
-            index++;
-        } while (index < length);
-
-        if (Count > 0)
-        {
-            int lastIndex = Count - 1;
-            while (this[lastIndex].TokenType == TokenType.SeparatorDelimiter)
-            {
-                index = lastIndex;
-                RemoveAt(index);
-            }
-        }
     }
     #endregion
 }

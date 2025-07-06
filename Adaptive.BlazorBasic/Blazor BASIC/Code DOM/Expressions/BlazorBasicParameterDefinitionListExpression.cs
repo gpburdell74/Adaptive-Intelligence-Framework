@@ -4,6 +4,8 @@ using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -17,15 +19,15 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// <example>
 ///     myIntVar AS INT, f AS FLOAT, d as STRING
 /// </example>
-/// <seealso cref="BlazorBasicExpression" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="BasicExpression" />
+/// <seealso cref="ICodeExpression" />
+public class BlazorBasicParameterDefinitionListExpression : BasicExpression, ICodeExpression
 {
     #region Private Member Declarations
     /// <summary>
     /// The list of expressions.
     /// </summary>
-    private List<BlazorBasicParameterDefinitionExpression>? _parameters;
+    private List<BasicParameterDefinitionExpression>? _parameters;
     #endregion
 
     #region Constructors
@@ -39,7 +41,7 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
@@ -51,7 +53,7 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
@@ -67,7 +69,7 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
@@ -84,15 +86,15 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
         ParseManagedList(codeLine, startIndex, endIndex);
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
     /// </param>
     /// <param name="list">
-    /// The <see cref="List{T}"/> of <see cref="BlazorBasicParameterDefinitionExpression"/> instances.
+    /// The <see cref="List{T}"/> of <see cref="BasicParameterDefinitionExpression"/> instances.
     /// </param>
-    public BlazorBasicParameterDefinitionListExpression(BlazorBasicLanguageService service, List<BlazorBasicParameterDefinitionExpression> list)
+    public BlazorBasicParameterDefinitionListExpression(BlazorBasicLanguageService service, List<BasicParameterDefinitionExpression> list)
         : base(service)
     {
         _parameters = list;
@@ -132,9 +134,9 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
     /// Gets the reference to the list of parameter definitions.
     /// </summary>
     /// <value>
-    /// A <see cref="List{T}"/> of <see cref="BlazorBasicParameterDefinitionExpression"/> instances.
+    /// A <see cref="List{T}"/> of <see cref="BasicParameterDefinitionExpression"/> instances.
     /// </value>
-    public List<BlazorBasicParameterDefinitionExpression>? ParameterList => _parameters;
+    public List<BasicParameterDefinitionExpression>? ParameterList => _parameters;
     #endregion
 
     #region Protected Methods    
@@ -174,7 +176,7 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
         ManagedTokenList managedList = new ManagedTokenList(codeLine.TokenList);
         ManagedTokenList trimmedList = managedList.Trim();
 
-        List<BlazorBasicParameterDefinitionExpression> list = SplitIntoParameters(trimmedList);
+        List<BasicParameterDefinitionExpression> list = SplitIntoParameters(trimmedList);
         _parameters = list;
 
         trimmedList.Clear();
@@ -198,29 +200,9 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return "";
-    }
-
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <param name="engine">
-    /// The reference to the execution engine instance.
-    /// </param>
-    /// <param name="environment">
-    /// The reference to the execution environment instance.
-    /// </param>
-    /// <param name="scope">
-    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// A string containing the user-defined text value.
-    /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object?)"";
+        return string.Empty;
     }
     /// <summary>
     /// Renders the content of the expression into a string.
@@ -268,7 +250,7 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
         // Remove extra whitespace tokens.
         ManagedTokenList trimmedList = managedList.Trim();
 
-        List<BlazorBasicParameterDefinitionExpression> list = SplitIntoParameters(trimmedList);
+        List<BasicParameterDefinitionExpression> list = SplitIntoParameters(trimmedList);
         _parameters = list;
 
         trimmedList.Clear();
@@ -282,16 +264,16 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
     /// The <see cref="ManagedTokenList"/> instance to read the tokens from.
     /// </param>
     /// <returns>
-    /// A <see cref="List{T}"/> of <see cref="BlazorBasicParameterDefinitionExpression"/> instances.
+    /// A <see cref="List{T}"/> of <see cref="BasicParameterDefinitionExpression"/> instances.
     /// </returns>
-    private List<BlazorBasicParameterDefinitionExpression> SplitIntoParameters(ManagedTokenList tokenList)
+    private List<BasicParameterDefinitionExpression> SplitIntoParameters(ManagedTokenList tokenList)
     {
         int startIndex = tokenList.FindFirstToken(TokenType.ExpressionStartDelimiter);
         int endIndex = tokenList.FindLastToken(TokenType.ExpressionEndDelimiter);
 
         ManagedTokenList tokenSubList = tokenList.CreateCopy(startIndex+1, endIndex-1).RemoveSeparators();
 
-        List<BlazorBasicParameterDefinitionExpression> parameterList = new List<BlazorBasicParameterDefinitionExpression>();
+        List<BasicParameterDefinitionExpression> parameterList = new List<BasicParameterDefinitionExpression>();
 
         int pos = 0;
 
@@ -314,7 +296,7 @@ public class BlazorBasicParameterDefinitionListExpression : BlazorBasicExpressio
 
             dataTypeToken = tokenSubList[pos];
             parameterList.Add(
-                new BlazorBasicParameterDefinitionExpression(Service, nameToken, dataTypeToken, isArray));
+                new BasicParameterDefinitionExpression(Service, nameToken, dataTypeToken, isArray));
             pos++;
 
         } while (pos < tokenSubList.Count);

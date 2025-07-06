@@ -114,11 +114,22 @@ public sealed class UserReferenceTable : DisposableObjectBase, IUserReferenceTab
     {
         return _functions.ContainsKey(token.Text.ToUpper().Trim());
     }
+    public bool IsFunction(string name)
+    {
+        return _functions.ContainsKey(name.ToUpper().Trim());
+    }
     public bool IsProcedure(IToken token)
     {
         return _procedures.ContainsKey(token.Text.ToUpper().Trim());
     }
-
+    public bool IsProcedure(string name)
+    {
+        return _procedures.ContainsKey(name.ToUpper().Trim());
+    }
+    public bool IsVariable(string name)
+    {
+        return (_variables.ContainsKey(name.ToUpper().Trim()));
+    }
     public bool IsVariable(int lineNumber, IToken token)
     {
         bool isvar = false;

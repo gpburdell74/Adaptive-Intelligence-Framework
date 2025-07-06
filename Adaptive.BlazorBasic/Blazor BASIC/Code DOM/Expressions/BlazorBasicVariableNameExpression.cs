@@ -1,4 +1,5 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
@@ -7,8 +8,8 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// <summary>
 /// Represents and manages a procedure call expression.
 /// </summary>
-/// <seealso cref="BlazorBasicExpression" />
-public sealed class BlazorBasicVariableNameExpression : BlazorBasicExpression
+/// <seealso cref="BasicExpression" />
+public sealed class BlazorBasicVariableNameExpression : BasicExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -83,7 +84,7 @@ public sealed class BlazorBasicVariableNameExpression : BlazorBasicExpression
     /// Parses the code line.
     /// </summary>
     /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
+    protected void ParseCodeLine(List<IToken> codeLine)
     {
         VariableName = codeLine[0].Text;
     }
@@ -114,13 +115,9 @@ public sealed class BlazorBasicVariableNameExpression : BlazorBasicExpression
     /// <returns>
     /// The result of the object evaluation.
     /// </returns>
-    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return VariableName;
-    }
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object?)scope.GetVariable(VariableName).GetValue();
+        return scope.GetVariable(VariableName).GetValue();
     }
     /// <summary>
     /// Renders the content of the expression into a string.
@@ -131,6 +128,11 @@ public sealed class BlazorBasicVariableNameExpression : BlazorBasicExpression
     public override string? Render()
     {
         return VariableName;
+    }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
     }
 
     #endregion

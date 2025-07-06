@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 public class ExpressionNode
 {
-    public BlazorBasicExpression Expression { get; set; }
+    public BasicExpression Expression { get; set; }
     public BlazorBasicMathOperators Operator { get; set; } = BlazorBasicMathOperators.Add;
     public ExpressionNode? Prev { get; set; }
     public ExpressionNode? Next { get; set; }

@@ -3,6 +3,8 @@ using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -75,6 +77,16 @@ public class BasicProcedureStartStatement : BasicCodeStatement
     /// </value>
     public BlazorBasicParameterDefinitionListExpression? Parameters => _parameterExpressions;
 
+    public int ParameterCount
+    {
+        get
+        {
+            if (_parameterExpressions == null)
+                return 0;
+            else
+                return _parameterExpressions.Count;
+        }
+    }
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
     /// </summary>

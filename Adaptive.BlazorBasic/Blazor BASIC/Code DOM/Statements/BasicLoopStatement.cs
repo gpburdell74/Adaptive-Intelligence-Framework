@@ -2,6 +2,8 @@
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -66,9 +68,9 @@ public class BasicLoopStatement : BasicCodeStatement
     /// Gets the reference to the conditional expression.
     /// </summary>
     /// <value>
-    /// The <see cref="BlazorBasicExpression"/> used to determine when the loop ends.
+    /// The <see cref="BasicExpression"/> used to determine when the loop ends.
     /// </value>
-    public BlazorBasicExpression? ConditionExpression => _condition;
+    public BasicExpression? ConditionExpression => _condition;
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
     /// </summary>

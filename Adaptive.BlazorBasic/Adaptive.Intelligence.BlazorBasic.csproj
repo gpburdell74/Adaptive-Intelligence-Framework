@@ -36,8 +36,4 @@
     <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Blazor BASIC\Dictionaries\" />
-  </ItemGroup>
-
 </Project>

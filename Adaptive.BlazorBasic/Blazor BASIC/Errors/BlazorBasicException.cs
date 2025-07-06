@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.Errors;
 
 namespace Adaptive.Intelligence.BlazorBasic;
 
@@ -6,7 +7,7 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// Represents an error / exception in the Blazor BASIC language.
 /// </summary>
 /// <seealso cref="Exception" />
-public class BlazorBasicException : Exception
+public class BlazorBasicException : Exception, ICodeException 
 {
     #region Private Member Declarations
     /// <summary>
@@ -67,14 +68,23 @@ public class BlazorBasicException : Exception
     }
     #endregion
 
-    #region Public Properties    
+    #region Public Properties
     /// <summary>
     /// Gets the error code for the exception.
     /// </summary>
     /// <value>
     /// A <see cref="BlazorBasicErrorCodes"/> enumerated value indicating the error code.
     /// </value>
-    public BlazorBasicErrorCodes ErrorCode => _errorCode;
+    public BlazorBasicErrorCodes BasicErrorCode => _errorCode;
+
+    /// <summary>
+    /// Gets the error code for the exception.
+    /// </summary>
+    /// <value>
+    /// An error code value.
+    /// </value>
+    public int ErrorCode => (int)_errorCode;
+
     /// <summary>
     /// Gets the error text.
     /// </summary>
@@ -82,6 +92,7 @@ public class BlazorBasicException : Exception
     /// A string containing the standard error name text.
     /// </value>
     public string? ErrorText => GetErrorText();
+
     /// <summary>
     /// Gets the line number on which the error occurred.
     /// </summary>
@@ -91,14 +102,14 @@ public class BlazorBasicException : Exception
     public int LineNumber => _lineNumber;
     #endregion
 
-    #region Protected Methods / Functions    
+    #region Public Methods / Functions
     /// <summary>
     /// Gets the error text for the current error.
     /// </summary>
     /// <returns>
     /// A string containing the error name text.
     /// </returns>
-    protected string? GetErrorText()
+    public virtual string? GetErrorText()
     {
         return BlazorBasicLanguageService.Instance?.Errors?.GetErrorText(_errorCode);
     }

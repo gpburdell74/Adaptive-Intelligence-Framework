@@ -1,5 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
@@ -19,9 +21,9 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 ///     CLOSE #1
 ///     
 /// </example>
-/// <seealso cref="BlazorBasicExpression" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BasicFileNumberExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="BasicExpression" />
+/// <seealso cref="ICodeExpression" />
+public class BasicFileNumberExpression : BasicExpression, ICodeExpression
 {
     #region Private Member Declarations    
     /// <summary>
@@ -131,9 +133,9 @@ public class BasicFileNumberExpression : BlazorBasicExpression, ILanguageCodeExp
     /// The result of the object evaluation.
     /// </returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
     {
-        return (T?)(object)FileNumber;
+        return FileNumber;
     }
 
     /// <summary>

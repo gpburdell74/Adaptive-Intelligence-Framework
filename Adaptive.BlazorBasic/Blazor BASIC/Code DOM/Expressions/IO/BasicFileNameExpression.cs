@@ -1,5 +1,6 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
@@ -8,9 +9,9 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// <summary>
 /// Represents an expression that renders a file path and name value.
 /// </summary>
-/// <seealso cref="BlazorBasicExpression" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BasicFileNameExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="BasicExpression" />
+/// <seealso cref="ICodeExpression" />
+public class BasicFileNameExpression : BasicExpression, ICodeExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -91,9 +92,9 @@ public class BasicFileNameExpression : BlazorBasicExpression, ILanguageCodeExpre
     /// The result of the object evaluation.
     /// </returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return (T?)(object)FileName;
+        return FileName;
     }
 
     /// <summary>

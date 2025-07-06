@@ -1,9 +1,9 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using System.Linq.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -11,8 +11,8 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents a variable referenced by name in BASIC.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="ICodeExpression" />
+public class BasicVariableReferenceExpression : BasicExpression, ICodeVariableReferenceExpression
 {
     #region Private Member Declarations
     /// <summary>
@@ -25,9 +25,9 @@ public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguage
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicVariableReferenceExpression"/> class.
     /// </summary>
-    /// <remarks>
-    /// This is the default constructor.
-    /// </remarks>
+    /// <param name="service">
+    /// The reference to the <see cref="BlazorBasicLanguageService"/> service instance.
+    /// </param>
     public BasicVariableReferenceExpression(BlazorBasicLanguageService service) : base(service)
     {
 
@@ -35,6 +35,9 @@ public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguage
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicVariableReferenceExpression"/> class.
     /// </summary>
+    /// <param name="service">
+    /// The reference to the <see cref="BlazorBasicLanguageService"/> service instance.
+    /// </param>
     /// <param name="variableName">
     /// A string containing the name of the variable.
     /// </param>
@@ -52,19 +55,9 @@ public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguage
         _variableName = null;
         base.Dispose(disposing);
     }
-
-    protected override void ParseLiteralContent(string? expression)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
-    {
-        throw new NotImplementedException();
-    }
     #endregion
 
-    #region Public Properties    
+    #region Public Properties
     /// <summary>
     /// Gets the name of the variable.
     /// </summary>
@@ -72,6 +65,28 @@ public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguage
     /// A string containing the name of the variable.
     /// </value>
     public string? VariableName => _variableName;
+    ICodeVariableNameExpression? ICodeVariableReferenceExpression.VariableName { get; }
+    #endregion
+
+    #region Protected Method Overrides    
+    /// <summary>
+    /// Parses the content expression into a parameter definition.
+    /// </summary>
+    /// <param name="expression">A string containing the expression to be parsed.</param>
+    protected override void ParseLiteralContent(string? expression)
+    {
+    }
+
+
+    /// <summary>
+    /// Parses the code line.
+    /// </summary>
+    /// <param name="codeLine">A <see cref="ITokenizedCodeLine" /> containing the code tokens for the entire line of code.</param>
+    /// <param name="startIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to start parsing the expression.</param>
+    /// <param name="endIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to end parsing the expression.</param>
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+    }
     #endregion
 
     #region Public Methods / Functions
@@ -90,9 +105,9 @@ public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguage
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return ((BlazorBasicVariable<T>)scope.GetVariable(VariableName)).Value;
+        return ((BlazorBasicVariable)scope.GetVariable(VariableName)).GetValue();
     }
     /// <summary>
     /// Renders the content of the expression into a string.
@@ -105,5 +120,4 @@ public class BasicVariableReferenceExpression : BlazorBasicExpression, ILanguage
         return _variableName;
     }
     #endregion
-
 }

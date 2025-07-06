@@ -1,9 +1,9 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using System.Runtime.Intrinsics.X86;
 using System.Text;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
@@ -12,14 +12,14 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents a math expression.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="ICodeExpression" />
+public class BlazorBasicBasicArithmeticExpression : BasicExpression, ICodeExpression
 {
     #region Private Member Declarations    
     /// <summary>
     /// The left expression.
     /// </summary>
-    private BlazorBasicExpression? _leftExpression;
+    private BasicExpression? _leftExpression;
     /// <summary>
     /// The operator.
     /// </summary>
@@ -27,7 +27,7 @@ public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILang
     /// <summary>
     /// The right expression.
     /// </summary>
-    private BlazorBasicExpression? _rightExpression;
+    private BasicExpression? _rightExpression;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -48,19 +48,19 @@ public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILang
     /// The reference to the <see cref="BlazorBasicLanguageService"/> instance.
     /// </param>
     /// <param name="leftExpression">
-    /// A <see cref="BlazorBasicExpression"/> containing the left side of the operation.
+    /// A <see cref="BasicExpression"/> containing the left side of the operation.
     /// </param>
     /// <param name="operatorIndicator">
     /// A <see cref="BlazorBasicMathOperators"/> enumerated value indicating the operator.
     /// </param>
     /// <param name="rightExpression">
-    /// A <see cref = "BlazorBasicExpression" /> containing the right side of the operation.
+    /// A <see cref = "BasicExpression" /> containing the right side of the operation.
     /// </param>
     public BlazorBasicBasicArithmeticExpression(
         BlazorBasicLanguageService service, 
-        BlazorBasicExpression leftExpression,
+        BasicExpression leftExpression,
         BlazorBasicMathOperators operatorIndicator,
-        BlazorBasicExpression rightExpression)
+        BasicExpression rightExpression)
          : base(service)
     {
         _leftExpression = leftExpression;
@@ -93,9 +93,9 @@ public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILang
     /// Gets the reference to the left-side expression to evaluate.
     /// </summary>
     /// <value>
-    /// A <see cref="BlazorBasicExpression"/> instance representing the left side of the operation.
+    /// A <see cref="BasicExpression"/> instance representing the left side of the operation.
     /// </value>
-    public BlazorBasicExpression? LeftExpression => _leftExpression;
+    public BasicExpression? LeftExpression => _leftExpression;
     /// <summary>
     /// Gets the operator.
     /// </summary>
@@ -107,9 +107,9 @@ public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILang
     /// Gets the reference to the right-side expression to evaluate.
     /// </summary>
     /// <value>
-    /// A <see cref="BlazorBasicExpression"/> instance representing the right side of the operation.
+    /// A <see cref="BasicExpression"/> instance representing the right side of the operation.
     /// </value>
-    public BlazorBasicExpression? RightExpression => _rightExpression;
+    public BasicExpression? RightExpression => _rightExpression;
     #endregion
 
     #region Public Methods / Functions
@@ -128,42 +128,22 @@ public class BlazorBasicBasicArithmeticExpression : BlazorBasicExpression, ILang
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public double? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
+    public override object? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
     {
         double a = 0;
         if (LeftExpression != null)
         {
-            object leftResult = LeftExpression.Evaluate<object>(engine, environment, scope);
+            object leftResult = LeftExpression.Evaluate(engine, environment, scope);
             a = Convert.ToDouble(leftResult);
         }
         double b = 0;
         if (RightExpression != null)
         {
-            object rightResult = RightExpression.Evaluate<object>(engine, environment, scope);
+            object rightResult = RightExpression.Evaluate(engine, environment, scope);
             b = Convert.ToDouble(rightResult);
         }
 
         return PerformOp(a, b);
-    }
-
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <param name="engine">
-    /// The reference to the execution engine instance.
-    /// </param>
-    /// <param name="environment">
-    /// The reference to the execution environment instance.
-    /// </param>
-    /// <param name="scope">
-    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// A string containing the user-defined text value.
-    /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object?)Evaluate(engine, environment, scope);
     }
 
     /// <summary>

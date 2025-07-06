@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
 using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.Shared;
 
@@ -37,7 +38,7 @@ public class BlazorBasicFunction : DisposableObjectBase, IFunction
     }
 
     public List<ILanguageCodeStatement> Code => _codeList;
-    public List<ILanguageCodeExpression> Parameters { get; }
+    public List<ICodeExpression> Parameters { get; }
     public string? Name => _name;
     public IVariableTable Variables { get; }
     public int Id => _id;

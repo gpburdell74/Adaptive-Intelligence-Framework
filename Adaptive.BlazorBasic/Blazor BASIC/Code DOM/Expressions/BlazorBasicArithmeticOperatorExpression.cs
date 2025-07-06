@@ -3,15 +3,17 @@ using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Linq.Expressions;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents a data type expression.
 /// </summary>
-/// <seealso cref="BlazorBasicExpression" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BlazorBasicArithmeticOperatorExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="BasicExpression" />
+/// <seealso cref="ICodeExpression" />
+public class BlazorBasicArithmeticOperatorExpression : BasicExpression, ICodeExpression
 {
     #region Constructors
     /// <summary>
@@ -108,29 +110,9 @@ public class BlazorBasicArithmeticOperatorExpression : BlazorBasicExpression, IL
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public BlazorBasicMathOperators? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public override object? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
         return Operator;  
-    }
-
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <param name="engine">
-    /// The reference to the execution engine instance.
-    /// </param>
-    /// <param name="environment">
-    /// The reference to the execution environment instance.
-    /// </param>
-    /// <param name="scope">
-    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// A string containing the user-defined text value.
-    /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object?)Evaluate(engine, environment, scope);
     }
 
     /// <summary>

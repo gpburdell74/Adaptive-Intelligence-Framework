@@ -3,6 +3,8 @@ using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -28,7 +30,7 @@ public class BasicWriteStatement : BasicCodeStatement
     /// <summary>
     /// The expression to be written.
     /// </summary>
-    private BlazorBasicExpression? _data;
+    private BasicExpression? _data;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -74,9 +76,9 @@ public class BasicWriteStatement : BasicCodeStatement
     /// Gets the reference to the expression providing the content to write.
     /// </summary>
     /// <value>
-    /// A <see cref="BlazorBasicExpression"/> defining the content.
+    /// A <see cref="BasicExpression"/> defining the content.
     /// </value>
-    public BlazorBasicExpression? DataExpression => _data;
+    public BasicExpression? DataExpression => _data;
 
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.

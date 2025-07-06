@@ -42,7 +42,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<ILanguageCodeStatement> ParseCodeContent(string rawText);
+    ILanguageCodeStatementsTable ParseCodeContent(string rawText);
 
     /// <summary>
     /// Parses the content of the code.
@@ -53,7 +53,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<ILanguageCodeStatement> ParseCodeContent(IEnumerable<string> rawText);
+    ILanguageCodeStatementsTable ParseCodeContent(IEnumerable<string> rawText);
 
     /// <summary>
     /// Parses the content of the code.
@@ -75,5 +75,5 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    List<ILanguageCodeStatement> ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines);
+    ILanguageCodeStatementsTable? ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines);
 }

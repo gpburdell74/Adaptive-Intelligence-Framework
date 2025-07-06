@@ -3,6 +3,8 @@ using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -25,7 +27,7 @@ public class BasicReturnStatement : BasicCodeStatement
     /// <summary>
     /// The expression containing the value to return from a function.
     /// </summary>
-    private BlazorBasicExpression? _expression;
+    private BasicExpression? _expression;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -62,9 +64,9 @@ public class BasicReturnStatement : BasicCodeStatement
     /// Gets the reference to the expression defining the value to be returned.
     /// </summary>
     /// <value>
-    /// A <see cref="BlazorBasicExpression"/> instance representing the value.
+    /// A <see cref="BasicExpression"/> instance representing the value.
     /// </value>
-    public BlazorBasicExpression? Expression => _expression;
+    public BasicExpression? Expression => _expression;
 
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.

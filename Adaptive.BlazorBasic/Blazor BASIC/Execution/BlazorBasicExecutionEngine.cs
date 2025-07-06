@@ -12,14 +12,18 @@ public class BlazorBasicExecutionEngine : DisposableObjectBase, IExecutionEngine
 
     private IExecutionUnit _codeUnit;
 
-    public T? CallFunction<T>(IExecutionEnvironment environment, IScopeContainer scope, string procedureName)
+    public T? CallFunction<T>(IExecutionEnvironment environment, IScopeContainer scope, string procedureName,
+        List<object> parameterValues)
     {
         return default(T);
     }
 
-    public void CallProcedure(IExecutionEnvironment environment, IScopeContainer scope, string procedureName)
+    public void CallProcedure(IExecutionEnvironment environment, IScopeContainer scope, string procedureName,
+        List<object> parameterValues)
     {
-        
+        BlazorBasicProcedure? proc = (BlazorBasicProcedure)_environment.Procedures.GetProcedureByName(procedureName);
+        //proc.SetParameterVariablesInOrder(parameterValues);
+        ExecuteProcedure(proc);
     }
 
     public void Execute()

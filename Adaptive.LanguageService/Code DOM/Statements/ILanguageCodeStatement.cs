@@ -1,10 +1,12 @@
-﻿namespace Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
+
+namespace Adaptive.Intelligence.LanguageService.CodeDom;
 
 /// <summary>
 /// Provides the signature definition for instances that represent single-line code statements and may contain code expressions.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface ILanguageCodeStatement : ILanguageCodeObject
+public interface ILanguageCodeStatement : ICodeObject
 {
     /// <summary>
     /// Gets or sets the reference to the expression defining the command at the start of the line.
@@ -18,10 +20,10 @@ public interface ILanguageCodeStatement : ILanguageCodeObject
     /// Gets the reference to the list of expressions.
     /// </summary>
     /// <value>
-    /// A <see cref="List{T}"/> of <see cref="ILanguageCodeExpression"/> instances containing the remainder
+    /// A <see cref="List{T}"/> of <see cref="ICodeExpression"/> instances containing the remainder
     /// of the expressions in the remaining statement code.
     /// </value>
-    List<ILanguageCodeExpression>? Expressions { get; }
+    List<ICodeExpression>? Expressions { get; }
 
     /// <summary>
     /// Gets the state of the tab / indentions when rendering.

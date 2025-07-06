@@ -1,15 +1,18 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
 /// Represents and manages a procedure call expression.
 /// </summary>
-/// <seealso cref="BlazorBasicExpression" />
-public sealed class BlazorBasicReservedWordExpression : BlazorBasicExpression, ILanguageKeywordExpression
+/// <seealso cref="BasicExpression" />
+public sealed class BlazorBasicReservedWordExpression : BasicExpression, ILanguageKeywordExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -97,7 +100,7 @@ public sealed class BlazorBasicReservedWordExpression : BlazorBasicExpression, I
     /// Parses the code line.
     /// </summary>
     /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
+    protected void ParseCodeLine(List<IToken> codeLine)
     {
     }
     #endregion
@@ -118,30 +121,11 @@ public sealed class BlazorBasicReservedWordExpression : BlazorBasicExpression, I
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
         return ReservedWord;
     }
 
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <param name="engine">
-    /// The reference to the execution engine instance.
-    /// </param>
-    /// <param name="environment">
-    /// The reference to the execution environment instance.
-    /// </param>
-    /// <param name="scope">
-    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// A string containing the user-defined text value.
-    /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object?)Evaluate(engine, environment, scope);
-    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>
@@ -152,6 +136,14 @@ public sealed class BlazorBasicReservedWordExpression : BlazorBasicExpression, I
     {
         return ReservedWord;
     }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
+    }
+
+
+
     #endregion
 
     #region Private Methods / Functions

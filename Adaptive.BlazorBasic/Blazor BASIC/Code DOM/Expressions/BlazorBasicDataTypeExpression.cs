@@ -1,21 +1,20 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
-using System.Linq.Expressions;
 using System.Text;
 
-namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
+namespace Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
 /// <summary>
 /// Represents a data type expression.
 /// </summary>
-/// <seealso cref="BlazorBasicExpression" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="BasicExpression" />
+/// <seealso cref="ICodeDataTypeExpression" />
+public class BlazorBasicDataTypeExpression : BasicExpression, ICodeDataTypeExpression
 {
-    #region Constructors
+    #region Constructor(s)
     /// <summary>
     /// Initializes a new instance of the <see cref="BlazorBasicDataTypeExpression"/> class.
     /// </summary>
@@ -25,6 +24,7 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     public BlazorBasicDataTypeExpression(BlazorBasicLanguageService service) : base(service)
     {
     }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BlazorBasicDataTypeExpression"/> class.
     /// </summary>
@@ -37,6 +37,7 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     public BlazorBasicDataTypeExpression(BlazorBasicLanguageService service, string dataTypeSpec) : base(service, dataTypeSpec)
     {
     }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BlazorBasicDataTypeExpression"/> class.
     /// </summary>
@@ -75,6 +76,17 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
 
     #region Public Properties
     /// <summary>
+    /// Gets or sets the size of the array, if <see cref="IsArray" /> is <b>true</b>.
+    /// </summary>
+    /// <value>
+    /// An integer indicating the array size.
+    /// </value>
+    /// <remarks>
+    /// If this is not an array, this property is ignored.
+    /// </remarks>
+    public int ArraySize { get; set; }
+
+    /// <summary>
     /// Gets or sets the type of the data.
     /// </summary>
     /// <value>
@@ -100,6 +112,7 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     /// An integer indicating the array size.
     /// </value>
     public int Size { get; set; }
+    
     #endregion
 
     #region Protected Methods
@@ -109,19 +122,34 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     /// <param name="expression">
     /// A string containing the expression to be parsed.
     /// </param>
-    protected override void ParseLiteralContent(string expression)
+    protected override void ParseLiteralContent(string? expression)
     {
-        string codeToParse = NormalizeString(expression);
-
-        string dataType;
-        if (codeToParse.ToUpper().Substring(0, 3) == KeywordNames.KeywordAs + ParseConstants.Space)
+        if (expression != null)
         {
-            dataType = expression.Substring(3).Trim();
-        }
-        else
-            dataType = expression;
+            string? codeToParse = NormalizeString(expression);
+            if (codeToParse != null)
+            {
+                string dataType;
+                if (codeToParse.ToUpper().Substring(0, 3) == KeywordNames.KeywordAs + ParseConstants.Space)
+                {
+                    dataType = expression.Substring(3).Trim();
+                }
+                else
+                    dataType = expression;
 
-        DataType = Service.DataTypes.GetDataType(dataType);
+                DataType = Service.DataTypes.GetDataType(dataType);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Parses the code line.
+    /// </summary>
+    /// <param name="codeLine">
+    /// A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.
+    /// </param>
+    protected void ParseCodeLine(List<IToken> codeLine)
+    {
     }
 
     /// <summary>
@@ -144,9 +172,9 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
         if (endIndex - startIndex > 0)
         {
             IToken? asToken = codeLine[startIndex];
-            if (asToken == null || asToken.TokenType != TokenType.ReservedWord || asToken.Text.ToLower() != "as")
+            if (asToken == null || asToken.TokenType != TokenType.ReservedWord || asToken.Text?.ToLower() != "as")
             {
-                throw new ArgumentException("Data type specification must start with 'as '.");
+                throw new BasicInvalidArgumentException(codeLine.LineNumber, "Data type specification must start with 'as '.");
             }
 
             IToken? typeToken = codeLine[endIndex];
@@ -157,13 +185,14 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
         }
         else
         {
-            DataType = Service.DataTypes.GetDataType(codeLine[startIndex].Text);
+            IToken? token = codeLine[startIndex];
+            if (token != null)
+                DataType = Service.DataTypes.GetDataType(token.Text);
         }
-
     }
     #endregion
 
-    #region Public Methods / Functions    
+    #region Public Methods / Functions
     /// <summary>
     /// Evaluates the expression.
     /// </summary>
@@ -179,30 +208,11 @@ public class BlazorBasicDataTypeExpression : BlazorBasicExpression, ILanguageCod
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return Render();
+        return Render() ?? string.Empty;
     }
 
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <param name="engine">
-    /// The reference to the execution engine instance.
-    /// </param>
-    /// <param name="environment">
-    /// The reference to the execution environment instance.
-    /// </param>
-    /// <param name="scope">
-    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// A string containing the user-defined text value.
-    /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object?)Evaluate(engine, environment, scope);
-    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>

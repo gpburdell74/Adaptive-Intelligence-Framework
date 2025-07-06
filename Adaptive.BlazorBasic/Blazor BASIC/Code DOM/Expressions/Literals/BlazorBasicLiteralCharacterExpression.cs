@@ -1,4 +1,5 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
@@ -10,8 +11,8 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents a character literal.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeExpression" />
-public sealed class BlazorBasicLiteralCharacterExpression : BlazorBasicLiteralExpression<char>
+/// <seealso cref="ICodeExpression" />
+public sealed class BlazorBasicLiteralCharacterExpression : BasicLiteralExpression<char>
 {
     #region Constructor / Dispose Methods
     /// <summary>
@@ -64,29 +65,24 @@ public sealed class BlazorBasicLiteralCharacterExpression : BlazorBasicLiteralEx
     /// Parses the code line.
     /// </summary>
     /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
+    protected void ParseCodeLine(List<IToken> codeLine)
     {
         ParseLiteralContent(codeLine[1].Text);
     }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    {
+        return Value;
+    }
+
     #endregion
 
     #region Public Methods / Functions    
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="engine">The execution engine instance.</param>
-    /// <param name="environment">The execution environment instance.</param>
-    /// <param name="scope">The <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// The result of the object evaluation.
-    /// </returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object)Value;
-    }
 
     /// <summary>
     /// Renders the content of the expression into a string.

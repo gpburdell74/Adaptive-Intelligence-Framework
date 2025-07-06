@@ -2,6 +2,8 @@
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
+using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -11,9 +13,9 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// <remarks>
 /// This generally represents the "AS OUTPUT" or "AS INPUT", etc., section of an OPEN statement.
 /// </remarks>
-/// <seealso cref="BlazorBasicExpression" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BasicFileDirectionExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="BasicExpression" />
+/// <seealso cref="ICodeExpression" />
+public class BasicFileDirectionExpression : BasicExpression, ICodeExpression
 {
     #region Private Member Declarations    
     /// <summary>
@@ -155,9 +157,9 @@ public class BasicFileDirectionExpression : BlazorBasicExpression, ILanguageCode
     /// The result of the object evaluation.
     /// </returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
     {
-        return (T?)(object)string.Empty;
+        return string.Empty;
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.LanguageService.Execution;
 
@@ -14,16 +15,16 @@ public interface IProcedure : IScopeContainer, ICodeItemInstance
     /// <value>
     /// A <see cref="List{T}"/> of <see cref="ILanguageCodeStatement"/> instances.
     /// </value>
-    List<ILanguageCodeStatement> Code { get; }
+    List<ILanguageCodeStatement>? Code { get; }
 
     /// <summary>
     /// Gets the reference to the list of procedure parameters.
     /// </summary>
     /// <value>
-    /// A <see cref="List{T}"/> of <see cref="ILanguageCodeExpression"/> instances defining the 
+    /// A <see cref="List{T}"/> of <see cref="ICodeExpression"/> instances defining the 
     /// parameters for the procedure.
     /// </value>
-    List<ILanguageCodeExpression> Parameters { get; }
+    List<ICodeExpression>? Parameters { get; }
 
     /// <summary>
     /// Gets the name.

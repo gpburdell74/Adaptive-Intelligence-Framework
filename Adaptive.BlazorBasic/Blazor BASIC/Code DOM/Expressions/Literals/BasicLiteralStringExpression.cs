@@ -1,5 +1,5 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
@@ -10,21 +10,21 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents a string literal.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BlazorBasicLiteralStringExpression : BlazorBasicLiteralExpression<string>
+/// <seealso cref="BasicLiteralExpression{T}" />
+public class BasicLiteralStringExpression : BasicLiteralExpression<string>
 {
     #region Constructor / Dispose Methods
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicLiteralStringExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicLiteralStringExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
     /// </param>
-    public BlazorBasicLiteralStringExpression(BlazorBasicLanguageService service) : base(service)
+    public BasicLiteralStringExpression(BlazorBasicLanguageService service) : base(service)
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicLiteralStringExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicLiteralStringExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
@@ -32,7 +32,7 @@ public class BlazorBasicLiteralStringExpression : BlazorBasicLiteralExpression<s
     /// <param name="stringContent">
     /// A string containing the data type name.
     /// </param>
-    public BlazorBasicLiteralStringExpression(BlazorBasicLanguageService service, string stringContent) : base(service)
+    public BasicLiteralStringExpression(BlazorBasicLanguageService service, string stringContent) : base(service)
     {
         Value = stringContent;
     }
@@ -55,14 +55,17 @@ public class BlazorBasicLiteralStringExpression : BlazorBasicLiteralExpression<s
     /// <typeparam name="T"></typeparam>
     /// <param name="engine">The execution engine instance.</param>
     /// <param name="environment">The execution environment instance.</param>
-    /// <param name="scope">The <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IScopeContainer" /> instance, such as a procedure or function, in which scoped
+    /// <param name="scope">The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
     /// variables are declared.</param>
     /// <returns>
     /// The result of the object evaluation.
     /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
+    public override string Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return (T?)(object)Value;
+        if (Value == null)
+            return Value;
+
+        return Value.ToString();
     }
 
 
@@ -74,13 +77,9 @@ public class BlazorBasicLiteralStringExpression : BlazorBasicLiteralExpression<s
     {
         Value = expression;
     }
-    /// <summary>
-    /// Parses the code line.
-    /// </summary>
-    /// <param name="codeLine">A <see cref="List{T}" /> of <see cref="IToken" /> instances containing the expression to be parsed.</param>
-    protected override void ParseCodeLine(List<IToken> codeLine)
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
     {
-        Value = codeLine[1].Text;
+        Value = codeLine[startIndex].Text;
     }
     #endregion
 
@@ -95,6 +94,7 @@ public class BlazorBasicLiteralStringExpression : BlazorBasicLiteralExpression<s
     {
         return ParseConstants.DoubleQuote + Value + ParseConstants.DoubleQuote;
     }
+
     #endregion
 
 

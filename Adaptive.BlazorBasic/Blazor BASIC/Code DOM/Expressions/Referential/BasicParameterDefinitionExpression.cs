@@ -1,6 +1,6 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Parser;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
@@ -18,9 +18,9 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 ///     
 ///     b$ AS STRING
 /// </example>
-/// <seealso cref="BlazorBasicExpression" />
-/// <seealso cref="ILanguageCodeExpression" />
-public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, ILanguageCodeExpression
+/// <seealso cref="BasicExpression" />
+/// <seealso cref="ICodeExpression" />
+public class BasicParameterDefinitionExpression : BasicExpression, ICodeParameterDefinitionExpression
 {
     #region Private Member Declarations
     /// <summary>
@@ -35,16 +35,16 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
 
     #region Constructors
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
     /// </param>
-    public BlazorBasicParameterDefinitionExpression(BlazorBasicLanguageService service) : base(service)
+    public BasicParameterDefinitionExpression(BlazorBasicLanguageService service) : base(service)
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
@@ -52,11 +52,11 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
     /// <param name="parameterExpression">
     /// A string containing the parameter definition expression.
     /// </param>
-    public BlazorBasicParameterDefinitionExpression(BlazorBasicLanguageService service, string parameterExpression) : base(service, parameterExpression)
+    public BasicParameterDefinitionExpression(BlazorBasicLanguageService service, string parameterExpression) : base(service, parameterExpression)
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
@@ -64,7 +64,7 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
     /// <param name="codeLine">A <see cref="ITokenizedCodeLine" /> containing the code tokens for the entire line of code.</param>
     /// <param name="startIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to start parsing the expression.</param>
     /// <param name="endIndex">An integer indicating the ordinal position in <paramref name="codeLine" /> to end parsing the expression.</param>
-    public BlazorBasicParameterDefinitionExpression(
+    public BasicParameterDefinitionExpression(
         BlazorBasicLanguageService service,
         ITokenizedCodeLine codeLine,
         int startIndex,
@@ -72,7 +72,7 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
     {
     }
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicParameterDefinitionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicParameterDefinitionExpression"/> class.
     /// </summary>
     /// <param name="service">
     /// The reference to the language service instance being injected.
@@ -86,7 +86,7 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
     /// <param name="isArray">
     /// <b>true</b> if the parameter represents an array; otherwise, <b>false</b>.
     /// </param>
-    public BlazorBasicParameterDefinitionExpression(BlazorBasicLanguageService service, IToken nameToken, IToken dataTypeToken, bool isArray)
+    public BasicParameterDefinitionExpression(BlazorBasicLanguageService service, IToken nameToken, IToken dataTypeToken, bool isArray)
         :base(service)
     {
         _name = nameToken.Text;
@@ -129,6 +129,8 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
     /// An integer indicating the array size.
     /// </value>
     public int Size { get; set; }
+    public int ArraySize { get; }
+    ICodeDataTypeExpression? ICodeParameterDefinitionExpression.DataType { get; }
     #endregion
 
     #region Protected Methods    
@@ -149,9 +151,15 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
             // Before whitespace removal:
             //      Standard case:   <parameterName><space>AS<space><dataTypeName>
             //      Array case:      <parameterName>[]<space>AS<space><dataTypeName>
-
-            ParseCodeLine(codeLine, 1, codeLine.Count - 1);
+            if (codeLine.Count == 1)
+                ParseCodeLine(codeLine, 0, 1);
+            else
+                ParseCodeLine(codeLine, 1, codeLine.Count - 1);
         }
+    }
+    protected void ParseCodeLine(List<IToken> codeLine)
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -210,30 +218,11 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
     /// <returns>
     /// A string containing the user-defined text value.
     /// </returns>
-    public string? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
+    public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
         return "";
     }
 
-    /// <summary>
-    /// Evaluates the expression.
-    /// </summary>
-    /// <param name="engine">
-    /// The reference to the execution engine instance.
-    /// </param>
-    /// <param name="environment">
-    /// The reference to the execution environment instance.
-    /// </param>
-    /// <param name="scope">
-    /// The <see cref="IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// A string containing the user-defined text value.
-    /// </returns>
-    public override T? Evaluate<T>(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) where T : default
-    {
-        return (T?)(object?)"";
-    }
     /// <summary>
     /// Renders the content of the expression into a string.
     /// </summary>
@@ -245,5 +234,6 @@ public class BlazorBasicParameterDefinitionExpression : BlazorBasicExpression, I
         return _name + ParseConstants.Space + KeywordNames.KeywordAs + ParseConstants.Space + 
             _dataType.Render();
     }
+
     #endregion
 }

@@ -8,8 +8,10 @@ namespace Adaptive.Intelligence.LanguageService.Execution;
 /// </summary>
 public interface IExecutionEngine : IDisposable 
 {
-    T? CallFunction<T>(IExecutionEnvironment environment, IScopeContainer scope, string procedureName);
-    void CallProcedure(IExecutionEnvironment environment, IScopeContainer scope, string procedureName);
+    T? CallFunction<T>(IExecutionEnvironment environment, IScopeContainer scope, string procedureName,
+        List<object> parameterValues);
+    void CallProcedure(IExecutionEnvironment environment, IScopeContainer scope, string procedureName,
+        List<object> parameterValues);
 
     /// <summary>
     /// Executes the loaded code.

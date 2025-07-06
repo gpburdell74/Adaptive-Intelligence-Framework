@@ -1,4 +1,6 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Services;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
@@ -27,7 +29,7 @@ public class BasicEndStatement : BasicCodeStatement
     /// <summary>
     /// The block type.
     /// </summary>
-    private BlockType _blockType;
+    private CodeBlockType _blockType;
     #endregion
 
     #region Constructors
@@ -55,7 +57,8 @@ public class BasicEndStatement : BasicCodeStatement
     /// <value>
     /// The type of the block.
     /// </value>
-    public BlockType BlockType => _blockType;
+    public CodeBlockType BlockType => _blockType;
+
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
     /// </summary>
@@ -78,7 +81,7 @@ public class BasicEndStatement : BasicCodeStatement
             throw new Exception("?SYNTAX ERROR");
 
         IToken token = codeLine[2];
-        _blockType = Service.DetermineBlockType(token.Text);
+        _blockType = Service.DetermineCodeBlockType(token.Text);
     }
     #endregion
 
@@ -96,15 +99,15 @@ public class BasicEndStatement : BasicCodeStatement
         builder.Append(ParseConstants.Space);
         switch (_blockType)
         {
-            case BlockType.If:
+            case CodeBlockType.If:
                 builder.Append(KeywordNames.CommandIf);
                 break;
 
-            case BlockType.Procedure:
+            case CodeBlockType.Procedure:
                 builder.Append(KeywordNames.CommandProcedure);
                 break;
 
-            case BlockType.Function:
+            case CodeBlockType.Function:
                 builder.Append(KeywordNames.CommandFunction);
                 break;
         }
