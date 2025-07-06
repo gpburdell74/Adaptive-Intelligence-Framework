@@ -7,17 +7,6 @@
 public interface IFunctionTable : IContainerTable
 {
     /// <summary>
-    /// Gets the function reference for the specified ID value.
-    /// </summary>
-    /// <param name="id">
-    /// An integer containing the unique ID value assigned to the function instance.
-    /// </param>
-    /// <returns>
-    /// The reference to the <see cref="IFunction"/> instance.
-    /// </returns>
-    IFunction? GetFunction(int id);
-
-    /// <summary>
     /// Gets the function reference for the function with the specified name.
     /// </summary>
     /// <param name="functionName">
@@ -26,5 +15,5 @@ public interface IFunctionTable : IContainerTable
     /// <returns>
     /// The reference to the <see cref="IFunction"/> instance.
     /// </returns>
-    IFunction? GetFunctionByName(string functionName);
+    IFunction? GetFunction(string? functionName);
 }

@@ -5,7 +5,7 @@
 /// and the resulting list of <see cref="ILanguageCodeStatement"/> instances.
 /// </summary>
 /// <seealso cref="ICodeObject" />
-public interface IExecutionUnit : ICodeObject
+public interface IInterpreterUnit : ICodeObject
 {
     /// <summary>
     /// Gets the reference to the list of statements to be executed.

@@ -25,5 +25,4 @@ public interface IContainerTable : IDisposable
     /// returns <b>false</b>/
     /// </returns>
     bool Exists(string name);
-
 }

@@ -4,7 +4,7 @@
 /// Provides the signature definition to represent a function definition and its code.
 /// </summary>
 /// <seealso cref="IScopeContainer" />
-public interface IFunction : IProcedure
+public interface IFunction : IExecutableContext
 {
     /// <summary>
     /// Gets the data type of the return value for the function instance.

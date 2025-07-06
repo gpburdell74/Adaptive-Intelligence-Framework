@@ -5,16 +5,16 @@
 /// procedure or function.
 /// </summary>
 /// <seealso cref="IScopedElement" />
-public interface IVariableTable : IScopedElement, IContainerTable
+public interface IParameterTable : IScopedElement, IContainerTable
 {
     /// <summary>
-    /// Gets the variable by name value.
+    /// Gets the parameter by name value.
     /// </summary>
     /// <param name="name">
     /// A string containing the name value.
     /// </param>
     /// <returns>
-    /// The reference to the <see cref="IVariable"/> instance.
+    /// The reference to the <see cref="IParameter"/> instance.
     /// </returns>
-    IVariable? GetVariable(string? name);
+    IParameter? GetParameter(string? name);
 }
