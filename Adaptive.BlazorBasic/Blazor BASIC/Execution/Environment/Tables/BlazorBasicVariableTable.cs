@@ -20,7 +20,6 @@ public class BlazorBasicVariableTable : DisposableObjectBase, IVariableTable
 
     public void Add(BlazorBasicVariable function)
     {
-        _variablesById.Add(function.Id, function);
         _variablesByName.Add(function.Name!, function);
     }
     public bool Exists(string name)
@@ -31,6 +30,11 @@ public class BlazorBasicVariableTable : DisposableObjectBase, IVariableTable
     public IVariable? GetVariable(int id)
     {
         return _variablesById[id];
+    }
+
+    public IVariable? GetVariable(string? name)
+    {
+        throw new NotImplementedException();
     }
 
     public IVariable? GetVariableByName(string functionName)

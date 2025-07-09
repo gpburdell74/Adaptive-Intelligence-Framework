@@ -21,6 +21,6 @@ public class BasicInt32Variable : BlazorBasicVariable<int>
 
     public override void SetValue(object value)
     {
-        Value = Convert.ToInt32(value);
+        Value = System.Convert.ToInt32(value);
     }
 }

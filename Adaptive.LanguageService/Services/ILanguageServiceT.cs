@@ -21,7 +21,7 @@ public interface ILanguageService<DelimiterType, ErrorType, FunctionType, Keywor
     /// Gets the reference to the delimiters dictionary.
     /// </summary>
     /// <value>
-    /// The <see cref="IDelimiterDictionary"/> containing the list of valid delimiter definitions.
+    /// The <see cref="IDelimiterDictionary{T}"/> containing the list of valid delimiter definitions.
     /// </value>
     IDelimiterDictionary<DelimiterType> Delimiters { get; }
 
@@ -29,7 +29,7 @@ public interface ILanguageService<DelimiterType, ErrorType, FunctionType, Keywor
     /// Gets the reference to the error types dictionary.
     /// </summary>
     /// <value>
-    /// The <see cref="IErrorDictionary"/> containing the list of valid error types.
+    /// The <see cref="IErrorDictionary{T}"/> containing the list of valid error types.
     /// </value>
     IErrorDictionary<ErrorType> Errors { get; }
 
@@ -37,7 +37,7 @@ public interface ILanguageService<DelimiterType, ErrorType, FunctionType, Keywor
     /// Gets the reference to the built-in functions dictionary.
     /// </summary>
     /// <value>
-    /// The <see cref="IBuiltInFunctionDictionary"/> containing the list of built-in functions.
+    /// The <see cref="IBuiltInFunctionDictionary{T}"/> containing the list of built-in functions.
     /// </value>
     IBuiltInFunctionDictionary<FunctionType> Functions { get; }
 
@@ -45,7 +45,7 @@ public interface ILanguageService<DelimiterType, ErrorType, FunctionType, Keywor
     /// Gets the reference to the keywords dictionary.
     /// </summary>
     /// <value>
-    /// The <see cref="IKeywordDictionary"/> containing the list of language keywords.
+    /// The <see cref="IKeywordDictionary{T}"/> containing the list of language keywords.
     /// </value>
     IKeywordDictionary<KeywordType> Keywords { get; }
 

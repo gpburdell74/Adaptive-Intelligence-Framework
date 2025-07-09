@@ -1,12 +1,12 @@
 ﻿using System.Text;
 
-namespace Adaptive.Intelligence.LanguageService.CodeDom;
+namespace Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 
 /// <summary>
 /// Provides the signature definition for rendering one or more code statements.
 /// </summary>
 /// <seealso cref="System.IDisposable" />
-public interface ILanguageCodeStatementRenderer : IDisposable 
+public interface ICodeStatementRenderer : IDisposable 
 {
     /// <summary>
     /// Gets or sets the number of spaces to use when indenting, and <see cref="UseTabs"/> is false.
@@ -28,12 +28,12 @@ public interface ILanguageCodeStatementRenderer : IDisposable
     /// Renders the code statement as a string.
     /// </summary>
     /// <param name="statement">
-    /// The <see cref="ILanguageCodeStatement"/> instance to render, or <b>null</b>.
+    /// The <see cref="ICodeStatement"/> instance to render, or <b>null</b>.
     /// </param>
     /// <returns>
     /// A string containing the rendered content, or <b>null</b>.
     /// </returns>
-    string? RenderStatement(ILanguageCodeStatement? statement);
+    string? RenderStatement(ICodeStatement? statement);
 
     /// <summary>
     /// Renders the code statement as a string.
@@ -42,12 +42,12 @@ public interface ILanguageCodeStatementRenderer : IDisposable
     /// The <see cref="StringBuilder"/> instance to append a line of code to.
     /// </param>
     /// <param name="statement">
-    /// The <see cref="ILanguageCodeStatement"/> instance to render, or <b>null</b>.
+    /// The <see cref="ICodeStatement"/> instance to render, or <b>null</b>.
     /// </param>
     /// <returns>
     /// A string containing the rendered content, or <b>null</b>.
     /// </returns>
-    void RenderStatement(StringBuilder builder, ILanguageCodeStatement? statement);
+    void RenderStatement(StringBuilder builder, ICodeStatement? statement);
 
 
     /// <summary>
@@ -57,12 +57,12 @@ public interface ILanguageCodeStatementRenderer : IDisposable
     /// The <see cref="Stream"/> instance to write to.
     /// </param>
     /// <param name="statement">
-    /// The <see cref="ILanguageCodeStatement"/> instance to render, or <b>null</b>.
+    /// The <see cref="ICodeStatement"/> instance to render, or <b>null</b>.
     /// </param>
     /// <returns>
     /// A string containing the rendered content, or <b>null</b>.
     /// </returns>
-    void RenderStatement(Stream destinationStream, ILanguageCodeStatement? statement);
+    void RenderStatement(Stream destinationStream, ICodeStatement? statement);
 
     /// <summary>
     /// Renders the list of code statements.
@@ -71,9 +71,9 @@ public interface ILanguageCodeStatementRenderer : IDisposable
     /// The <see cref="StringBuilder"/> instance to append each line of code to.
     /// </param>
     /// <param name="statementList">
-    /// An <see cref="IEnumerable{T}"/> list of  <see cref="ILanguageCodeStatement"/> instances to be rendered, or <b>null</b>.
+    /// An <see cref="IEnumerable{T}"/> list of  <see cref="ICodeStatement"/> instances to be rendered, or <b>null</b>.
     /// </param>
-    void RenderStatements(StringBuilder builder, IEnumerable<ILanguageCodeStatement>? statementList);
+    void RenderStatements(StringBuilder builder, IEnumerable<ICodeStatement>? statementList);
 
     /// <summary>
     /// Renders the list of code statements.
@@ -82,8 +82,8 @@ public interface ILanguageCodeStatementRenderer : IDisposable
     /// The <see cref="Stream"/> instance to write to.
     /// </param>
     /// <param name="statementList">
-    /// An <see cref="IEnumerable{T}"/> list of  <see cref="ILanguageCodeStatement"/> instances to be rendered, or <b>null</b>.
+    /// An <see cref="IEnumerable{T}"/> list of  <see cref="ICodeStatement"/> instances to be rendered, or <b>null</b>.
     /// </param>
-    void RenderStatements(Stream destinationStream, IEnumerable<ILanguageCodeStatement>? statementList);
+    void RenderStatements(Stream destinationStream, IEnumerable<ICodeStatement>? statementList);
 
 }

@@ -10,7 +10,7 @@ public class BlazorBasicExecutionEngine : DisposableObjectBase, IExecutionEngine
     private BlazorBasicExecutionEnvironment _environment;
     private BlazorBasicStatementExecutor _exec;
 
-    private IExecutionUnit _codeUnit;
+    private ICodeInterpreterUnit _codeUnit;
 
     public T? CallFunction<T>(IExecutionEnvironment environment, IScopeContainer scope, string procedureName,
         List<object> parameterValues)
@@ -21,7 +21,7 @@ public class BlazorBasicExecutionEngine : DisposableObjectBase, IExecutionEngine
     public void CallProcedure(IExecutionEnvironment environment, IScopeContainer scope, string procedureName,
         List<object> parameterValues)
     {
-        BlazorBasicProcedure? proc = (BlazorBasicProcedure)_environment.Procedures.GetProcedureByName(procedureName);
+        BlazorBasicProcedure? proc = (BlazorBasicProcedure)_environment.Procedures.GetProcedure(procedureName);
         //proc.SetParameterVariablesInOrder(parameterValues);
         ExecuteProcedure(proc);
     }
@@ -55,7 +55,7 @@ public class BlazorBasicExecutionEngine : DisposableObjectBase, IExecutionEngine
         }
     }
 
-    public void Load(IExecutionUnit codeUnit)
+    public void Load(ICodeInterpreterUnit codeUnit)
     {
         _codeUnit = codeUnit;
         _environment = new BlazorBasicExecutionEnvironment();

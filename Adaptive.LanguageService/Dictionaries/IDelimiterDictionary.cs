@@ -26,7 +26,7 @@ public interface IDelimiterDictionary<DelimiterListType> : ICodeDictionary
     /// A string containing the delimiter.
     /// </param>
     /// <returns>
-    /// A <see cref="DelimiterListType"/> enumerated value containing the unique ID value identifying the delimiter.
+    /// A <typeparamref name="DelimiterListType"/> enumerated value containing the unique ID value identifying the delimiter.
     /// </returns>
     DelimiterListType GetDelimiter(string? delimiter);
 
@@ -34,7 +34,7 @@ public interface IDelimiterDictionary<DelimiterListType> : ICodeDictionary
     /// Gets the text for the delimiter.
     /// </summary>
     /// <param name="delimiter">
-    /// A <see cref="DelimiterListType" /> enumerated value indicating the delimiter.
+    /// A <typeparamref name="DelimiterListType" /> enumerated value indicating the delimiter.
     /// </param>
     /// <returns>
     /// A string containing the standard code/text for the specified delimiter in the language being implemented,
@@ -55,7 +55,7 @@ public interface IDelimiterDictionary<DelimiterListType> : ICodeDictionary
     /// Gets the type of the token used to represent the specific delimiter when parsing.
     /// </summary>
     /// <param name="delimiterType">
-    /// A <see cref="DelimiterListType"/> enumerated value indicating the delimiter.
+    /// A <typeparamref name="DelimiterListType"/> enumerated value indicating the delimiter.
     /// </param>
     /// <returns>
     /// A <see cref="TokenType" /> enumerated value indicating the token type.
@@ -65,8 +65,8 @@ public interface IDelimiterDictionary<DelimiterListType> : ICodeDictionary
     /// <summary>
     /// Populates the dictionary with the delimiters from the specified language provider.
     /// </summary>
-    /// <param name="service">
-    /// The <see cref="ILanguageService" /> provider instance used to provide the list.
+    /// <param name="provider">
+    /// The <see cref="IDelimiterProvider" /> provider instance used to provide the list.
     /// </param>
     void InitializeDictionary(IDelimiterProvider provider);
 

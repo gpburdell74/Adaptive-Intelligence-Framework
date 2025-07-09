@@ -2,12 +2,12 @@
 using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Dictionaries;
 using Adaptive.Intelligence.LanguageService.Parsing;
 using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
-using System.Drawing;
 
 namespace Adaptive.Intelligence.BlazorBasic.Services;
 
@@ -31,7 +31,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     private BlazorBasicLanguageService? _service;
 
     /// <summary>
-    /// The worker instance.
+    /// The parser worker / helper instance.
     /// </summary>
     private BlazorBasicParserWorker? _worker;
 
@@ -51,10 +51,10 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// Initializes a new instance of the <see cref="BlazorBasicParsingService"/> class.
     /// </summary>
     /// <param name="service">
-    /// The reference to the <see cref="BlazorBasicLanguageService"/> service instance.
+    /// The reference to the <see cref="ILanguageService"/> service instance.
     /// </param>
     /// <param name="worker">
-    /// The reference to the <see cref="BlazorBasicParserWorker"/> worker instance.
+    /// The reference to the <see cref="ICodeParserWorker"/> worker instance.
     /// </param>
     /// <param name="logger">
     /// The reference to the <see cref="IParserOutputLogger"/> logger instance.
@@ -66,7 +66,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
         _service = service;
         _worker = worker;
         _log = logger;
-        _log.WriteLine(nameof(BlazorBasicParsingService) + " Created.");
+        _log.WriteLine(nameof(ILanguageService) + " Created.");
     }
     /// <summary>
     /// Releases unmanaged and - optionally - managed resources.
@@ -119,7 +119,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// A string containing the entire raw text to be parsed.  Each line must be separated by a carriage-return/newline pair.
     /// </param>
     /// <returns></returns>
-    public ILanguageCodeStatementsTable ParseCodeContent(string rawText)
+    public ICodeStatementsTable ParseCodeContent(string rawText)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(string)");
 
@@ -132,7 +132,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="rawText">An <see cref="IEnumerable{T}" /> of strings containing the complete list of source code to be parsed.</param>
     /// <returns></returns>
-    public ILanguageCodeStatementsTable ParseCodeContent(IEnumerable<string> rawText)
+    public ICodeStatementsTable ParseCodeContent(IEnumerable<string> rawText)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(IEnumerable<string>)");
 
@@ -160,7 +160,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="sourceStream">An open <see cref="Stream" /> to read the complete list of source code to be parsed</param>
     /// <returns></returns>
-    public IExecutionUnit ParseCodeContent(Stream sourceStream)
+    public ICodeInterpreterUnit? ParseCodeContent(Stream sourceStream)
     {
         BlazorBasicCodeStatementsTable? parsedContentList = null;
 
@@ -191,7 +191,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
     /// </summary>
     /// <param name="tokenizedCodeLines">An <see cref="List{T}" /> of <see cref="ITokenizedCodeLine" /> instances containing the tokenized list of code items.</param>
     /// <returns></returns>
-    public ILanguageCodeStatementsTable ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines)
+    public ICodeStatementsTable ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines)
     {
         _log?.WriteLine(nameof(ParseCodeContent) + "(List<ITokenizedCodeLines>)");
 
@@ -214,7 +214,7 @@ public sealed class BlazorBasicParsingService : DisposableObjectBase,
 
     private void AdjustParameterValueDefinitions(BlazorBasicCodeStatementsTable statementList)
     {
-        foreach (ILanguageCodeStatement statement in statementList)
+        foreach (ICodeStatement statement in statementList)
         {
             if (statement is BasicProcedureCallStatement procCallStatement)
             {

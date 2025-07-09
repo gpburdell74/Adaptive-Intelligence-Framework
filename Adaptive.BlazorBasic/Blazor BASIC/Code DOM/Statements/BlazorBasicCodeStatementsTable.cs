@@ -1,9 +1,6 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
-using Adaptive.Intelligence.LanguageService;
-using Adaptive.Intelligence.LanguageService.CodeDom;
-using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
-using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 
 namespace Adaptive.Intelligence.BlazorBasic;
 
@@ -12,7 +9,7 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// </summary>
 /// <seealso cref="List{T}" />
 /// <see cref="BasicCodeStatement"/>
-public class BlazorBasicCodeStatementsTable : List<BasicCodeStatement>, ILanguageCodeStatementsTable
+public class BlazorBasicCodeStatementsTable : List<BasicCodeStatement>, ICodeStatementsTable
 {
     public BlazorBasicCodeStatementsTable() : base()
     {
@@ -27,13 +24,18 @@ public class BlazorBasicCodeStatementsTable : List<BasicCodeStatement>, ILanguag
         AddRange(statementList);
     }
 
-    public void Add(ILanguageCodeStatement statement)
+    public void Add(ICodeStatement statement)
     {
         Add((BasicCodeStatement)statement);
     }
     public void Add(BasicCodeStatement statement)
     {
         base.Add(statement);
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
     }
 
     public BasicProcedureStartStatement? FindProcedureDefinition(string name)

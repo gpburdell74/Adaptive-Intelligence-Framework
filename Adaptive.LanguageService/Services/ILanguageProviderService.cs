@@ -3,7 +3,7 @@
 namespace Adaptive.Intelligence.LanguageService.Services;
 
 /// <summary>
-/// Provides the signature definition for a service that creates and manages <see cref="ICodeProvider"/> instances.
+/// Provides the signature definition for a service that creates and manages language-specific dictionary instances.
 /// </summary>
 /// <seealso cref="IDisposable" />
 public interface ILanguageProviderService<DelimiterType, ErrorType, FunctionType, KeywordType, OperatorType> : IDisposable 
@@ -24,14 +24,14 @@ public interface ILanguageProviderService<DelimiterType, ErrorType, FunctionType
     /// Creates the delimiter dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IDataTypeDictionary{T}"/> that contains the delimiters used in the language.
+    /// An <see cref="IDelimiterDictionary{T}"/> that contains the delimiters used in the language.
     /// </returns>
     IDelimiterDictionary<DelimiterType> CreateDelimiterDictionary();
     /// <summary>
     /// Creates the errors dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="IErrorDictionary"/> that contains the error types used in the language.
+    /// An <see cref="IErrorDictionary{T}"/> that contains the error types used in the language.
     /// </returns>
     IErrorDictionary<ErrorType> CreateErrorDictionary();
     /// <summary>

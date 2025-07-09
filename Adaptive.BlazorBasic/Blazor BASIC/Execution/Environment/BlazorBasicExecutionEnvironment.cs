@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.Shared;
 using System;
@@ -51,7 +52,12 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
 
     public IFunctionTable? Functions => _functions;
     public IProcedureTable? Procedures => _procedures;
-    
+
+    public IVariableTable? GlobalVaraibles { get; }
+    public IProcedure? MainProcedure { get; }
+    public IStandardOutput? StandardOutput { get; }
+    public ISystem System { get; }
+
     public void CloseFile(int lineNumber, int fileHandle)
     {
         if (!_fileHandles.Contains(fileHandle))
@@ -111,13 +117,13 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
         return requestedHandle;
     }
 
-    public void Initialize(IExecutionUnit codeUnit)
+    public void Initialize(ICodeInterpreterUnit codeUnit)
     {
         CreateProceduresAndFunctions(codeUnit);
     }
 
 
-    private void CreateProceduresAndFunctions(IExecutionUnit codeUnit)
+    private void CreateProceduresAndFunctions(ICodeInterpreterUnit codeUnit)
     {
         BlazorBasicCodeStatementsTable statements = (BlazorBasicCodeStatementsTable) codeUnit.Statements;
         int length = statements.Count;
@@ -125,7 +131,7 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
 
         do
         {
-            ILanguageCodeStatement statement = statements[index];
+            ICodeStatement statement = statements[index];
 
             if (statement is BasicProcedureStartStatement procStart)
             {
@@ -145,10 +151,10 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
         int length = statements.Count;
         int index = currentIndex;
 
-        List<ILanguageCodeStatement> procCodeList = new List<ILanguageCodeStatement>();
+        List<ICodeStatement> procCodeList = new List<ICodeStatement>();
         do
         {
-            ILanguageCodeStatement statement = statements[index];
+            ICodeStatement statement = statements[index];
             procCodeList.Add(statement);
             
             if (statement is BasicProcedureEndStatement endStatement)
@@ -177,10 +183,10 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
         int length = statements.Count;
         int index = currentIndex;
 
-        List<ILanguageCodeStatement> procCodeList = new List<ILanguageCodeStatement>();
+        List<ICodeStatement> procCodeList = new List<ICodeStatement>();
         do
         {
-            ILanguageCodeStatement statement = statements[index];
+            ICodeStatement statement = statements[index];
             procCodeList.Add(statement);
 
             if (statement is BasicFunctionEndStatement endStatement)
@@ -216,5 +222,29 @@ public class BlazorBasicExecutionEnvironment : DisposableObjectBase, IExecutionE
         return false;
     }
 
+    public T? CallFunction<T>(int currentLineNumber, IScopeContainer? scope, string functionName, List<object> parameterValues)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void CallProcedure(int currentLineNumber, IScopeContainer? scope, string procedureName, List<object> parameterValues)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Execute()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void LoadUnit(ICodeInterpreterUnit interpreterUnit)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UnloadUnit()
+    {
+        throw new NotImplementedException();
+    }
 }
 

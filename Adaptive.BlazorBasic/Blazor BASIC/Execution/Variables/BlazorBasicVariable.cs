@@ -51,20 +51,6 @@ public class BlazorBasicVariable : DisposableObjectBase, IVariable
 
     #region Public Properties
     /// <summary>
-    /// Gets or sets a unique Id value for the variable within the scope.
-    /// </summary>
-    /// <value>
-    /// An integer indicating the ID of the instance.
-    /// </value>
-    public int Id => _id;
-    /// <summary>
-    /// Gets or sets a unique Id value for the variable within the scope.
-    /// </summary>
-    /// <value>
-    /// An integer indicating the ID of the instance.
-    /// </value>
-    int IVariable.Id { get; set; }
-    /// <summary>
     /// Gets a value indicating whether this variable is defined and populated from a procedure or
     /// function parameter.
     /// </summary>

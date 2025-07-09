@@ -4,7 +4,7 @@
 /// Provides the signature definition for a keyword expression.
 /// </summary>
 /// <seealso cref="ICodeExpression" />
-public interface ILanguageKeywordExpression : ICodeExpression
+public interface ICodeKeywordExpression : ICodeExpression
 {
     /// <summary>
     /// Gets or sets the keyword value of the expression.

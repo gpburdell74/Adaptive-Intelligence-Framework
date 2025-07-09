@@ -4,6 +4,6 @@
 /// Provides the signature definition for procedure definitions and instances.
 /// </summary>
 /// <seealso cref="IScopeContainer" />
-public interface IProcedure : IExecutableContext
+public interface IProcedure : IScopeContainer, IExecutableContext
 {
 }

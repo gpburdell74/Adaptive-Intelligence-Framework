@@ -29,6 +29,11 @@ public class BlazorBasicFunctionTable : DisposableObjectBase, IFunctionTable
         return _functionsById[id];
     }
 
+    public IFunction? GetFunction(string? functionName)
+    {
+        throw new NotImplementedException();
+    }
+
     public IFunction? GetFunctionByName(string functionName)
     {
         return _functionsByName[functionName];

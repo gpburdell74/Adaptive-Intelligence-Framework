@@ -120,7 +120,7 @@ public sealed class BlazorBasicFunctionCallExpression : BasicExpression
     /// </returns>
     public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope) 
     {
-        return engine.CallFunction<object>(environment, scope, Function, null);
+        return environment.CallFunction<object>(0, scope, Function, null);
     }
     /// <summary>
     /// Renders the content of the expression into a string.

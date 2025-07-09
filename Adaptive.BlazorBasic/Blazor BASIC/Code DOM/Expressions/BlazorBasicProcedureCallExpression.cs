@@ -120,7 +120,7 @@ public sealed class BlazorBasicProcedureCallExpression : BasicExpression
     /// </returns>
     public override object? Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        engine.CallProcedure(environment, scope, ProcedureName, null);
+        environment.CallProcedure(0, scope, ProcedureName, null);
         return null;
     }
     /// <summary>

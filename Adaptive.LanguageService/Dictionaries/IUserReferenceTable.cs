@@ -49,9 +49,36 @@ public interface IUserReferenceTable : IDisposable
     /// An <see cref="ITokenizedCodeLine"/> containing the tokens for the line of code.
     /// </param>
     void AddUserVariableDeclaration(int lineNumber, string variableName, ITokenizedCodeLine codeLine);
+    /// <summary>
+    /// Determines whether the specified text specifies a function name.
+    /// </summary>
+    /// <param name="itemName">
+    /// A string containing the name of the item to query for.
+    /// </param>
+    /// <returns>
+    ///   <c>true</c> if the specified text is a function name; otherwise, <c>false</c>.
+    /// </returns>
+    bool IsFunction(string itemName);
 
+    /// <summary>
+    /// Determines whether the specified text specifies a procedure name.
+    /// </summary>
+    /// <param name="itemName">
+    /// A string containing the name of the item to query for.
+    /// </param>
+    /// <returns>
+    ///   <c>true</c> if the specified text is a procedure name; otherwise, <c>false</c>.
+    /// </returns>
+    bool IsProcedure(string itemName);
 
-    bool IsVariable(string variableName);
-    bool IsProcedure(string variableName);
-    bool IsFunction(string variableName);
+    /// <summary>
+    /// Determines whether the specified text specifies a variable name.
+    /// </summary>
+    /// <param name="itemName">
+    /// A string containing the name of the item to query for.
+    /// </param>
+    /// <returns>
+    ///   <c>true</c> if the specified text is a variable name; otherwise, <c>false</c>.
+    /// </returns>
+    bool IsVariable(string itemName);
 }

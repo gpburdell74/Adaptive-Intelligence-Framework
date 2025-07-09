@@ -1,6 +1,6 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
 using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Dictionaries;
 using Adaptive.Intelligence.LanguageService.Parsing;
 using Adaptive.Intelligence.LanguageService.Tokenization;
@@ -86,7 +86,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
     /// translated into code statements and expressions.
     /// </param>
     /// <returns>
-    /// A <see cref="List{T}"/> of <see cref="ILanguageCodeStatement"/> instances containing the Code DOM for the line.
+    /// A <see cref="List{T}"/> of <see cref="ICodeStatement"/> instances containing the Code DOM for the line.
     /// </returns>
     public BlazorBasicCodeStatementsTable CreateCodeStatements(UserReferenceTable userReferences, List<ITokenizedCodeLine> tokenizedCodeLines)
     {
@@ -103,7 +103,7 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             {
                 ITokenizedCodeLine codeLine = tokenizedCodeLines[line];
                 PerformSubstitutions(userReferences, codeLine);
-                ILanguageCodeStatement? statement = BasicStatementFactory.CreateStatementByCommand(_service, codeLine);
+                ICodeStatement? statement = BasicStatementFactory.CreateStatementByCommand(_service, codeLine);
                 
                 if (statement != null)
                 {

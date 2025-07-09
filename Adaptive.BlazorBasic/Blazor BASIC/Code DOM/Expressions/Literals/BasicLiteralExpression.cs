@@ -1,6 +1,5 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
-using Adaptive.Intelligence.LanguageService.Execution;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 
@@ -48,21 +47,7 @@ public abstract class BasicLiteralExpression<T> : BasicExpression, ICodeLiteralE
     public T? Value { get; set; } = default;
     #endregion
 
-    #region Public Methods / Functions    
-    /// <summary>
-    /// Evaluates the expression during execution.
-    /// </summary>
-    /// <param name="engine">The execution engine instance.</param>
-    /// <param name="environment">The execution environment instance.</param>
-    /// <param name="scope">The <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IScopeContainer" /> instance, such as a procedure or function, in which scoped
-    /// variables are declared.</param>
-    /// <returns>
-    /// The result of the expression evaluation.
-    /// </returns>
-    T? ICodeLiteralExpression<T>.Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
-    {
-        return Value;
-    }
+    #region Public Methods / Functions
     #endregion
 
 }

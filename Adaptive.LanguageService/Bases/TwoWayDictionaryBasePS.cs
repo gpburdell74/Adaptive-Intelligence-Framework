@@ -91,7 +91,7 @@ public abstract class TwoWayDictionaryBase<PrimaryValue, SecondaryValue> : Dispo
     protected void BaseInitialize(List<PrimaryValue> keyValues, List<SecondaryValue> dataValues)
     {
         if (keyValues.Count != dataValues.Count)
-            throw new Exception();
+            throw new ArgumentOutOfRangeException(nameof(keyValues), dataValues.Count, "Lists do not match.");
 
         int length = dataValues.Count;
         for (int count = 0; count < length; count++)

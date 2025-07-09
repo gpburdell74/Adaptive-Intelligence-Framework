@@ -1,6 +1,7 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.Shared;
 
@@ -13,8 +14,8 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 /// This represents a single line of code, which must start with a command / keyword expression of some kind.
 /// </remarks>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeStatement" />
-public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeStatement
+/// <seealso cref="ICodeStatement" />
+public abstract class BasicCodeStatement : DisposableObjectBase, ICodeStatement
 {
     #region Private Member Declarations
     /// <summary>
@@ -24,7 +25,7 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// <summary>
     /// The command expression.
     /// </summary>
-    private ILanguageKeywordExpression? _commandExpression;
+    private ICodeKeywordExpression? _commandExpression;
     /// <summary>
     /// The expressions list containing everything after the first command/keyword value.
     /// </summary>
@@ -87,9 +88,9 @@ public abstract class BasicCodeStatement : DisposableObjectBase, ILanguageCodeSt
     /// Gets or sets the reference to the command expression.
     /// </summary>
     /// <value>
-    /// An <see cref="ILanguageKeywordExpression"/> instance specifying the command to be invoked.
+    /// An <see cref="ICodeKeywordExpression"/> instance specifying the command to be invoked.
     /// </value>
-    public ILanguageKeywordExpression? CommandExpression
+    public ICodeKeywordExpression? CommandExpression
     {
         get => _commandExpression;
         protected set => _commandExpression = value;

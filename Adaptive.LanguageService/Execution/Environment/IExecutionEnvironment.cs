@@ -19,7 +19,7 @@ public interface IExecutionEnvironment : IDisposable
     IFunctionTable? Functions { get; }
 
     /// <summary>
-    /// Gets the reference to the list of global varaibles.
+    /// Gets the reference to the list of global variables.
     /// </summary>
     /// <value>
     /// An <see cref="IVariableTable"/> instance containing the global variables.
@@ -43,7 +43,7 @@ public interface IExecutionEnvironment : IDisposable
     IProcedureTable? Procedures { get; }
 
     /// <summary>
-    /// Gets the referemce to the standard output device or mechanism.
+    /// Gets the reference to the standard output device or mechanism.
     /// </summary>
     /// <value>
     /// The <see cref="IStandardOutput"/> instance used for output operations.
@@ -59,7 +59,7 @@ public interface IExecutionEnvironment : IDisposable
     ISystem System { get; }
     #endregion
 
-    #region Methods    
+    #region Methods
     /// <summary>
     /// Invokes and executes the specified function.
     /// </summary>
@@ -73,7 +73,7 @@ public interface IExecutionEnvironment : IDisposable
     /// The reference to the parent <see cref="IScopeContainer"/> instance.
     /// </param>
     /// <param name="functionName">
-    /// A string contianing the name of the function to call.
+    /// A string containing the name of the function to call.
     /// </param>
     /// <param name="parameterValues">
     /// A <see cref="List{T}"/> of values to populate the function parameters with.
@@ -93,7 +93,7 @@ public interface IExecutionEnvironment : IDisposable
     /// The reference to the parent <see cref="IScopeContainer"/> instance.
     /// </param>
     /// <param name="procedureName">
-    /// A string contianing the name of the procedure to call.
+    /// A string containing the name of the procedure to call.
     /// </param>
     /// <param name="parameterValues">
     /// A <see cref="List{T}"/> of values to populate the function parameters with.
@@ -101,19 +101,22 @@ public interface IExecutionEnvironment : IDisposable
     void CallProcedure(int currentLineNumber, IScopeContainer? scope, string procedureName, List<object> parameterValues);
 
     /// <summary>
-    /// Executes the specified interpreter unit.
+    /// Executes the specified interpreter unit that is currently loaded into memory.
     /// </summary>
-    /// <param name="interpreterUnit">
-    /// The <see cref="IInterpreterUnit"/> instance to be executed.
-    /// </param>
-    void Execute(IInterpreterUnit interpreterUnit);
+    void Execute();
 
     /// <summary>
     /// Loads the source into memory as an interpreter unit and prepares the environment for execution.
     /// </summary>
     /// <param name="interpreterUnit">
-    /// The <see cref="IInterpreterUnit"/> instance containing the loaded source code.
+    /// The <see cref="ICodeInterpreterUnit"/> instance containing the loaded source code.
     /// </param>
-    void LoadUnit(IInterpreterUnit interpreterUnit);
+    void LoadUnit(ICodeInterpreterUnit interpreterUnit);
+
+    /// <summary>
+    /// Unloads the <see cref="ICodeInterpreterUnit"/> loaded into memory and clears all 
+    /// environmental variables, lists, and closes all files.
+    /// </summary>
+    void UnloadUnit();
     #endregion
 }

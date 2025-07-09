@@ -1,4 +1,4 @@
-﻿using Adaptive.Intelligence.LanguageService.CodeDom;
+﻿using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 
 namespace Adaptive.Intelligence.LanguageService.Execution;
 
@@ -50,9 +50,9 @@ public interface IScopeContainer : IDisposable
     /// Gets the reference to the list of CodeDOM statements to be executed.
     /// </summary>
     /// <value>
-    /// A <see cref="List{T}"/> of <see cref="ILanguageCodeStatement"/> instances.
+    /// A <see cref="List{T}"/> of <see cref="ICodeStatement"/> instances.
     /// </value>
-    List<ILanguageCodeStatement> Code { get; }
+    List<ICodeStatement> Code { get; }
 
     /// <summary>
     /// Gets the reference to the variable instance with the specified name.

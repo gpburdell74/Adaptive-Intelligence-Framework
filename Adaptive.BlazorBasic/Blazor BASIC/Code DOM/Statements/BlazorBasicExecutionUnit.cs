@@ -2,6 +2,7 @@
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 
 namespace Adaptive.Intelligence.BlazorBasic;
 
@@ -9,7 +10,7 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// Represents a single set of code lines, aka. a "program".
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-public class BlazorBasicExecutionUnit : DisposableObjectBase, IExecutionUnit
+public class BlazorBasicExecutionUnit : DisposableObjectBase, ICodeInterpreterUnit
 {
     private BlazorBasicCodeStatementsTable _statements;
 
@@ -30,5 +31,6 @@ public class BlazorBasicExecutionUnit : DisposableObjectBase, IExecutionUnit
         base.Dispose(disposing);
     }
     public BlazorBasicCodeStatementsTable Statements => _statements;
-    ILanguageCodeStatementsTable? IExecutionUnit.Statements => _statements;
+
+    ICodeStatementsTable? ICodeInterpreterUnit.Statements { get; }
 }

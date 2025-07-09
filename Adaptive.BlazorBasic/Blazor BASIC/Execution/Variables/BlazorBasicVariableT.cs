@@ -119,4 +119,19 @@ public class BlazorBasicVariable<T> : BlazorBasicVariable, IVariable<T>
         else
             Value = (T)(object)value;
     }
+
+    public T? Convert(object? sourceValue)
+    {
+        throw new NotImplementedException();
+    }
+
+    public T? GetValueAsType()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetValueFromType(T? value)
+    {
+        throw new NotImplementedException();
+    }
 }

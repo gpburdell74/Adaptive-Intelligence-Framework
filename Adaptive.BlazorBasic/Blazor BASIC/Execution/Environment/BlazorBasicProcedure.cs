@@ -2,7 +2,9 @@
 using Adaptive.Intelligence.LanguageService;
 using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Execution;
+using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.Shared;
 
 namespace Adaptive.Intelligence.BlazorBasic.Execution;
@@ -25,7 +27,7 @@ public class BlazorBasicProcedure : DisposableObjectBase, IProcedure
         _id = newId;
         _variables = new BlazorBasicVariableTable(this);
     }
-    public BlazorBasicProcedure(int newId, List<ILanguageCodeStatement> code)
+    public BlazorBasicProcedure(int newId, List<ICodeStatement> code)
     {
         _codeList = new BasicCodeStatementList();
         _codeList.AddRange(code);
@@ -38,13 +40,14 @@ public class BlazorBasicProcedure : DisposableObjectBase, IProcedure
     }
 
     public BasicCodeStatementList Code => _codeList;
-    List<ILanguageCodeStatement> IProcedure.Code => _codeList;
-    List<ILanguageCodeStatement> IScopeContainer.Code => _codeList;
+    List<ICodeStatement> IScopeContainer.Code => _codeList;
 
     public List<ICodeExpression> Parameters { get; }
     public string? Name => _name;
     public IVariableTable Variables { get; }
     public int Id => _id;
+
+    IParameterTable IExecutableContext.Parameters { get; }
 
     public void CreateVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
     {
@@ -84,5 +87,20 @@ public class BlazorBasicProcedure : DisposableObjectBase, IProcedure
     public bool VariableExists(string? variableName)
     {
         return _variables.Exists(variableName);
+    }
+
+    public void Execute(ILanguageService service, IExecutionEngine engine, IExecutionEnvironment environment)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void InstantiateVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void InstantiateParameterVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
+    {
+        throw new NotImplementedException();
     }
 }

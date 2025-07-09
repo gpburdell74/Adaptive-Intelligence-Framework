@@ -31,7 +31,7 @@ internal class Program
 
 
         FileStream sourceStream = new FileStream(file, FileMode.Open, FileAccess.Read);
-        IExecutionUnit execUnit = parsingService.ParseCodeContent(sourceStream);
+        ICodeInterpreterUnit execUnit = parsingService.ParseCodeContent(sourceStream);
         sourceStream.Close();
         sourceStream.Dispose();
 

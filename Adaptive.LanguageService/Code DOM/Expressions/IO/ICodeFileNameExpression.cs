@@ -4,7 +4,7 @@
 /// Provides the signature definition for an expression defining or referencing a file name.
 /// </summary>
 /// <seealso cref="ICodeExpression" />
-public interface IFileNameExpression : ICodeExpression
+public interface ICodeFileNameExpression : ICodeExpression
 {
     /// <summary>
     /// Gets or sets the path and name of the file.

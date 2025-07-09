@@ -21,9 +21,20 @@ public class BlazorBasicProcedureTable : DisposableObjectBase, IProcedureTable
         _procsById.Add(procedure.Id, procedure);
         _procsByName.Add(procedure.Name!, procedure);
     }
+
+    public bool Exists(string name)
+    {
+        throw new NotImplementedException();
+    }
+
     public IProcedure? GetProcedure(int id)
     {
         return _procsById[id];
+    }
+
+    public IProcedure? GetProcedure(string? procedureName)
+    {
+        throw new NotImplementedException();
     }
 
     public IProcedure? GetProcedureByName(string functionName)

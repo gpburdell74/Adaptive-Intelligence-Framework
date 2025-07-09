@@ -1,8 +1,9 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
 using Adaptive.Intelligence.LanguageService;
-using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Execution;
+using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.Shared;
 
 namespace Adaptive.Intelligence.BlazorBasic.Execution;
@@ -14,7 +15,7 @@ namespace Adaptive.Intelligence.BlazorBasic.Execution;
 /// <seealso cref="IFunction" />
 public class BlazorBasicFunction : DisposableObjectBase, IFunction
 {
-    private List<ILanguageCodeStatement> _codeList;
+    private List<ICodeStatement> _codeList;
     private string? _name;
     private int _id;
 
@@ -25,9 +26,9 @@ public class BlazorBasicFunction : DisposableObjectBase, IFunction
         _id = newId;
         _variables = new BlazorBasicVariableTable(this);
     }
-    public BlazorBasicFunction(int newId, List<ILanguageCodeStatement> code)
+    public BlazorBasicFunction(int newId, List<ICodeStatement> code)
     {
-        _codeList = new List<ILanguageCodeStatement>();
+        _codeList = new List<ICodeStatement>();
         _codeList.AddRange(code);
 
         _variables = new BlazorBasicVariableTable(this);
@@ -37,13 +38,14 @@ public class BlazorBasicFunction : DisposableObjectBase, IFunction
         _id = newId;
     }
 
-    public List<ILanguageCodeStatement> Code => _codeList;
+    public List<ICodeStatement> Code => _codeList;
     public List<ICodeExpression> Parameters { get; }
     public string? Name => _name;
     public IVariableTable Variables { get; }
     public int Id => _id;
 
     public Type ReturnType { get; }
+    IParameterTable IExecutableContext.Parameters { get; }
 
     public void CreateVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
     {
@@ -85,5 +87,20 @@ public class BlazorBasicFunction : DisposableObjectBase, IFunction
     {
         return _variables.Exists(variableName);
 
+    }
+
+    public void Execute(ILanguageService service, IExecutionEngine engine, IExecutionEnvironment environment)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void InstantiateVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void InstantiateParameterVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
+    {
+        throw new NotImplementedException();
     }
 }

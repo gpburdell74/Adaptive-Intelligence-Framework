@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.Shared;
 using System.Text;
 
@@ -8,8 +9,8 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// Provides methods and functions for rendering Blazor BASIC code statements from the Code DOM objects.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeStatementRenderer" />
-public class BlazorBasicStatementRenderer : DisposableObjectBase, ILanguageCodeStatementRenderer
+/// <seealso cref="ICodeStatementRenderer" />
+public class BlazorBasicStatementRenderer : DisposableObjectBase, ICodeStatementRenderer
 {
     #region Private Member Declarations
     /// <summary>
@@ -53,12 +54,12 @@ public class BlazorBasicStatementRenderer : DisposableObjectBase, ILanguageCodeS
     /// Renders the code statement as a string.
     /// </summary>
     /// <param name="statement">
-    /// The <see cref="ILanguageCodeStatement" /> instance to render, or <b>null</b>.
+    /// The <see cref="ICodeStatement" /> instance to render, or <b>null</b>.
     /// </param>
     /// <returns>
     /// A string containing the rendered content, or <b>null</b>.
     /// </returns>
-    public string? RenderStatement(ILanguageCodeStatement? statement)
+    public string? RenderStatement(ICodeStatement? statement)
     {
         string? line = null;
 
@@ -74,9 +75,9 @@ public class BlazorBasicStatementRenderer : DisposableObjectBase, ILanguageCodeS
     /// The <see cref="StringBuilder" /> instance to append a line of code to.
     /// </param>
     /// <param name="statement">
-    /// The <see cref="ILanguageCodeStatement" /> instance to render, or <b>null</b>.
+    /// The <see cref="ICodeStatement" /> instance to render, or <b>null</b>.
     /// </param>
-    public void RenderStatement(StringBuilder builder, ILanguageCodeStatement? statement)
+    public void RenderStatement(StringBuilder builder, ICodeStatement? statement)
     {
         if (statement != null)
         {
@@ -90,9 +91,9 @@ public class BlazorBasicStatementRenderer : DisposableObjectBase, ILanguageCodeS
     /// The <see cref="Stream" /> instance to write to.
     /// </param>
     /// <param name="statement">
-    /// The <see cref="ILanguageCodeStatement" /> instance to render, or <b>null</b>.
+    /// The <see cref="ICodeStatement" /> instance to render, or <b>null</b>.
     /// </param>
-    public void RenderStatement(Stream destinationStream, ILanguageCodeStatement? statement)
+    public void RenderStatement(Stream destinationStream, ICodeStatement? statement)
     {
         if (statement != null)
         {
@@ -112,13 +113,13 @@ public class BlazorBasicStatementRenderer : DisposableObjectBase, ILanguageCodeS
     /// The <see cref="StringBuilder" /> instance to append a line of code to.
     /// </param>
     /// <param name="statementList">
-    /// An <see cref="IEnumerable{T}" /> list of  <see cref="ILanguageCodeStatement" /> instances to be rendered, or <b>null</b>.
+    /// An <see cref="IEnumerable{T}" /> list of  <see cref="ICodeStatement" /> instances to be rendered, or <b>null</b>.
     /// </param>
-    public void RenderStatements(StringBuilder builder, IEnumerable<ILanguageCodeStatement>? statementList)
+    public void RenderStatements(StringBuilder builder, IEnumerable<ICodeStatement>? statementList)
     {
         if (statementList != null)
         {
-            foreach (ILanguageCodeStatement statement in statementList)
+            foreach (ICodeStatement statement in statementList)
             {
                 builder.AppendLine(RenderStatement(statement));
             }
@@ -132,16 +133,16 @@ public class BlazorBasicStatementRenderer : DisposableObjectBase, ILanguageCodeS
     /// The <see cref="Stream" /> instance to write to.
     /// </param>
     /// <param name="statementList">
-    /// An <see cref="IEnumerable{T}" /> list of  <see cref="ILanguageCodeStatement" /> instances to be rendered, or <b>null</b>.
+    /// An <see cref="IEnumerable{T}" /> list of  <see cref="ICodeStatement" /> instances to be rendered, or <b>null</b>.
     /// </param>
-    public void RenderStatements(Stream destinationStream, IEnumerable<ILanguageCodeStatement>? statementList)
+    public void RenderStatements(Stream destinationStream, IEnumerable<ICodeStatement>? statementList)
     {
         if (statementList != null)
         {
             if (destinationStream.CanWrite)
             {
                 StreamWriter writer = new StreamWriter(destinationStream);
-                foreach (ILanguageCodeStatement statement in statementList)
+                foreach (ICodeStatement statement in statementList)
                 {
                     writer.WriteLine(RenderStatement(statement));
                 }

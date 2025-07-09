@@ -18,7 +18,7 @@ public interface IVariable<T> : IVariable
     T? Value { get; set; }
 
     /// <summary>
-    /// Performs the apprpopriate conversion of the source value to the variable's type.
+    /// Performs the appropriate conversion of the source value to the variable's type.
     /// </summary>
     /// <param name="sourceValue">The source value to be converted.
     /// </param>
@@ -33,7 +33,7 @@ public interface IVariable<T> : IVariable
     /// <returns>
     /// The value of the variable, or null if it is not set.
     /// </returns>
-    T? GetValue();
+    T? GetValueAsType();
 
     /// <summary>
     /// Sets the value of the variable.
@@ -41,5 +41,5 @@ public interface IVariable<T> : IVariable
     /// <param name="value">
     /// The value to be stored in the variable.
     /// </param>
-    void SetValue(T? value);
+    void SetValueFromType(T? value);
 }

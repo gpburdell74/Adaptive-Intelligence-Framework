@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Parsing;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
@@ -42,7 +43,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    ILanguageCodeStatementsTable ParseCodeContent(string rawText);
+    ICodeStatementsTable? ParseCodeContent(string rawText);
 
     /// <summary>
     /// Parses the content of the code.
@@ -53,7 +54,7 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// <returns>
     /// 
     /// </returns>
-    ILanguageCodeStatementsTable ParseCodeContent(IEnumerable<string> rawText);
+    ICodeStatementsTable? ParseCodeContent(IEnumerable<string> rawText);
 
     /// <summary>
     /// Parses the content of the code.
@@ -62,9 +63,10 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// An open <see cref="Stream"/> to read the complete list of source code to be parsed 
     /// </param>
     /// <returns>
-    /// 
+    /// An <see cref="ICodeInterpreterUnit"/> containing the loaded source code parsed into
+    /// Code Document Objects ready for execution.
     /// </returns>
-    IExecutionUnit? ParseCodeContent(Stream sourceStream);
+    ICodeInterpreterUnit? ParseCodeContent(Stream sourceStream);
 
     /// <summary>
     /// Parses the content of the code.
@@ -73,7 +75,8 @@ public interface IParsingService<DelimiterType, ErrorType, FunctionType, Keyword
     /// An <see cref="List{T}"/> of <see cref="ITokenizedCodeLine"/> instances containing the tokenized list of code items.
     /// </param>
     /// <returns>
-    /// 
+    /// An <see cref="ICodeStatementsTable"/> containing the parsed code statements, or <b>null</b>
+    /// if the operation fails.
     /// </returns>
-    ILanguageCodeStatementsTable? ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines);
+    ICodeStatementsTable? ParseCodeContent(List<ITokenizedCodeLine> tokenizedCodeLines);
 }

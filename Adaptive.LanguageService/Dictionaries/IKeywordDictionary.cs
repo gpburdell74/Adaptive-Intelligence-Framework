@@ -35,7 +35,7 @@ public interface IKeywordDictionary<KeywordType> : ICodeDictionary
     /// <summary>
     /// Populates the dictionary with the keywords from the specified language provider.
     /// </summary>
-    /// <param name="service">
+    /// <param name="provider">
     /// The <see cref="IKeywordProvider" /> provider instance used to provide the list.
     /// </param>
     void InitializeDictionary(IKeywordProvider provider);

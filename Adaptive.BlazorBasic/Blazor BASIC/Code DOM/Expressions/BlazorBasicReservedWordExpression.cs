@@ -12,7 +12,7 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents and manages a procedure call expression.
 /// </summary>
 /// <seealso cref="BasicExpression" />
-public sealed class BlazorBasicReservedWordExpression : BasicExpression, ILanguageKeywordExpression
+public sealed class BlazorBasicReservedWordExpression : BasicExpression, ICodeKeywordExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>

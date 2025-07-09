@@ -3,6 +3,7 @@ using Adaptive.Intelligence.LanguageService.CodeDom;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -19,11 +20,11 @@ public static class BasicStatementFactory
     /// An <see cref="ITokenizedCodeLine"/> instance containing the content to be transformed.
     /// </param>
     /// <returns>
-    /// An <see cref="ILanguageCodeStatement"/> instance representing the code statement created from the provided code line.
+    /// An <see cref="ICodeStatement"/> instance representing the code statement created from the provided code line.
     /// </returns>
-    public static ILanguageCodeStatement? CreateStatementByCommand(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
+    public static ICodeStatement? CreateStatementByCommand(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
-        ILanguageCodeStatement? newStatement = null;
+        ICodeStatement? newStatement = null;
 
         if (codeLine.Count == 0)
             newStatement = new BlazorBasicEmptyStatement(service, codeLine);
@@ -78,11 +79,11 @@ public static class BasicStatementFactory
     /// A string containing the code line to be parsed.
     /// </param>
     /// <returns>
-    /// The <see cref="ILanguageCodeStatement"/> instance, or <b>null</b> if the operation fails.
+    /// The <see cref="ICodeStatement"/> instance, or <b>null</b> if the operation fails.
     /// </returns>
-    private static ILanguageCodeStatement? CreateStatementByReservedWord(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
+    private static ICodeStatement? CreateStatementByReservedWord(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
-        ILanguageCodeStatement? newStatement = null;
+        ICodeStatement? newStatement = null;
 
         string command = codeLine[0].Text.ToLower().Trim();
         System.Diagnostics.Debug.WriteLine(command);
@@ -169,9 +170,9 @@ public static class BasicStatementFactory
     }
     #endregion
 
-    private static ILanguageCodeStatement CreateSpecificEndStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
+    private static ICodeStatement CreateSpecificEndStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
-        ILanguageCodeStatement endStatement;
+        ICodeStatement endStatement;
 
         switch(codeLine[2].Text)
         {
@@ -194,7 +195,7 @@ public static class BasicStatementFactory
         return endStatement;
     }
 
-    private static ILanguageCodeStatement CreateProcedurCallStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
+    private static ICodeStatement CreateProcedurCallStatement(BlazorBasicLanguageService service, ITokenizedCodeLine codeLine)
     {
         return new BasicProcedureCallStatement(service, codeLine);
     }

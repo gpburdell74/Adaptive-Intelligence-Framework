@@ -5,7 +5,7 @@
 /// handle value.
 /// </summary>
 /// <seealso cref="ICodeExpression" />
-public interface IFileHandleExpression : ICodeExpression
+public interface ICodeFileHandleExpression : ICodeExpression
 {
     /// <summary>
     /// Gets or sets the file number/handle value.

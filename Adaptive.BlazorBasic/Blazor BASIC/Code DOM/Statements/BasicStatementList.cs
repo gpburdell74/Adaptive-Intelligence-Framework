@@ -1,9 +1,7 @@
-﻿using Adaptive.Intelligence.LanguageService.CodeDom;
-using Adaptive.Intelligence.Shared;
-using System.Data;
-using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
-using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
+using Adaptive.Intelligence.Shared;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -11,8 +9,8 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Manages and contains a list of <see cref="BasicCodeStatement"/> instances for execution.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-/// <seealso cref="ILanguageCodeStatement" />
-public class BasicCodeStatementList : List<ILanguageCodeStatement>
+/// <seealso cref="ICodeStatement" />
+public class BasicCodeStatementList : List<ICodeStatement>
 {
     /// <summary>
     /// Gets the next ordinal index of an instance of the specified type.

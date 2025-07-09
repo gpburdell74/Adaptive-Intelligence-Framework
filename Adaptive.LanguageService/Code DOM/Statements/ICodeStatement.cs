@@ -1,20 +1,20 @@
 ﻿using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
-namespace Adaptive.Intelligence.LanguageService.CodeDom;
+namespace Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 
 /// <summary>
 /// Provides the signature definition for instances that represent single-line code statements and may contain code expressions.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface ILanguageCodeStatement : ICodeObject
+public interface ICodeStatement : ICodeObject
 {
     /// <summary>
     /// Gets or sets the reference to the expression defining the command at the start of the line.
     /// </summary>
     /// <value>
-    /// An <see cref="ILanguageKeywordExpression"/> containing the expression instance defining the command.
+    /// An <see cref="ICodeKeywordExpression"/> containing the expression instance defining the command.
     /// </value>
-    ILanguageKeywordExpression? CommandExpression { get; }
+    ICodeKeywordExpression? CommandExpression { get; }
 
     /// <summary>
     /// Gets the reference to the list of expressions.

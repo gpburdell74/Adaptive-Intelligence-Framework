@@ -18,7 +18,7 @@ public interface IParameter<T> : IParameter
     T? Value { get; set; }
 
     /// <summary>
-    /// Performs the apprpopriate conversion of the source value to the Parameter's type.
+    /// Performs the appropriate conversion of the source value to the Parameter's type.
     /// </summary>
     /// <param name="sourceValue">The source value to be converted.
     /// </param>
@@ -33,7 +33,7 @@ public interface IParameter<T> : IParameter
     /// <returns>
     /// The value of the Parameter, or null if it is not set.
     /// </returns>
-    T? GetValue();
+    T? GetValueAsType();
 
     /// <summary>
     /// Sets the value of the Parameter.
@@ -41,5 +41,5 @@ public interface IParameter<T> : IParameter
     /// <param name="value">
     /// The value to be stored in the Parameter.
     /// </param>
-    void SetValue(T? value);
+    void SetValueFromType(T? value);
 }

@@ -5,7 +5,7 @@
 /// operational mode value or values.
 /// </summary>
 /// <seealso cref="ICodeExpression" />
-public interface IFileModeExpression : ICodeExpression
+public interface ICodeFileModeExpression : ICodeExpression
 {
     /// <summary>
     /// Gets the file access setting.

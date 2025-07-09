@@ -3,6 +3,7 @@ using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 using Adaptive.Intelligence.BlazorBasic.Execution;
 using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.IO;
@@ -27,7 +28,7 @@ public class BlazorBasicStatementExecutor : DisposableObjectBase
         BlazorBasicExecutionEngine engine,
         BlazorBasicExecutionEnvironment environment,
         IScopeContainer scopeContainer,
-        ILanguageCodeStatement statement)
+        ICodeStatement statement)
     {
         switch (statement)
         {
