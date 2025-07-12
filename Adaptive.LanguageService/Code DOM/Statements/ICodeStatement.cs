@@ -26,6 +26,14 @@ public interface ICodeStatement : ICodeObject
     List<ICodeExpression>? Expressions { get; }
 
     /// <summary>
+    /// Gets the line number for the code statement.
+    /// </summary>
+    /// <value>
+    /// An integer specifying the ordinal index of the code line that was parsed.
+    /// </value>
+    int LineNumber { get; }
+
+    /// <summary>
     /// Gets the state of the tab / indentions when rendering.
     /// </summary>
     /// <value>

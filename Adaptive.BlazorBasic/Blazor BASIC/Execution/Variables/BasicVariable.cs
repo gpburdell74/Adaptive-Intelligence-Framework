@@ -9,29 +9,51 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="IVariable" />
-public class BlazorBasicVariable : DisposableObjectBase, IVariable
+public class BasicVariable : DisposableObjectBase, IVariable
 {
     #region Private Member Declarations
-
+    /// <summary>
+    /// The name.
+    /// </summary>
     private string? _name;
-    private int _id;
+    /// <summary>
+    /// The data type.
+    /// </summary>
     private StandardDataTypes _dataType = StandardDataTypes.Unknown;
+    /// <summary>
+    /// The is array flag.
+    /// </summary>
     private bool _isArray;
+    /// <summary>
+    /// The array size indicator.
+    /// </summary>
     private int _size;
+
+    /// <summary>
+    /// The value.
+    /// </summary>
+    private object? _value;
     #endregion
 
     #region Constructor / Dispose Methods    
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicVariable"/> class.
+    /// Initializes a new instance of the <see cref="BasicVariable"/> class.
     /// </summary>
-    /// <param name="name">The name.</param>
-    /// <param name="dataType">Type of the data.</param>
-    /// <param name="isArray">if set to <c>true</c> [is array].</param>
-    /// <param name="size">The size.</param>
-    public BlazorBasicVariable(string name, StandardDataTypes dataType, bool isArray, int size)
+    /// <param name="name">
+    /// A string containing the variable name.
+    /// </param>
+    /// <param name="dataType">
+    /// A <see cref="StandardDataTypes"/> enumerated value indicating the data type.
+    /// </param>
+    /// <param name="isArray">
+    /// <b>true</b> if the variable is an array.
+    /// </param>
+    /// <param name="size">
+    /// An integer specifying the size of the array.
+    /// </param>
+    public BasicVariable(string name, StandardDataTypes dataType, bool isArray, int size)
     {
         _name = name;
-        _id = IdGenerator.Next();
         _isArray = isArray;
         _dataType = dataType;
         _size = size;
@@ -44,12 +66,20 @@ public class BlazorBasicVariable : DisposableObjectBase, IVariable
     protected override void Dispose(bool disposing)
     {
         _name = null;
+        _value = null;
         base.Dispose(disposing);
     }
 
     #endregion
 
     #region Public Properties
+    /// <summary>
+    /// Gets the type of the data.
+    /// </summary>
+    /// <value>
+    /// A <see cref="StandardDataTypes"/> enumerated value indicating the data type of the variable.
+    /// </value>
+    public StandardDataTypes DataType => _dataType;
     /// <summary>
     /// Gets a value indicating whether this variable is defined and populated from a procedure or
     /// function parameter.
@@ -73,18 +103,28 @@ public class BlazorBasicVariable : DisposableObjectBase, IVariable
     /// A reference to the parent <see cref="IScopeContainer" /> instance.
     /// </value>
     public IScopeContainer? Parent { get; }
-
-    public StandardDataTypes DataType => _dataType;
-
     #endregion
 
-    public virtual object? GetValue()
+    #region Public Methods / Functions    
+    /// <summary>
+    /// Gets the value stored in the variable.
+    /// </summary>
+    /// <returns>
+    /// The content of the variable, or <c>null</c> if the variable is not set.
+    /// </returns>
+    public virtual  object? GetValue()
     {
-        return null;
-    }
-    public virtual void SetValue(object value)
-    {
+        return _value;
     }
 
+    /// <summary>
+    /// Sets the value of the variable instance. This method allows for updating the variable's content.
+    /// </summary>
+    /// <param name="value">The value to be stored in the variable.</param>
+    public virtual void SetValue(object value)
+    {
+        _value = value;
+    }
+    #endregion
 
 }

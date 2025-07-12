@@ -58,7 +58,7 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
                 break;
 
             case TokenType.VariableName:
-                expression = new BlazorBasicVariableNameExpression(service, singleItemList);
+                expression = new BasicVariableNameExpression(service, singleItemList);
                 break;
 
             case TokenType.UserDefinedItem:
@@ -147,7 +147,7 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
                     break;
 
                 case TokenType.VariableName:
-                    newExpression = new BlazorBasicVariableNameExpression(service, subList);
+                    newExpression = new BasicVariableNameExpression(service, subList);
                     break;
 
                 case TokenType.UserDefinedItem:
@@ -287,7 +287,7 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
 
                     case TokenType.VariableName:
                         index++;
-                        expression = new BlazorBasicVariableNameExpression(service, new ManagedTokenList { token });
+                        expression = new BasicVariableNameExpression(service, new ManagedTokenList { token });
                         subExpressionList.Add(expression);
                         break;
 

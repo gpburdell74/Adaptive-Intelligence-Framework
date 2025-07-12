@@ -14,4 +14,12 @@ public interface ICodeFileHandleExpression : ICodeExpression
     /// An integer containing the file number/handle value to use.
     /// </value>
     int FileHandle { get; set; }
+
+    /// <summary>
+    /// Evaluates the expression instance.
+    /// </summary>
+    /// <returns>
+    /// An integer specifying the file handle value.
+    /// </returns>
+    int Evaluate();
 }

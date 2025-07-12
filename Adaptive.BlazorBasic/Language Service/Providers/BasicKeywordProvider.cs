@@ -6,7 +6,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// <summary>
 /// Provides the implementation for the provider that defines the list of built-in functions.
 /// </summary>
-public sealed class BlazorBasicKeywordProvider : DisposableObjectBase, IKeywordProvider
+public sealed class BasicKeywordProvider : DisposableObjectBase, IKeywordProvider
 {
     /// <summary>
     /// Renders the list of keyword ID values for mapping.

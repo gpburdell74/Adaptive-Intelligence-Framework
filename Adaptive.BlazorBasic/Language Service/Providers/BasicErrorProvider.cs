@@ -6,7 +6,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// <summary>
 /// Provides the implementation for the provider that defines the list of errors and error codes.
 /// </summary>
-public sealed class BlazorBasicErrorProvider : DisposableObjectBase, IErrorProvider
+public sealed class BasicErrorProvider : DisposableObjectBase, IErrorProvider
 {
     /// <summary>
     /// Renders the list of error ID values (e.g. error codes) for mapping.

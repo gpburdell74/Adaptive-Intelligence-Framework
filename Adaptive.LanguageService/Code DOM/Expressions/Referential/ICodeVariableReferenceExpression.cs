@@ -10,7 +10,7 @@ public interface ICodeVariableReferenceExpression : ICodeExpression
     /// Gets the expression defining the name of the variable.
     /// </summary>
     /// <value>
-    /// An <see cref="ICodeVariableNameExpression"/> instance containing the name of the variable.
+    /// An <see cref="string"/> instance containing the name of the variable.
     /// </value>
-    ICodeVariableNameExpression? VariableName { get; }
+    string? VariableName { get; }
 }

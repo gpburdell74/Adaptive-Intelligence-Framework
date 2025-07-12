@@ -21,4 +21,9 @@ public interface IIdGenerator : IDisposable
     /// An integer containing the ID value to be released.
     /// </param>
     void Release(int id);
+
+    /// <summary>
+    /// Resets this instance to its initial state.
+    /// </summary>
+    void Reset();
 }

@@ -4,6 +4,8 @@ using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -15,13 +17,13 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 ///     DIM [variableName] AS [Type]
 /// </example>
 /// <seealso cref="BasicCodeStatement" />
-public class BasicVariableDeclarationStatement : BasicCodeStatement
+public class BasicVariableDeclarationStatement : BasicCodeStatement, ICodeVariableDeclarationStatement
 {
     #region Private Member Declarations    
     /// <summary>
-    /// The variable reference.
+    /// The variable name.
     /// </summary>
-    private BasicVariableReferenceExpression? _variable;
+    private BasicVariableNameExpression? _variable;
     /// <summary>
     /// The data type expression.
     /// </summary>
@@ -67,13 +69,16 @@ public class BasicVariableDeclarationStatement : BasicCodeStatement
     /// A <see cref="BlazorBasicDataTypeExpression"/> instance representing the data type of the variable.
     /// </value>
     public BlazorBasicDataTypeExpression? DataType => _dataType;
+    ICodeDataTypeExpression? ICodeVariableDeclarationStatement.DataType => _dataType;
+
     /// <summary>
     /// Gets the reference to the expression providing the variable name.
     /// </summary>
     /// <value>
-    /// A <see cref="BasicVariableReferenceExpression"/> defining the variable name/reference.
+    /// A <see cref="BasicVariableNameExpression"/> defining the variable name/reference.
     /// </value>
-    public BasicVariableReferenceExpression? VariableReference => _variable;
+    public BasicVariableNameExpression? VariableReference => _variable;
+    ICodeVariableNameExpression? ICodeVariableDeclarationStatement.VariableReference => _variable;
 
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
@@ -110,7 +115,7 @@ public class BasicVariableDeclarationStatement : BasicCodeStatement
             throw new BasicSyntaxErrorException(codeLine.LineNumber, "No data type name specified.");
         }
 
-        _variable = new BasicVariableReferenceExpression(Service, nameToken.Text!);
+        _variable = new BasicVariableNameExpression(Service, nameToken.Text!);
         _dataType = new BlazorBasicDataTypeExpression(Service, "AS " + dataTypeToken.Text!);
         Expressions.Add(_variable);
         Expressions.Add(_dataType);
@@ -150,7 +155,7 @@ public class BasicVariableDeclarationStatement : BasicCodeStatement
     /// </returns>
     public override string ToString()
     {
-        return Render();
+        return Render() ?? string.Empty;
     }
     #endregion
 

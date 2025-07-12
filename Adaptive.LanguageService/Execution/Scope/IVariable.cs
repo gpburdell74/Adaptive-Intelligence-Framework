@@ -17,14 +17,6 @@ public interface IVariable : IScopedElement
     bool IsParameter { get; set; }
 
     /// <summary>
-    /// Gets the name of the variable instance.
-    /// </summary>
-    /// <value>
-    /// A string containing the name of the variable.
-    /// </value>
-    string? Name { get; }
-
-    /// <summary>
     /// Gets the value stored in the variable.
     /// </summary>
     /// <returns>

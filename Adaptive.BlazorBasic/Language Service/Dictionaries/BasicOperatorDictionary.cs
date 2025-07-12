@@ -10,7 +10,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// </summary>
 /// <seealso cref="TwoWayDictionaryBase{K, V}" />
 /// <seealso cref="IOperatorDictionary{T}" />
-public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, StandardOperators>,
+public sealed class BasicOperatorDictionary : TwoWayDictionaryBase<string, StandardOperators>,
         IOperatorDictionary<StandardOperators>
 {
     #region Private Member Declarations
@@ -57,12 +57,12 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
 
     #region Constructor 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicOperatorDictionary"/> class.
+    /// Initializes a new instance of the <see cref="BasicOperatorDictionary"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicOperatorDictionary()
+    public BasicOperatorDictionary()
     {
     }
     /// <summary>
@@ -307,7 +307,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     }
     #endregion
 
-    #region Protected Method Overrides    
+    #region Protected Method Overrides
     /// <summary>
     /// Normalizes the specified value for use in a dictionary as a key value.
     /// </summary>
@@ -409,7 +409,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     {
         _assignment?.Dispose();
 
-        _assignment = new BlazorBasicOperatorDictionary();
+        _assignment = new BasicOperatorDictionary();
         _assignment.AddEntry(OperatorNames.OperatorAssignment, StandardOperators.AssignmentEquals);
     }
     /// <summary>
@@ -419,7 +419,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     {
         _bitwise?.Dispose();
 
-        _bitwise = new BlazorBasicOperatorDictionary();
+        _bitwise = new BasicOperatorDictionary();
         _bitwise.AddEntry(OperatorNames.OperatorBitwiseAnd, StandardOperators.BitwiseShortAnd);
         _bitwise.AddEntry(OperatorNames.OperatorBitwiseLongAnd, StandardOperators.BitwiseLongAnd);
         _bitwise.AddEntry(OperatorNames.OperatorBitwiseOr, StandardOperators.BitwiseShortOr);
@@ -432,7 +432,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     {
         _comparison?.Dispose();
 
-        _comparison = new BlazorBasicOperatorDictionary();
+        _comparison = new BasicOperatorDictionary();
         _comparison.AddEntry(OperatorNames.OperatorGreaterThan, StandardOperators.ComparisonGreaterThan);
         _comparison.AddEntry(OperatorNames.OperatorGreaterThanOrEqualTo, StandardOperators.ComparisonGreaterThanOrEqualTo);
         _comparison.AddEntry(OperatorNames.OperatorLessThan, StandardOperators.ComparisonLessThan);
@@ -448,7 +448,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     {
         _logical?.Dispose();
 
-        _logical = new BlazorBasicOperatorDictionary();
+        _logical = new BasicOperatorDictionary();
         _logical.AddEntry(OperatorNames.OperatorLogicalAnd, StandardOperators.LogicalAnd);
         _logical.AddEntry(OperatorNames.OperatorLogicalAndShort, StandardOperators.LogicalAndShort);
         _logical.AddEntry(OperatorNames.OperatorLogicalOr, StandardOperators.LogicalOr);
@@ -464,7 +464,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     {
         _math?.Dispose();
 
-        _math = new BlazorBasicOperatorDictionary();
+        _math = new BasicOperatorDictionary();
         _math.AddEntry(OperatorNames.OperatorAdd, StandardOperators.MathAdd);
         _math.AddEntry(OperatorNames.OperatorSubtract, StandardOperators.MathSubtract);
         _math.AddEntry(OperatorNames.OperatorMultiply, StandardOperators.MathMultiply);
@@ -480,7 +480,7 @@ public class BlazorBasicOperatorDictionary : TwoWayDictionaryBase<string, Standa
     {
         _ops?.Dispose();
 
-        _ops = new BlazorBasicOperatorDictionary();
+        _ops = new BasicOperatorDictionary();
         _ops.AddEntry(OperatorNames.OperatorDecrement, StandardOperators.OpsDecrement);
         _ops.AddEntry(OperatorNames.OperatorIncrement, StandardOperators.OpsIncrement);
 

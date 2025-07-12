@@ -10,7 +10,7 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ICodeStatementRenderer" />
-public class BlazorBasicStatementRenderer : DisposableObjectBase, ICodeStatementRenderer
+public class BasicStatementRenderer : DisposableObjectBase, ICodeStatementRenderer
 {
     #region Private Member Declarations
     /// <summary>
@@ -21,12 +21,12 @@ public class BlazorBasicStatementRenderer : DisposableObjectBase, ICodeStatement
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicStatementRenderer"/> class.
+    /// Initializes a new instance of the <see cref="BasicStatementRenderer"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicStatementRenderer()
+    public BasicStatementRenderer()
     {
     }
     #endregion

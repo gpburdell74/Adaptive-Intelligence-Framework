@@ -7,7 +7,7 @@ namespace Adaptive.Intelligence.LanguageService.Execution;
 /// <see cref="ICodeStatement"/> instances.
 /// 
 /// </summary>
-/// <seealso cref="System.IDisposable" />
+/// <seealso cref="IDisposable" />
 public interface ICodeDomStatementExecutor : IDisposable
 {
     #region Properties
@@ -25,7 +25,7 @@ public interface ICodeDomStatementExecutor : IDisposable
     /// <value>
     /// An <see cref="IExecutionEnvironment"/> instance.
     /// </value>
-    IExecutionEnvironment Environment { get; }
+    IExecutionEnvironment? Environment { get; }
     #endregion
 
     #region General Use Methods / Functions
@@ -33,7 +33,7 @@ public interface ICodeDomStatementExecutor : IDisposable
     /// Assigns the a value to a variable instance.
     /// </summary>
     /// <param name="scopeContainer">
-    /// The <see cref="IScopeContainer"/> container specifying the function or procedure being executed.f
+    /// The <see cref="IScopeContainer"/> container specifying the function or procedure being executed.
     /// </param>
     /// <param name="assignStatement">
     /// A <see cref="ICodeVariableAssignmentStatement"/> instance describing the variable to populate, and 
@@ -45,7 +45,7 @@ public interface ICodeDomStatementExecutor : IDisposable
     /// Closes the specified file.
     /// </summary>
     /// <param name="scopeContainer">
-    /// The <see cref="IScopeContainer"/> container specifying the function or procedure being executed.f
+    /// The <see cref="IScopeContainer"/> container specifying the function or procedure being executed.
     /// </param>
     /// <param name="closeStatement">
     /// The <see cref="ICodeCloseFileStatement"/> statement describing the file to be closed.

@@ -5,6 +5,8 @@ using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Statements;
 using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
+using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -22,7 +24,7 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 ///     
 /// </example>
 /// <seealso cref="BasicCodeStatement" />
-public class BasicVariableAssignmentStatement : BasicCodeStatement
+public class BasicVariableAssignmentStatement : BasicCodeStatement, ICodeVariableAssignmentStatement
 {
     #region Private Member Declarations    
     /// <summary>
@@ -74,6 +76,8 @@ public class BasicVariableAssignmentStatement : BasicCodeStatement
     /// A <see cref="BasicExpression"/> instance representing the value.
     /// </value>
     public BasicExpression? Expression => _expression;
+    ICodeExpression? ICodeVariableAssignmentStatement.Expression => _expression;
+
     /// <summary>
     /// Gets the reference to the expression providing the variable name.
     /// </summary>
@@ -81,6 +85,7 @@ public class BasicVariableAssignmentStatement : BasicCodeStatement
     /// A <see cref="BasicVariableReferenceExpression"/> defining the variable name/reference.
     /// </value>
     public BasicVariableReferenceExpression? VariableReference => _variable;
+    ICodeVariableReferenceExpression? ICodeVariableAssignmentStatement.VariableReference => _variable;
 
     /// <summary>
     /// Gets the value of how the current number of tabs being printed is to be modified.
@@ -89,6 +94,9 @@ public class BasicVariableAssignmentStatement : BasicCodeStatement
     /// The tab modification.
     /// </value>
     public override RenderTabState TabModification => RenderTabState.None;
+
+    
+    
     #endregion
 
     #region Protected Method Overrides    
@@ -155,7 +163,7 @@ public class BasicVariableAssignmentStatement : BasicCodeStatement
     /// </returns>
     public override string ToString()
     {
-        return Render();
+        return Render() ?? string.Empty;
     }
     #endregion
 

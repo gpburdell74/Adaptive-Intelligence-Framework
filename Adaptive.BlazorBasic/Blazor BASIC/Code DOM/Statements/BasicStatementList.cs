@@ -10,8 +10,16 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="ICodeStatement" />
-public class BasicCodeStatementList : List<ICodeStatement>
+public sealed class BasicCodeStatementList : List<ICodeStatement>, ICodeStatementsTable
 {
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    public void Dispose()
+    {
+        Clear();
+    }
+
     /// <summary>
     /// Gets the next ordinal index of an instance of the specified type.
     /// </summary>
@@ -34,6 +42,14 @@ public class BasicCodeStatementList : List<ICodeStatement>
 
         return returnIndex;
     }
+
+    /// <summary>
+    /// Finds the next end if.
+    /// </summary>
+    /// <param name="startIndex">AN integer specifying the ordinal index at which to start searching.</param>
+    /// <returns>
+    /// The ordinal index of the next end-if statement, or -1 if not found.
+    /// </returns>
     public int FindEndIf(int startIndex)
     {
         int returnIndex = -1;

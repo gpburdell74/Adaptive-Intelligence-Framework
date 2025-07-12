@@ -9,16 +9,16 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// <seealso cref="TwoWayDictionaryBase{K, V}" />
 /// <seealso cref="IKeywordDictionary{T}" />
 /// <seealso cref="BlazorBasicKeywords"/>
-public sealed class BlazorBasicKeywordsDictionary : TwoWayDictionaryBase<string, BlazorBasicKeywords>, IKeywordDictionary<BlazorBasicKeywords>
+public sealed class BasicKeywordsDictionary : TwoWayDictionaryBase<string, BlazorBasicKeywords>, IKeywordDictionary<BlazorBasicKeywords>
 {
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicKeywordsDictionary"/> class.
+    /// Initializes a new instance of the <see cref="BasicKeywordsDictionary"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicKeywordsDictionary()
+    public BasicKeywordsDictionary()
     {
 
     }

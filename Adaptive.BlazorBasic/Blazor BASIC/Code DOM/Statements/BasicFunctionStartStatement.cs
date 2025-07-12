@@ -154,8 +154,10 @@ public class BasicFunctionStartStatement : BasicCodeStatement
 
                 // Return type.
                 string dataTypeName = trimmedList[dataTypeStartIndex].Text;
-                _returnExpression = new BlazorBasicDataTypeExpression(Service,
-                    trimmedList[6].Text, isArray);
+                _returnExpression = new BlazorBasicDataTypeExpression(
+                    Service,
+                    dataTypeName,
+                    isArray);
             }
         }
         else

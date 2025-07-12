@@ -9,6 +9,14 @@ namespace Adaptive.Intelligence.LanguageService.Execution;
 public interface IScopeContainer : IDisposable
 {
     /// <summary>
+    /// Gets the reference to the list of CodeDOM statements to be executed.
+    /// </summary>
+    /// <value>
+    /// A <see cref="List{T}"/> of <see cref="ICodeStatement"/> instances.
+    /// </value>
+    List<ICodeStatement>? Code { get; }
+
+    /// <summary>
     /// Creates the variable within the scope.
     /// </summary>
     /// <param name="lineNumber">
@@ -18,7 +26,7 @@ public interface IScopeContainer : IDisposable
     /// A string containing the name of the variable.</param>
     /// <param name="dataType">
     /// A <see cref="StandardDataTypes"/> enumerated value indicating the data type.
-    /// Type of the data.</param>
+    /// </param>
     /// <param name="isArray">
     /// <b>true</b> if the data type is an array.
     /// </param>
@@ -37,7 +45,7 @@ public interface IScopeContainer : IDisposable
     /// A string containing the name of the variable.</param>
     /// <param name="dataType">
     /// A <see cref="StandardDataTypes"/> enumerated value indicating the data type.
-    /// Type of the data.</param>
+    /// </param>
     /// <param name="isArray">
     /// <b>true</b> if the data type is an array.
     /// </param>
@@ -45,14 +53,6 @@ public interface IScopeContainer : IDisposable
     /// If <paramref name="isArray"/> is true, specifies the size of the array.
     /// </param>
     void CreateParameterVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size);
-
-    /// <summary>
-    /// Gets the reference to the list of CodeDOM statements to be executed.
-    /// </summary>
-    /// <value>
-    /// A <see cref="List{T}"/> of <see cref="ICodeStatement"/> instances.
-    /// </value>
-    List<ICodeStatement> Code { get; }
 
     /// <summary>
     /// Gets the reference to the variable instance with the specified name.
@@ -63,7 +63,7 @@ public interface IScopeContainer : IDisposable
     /// <returns>
     /// The <see cref="IVariable"/> instance, if found.
     /// </returns>
-    IVariable GetVariable(string variableName);
+    IVariable? GetVariable(string variableName);
 
     /// <summary>
     /// Gets a value indicating whether a variable with the specified name exists within this

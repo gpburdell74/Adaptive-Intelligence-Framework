@@ -72,7 +72,7 @@ public abstract class TwoWayDictionaryBase<PrimaryValue, SecondaryValue> : Dispo
     protected abstract PrimaryValue NormalizeKeyValue(PrimaryValue value);
     #endregion
 
-    #region Protected Methods / Functions    
+    #region Protected Methods / Functions
     /// <summary>
     /// Performs the basic initialization of the dictionary.
     /// </summary>

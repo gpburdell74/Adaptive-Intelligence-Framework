@@ -10,7 +10,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// </summary>
 /// <seealso cref="TwoWayDictionaryBase{K, V}" />
 /// <seealso cref="IDelimiterDictionary{T}" />
-public sealed class BlazorBasicDelimiterDictionary : TwoWayDictionaryBase<string, BlazorBasicDelimiters>, IDelimiterDictionary<BlazorBasicDelimiters>
+public sealed class BasicDelimiterDictionary : TwoWayDictionaryBase<string, BlazorBasicDelimiters>, IDelimiterDictionary<BlazorBasicDelimiters>
 {
     #region Private Member Declarations
     /// <summary>
@@ -25,12 +25,12 @@ public sealed class BlazorBasicDelimiterDictionary : TwoWayDictionaryBase<string
 
     #region Constructor / Dispose Methods
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicDelimiterDictionary"/> class.
+    /// Initializes a new instance of the <see cref="BasicDelimiterDictionary"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicDelimiterDictionary()
+    public BasicDelimiterDictionary()
     {
     }
     /// <summary>

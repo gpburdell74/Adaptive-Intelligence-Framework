@@ -8,7 +8,7 @@ namespace Adaptive.Intelligence.BlazorBasic.Execution;
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
 /// <seealso cref="IIdGenerator" />
-public class BLazorBasicIdGenerator : DisposableObjectBase, IIdGenerator
+public sealed class BasicIdGenerator : DisposableObjectBase, IIdGenerator
 {
     #region Private Member Declarations    
     /// <summary>
@@ -29,12 +29,12 @@ public class BLazorBasicIdGenerator : DisposableObjectBase, IIdGenerator
 
     #region Constructor / Dispose Methods    
     /// <summary>
-    /// Initializes a new instance of the <see cref="BLazorBasicIdGenerator"/> class.
+    /// Initializes a new instance of the <see cref="BasicIdGenerator"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BLazorBasicIdGenerator()
+    public BasicIdGenerator()
     {
         _idValuesInUse = new List<int>();
         _idValuesNotUsed = new List<int>();
@@ -126,6 +126,18 @@ public class BLazorBasicIdGenerator : DisposableObjectBase, IIdGenerator
 
             // Add to the previously-used-but-released list.
             _idValuesNotUsed.Add(id);
+        }
+    }
+
+    /// <summary>
+    /// Resets this instance to its initial state.
+    /// </summary>
+    public void Reset()
+    {
+        lock(_syncRoot)
+        {
+            _idValuesInUse?.Clear();
+            _idValuesNotUsed?.Clear();
         }
     }
     #endregion

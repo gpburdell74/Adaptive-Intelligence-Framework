@@ -7,6 +7,14 @@
 public interface IScopedElement : IDisposable 
 {
     /// <summary>
+    /// Gets the name of the instance.
+    /// </summary>
+    /// <value>
+    /// A string containing the name of the instance.
+    /// </value>
+    string? Name { get; }
+
+    /// <summary>
     /// Gets the reference to the parent scope container.
     /// </summary>
     /// <value>

@@ -5,8 +5,8 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// <summary>
 /// Represents a variable of type "DOUBLE".
 /// </summary>
-/// <seealso cref="BlazorBasicVariable{T}" />
-public class BasicDoubleVariable : BlazorBasicVariable<short>
+/// <seealso cref="BasicVariable{T}" />
+public class BasicDoubleVariable : BasicVariable<double>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicDoubleVariable"/> class.
@@ -18,4 +18,18 @@ public class BasicDoubleVariable : BlazorBasicVariable<short>
     {
         Value = 0;
     }
+
+    #region Protected Method Overrides
+    /// <summary>
+    /// Performs the appropriate conversion of the source value to the variable's type.
+    /// </summary>
+    /// <param name="sourceValue">The source value to be converted.</param>
+    /// <returns>
+    /// The value of <paramref name="sourceValue" /> converted to the variable's type, or null if the conversion is not possible.
+    /// </returns>
+    public override double Convert(object? sourceValue)
+    {
+        return DynamicTypeConverter.ToDouble(sourceValue);
+    }
+    #endregion
 }

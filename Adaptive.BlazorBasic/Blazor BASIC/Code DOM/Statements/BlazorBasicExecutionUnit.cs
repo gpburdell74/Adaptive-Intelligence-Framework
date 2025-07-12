@@ -32,5 +32,5 @@ public class BlazorBasicExecutionUnit : DisposableObjectBase, ICodeInterpreterUn
     }
     public BlazorBasicCodeStatementsTable Statements => _statements;
 
-    ICodeStatementsTable? ICodeInterpreterUnit.Statements { get; }
+    ICodeStatementsTable? ICodeInterpreterUnit.Statements => _statements;
 }

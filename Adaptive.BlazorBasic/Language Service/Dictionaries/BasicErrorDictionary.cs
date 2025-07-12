@@ -8,7 +8,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// </summary>
 /// <seealso cref="TwoWayDictionaryBase{K, V}" />
 /// <seealso cref="IDelimiterDictionary{T}" />
-public sealed class BlazorBasicErrorDictionary : TwoWayDictionaryBase<string, BlazorBasicErrorCodes>, IErrorDictionary<BlazorBasicErrorCodes>
+public sealed class BasicErrorDictionary : TwoWayDictionaryBase<string, BlazorBasicErrorCodes>, IErrorDictionary<BlazorBasicErrorCodes>
 {
     /// <summary>
     /// Gets the text/name for the built-in error.
@@ -72,7 +72,8 @@ public sealed class BlazorBasicErrorDictionary : TwoWayDictionaryBase<string, Bl
     /// <summary>
     /// Normalizes the specified value for use in a dictionary as a key value.
     /// </summary>
-    /// <param name="value">A <typeparamref name="PrimaryValue" /> variable containing the value.</param>
+    /// <param name="value">
+    /// A string variable containing the value.</param>
     /// <returns>
     /// The normalized version of the value for use in a dictionary as a key.
     /// </returns>

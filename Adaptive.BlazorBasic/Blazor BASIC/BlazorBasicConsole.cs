@@ -1,9 +1,11 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.LanguageService.Execution;
+using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Console;
+using System.Diagnostics;
 
 namespace Adaptive.Intelligence.BlazorBasic;
 
-public class BlazorBasicConsole : DisposableObjectBase
+public class BlazorBasicConsole : DisposableObjectBase, IStandardOutput
 {
     private QBConsole _console;
 
@@ -32,5 +34,15 @@ public class BlazorBasicConsole : DisposableObjectBase
         QBConsole.Print(text);
         System.Console.WriteLine();
 
+    }
+
+    public void Locate(int x, int y)
+    {
+        QBConsole.Locate(x, y);
+    }
+
+    public void Print(string text)
+    {
+        System.Console.Write(text);
     }
 }

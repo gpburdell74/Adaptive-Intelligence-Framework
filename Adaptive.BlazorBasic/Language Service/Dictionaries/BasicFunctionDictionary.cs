@@ -8,16 +8,16 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// </summary>
 /// <seealso cref="TwoWayDictionaryBase{PrimaryValue, SecondaryValue}" />
 /// <seealso cref="IBuiltInFunctionDictionary{T}" />
-public sealed class BlazorBasicFunctionDictionary : TwoWayDictionaryBase<string, BlazorBasicFunctions>, IBuiltInFunctionDictionary<BlazorBasicFunctions>
+public sealed class BasicFunctionDictionary : TwoWayDictionaryBase<string, BlazorBasicFunctions>, IBuiltInFunctionDictionary<BlazorBasicFunctions>
 {
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicFunctionDictionary"/> class.
+    /// Initializes a new instance of the <see cref="BasicFunctionDictionary"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicFunctionDictionary()
+    public BasicFunctionDictionary()
     {
     }
     #endregion

@@ -16,6 +16,7 @@ public interface ICodeVariableAssignmentStatement : ICodeStatement
     /// A <see cref="ICodeExpression"/> instance representing the value.
     /// </value>
     public ICodeExpression? Expression { get; }
+
     /// <summary>
     /// Gets the reference to the expression providing the reference to an instantiated variable.
     /// </summary>

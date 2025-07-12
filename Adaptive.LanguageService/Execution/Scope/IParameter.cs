@@ -7,6 +7,14 @@
 public interface IParameter : IScopedElement
 {
     /// <summary>
+    /// Gets the data type of the value in the parameter.
+    /// </summary>
+    /// <value>
+    /// A <see cref="StandardDataTypes"/> enumerated value indicating the data type.
+    /// </value>
+    StandardDataTypes DataType { get; }
+
+    /// <summary>
     /// Gets the name of the variable instance.
     /// </summary>
     /// <value>

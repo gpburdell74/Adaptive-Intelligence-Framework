@@ -92,6 +92,13 @@ internal static class KeywordNames
     public const string CommandWrite = "WRITE";
     #endregion
 
+    #region SUB MAIN
+    /// <summary>
+    /// The keyword "main" identifying the entry point into the application.
+    /// </summary>
+    public const string KeywordMain = "MAIN";
+    #endregion
+
     #region Sub Command Reserved Words
     /// <summary>
     /// Indicates an "AS" keyword.

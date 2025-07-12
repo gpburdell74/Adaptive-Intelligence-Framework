@@ -7,7 +7,7 @@
 public interface IMemoryProvider : IDisposable 
 {
     /// <summary>
-    /// Allocates a sectioon of memory of the specified size.
+    /// Allocates a section of memory of the specified size.
     /// </summary>
     /// <param name="size">
     /// An integer specifying the size of memory to allocate.
@@ -18,7 +18,7 @@ public interface IMemoryProvider : IDisposable
     byte[]? Allocate(int size);
 
     /// <summary>
-    /// Invokes garbage collection.
+    /// Invokes garbage collection on the underlying runtime system.
     /// </summary>
     void Collect();
 

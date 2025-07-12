@@ -38,32 +38,32 @@ public class BlazorBasicLanguageService :
     /// <summary>
     /// The data types dictionary.
     /// </summary>
-    private BlazorBasicDataTypeDictionary? _dataTypes;
+    private BasicDataTypeDictionary? _dataTypes;
 
     /// <summary>
     /// The delimiter dictionary.
     /// </summary>
-    private BlazorBasicDelimiterDictionary? _delimiters;
+    private BasicDelimiterDictionary? _delimiters;
 
     /// <summary>
     /// The functions dictionary.
     /// </summary>
-    private BlazorBasicFunctionDictionary? _functions;
+    private BasicFunctionDictionary? _functions;
 
     /// <summary>
     /// The keywords dictionary.
     /// </summary>
-    private BlazorBasicKeywordsDictionary? _keywords;
+    private BasicKeywordsDictionary? _keywords;
 
     /// <summary>
     /// The errors dictionary.
     /// </summary>
-    private BlazorBasicErrorDictionary? _errors;
+    private BasicErrorDictionary? _errors;
 
     /// <summary>
     /// The operators dictionary.
     /// </summary>
-    private BlazorBasicOperatorDictionary? _operators;
+    private BasicOperatorDictionary? _operators;
 
     /// <summary>
     /// The parsing elements dictionary.
@@ -155,9 +155,9 @@ public class BlazorBasicLanguageService :
     /// Gets the reference to the delimiters dictionary for the language.
     /// </summary>
     /// <value>
-    /// An <see cref="BlazorBasicDelimiterDictionary" /> specifying the text representations for the delimiters in the language.
+    /// An <see cref="BasicDelimiterDictionary" /> specifying the text representations for the delimiters in the language.
     /// </value>
-    public BlazorBasicDelimiterDictionary Delimiters
+    public BasicDelimiterDictionary Delimiters
     {
         get
         {
@@ -171,9 +171,9 @@ public class BlazorBasicLanguageService :
     /// Gets the reference to the error types dictionary.
     /// </summary>
     /// <value>
-    /// The <see cref="BlazorBasicErrorDictionary" /> containing the list of valid error types.
+    /// The <see cref="BasicErrorDictionary" /> containing the list of valid error types.
     /// </value>
-    public BlazorBasicErrorDictionary Errors
+    public BasicErrorDictionary Errors
     {
         get
         {
@@ -187,9 +187,9 @@ public class BlazorBasicLanguageService :
     /// Gets the reference to the functions dictionary for the language.
     /// </summary>
     /// <value>
-    /// An <see cref="BlazorBasicFunctionDictionary" /> specifying the names for the built-in functions in the language.
+    /// An <see cref="BasicFunctionDictionary" /> specifying the names for the built-in functions in the language.
     /// </value>
-    public BlazorBasicFunctionDictionary Functions
+    public BasicFunctionDictionary Functions
     {
         get
         {
@@ -203,9 +203,9 @@ public class BlazorBasicLanguageService :
     /// Gets the reference to the keywords dictionary for the language.
     /// </summary>
     /// <value>
-    /// An <see cref="BlazorBasicKeywordsDictionary" /> specifying the names for the keywords in the language.
+    /// An <see cref="BasicKeywordsDictionary" /> specifying the names for the keywords in the language.
     /// </value>
-    public BlazorBasicKeywordsDictionary? Keywords
+    public BasicKeywordsDictionary? Keywords
     {
         get
         {
@@ -221,7 +221,7 @@ public class BlazorBasicLanguageService :
     /// <value>
     /// An <see cref="T:Adaptive.Intelligence.LanguageService.IOperatorDictionary" /> specifying the code representations for the operators in the language.
     /// </value>
-    public BlazorBasicOperatorDictionary Operators
+    public BasicOperatorDictionary Operators
     {
         get
         {

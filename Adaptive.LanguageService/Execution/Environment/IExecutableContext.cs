@@ -1,5 +1,4 @@
 ﻿using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
-using Adaptive.Intelligence.LanguageService.Services;
 
 namespace Adaptive.Intelligence.LanguageService.Execution;
 
@@ -17,13 +16,13 @@ public interface IExecutableContext : IScopeContainer
     /// A <see cref="List{T}"/> of <see cref="ICodeExpression"/> instances defining the 
     /// parameters for the procedure.
     /// </value>
-    IParameterTable Parameters { get; }
+    IParameterTable? Parameters { get; }
 
     /// <summary>
-    /// Gets the name.
+    /// Gets the name of the current instance.
     /// </summary>
     /// <value>
-    /// The name.
+    /// A string containing the name identifying the instance.
     /// </value>
     string? Name { get; }
 
@@ -33,12 +32,21 @@ public interface IExecutableContext : IScopeContainer
     /// <value>
     /// An <see cref="IVariableTable"/> implementation.
     /// </value>
-    IVariableTable Variables { get; }
+    IVariableTable? Variables { get; }
 
     /// <summary>
     /// Executes the code element within the context of its parent scope.
     /// </summary>
-    void Execute(ILanguageService service, IExecutionEngine engine, IExecutionEnvironment environment);
+    /// <param name="lineNumber">
+    /// An integer specifying the current line number value.
+    /// </param>
+    /// <param name="engine">
+    /// The current <see cref="IExecutionEngine"/> instance.
+    /// </param>
+    /// <param name="environment">
+    /// The current <see cref="IExecutionEnvironment"/> instance.
+    /// </param>
+    void Execute(int lineNumber, IExecutionEngine engine, IExecutionEnvironment environment);
 
     /// <summary>
     /// Instantiates the variable within the local scope.
@@ -52,7 +60,7 @@ public interface IExecutableContext : IScopeContainer
 
     /// <summary>
     /// Instantiates a new variable within the local scope to represent a 
-    /// parameter and its valuie.
+    /// parameter and its value.
     /// </summary>
     /// <param name="lineNumber">The line number.</param>
     /// <param name="variableName">Name of the variable.</param>

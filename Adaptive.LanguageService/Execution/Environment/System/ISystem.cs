@@ -13,7 +13,7 @@ public interface ISystem : IDisposable
     /// <value>
     /// The <see cref="IFileSystemProvider"/> instance.
     /// </value>
-    IFileSystemProvider FileSystem { get; }
+    IFileSystemProvider? FileSystem { get; }
 
     /// <summary>
     /// Gets the reference to the memory API provider.
@@ -21,7 +21,7 @@ public interface ISystem : IDisposable
     /// <value>M
     /// The <see cref="IMemoryProvider"/> instance.
     /// </value>
-    IMemoryProvider Memory { get; }
+    IMemoryProvider? Memory { get; }
 
     /// <summary>
     /// Gets the reference to the network API provider.
@@ -29,7 +29,7 @@ public interface ISystem : IDisposable
     /// <value>
     /// The <see cref="INetworkProvider"/> instance.
     /// </value>
-    INetworkProvider Network { get; }
+    INetworkProvider? Network { get; }
 
     /// <summary>
     /// Gets the reference to the operating system API provider.
@@ -37,5 +37,10 @@ public interface ISystem : IDisposable
     /// <value>
     /// The <see cref="IOsProvider"/> instance.
     /// </value>
-    IOsProvider OS { get; }
+    IOsProvider? OS { get; }
+
+    /// <summary>
+    /// Resets this instance to its initial state.
+    /// </summary>
+    void Reset();
 }

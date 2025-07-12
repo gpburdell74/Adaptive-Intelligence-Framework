@@ -23,13 +23,13 @@ public static class BasicVariableFactory
     /// The size of the array, if <paramref name="isArray"/> is <b>true</b>.
     /// </param>
     /// <returns>
-    /// A <see cref="BlazorBasicVariable"/> instance representing the variable with the specified name and data type.
+    /// A <see cref="BasicVariable"/> instance representing the variable with the specified name and data type.
     /// </returns>
     /// <exception cref="Exception">Invalid data type specified.</exception>
-    public static BlazorBasicVariable? CreateByType(string variableName, StandardDataTypes dataType, 
+    public static BasicVariable? CreateByType(string variableName, StandardDataTypes dataType, 
         bool isArray, int size)
     {
-        BlazorBasicVariable? variable = null;
+        BasicVariable? variable = null;
 
         switch(dataType)
         {

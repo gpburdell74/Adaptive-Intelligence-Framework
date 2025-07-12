@@ -6,7 +6,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// <summary>
 /// Provides the implementation for the provider that defines the list of built-in functions.
 /// </summary>
-public sealed class BlazorBasicFunctionProvider : DisposableObjectBase, IBuiltInFunctionProvider
+public sealed class BasicFunctionProvider : DisposableObjectBase, IBuiltInFunctionProvider
 {
     /// <summary>
     /// Initializes the content of the provider.

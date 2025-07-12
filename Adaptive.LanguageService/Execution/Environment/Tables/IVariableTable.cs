@@ -5,7 +5,7 @@
 /// procedure or function.
 /// </summary>
 /// <seealso cref="IScopedElement" />
-public interface IVariableTable : IScopedElement, IContainerTable
+public interface IVariableTable : IContainerTable
 {
     /// <summary>
     /// Gets the variable by name value.

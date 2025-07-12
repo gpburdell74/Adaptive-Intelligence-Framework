@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.LanguageService.CodeDom;
+using System;
 
 namespace Adaptive.Intelligence.LanguageService.Execution;
 
@@ -7,7 +8,7 @@ namespace Adaptive.Intelligence.LanguageService.Execution;
 /// language code is executed.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface IExecutionEnvironment : IDisposable
+public interface IExecutionEnvironment : IScopeContainer, IDisposable
 {
     #region Properties
     /// <summary>
@@ -56,54 +57,44 @@ public interface IExecutionEnvironment : IDisposable
     /// <value>
     /// The <see cref="ISystem"/> instance providing access to system-level operations."/>
     /// </value>
-    ISystem System { get; }
+    ISystem? System { get; }
     #endregion
 
-    #region Methods
+    #region Methods    
     /// <summary>
-    /// Invokes and executes the specified function.
+    /// Closes the file.
     /// </summary>
-    /// <typeparam name="T">
-    /// The data type of the return value from the function.
-    /// </typeparam>
-    /// <param name="currentLineNumber">
+    /// <param name="lineNumber">The line number.</param>
+    /// <param name="fileHandle">The file handle.</param>
+    void CloseFile(int lineNumber, int fileHandle);
+
+    /// <summary>
+    /// Gets the file stream reference.
+    /// </summary>
+    /// <param name="lineNumber">
     /// An integer specifying the current line number.
     /// </param>
-    /// <param name="scope">
-    /// The reference to the parent <see cref="IScopeContainer"/> instance.
-    /// </param>
-    /// <param name="functionName">
-    /// A string containing the name of the function to call.
-    /// </param>
-    /// <param name="parameterValues">
-    /// A <see cref="List{T}"/> of values to populate the function parameters with.
+    /// <param name="fileHandle">
+    /// An integer specifying the file handle.
     /// </param>
     /// <returns>
-    /// The return value from the function, or null if the function does not return a value.
+    /// The <see cref="FileStream"/> instance, or <b>null</b> if not found.
     /// </returns>
-    T? CallFunction<T>(int currentLineNumber, IScopeContainer? scope, string functionName, List<object> parameterValues);
+    FileStream? GetFileStream(int lineNumber, int fileHandle);
 
     /// <summary>
-    /// Invokes and executes the specified procedure.
+    /// Determines whether the specified file is opened for binary (rather than text).
     /// </summary>
-    /// <param name="currentLineNumber">
+    /// <param name="lineNumber">
     /// An integer specifying the current line number.
     /// </param>
-    /// <param name="scope">
-    /// The reference to the parent <see cref="IScopeContainer"/> instance.
+    /// <param name="fileHandle">
+    /// An integer specifying the file handle.
     /// </param>
-    /// <param name="procedureName">
-    /// A string containing the name of the procedure to call.
-    /// </param>
-    /// <param name="parameterValues">
-    /// A <see cref="List{T}"/> of values to populate the function parameters with.
-    /// </param>
-    void CallProcedure(int currentLineNumber, IScopeContainer? scope, string procedureName, List<object> parameterValues);
-
-    /// <summary>
-    /// Executes the specified interpreter unit that is currently loaded into memory.
-    /// </summary>
-    void Execute();
+    /// <returns>
+    ///   <c>true</c> if the specified file is opened for binary; otherwise, <c>false</c>.
+    /// </returns>
+    bool IsBinaryFile(int lineNumber, int fileHandle);
 
     /// <summary>
     /// Loads the source into memory as an interpreter unit and prepares the environment for execution.
@@ -112,6 +103,23 @@ public interface IExecutionEnvironment : IDisposable
     /// The <see cref="ICodeInterpreterUnit"/> instance containing the loaded source code.
     /// </param>
     void LoadUnit(ICodeInterpreterUnit interpreterUnit);
+
+    /// <summary>
+    /// Registers the file handle with the specified stream instance.
+    /// </summary>
+    /// <param name="lineNumber">
+    /// An integer indicating the current line number in use.
+    /// </param>
+    /// <param name="fileHandle">
+    /// An integer containing the file handle value.
+    /// </param>
+    /// <param name="stream">
+    /// The <see cref="FileStream"/> instance that was opened.
+    /// </param>
+    /// <exception cref="BasicEngineExecutionException">
+    /// Thrown when the internal file manager / file  table instance is <b>null</b>.
+    /// </exception>
+    void RegisterFileHandle(int lineNumber, int fileHandle, FileStream stream);
 
     /// <summary>
     /// Unloads the <see cref="ICodeInterpreterUnit"/> loaded into memory and clears all 

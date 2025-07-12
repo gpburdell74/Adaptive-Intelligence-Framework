@@ -5,8 +5,8 @@ namespace Adaptive.Intelligence.BlazorBasic;
 /// <summary>
 /// Represents a variable of type "STRING".
 /// </summary>
-/// <seealso cref="BlazorBasicVariable{T}" />
-public class BasicStringVariable : BlazorBasicVariable<string>
+/// <seealso cref="BasicVariable{T}" />
+public sealed class BasicStringVariable : BasicVariable<string>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicStringVariable"/> class.
@@ -18,4 +18,18 @@ public class BasicStringVariable : BlazorBasicVariable<string>
     {
         Value = string.Empty;
     }
+
+    #region Protected Method Overrides
+    /// <summary>
+    /// Performs the appropriate conversion of the source value to the variable's type.
+    /// </summary>
+    /// <param name="sourceValue">The source value to be converted.</param>
+    /// <returns>
+    /// The value of <paramref name="sourceValue" /> converted to the variable's type, or null if the conversion is not possible.
+    /// </returns>
+    public override string Convert(object? sourceValue)
+    {
+        return DynamicTypeConverter.ToString(sourceValue);
+    }
+    #endregion
 }

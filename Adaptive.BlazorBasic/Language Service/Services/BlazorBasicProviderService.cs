@@ -110,14 +110,14 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the data type dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="BlazorBasicDataTypeDictionary"/> that contains the data types used in the language.
+    /// An <see cref="BasicDataTypeDictionary"/> that contains the data types used in the language.
     /// </returns>
-    public BlazorBasicDataTypeDictionary CreateDataTypeDictionary()
+    public BasicDataTypeDictionary CreateDataTypeDictionary()
     {
         if (_dataTypeProvider == null)
             throw new Exception();
 
-        BlazorBasicDataTypeDictionary dictionary = new BlazorBasicDataTypeDictionary();
+        BasicDataTypeDictionary dictionary = new BasicDataTypeDictionary();
         dictionary.InitializeDictionary(_dataTypeProvider);
         return dictionary;
     }
@@ -125,14 +125,14 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the delimiter dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="BlazorBasicDelimiterDictionary"/> that contains the delimiters used in the language.
+    /// An <see cref="BasicDelimiterDictionary"/> that contains the delimiters used in the language.
     /// </returns>
-    public BlazorBasicDelimiterDictionary CreateDelimiterDictionary()
+    public BasicDelimiterDictionary CreateDelimiterDictionary()
     {
         if (_delimiterProvider == null)
             throw new Exception();
 
-        BlazorBasicDelimiterDictionary dictionary = new BlazorBasicDelimiterDictionary();
+        BasicDelimiterDictionary dictionary = new BasicDelimiterDictionary();
         dictionary.InitializeDictionary(_delimiterProvider);
         return dictionary;
 
@@ -141,14 +141,14 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the errors dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="BlazorBasicErrorDictionary"/> that contains the error types used in the language.
+    /// An <see cref="BasicErrorDictionary"/> that contains the error types used in the language.
     /// </returns>
-    public BlazorBasicErrorDictionary CreateErrorDictionary()
+    public BasicErrorDictionary CreateErrorDictionary()
     {
         if (_errorProvider == null)
             throw new Exception();
 
-        BlazorBasicErrorDictionary dictionary = new BlazorBasicErrorDictionary();
+        BasicErrorDictionary dictionary = new BasicErrorDictionary();
         dictionary.InitializeDictionary(_errorProvider);
         return dictionary;
 
@@ -157,14 +157,14 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the built-in functions dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="BlazorBasicFunctionDictionary"/> that contains the built in functions used in the language.
+    /// An <see cref="BasicFunctionDictionary"/> that contains the built in functions used in the language.
     /// </returns>
-    public BlazorBasicFunctionDictionary CreateFunctionsDictionary()
+    public BasicFunctionDictionary CreateFunctionsDictionary()
     {
         if (_functionProvider == null)
             throw new Exception();
 
-        BlazorBasicFunctionDictionary dictionary = new BlazorBasicFunctionDictionary();
+        BasicFunctionDictionary dictionary = new BasicFunctionDictionary();
         dictionary.InitializeDictionary(_functionProvider);
         return dictionary;
     }
@@ -172,14 +172,14 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the keyword / reserved word dictionary.
     /// </summary>
     /// <returns>
-    /// An <see cref="BlazorBasicKeywordsDictionary"/> that contains the keywords used in the language.
+    /// An <see cref="BasicKeywordsDictionary"/> that contains the keywords used in the language.
     /// </returns>
-    public BlazorBasicKeywordsDictionary CreateKeywordsDictionary()
+    public BasicKeywordsDictionary CreateKeywordsDictionary()
     {
         if (_keywordProvider == null)
             throw new Exception();
 
-        BlazorBasicKeywordsDictionary dictionary = new BlazorBasicKeywordsDictionary();
+        BasicKeywordsDictionary dictionary = new BasicKeywordsDictionary();
         dictionary.InitializeDictionary(_keywordProvider);
         return dictionary;
     }
@@ -187,14 +187,14 @@ public sealed class BlazorBasicProviderService : DisposableObjectBase,
     /// Creates the operators dictionary and sub-dictionaries.
     /// </summary>
     /// <returns>
-    /// An <see cref="BlazorBasicOperatorDictionary"/> that contains the operators used in the language.
+    /// An <see cref="BasicOperatorDictionary"/> that contains the operators used in the language.
     /// </returns>
-    public BlazorBasicOperatorDictionary CreateOperatorDictionary()
+    public BasicOperatorDictionary CreateOperatorDictionary()
     {
         if (_operatorProvider == null)
             throw new Exception();
 
-        BlazorBasicOperatorDictionary dictionary = new BlazorBasicOperatorDictionary();
+        BasicOperatorDictionary dictionary = new BasicOperatorDictionary();
         dictionary.InitializeDictionary(_operatorProvider);
         return dictionary;
     }

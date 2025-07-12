@@ -114,7 +114,7 @@ public class BasicWriteStatement : BasicCodeStatement
                 if (Service.Functions.IsBuiltInFunction(next.Text))
                     Expressions.Add(new BlazorBasicFunctionCallExpression(Service, next.Text));
                 else if (next.TokenType == TokenType.UserDefinedItem)
-                    Expressions.Add(new BlazorBasicVariableNameExpression(Service, next.Text));
+                    Expressions.Add(new BasicVariableNameExpression(Service, next.Text));
                 else
                 {
                     ManagedTokenList list = new ManagedTokenList();

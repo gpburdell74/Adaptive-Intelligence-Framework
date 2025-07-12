@@ -7,16 +7,26 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// <summary>
 /// Provides the implementation for the provider that defines the list of data types.
 /// </summary>
-public sealed class BlazorBasicDataTypeProvider : DisposableObjectBase, IDataTypeProvider
+public sealed class BasicDataTypeProvider : DisposableObjectBase, IDataTypeProvider
 {
-    #region Private Member Declarations    
+    #region Private Member Declarations
     /// <summary>
     /// The type list.
     /// </summary>
     private Dictionary<string, Type>? _typeList;
     #endregion
 
-    #region Dispose Method    
+    #region Constructor / Dispose Method    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BasicDataTypeProvider"/> class.
+    /// </summary>
+    /// <remarks>
+    /// This is the default constructor.
+    /// </remarks>
+    public BasicDataTypeProvider()
+    {
+        Initialize();
+    }
     /// <summary>
     /// Releases unmanaged and - optionally - managed resources.
     /// </summary>

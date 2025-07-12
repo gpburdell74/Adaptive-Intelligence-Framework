@@ -65,7 +65,6 @@ public class BasicVariableReferenceExpression : BasicExpression, ICodeVariableRe
     /// A string containing the name of the variable.
     /// </value>
     public string? VariableName => _variableName;
-    ICodeVariableNameExpression? ICodeVariableReferenceExpression.VariableName { get; }
     #endregion
 
     #region Protected Method Overrides    
@@ -107,7 +106,7 @@ public class BasicVariableReferenceExpression : BasicExpression, ICodeVariableRe
     /// </returns>
     public override object Evaluate(IExecutionEngine engine, IExecutionEnvironment environment, IScopeContainer scope)
     {
-        return ((BlazorBasicVariable)scope.GetVariable(VariableName)).GetValue();
+        return ((BasicVariable)scope.GetVariable(VariableName)).GetValue();
     }
     /// <summary>
     /// Renders the content of the expression into a string.

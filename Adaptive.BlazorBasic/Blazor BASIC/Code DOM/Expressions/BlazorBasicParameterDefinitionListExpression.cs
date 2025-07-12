@@ -1,11 +1,9 @@
-﻿using Adaptive.Intelligence.BlazorBasic.Parser;
+﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 using Adaptive.Intelligence.BlazorBasic.Services;
-using Adaptive.Intelligence.LanguageService.CodeDom;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 using System.Text;
-using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
-using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
@@ -21,6 +19,7 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// </example>
 /// <seealso cref="BasicExpression" />
 /// <seealso cref="ICodeExpression" />
+/// <seealso cref="IParameterTable" />
 public class BlazorBasicParameterDefinitionListExpression : BasicExpression, ICodeExpression
 {
     #region Private Member Declarations
@@ -139,7 +138,7 @@ public class BlazorBasicParameterDefinitionListExpression : BasicExpression, ICo
     public List<BasicParameterDefinitionExpression>? ParameterList => _parameters;
     #endregion
 
-    #region Protected Methods    
+    #region Protected Methods
     /// <summary>
     /// Parses the content expression into a parameter definition.
     /// </summary>
@@ -302,6 +301,16 @@ public class BlazorBasicParameterDefinitionListExpression : BasicExpression, ICo
         } while (pos < tokenSubList.Count);
 
         return parameterList;
+    }
+
+    public IParameter? GetParameter(string? name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Exists(string name)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

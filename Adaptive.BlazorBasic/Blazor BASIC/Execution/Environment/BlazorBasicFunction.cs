@@ -1,106 +1,103 @@
-﻿using Adaptive.Intelligence.BlazorBasic.CodeDom;
-using Adaptive.Intelligence.LanguageService;
-using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
-using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
+﻿using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Execution;
-using Adaptive.Intelligence.LanguageService.Services;
 using Adaptive.Intelligence.Shared;
 
 namespace Adaptive.Intelligence.BlazorBasic.Execution;
 
 /// <summary>
-/// 
+/// Represents a Blazor BASIC function definition and instance.
 /// </summary>
-/// <seealso cref="Adaptive.Intelligence.Shared.DisposableObjectBase" />
+/// <seealso cref="DisposableObjectBase" />
+/// <seealso cref="BasicProcedure"/>
 /// <seealso cref="IFunction" />
-public class BlazorBasicFunction : DisposableObjectBase, IFunction
+public sealed class BasicFunction : BasicProcedure, IFunction
 {
-    private List<ICodeStatement> _codeList;
-    private string? _name;
-    private int _id;
+    #region Private Member Declarations
+    /// <summary>
+    /// The return type.
+    /// </summary>
+    private Type? _returnType;
+    #endregion
 
-    private BlazorBasicVariableTable? _variables;
-
-    public BlazorBasicFunction(int newId)
+    #region Constructor / Dispose Methods
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BasicFunction"/> class.
+    /// </summary>
+    /// <param name="parent">
+    /// The reference to the <see cref="IScopeContainer"/> instance acting as the parent
+    /// scope container.
+    /// </param>
+    /// <param name="returnType">
+    /// The <see cref="Type"/> of the function's return type.
+    /// </param>
+    public BasicFunction(IScopeContainer parent, Type returnType) : base(parent)
     {
-        _id = newId;
-        _variables = new BlazorBasicVariableTable(this);
+        _returnType = returnType;
     }
-    public BlazorBasicFunction(int newId, List<ICodeStatement> code)
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BasicFunction"/> class.
+    /// </summary>
+    /// <param name="code">
+    /// A <see cref="List{T}"/> of <see cref="ICodeStatement"/> instances containing the 
+    /// code for the procedure definition.
+    /// The code.</param>
+    /// <param name="parent">
+    /// The reference to the <see cref="IScopeContainer"/> instance acting as the parent
+    /// scope container.
+    /// </param>
+    /// <param name="returnType">
+    /// The <see cref="Type"/> of the function's return type.
+    /// </param>
+    public BasicFunction(List<ICodeStatement> code, IScopeContainer parent, Type returnType) : base(code, parent)
     {
-        _codeList = new List<ICodeStatement>();
-        _codeList.AddRange(code);
-
-        _variables = new BlazorBasicVariableTable(this);
-
-        BasicFunctionStartStatement start = _codeList[0] as BasicFunctionStartStatement;
-        _name = start.FunctionName;
-        _id = newId;
+        _returnType = returnType;
     }
 
-    public List<ICodeStatement> Code => _codeList;
-    public List<ICodeExpression> Parameters { get; }
-    public string? Name => _name;
-    public IVariableTable Variables { get; }
-    public int Id => _id;
-
-    public Type ReturnType { get; }
-    IParameterTable IExecutableContext.Parameters { get; }
-
-    public void CreateVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
+    /// <summary>
+    /// Releases unmanaged and - optionally - managed resources.
+    /// </summary>
+    /// <param name="disposing"><b>true</b> to release both managed and unmanaged resources;
+    /// <b>false</b> to release only unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
     {
-        if (dataType == StandardDataTypes.Unknown)
-            throw new BasicBadDataTypeException(lineNumber, variableName);
-
-        BlazorBasicVariable variable = BasicVariableFactory.CreateByType(variableName, dataType, isArray, size);
-        _variables.Add(variable);
+        _returnType = null;
+        base.Dispose(disposing);
     }
-    public void CreateParameterVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
-    {
-        if (dataType == StandardDataTypes.Unknown)
-            throw new BasicBadDataTypeException(lineNumber, variableName);
+    #endregion
 
-        BlazorBasicVariable variable = BasicVariableFactory.CreateByType(variableName, dataType, isArray, size);
-        variable.IsParameter = true;
-        _variables.Add(variable);
+    #region Public Properties
+    /// <summary>
+    /// Gets the data type of the return value for the function instance.
+    /// </summary>
+    /// <value>
+    /// The data <see cref="Type" /> of the expected return value.
+    /// </value>
+    public Type ReturnType => _returnType;
+    #endregion
+
+    #region Public Methods / Functions
+    /// <summary>
+    /// Executes the code element within the context of its parent scope.
+    /// </summary>
+    /// <param name="lineNumber">An integer specifying the current line number value.</param>
+    /// <param name="engine">The current <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IExecutionEngine" /> instance.</param>
+    /// <param name="environment">The current <see cref="T:Adaptive.Intelligence.LanguageService.Execution.IExecutionEnvironment" /> instance.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public new object Execute(int lineNumber, IExecutionEngine engine, IExecutionEnvironment environment)
+    {
+        return null;
     }
     /// <summary>
-    /// Gets the reference to the variable instance with the specified name.
+    /// Returns the string representation of the current instance.
     /// </summary>
-    /// <param name="variableName">
-    /// A string containing the name of the variable to find.
-    /// </param>
     /// <returns>
-    /// The <see cref="IVariable"/> instance, if found.
+    /// A <see cref="string" /> that represents this instance.
     /// </returns>
-    public IVariable GetVariable(string variableName)
-    {
-        return _variables.GetVariableByName(variableName);
-    }
-
     public override string ToString()
     {
-        return "FUNCTION " + _name;
+        return "FUNCTION " + Name + "() AS " + _returnType?.Name;
     }
-
-    public bool VariableExists(string? variableName)
-    {
-        return _variables.Exists(variableName);
-
-    }
-
-    public void Execute(ILanguageService service, IExecutionEngine engine, IExecutionEnvironment environment)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void InstantiateVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void InstantiateParameterVariable(int lineNumber, string variableName, StandardDataTypes dataType, bool isArray, int size)
-    {
-        throw new NotImplementedException();
-    }
+    #endregion
 }

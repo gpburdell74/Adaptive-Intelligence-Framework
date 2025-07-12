@@ -9,16 +9,16 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// </summary>
 /// <seealso cref="TwoWayDictionaryBase{PrimaryValue, SecondaryValue}" />
 /// <seealso cref="IDataTypeDictionary" />
-public sealed class BlazorBasicDataTypeDictionary : TwoWayDictionaryBase<string, StandardDataTypes>, IDataTypeDictionary
+public sealed class BasicDataTypeDictionary : TwoWayDictionaryBase<string, StandardDataTypes>, IDataTypeDictionary
 {
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicDataTypeDictionary"/> class.
+    /// Initializes a new instance of the <see cref="BasicDataTypeDictionary"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicDataTypeDictionary()
+    public BasicDataTypeDictionary()
     {
     }
     #endregion
@@ -96,6 +96,4 @@ public sealed class BlazorBasicDataTypeDictionary : TwoWayDictionaryBase<string,
         return value.ToLower().Trim();
     }
     #endregion
-
-
 }

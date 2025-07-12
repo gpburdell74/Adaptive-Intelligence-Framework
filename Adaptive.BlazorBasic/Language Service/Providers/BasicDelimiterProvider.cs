@@ -6,7 +6,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// <summary>
 /// Provides the implementation for the provider that defines the list of built-in functions.
 /// </summary>
-public sealed class BlazorBasicDelimiterProvider : DisposableObjectBase, IDelimiterProvider
+public sealed class BasicDelimiterProvider : DisposableObjectBase, IDelimiterProvider
 {
     /// <summary>
     /// Renders the list of delimiter ID values for mapping.

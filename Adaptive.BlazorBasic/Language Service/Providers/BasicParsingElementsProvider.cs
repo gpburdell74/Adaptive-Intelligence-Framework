@@ -6,7 +6,7 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// <summary>
 /// Provides the implementation for the provider that defines the list of built-in functions.
 /// </summary>
-public sealed class BlazorBasicParsingElementsProvider : DisposableObjectBase, IParsingElementsProvider
+public sealed class BasicParsingElementsProvider : DisposableObjectBase, IParsingElementsProvider
 {
     /// <summary>
     /// Renders the list of parsing element ID values for mapping.

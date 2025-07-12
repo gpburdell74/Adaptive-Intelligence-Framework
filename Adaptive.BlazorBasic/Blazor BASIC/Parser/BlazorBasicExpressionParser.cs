@@ -217,7 +217,7 @@ public class BlazorBasicExpressionParser : DisposableObjectBase
     {
         _parsingIndex++;
         expressionList.Add(
-            new BlazorBasicVariableNameExpression(_service!, new ManagedTokenList { originalToken }));
+            new BasicVariableNameExpression(_service!, new ManagedTokenList { originalToken }));
     }
     #endregion
 }

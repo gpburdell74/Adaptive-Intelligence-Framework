@@ -9,13 +9,13 @@ namespace Adaptive.Intelligence.BlazorBasic.LanguageService;
 /// </summary>
 /// <seealso cref="DisposableObjectBase"/>
 /// <seealso cref="IOperatorProvider"/>
-public sealed class BlazorBasicOperatorProvider : DisposableObjectBase, IOperatorProvider
+public sealed class BasicOperatorProvider : DisposableObjectBase, IOperatorProvider
 {
     #region Constructor / Dispose Methods
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicOperatorProvider"/> class.
+    /// Initializes a new instance of the <see cref="BasicOperatorProvider"/> class.
     /// </summary>
-    public BlazorBasicOperatorProvider()
+    public BasicOperatorProvider()
     {
     }
 

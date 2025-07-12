@@ -1,24 +1,25 @@
 ﻿using Adaptive.Intelligence.BlazorBasic.CodeDom.Expressions;
 using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom.Expressions;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.LanguageService.Tokenization;
 
 namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 
 /// <summary>
-/// Represents and manages a procedure call expression.
+/// Represents and manages a variable name expression.
 /// </summary>
 /// <seealso cref="BasicExpression" />
-public sealed class BlazorBasicVariableNameExpression : BasicExpression
+public sealed class BasicVariableNameExpression : BasicExpression, ICodeVariableNameExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicVariableNameExpression"/> class.
+    /// Initializes a new instance of the <see cref="BasicVariableNameExpression"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicVariableNameExpression(BlazorBasicLanguageService service) : base(service)
+    public BasicVariableNameExpression(BlazorBasicLanguageService service) : base(service)
     {
 
     }
@@ -31,7 +32,7 @@ public sealed class BlazorBasicVariableNameExpression : BasicExpression
     /// <param name="expression">
     /// A string containing the expression to be parsed.
     /// </param>
-    public BlazorBasicVariableNameExpression(BlazorBasicLanguageService service, string expression) : base(service)
+    public BasicVariableNameExpression(BlazorBasicLanguageService service, string expression) : base(service)
     {
         ParseContent(expression);
     }
@@ -45,7 +46,7 @@ public sealed class BlazorBasicVariableNameExpression : BasicExpression
     /// The <see cref="List{T}"/> of <see cref="IToken"/> instances from the parent code line instance 
     /// containing the data to be parsed.
     /// </param>
-    public BlazorBasicVariableNameExpression(BlazorBasicLanguageService service, List<IToken> codeLine) : base(service)
+    public BasicVariableNameExpression(BlazorBasicLanguageService service, List<IToken> codeLine) : base(service)
     {
         ParseCodeLine(codeLine);
     }
@@ -88,6 +89,11 @@ public sealed class BlazorBasicVariableNameExpression : BasicExpression
     {
         VariableName = codeLine[0].Text;
     }
+
+    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
+    {
+        VariableName = codeLine.TokenList[startIndex].Text;
+    }
     #endregion
 
     #region Private Methods / Functions
@@ -129,13 +135,5 @@ public sealed class BlazorBasicVariableNameExpression : BasicExpression
     {
         return VariableName;
     }
-
-    protected override void ParseCodeLine(ITokenizedCodeLine codeLine, int startIndex, int endIndex)
-    {
-        throw new NotImplementedException();
-    }
-
     #endregion
-
-
 }
