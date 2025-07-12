@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.LanguageService;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Adaptive.Intelligence.BlazorBasic;
 
@@ -29,7 +30,15 @@ public class BasicFloatVariable : BasicVariable<float>
     /// </returns>
     public override float Convert(object? sourceValue)
     {
-        return DynamicTypeConverter.ToSingle(sourceValue);
+        if (sourceValue is string stringValue)
+            return float.Parse(stringValue);
+        else
+            return DynamicTypeConverter.ToSingle(sourceValue);
     }
     #endregion
+
+    public void SetValue(string data)
+    {
+        base.Value = float.Parse(data);
+    }
 }

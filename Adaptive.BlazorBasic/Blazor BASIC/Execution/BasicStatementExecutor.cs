@@ -79,6 +79,12 @@ public sealed class BasicStatementExecutor : DisposableObjectBase, ICodeDomState
     /// An <see cref="IExecutionEnvironment" /> instance.
     /// </value>
     public IExecutionEnvironment? Environment => _environment;
+
+    public int StatementIndex
+    {
+        get => _statementIndex;
+        set => _statementIndex = value;
+    }
     #endregion
 
     #region Public Methods / Functions

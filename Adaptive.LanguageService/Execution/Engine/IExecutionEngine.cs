@@ -9,6 +9,14 @@ namespace Adaptive.Intelligence.LanguageService.Execution;
 public interface IExecutionEngine : IDisposable 
 {
     /// <summary>
+    /// Gets the index of the current statement.
+    /// </summary>
+    /// <value>
+    /// The index of the current statement.
+    /// </value>
+    public int CurrentStatementIndex { get; }
+
+    /// <summary>
     /// Gets the reference to the statement executor.
     /// </summary>
     /// <value>

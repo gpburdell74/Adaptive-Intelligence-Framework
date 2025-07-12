@@ -268,12 +268,15 @@ public class BasicProcedure : DisposableObjectBase, IProcedure
     public void Execute(int lineNumber, IExecutionEngine engine, IExecutionEnvironment environment)
     {
         int length = _codeList.Count;
-        
-        for(int index = 0; index < length; index++)
+        int index = 0;
+
+        do
         {
             ICodeStatement statement = _codeList[index];
             engine.Executor.ExecuteStatement(this, statement);
-        }
+            index = engine.CurrentStatementIndex;
+
+        } while (index < length);
     }
 
     /// <summary>

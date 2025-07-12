@@ -67,6 +67,8 @@ public sealed class BlazorBasicExecutionEngine : DisposableObjectBase, IExecutio
     public ICodeDomStatementExecutor Executor => _executor;
     #endregion
 
+    public int CurrentStatementIndex => _executor.StatementIndex;
+
     #region Public Methods / Functions
     /// <summary>
     /// Calls the specified function and returns the calculated value.
@@ -196,6 +198,10 @@ public sealed class BlazorBasicExecutionEngine : DisposableObjectBase, IExecutio
 
             case BlazorBasicBasicArithmeticExpression mathExpression:
                 data = mathExpression.Evaluate(this, _environment, scope);
+                break;
+
+            case BlazorBasicParameterValueExpression paramValueExpression:
+                data = paramValueExpression.Evaluate(this, _environment, scope);
                 break;
 
             default:
