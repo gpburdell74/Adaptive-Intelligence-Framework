@@ -10,7 +10,7 @@ namespace Test_Console;
 
 internal class Program
 {
-    static string file = @"C:\Temp\PriceDat.bas";
+    static string file = @"/users/samjones/Documents/PriceDat.bas";
 
     static void Main(string[] args)
     {

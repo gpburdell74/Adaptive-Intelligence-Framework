@@ -82,6 +82,14 @@ public enum BlazorBasicKeywords
     /// </summary>
     Output,
     /// <summary>
+    /// Indicates a PEEK command.
+    /// </summary>
+    Peek,
+    /// <summary>
+    /// Indicates a POKE command.
+    /// </summary>
+    Poke,
+    /// <summary>
     /// Indicates a PRINT command.
     /// </summary>
     Print,

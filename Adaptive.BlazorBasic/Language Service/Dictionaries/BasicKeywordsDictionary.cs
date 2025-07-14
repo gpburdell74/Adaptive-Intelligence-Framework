@@ -23,7 +23,7 @@ public sealed class BasicKeywordsDictionary : TwoWayDictionaryBase<string, Blazo
 
     }
     #endregion
-
+    
     #region Public Methods / Keywords    
     /// <summary>
     /// Gets the keyword as specified by the provided text.

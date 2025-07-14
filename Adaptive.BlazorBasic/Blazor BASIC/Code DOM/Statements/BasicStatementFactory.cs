@@ -140,6 +140,14 @@ public static class BasicStatementFactory
                 newStatement = new BasicOpenStatement(service, codeLine);
                 break;
 
+            case BlazorBasicKeywords.Peek:
+                newStatement = new BasicPeekStatement(service, codeLine);
+                break;
+                
+                case BlazorBasicKeywords.Poke:
+                newStatement = new BasicPokeStatement(service, codeLine);
+                break;
+                
             case BlazorBasicKeywords.Print:
                 newStatement = new BasicPrintStatement(service, codeLine);
                 break;

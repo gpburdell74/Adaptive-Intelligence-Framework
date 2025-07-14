@@ -402,8 +402,10 @@ namespace Adaptive.Intelligence.Shared.Console
         /// </summary>
         private void InitializeComponent()
         {
+            #if WIN32
             System.Console.SetWindowSize(WindowsSizeWidth, WindowsSizeHeight);
-            System.Console.CursorVisible = false;
+#endif            
+System.Console.CursorVisible = false;
             System.Console.ForegroundColor = _foreColor;
             System.Console.BackgroundColor = _backColor;
         }

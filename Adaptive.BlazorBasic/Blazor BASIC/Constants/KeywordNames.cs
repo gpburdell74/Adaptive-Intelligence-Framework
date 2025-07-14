@@ -70,6 +70,14 @@ internal static class KeywordNames
     /// Indicates a the end of a FOR ... NEXT loop.
     /// </summary>
     public const string CommandNext = "NEXT";
+/// <summary>
+/// Indicates a PEEK command.
+/// </summary>
+    public const string CommandPeek = "PEEK";
+    /// <summary>
+    /// Indicates a POKE command.
+    /// </summary>
+    public const string CommandPoke = "POKE";
     /// <summary>
     /// Indicates a PRINT command.
     /// </summary>
