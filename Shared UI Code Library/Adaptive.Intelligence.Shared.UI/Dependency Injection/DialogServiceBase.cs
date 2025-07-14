@@ -7,7 +7,7 @@ namespace Adaptive.Intelligence.Shared.UI
     /// </summary>
     public abstract class DialogServiceBase : ExceptionTrackingBase, IDialogService
     {
-        #region Private Member Declarations        
+        #region Private Member Declarations
         /// <summary>
         /// The UI thread managed ID value.
         /// </summary>
