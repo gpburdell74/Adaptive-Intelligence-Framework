@@ -30,6 +30,7 @@ public sealed class BasicFunctionProvider : DisposableObjectBase, IBuiltInFuncti
             (int)BlazorBasicFunctions.Chr,
             (int)BlazorBasicFunctions.Cos,
             (int)BlazorBasicFunctions.LTrim,
+            (int)BlazorBasicFunctions.Peek,
             (int)BlazorBasicFunctions.RTrim,
             (int)BlazorBasicFunctions.Sin,
             (int)BlazorBasicFunctions.Trim,

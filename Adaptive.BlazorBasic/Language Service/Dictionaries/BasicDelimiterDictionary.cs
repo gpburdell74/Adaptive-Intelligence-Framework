@@ -63,7 +63,9 @@ public sealed class BasicDelimiterDictionary : TwoWayDictionaryBase<string, Blaz
     public BlazorBasicDelimiters GetDelimiter(string? delimiter)
     {
         if (string.IsNullOrEmpty(delimiter))
+        {
             throw new Exception();
+        }
 
         return Get(delimiter);
     }

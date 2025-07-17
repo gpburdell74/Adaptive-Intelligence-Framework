@@ -116,16 +116,6 @@ public sealed class BasicStatementExecutor : DisposableObjectBase, ICodeDomState
         IVariable? variable = scopeContainer.GetVariable(variableToAssign);
         if (variable == null)
             throw new BasicVariableNotFoundException(assignStatement.LineNumber, variableToAssign ?? "No variable name");
-
-        try
-        {
-            variable.SetValue(_engine.EvaluateExpression(assignStatement.LineNumber, scopeContainer, assignStatement.Expression));
-        }
-        catch (Exception ex)
-        {
-            throw new BasicTypeMismatchException(assignStatement.LineNumber, ex.Message);
-
-        }
     }
 
     /// <summary>

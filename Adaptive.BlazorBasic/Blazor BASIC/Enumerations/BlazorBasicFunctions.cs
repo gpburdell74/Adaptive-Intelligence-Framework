@@ -30,6 +30,10 @@ public enum BlazorBasicFunctions
     /// </summary>
     LTrim,
     /// <summary>
+    /// The PEEK function.
+    /// </summary>
+    Peek,
+    /// <summary>
     /// The TRIM() function.
     /// </summary>
     RTrim,
