@@ -2,7 +2,7 @@
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
-namespace Adaptive.Intelligence.Shared.UI.Controls;
+namespace Adaptive.Intelligence.Shared.UI;
 
 /// <summary>
 /// Provides an advanced styling button that supports templating.
