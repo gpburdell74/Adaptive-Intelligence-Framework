@@ -15,6 +15,12 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
 {
     private readonly static BlazorBasicExpressionFactory _factory = new BlazorBasicExpressionFactory();
 
+    /// <summary>
+    /// Gets the static instance for the current application.
+    /// </summary>
+    /// <value>
+    /// The <see cref="BlazorBasicExpressionFactory"/> instance to use.
+    /// </value>
     public static BlazorBasicExpressionFactory Instance => _factory;
 
     #region Public Factory Methods / Functions
@@ -94,7 +100,8 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
     public static BasicExpression CreateFromTokens(BlazorBasicLanguageService service, int lineNumber, ManagedTokenList tokenList,
         int startIndex = 0)
     {
-        BasicExpression newExpression;
+        BasicExpression newExpression = new BasicFileDirectionExpression(service);
+        
         // Create the sub-list as specified by the starting index.
         ManagedTokenList subList = tokenList.CreateCopy(startIndex).Trim();
 
@@ -165,17 +172,27 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
                 case TokenType.CharacterDelimiter:
                     IToken t = tokenList[startIndex + 1];
                     if (t.TokenType == TokenType.CharacterDelimiter)
+                    {
                         newExpression = new BlazorBasicLiteralCharacterExpression(service, (char)0);
+                    }
                     else
+                    {
                         newExpression = new BlazorBasicLiteralCharacterExpression(service, tokenList[startIndex].Text[0]);
+                    }
+
                     break;
 
                 case TokenType.StringDelimiter:
                     IToken stringToken = tokenList[startIndex + 1];
                     if (stringToken.TokenType == TokenType.StringDelimiter)
+                    {
                         newExpression = new BasicLiteralStringExpression(service, string.Empty);
-                    else
+                    }
+                    else if (stringToken.Text != null)
+                    {
                         newExpression = new BasicLiteralStringExpression(service, stringToken.Text);
+                    }
+
                     break;
 
                 default:
