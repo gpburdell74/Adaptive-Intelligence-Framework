@@ -1,6 +1,4 @@
-using Adaptive.Intelligence.Shared.IO;
-
-namespace Adaptive.Intelligence.Shared.Tests.Utility.Financial
+namespace Adaptive.Intelligence.Shared.Test.Utility.Financial
 {
     public class BINRuleTests
     {

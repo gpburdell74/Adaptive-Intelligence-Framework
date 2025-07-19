@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security.SecureMemory
+﻿using Adaptive.Intelligence.Shared.Security;
+
+namespace Adaptive.Intelligence.Shared.Test.Security.Secure_Memory
 {
     /// <summary>
     /// Unit Tests for the <see cref="SecureString"/> class.

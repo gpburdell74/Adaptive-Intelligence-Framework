@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests.Bases
+﻿namespace Adaptive.Intelligence.Shared.Test.Bases
 {
     public sealed class MockBusinessBase<T> : BusinessBase<T>
         where T: class

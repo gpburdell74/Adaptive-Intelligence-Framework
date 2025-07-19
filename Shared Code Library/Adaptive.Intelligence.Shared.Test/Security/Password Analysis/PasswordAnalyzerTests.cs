@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security.PasswordAnalysis
+﻿using Adaptive.Intelligence.Shared.Security;
+
+namespace Adaptive.Intelligence.Shared.Test.Security.Password_Analysis
 {
     /// <summary>
     /// Unit Tests for the <see cref="PasswordAnalyzer"/> class.

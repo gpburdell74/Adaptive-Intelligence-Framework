@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security.SecureMemory
+﻿namespace Adaptive.Intelligence.Shared.Test.Security.Secure_Memory
 {
     public class InMemoryCredentialsTests
     {

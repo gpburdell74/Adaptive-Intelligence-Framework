@@ -1,6 +1,6 @@
 ﻿using Adaptive.CodeDom;
 
-namespace Adaptive.Intelligence.Shared.Test.CodeDOM
+namespace Adaptive.Intelligence.Shared.Test.Code_DOM
 {
     public class CodeDomConstantsTests
     {

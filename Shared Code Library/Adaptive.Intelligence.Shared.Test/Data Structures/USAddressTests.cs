@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests.DataStructures
+﻿namespace Adaptive.Intelligence.Shared.Test.Data_Structures
 {
     public class USAddressTests
     {

@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests.Extensions
+﻿namespace Adaptive.Intelligence.Shared.Test.Data_Type_Extensions
 {
     /// <summary>
     /// Unit Tests for the <see cref="ArrayExtensions"/> class.

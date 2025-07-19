@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests.Collections
+﻿namespace Adaptive.Intelligence.Shared.Test.Collections
 {
     public sealed class TestCollection : AdaptiveCollectionBase<int>
     {

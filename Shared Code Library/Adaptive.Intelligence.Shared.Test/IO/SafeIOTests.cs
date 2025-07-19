@@ -1,8 +1,8 @@
-﻿using Adaptive.Intelligence.Shared.IO;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using System.Text;
+using Adaptive.Intelligence.Shared.IO;
 
-namespace Adaptive.Intelligence.Shared.Tests.IO
+namespace Adaptive.Intelligence.Shared.Test.IO
 {
     public class SafeIOTests
     {

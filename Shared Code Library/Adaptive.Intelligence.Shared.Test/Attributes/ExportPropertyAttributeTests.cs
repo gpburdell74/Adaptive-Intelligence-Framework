@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Adaptive.Intelligence.Shared.Tests.Attributes
+namespace Adaptive.Intelligence.Shared.Test.Attributes
 {
     public class ExportPropertyAttributeTests
     {
