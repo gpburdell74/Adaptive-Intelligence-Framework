@@ -106,7 +106,8 @@
             // Arrange
             var line1 = "3780 Ridgefair Dr.";
             string? line2 = null;
-            var expected = "3780 Ridgefair Dr.\r\n";
+            var expected = "3780 Ridgefair Dr." + 
+                           Environment.NewLine;
 
             // Act
             var actual = AdaptiveFormat.FormatAddress(line1, line2);
@@ -120,8 +121,8 @@
             // Arrange
             var line1 = "3780 Ridgefair Dr.";
             var line2 = "Room 42";
-            var expected = "3780 Ridgefair Dr.\r\nRoom 42\r\n";
-
+            var expected = "3780 Ridgefair Dr."
+                           + Environment.NewLine + "Room 42" + Environment.NewLine;
             // Act
             var actual = AdaptiveFormat.FormatAddress(line1, line2);
 
@@ -134,7 +135,7 @@
             // Arrange
             string? line1 = null;
             var line2 = "Room 42";
-            var expected = "Room 42\r\n";
+            var expected = "Room 42" + Environment.NewLine;
 
             // Act
             var actual = AdaptiveFormat.FormatAddress(line1, line2);
@@ -239,7 +240,7 @@
             };
 
             var result = AdaptiveFormat.FormatMailingAddress(address);
-            var expected = "3780 Ridgefair Dr.\r\nCumming, GA 30040";
+            var expected = "3780 Ridgefair Dr." + Environment.NewLine + "Cumming, GA 30040";
 
             Assert.Equal(expected, result);
 
@@ -256,7 +257,11 @@
             };
 
             var result2 = AdaptiveFormat.FormatMailingAddress(address2);
-            var expected2 = "1234 10th St.\r\nSuite 100\r\nc/o George Burdell\r\nAtlanta, GA 30332-1234";
+            var expected2 = "1234 10th St." +
+                            Environment.NewLine + "Suite 100" +
+                            Environment.NewLine + 
+                            "c/o George Burdell" + Environment.NewLine + 
+                            "Atlanta, GA 30332-1234";
 
             Assert.Equal(expected2, result2);
 
@@ -272,7 +277,10 @@
             };
 
             var result3 = AdaptiveFormat.FormatMailingAddress(address3);
-            var expected3 = "1234 10th St.\r\nSuite 100\r\nc/o George Burdell\r\nAtlanta, Georgia 30332-1234";
+            var expected3 = "1234 10th St." + Environment.NewLine + 
+                        "Suite 100" + Environment.NewLine +
+                            "c/o George Burdell" + Environment.NewLine +
+                            "Atlanta, Georgia 30332-1234";
 
             Assert.Equal(expected3, result3);
 

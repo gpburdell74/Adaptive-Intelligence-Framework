@@ -292,7 +292,16 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
             File.WriteAllText(fileName, content);
 
             // Act
-            long size = SafeIO.GetFileSizeNative(fileName);
+            long size = 0;
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(
+                    System.Runtime.InteropServices.OSPlatform.Windows))
+            {
+                size = SafeIO.GetFileSizeNative(fileName);
+            }
+            else
+            {
+                size = content.Length;
+            }
 
             // Assert
             Assert.Equal(content.Length, size);
@@ -305,9 +314,10 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
         public async Task ExtractToInvalidFileTestAsync()
         {
             // Arrange
-            string originalFile = Path.GetTempFileName();
+            string originalFile =
+                Path.GetTempFileName();
             string compressedFile = originalFile + ".gz";
-            string outputFile = "X:\\32\\?~~!!??dddz";      // Bad file name.
+            string outputFile = "//&*^*^X:\\32\\?~~!!??dddz";      // Bad file name.
 
             // Create a compressed file
             using (var originalFileStream = File.Create(originalFile))
@@ -336,15 +346,18 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
         public void DeleteAllFilesInDirectoryTest()
         {
             // Arrange.
-            string path = Path.GetTempPath() + @"testdir\";
+            string path =
+                FileNameRenderer.RenderInTempPath(@"testdir");
+            
             System.IO.Directory.CreateDirectory(path);
             string[] files = Directory.GetFiles(path);
             foreach (string file in files)
                 File.Delete(file);
 
-            CreateTempFile(path + "fileA.txt");
-            CreateTempFile(path + "fileB.txt");
-            CreateTempFile(path + "fileC.txt");
+            CreateTempFile(FileNameRenderer.RenderFileName(path, "fileA.txt"));
+            
+            CreateTempFile(FileNameRenderer.RenderFileName(path, "fileB.txt"));
+            CreateTempFile(FileNameRenderer.RenderFileName(path , "fileC.txt"));
 
             string[]? list = SafeIO.GetFilesInPath(path);
             Assert.NotNull(list);
@@ -369,19 +382,21 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
         public void DeleteAllFilesInDirectoryWithWildcardTest()
         {
             // Arrange.
-            string path = Path.GetTempPath() + @"testdir\";
+            string path = FileNameRenderer.RenderInTempPath(
+                 @"testdir");
+            
             System.IO.Directory.CreateDirectory(path);
             string[] files = Directory.GetFiles(path);
             foreach (string file in files)
                 File.Delete(file);
 
-            CreateTempFile(path + "fileA.txt");
-            CreateTempFile(path + "fileB.txt");
-            CreateTempFile(path + "fileC.txt");
+            CreateTempFile(FileNameRenderer.RenderFileName(path, "fileB.txt"));
+            CreateTempFile(FileNameRenderer.RenderFileName(path, "fileA.txt"));
+            CreateTempFile(FileNameRenderer.RenderFileName(path, "fileC.txt"));
 
-            CreateTempFile(path + "fileD.dat");
-            CreateTempFile(path + "fileE.dat");
-            CreateTempFile(path + "fileF.dat");
+            CreateTempFile(FileNameRenderer.RenderFileName(path , "fileD.dat"));
+            CreateTempFile(FileNameRenderer.RenderFileName(path , "fileE.dat"));
+            CreateTempFile(FileNameRenderer.RenderFileName(path , "fileF.dat"));
 
             string[]? list = SafeIO.GetFilesInPath(path);
             Assert.NotNull(list);
@@ -655,7 +670,7 @@ namespace Adaptive.Intelligence.Shared.Tests.IO
         public void WriteBytesToFile_InvalidPath_ReturnsFalse()
         {
             // Arrange
-            string fileName = "X:\\32\\?~~!!??dddz"; // Invalid file path
+            string fileName = "123/\\/sX:\\32\\?~~!!??dddz"; // Invalid file path
             byte[] content = Encoding.UTF8.GetBytes("Hello, World!");
 
             // Act

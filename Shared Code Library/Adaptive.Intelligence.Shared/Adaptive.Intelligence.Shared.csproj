@@ -24,7 +24,7 @@
 	<EnableNETAnalyzers>True</EnableNETAnalyzers>
 	<AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <Compile Remove="Adaptive.Intelligence.Shared.Test\**" />
     <Compile Remove="Adaptive.Intelligtece.Shared.Test\**" />
