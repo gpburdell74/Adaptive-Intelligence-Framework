@@ -56,7 +56,7 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
                 break;
 
             case TokenType.ReservedFunction:
-                expression = new BlazorBasicReservedFunctionExpression(service, singleItemList);
+                expression = new BlazorBasicReservedFunctionCallExpression(service, singleItemList);
                 break;
 
             case TokenType.FunctionName:
@@ -142,11 +142,11 @@ public class BlazorBasicExpressionFactory : ICodeExpressionFactory
                     break;
 
                 case TokenType.ReservedWord:
-                    newExpression = new BlazorBasicReservedWordExpression(service, tokenList);
+                        newExpression = new BlazorBasicReservedWordExpression(service, tokenList);
                     break;
 
                 case TokenType.ReservedFunction:
-                    newExpression = new BlazorBasicReservedFunctionExpression(service, tokenList);
+                    newExpression = new BlazorBasicReservedFunctionCallExpression(service, tokenList);
                     break;
 
                 case TokenType.FunctionName:

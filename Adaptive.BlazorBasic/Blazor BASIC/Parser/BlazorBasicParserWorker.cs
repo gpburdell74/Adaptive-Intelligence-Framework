@@ -102,6 +102,9 @@ public class BlazorBasicParserWorker : DisposableObjectBase, ICodeParserWorker
             do
             {
                 ITokenizedCodeLine codeLine = tokenizedCodeLines[line];
+                if (codeLine.TokenList.Count > 0 && codeLine.TokenList[0].Text == "B")
+                    System.Diagnostics.Debug.WriteLine("X");
+
                 PerformSubstitutions(userReferences, codeLine);
                 ICodeStatement? statement = BasicStatementFactory.CreateStatementByCommand(_service, codeLine);
                 

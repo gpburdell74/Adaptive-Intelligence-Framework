@@ -26,7 +26,11 @@ internal static class FunctionNames
     /// </summary>
     public const string FunctionLTrim = "LTRIM";
     /// <summary>
-    /// The TRIM() function name.
+    /// The PEEK() function name.
+    /// </summary>
+    public const string FunctionPeek = "PEEK";
+    /// <summary>
+    /// The RTRIM() function name.
     /// </summary>
     public const string FunctionRTrim = "RTRIM";
     /// <summary>

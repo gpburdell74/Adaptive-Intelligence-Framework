@@ -215,7 +215,7 @@ public sealed class BlazorBasicTokenFactory :
         if (_service != null && !string.IsNullOrEmpty(originalCode))
         {
             originalCode = originalCode.ToUpper();
-
+            Console.WriteLine(originalCode);
             if (_service.IsDataType(originalCode))
                 tokenType = TokenType.DataTypeName;
 

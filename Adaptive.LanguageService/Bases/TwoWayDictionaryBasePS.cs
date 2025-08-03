@@ -178,7 +178,7 @@ public abstract class TwoWayDictionaryBase<PrimaryValue, SecondaryValue> : Dispo
         if (code is null)
             return false;
 
-        return _list!.ContainsKey(code);
+        return _list!.ContainsKey(NormalizeKeyValue(code));
     }
     /// <summary>
     /// Normalizes the specified string value for use as a key.

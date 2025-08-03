@@ -140,14 +140,12 @@ public class BasicVariableAssignmentStatement : BasicCodeStatement, ICodeVariabl
     public override string? Render()
     {
         StringBuilder builder = new StringBuilder();
-        builder.Append(KeywordNames.CommandDim);
-        builder.Append(ParseConstants.Space);
         if (_variable != null)
         {
             builder.Append(_variable.Render());
             builder.Append(ParseConstants.Space);
         }
-        builder.Append(KeywordNames.KeywordAs);
+        builder.Append(ParseConstants.Equals);
         builder.Append(ParseConstants.Space);
         if (_expression != null)
         {

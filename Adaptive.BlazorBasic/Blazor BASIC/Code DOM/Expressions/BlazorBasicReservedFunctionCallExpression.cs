@@ -10,16 +10,16 @@ namespace Adaptive.Intelligence.BlazorBasic.CodeDom;
 /// Represents and manages a procedure call expression.
 /// </summary>
 /// <seealso cref="BasicExpression" />
-public sealed class BlazorBasicReservedFunctionExpression : BasicExpression
+public sealed class BlazorBasicReservedFunctionCallExpression : BasicExpression
 {
     #region Constructor / Dispose Methods
     /// <summary>
-    /// Initializes a new instance of the <see cref="BlazorBasicReservedFunctionExpression"/> class.
+    /// Initializes a new instance of the <see cref="BlazorBasicReservedFunctionCallExpression"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BlazorBasicReservedFunctionExpression(BlazorBasicLanguageService service) : base(service)
+    public BlazorBasicReservedFunctionCallExpression(BlazorBasicLanguageService service) : base(service)
     {
 
     }
@@ -32,7 +32,7 @@ public sealed class BlazorBasicReservedFunctionExpression : BasicExpression
     /// <param name="expression">
     /// A string containing the expression to be parsed.
     /// </param>
-    public BlazorBasicReservedFunctionExpression(BlazorBasicLanguageService service, string expression) : base(service)
+    public BlazorBasicReservedFunctionCallExpression(BlazorBasicLanguageService service, string expression) : base(service)
     {
         ParseContent(expression);
     }
@@ -46,7 +46,7 @@ public sealed class BlazorBasicReservedFunctionExpression : BasicExpression
     /// The <see cref="List{T}"/> of <see cref="IToken"/> instances from the parent code line instance 
     /// containing the data to be parsed.
     /// </param>
-    public BlazorBasicReservedFunctionExpression(BlazorBasicLanguageService service, List<IToken> codeLine) : base(service)
+    public BlazorBasicReservedFunctionCallExpression(BlazorBasicLanguageService service, List<IToken> codeLine) : base(service)
     {
         ParseCodeLine(codeLine);
     }

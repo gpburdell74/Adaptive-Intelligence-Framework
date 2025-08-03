@@ -1,16 +1,22 @@
-﻿using Adaptive.Intelligence.BlazorBasic;
+﻿#define WINDOWS 
+//#define MACOS 
+
+using Adaptive.Intelligence.BlazorBasic;
 using Adaptive.Intelligence.BlazorBasic.Execution;
 using Adaptive.Intelligence.BlazorBasic.LanguageService;
 using Adaptive.Intelligence.BlazorBasic.Parser;
 using Adaptive.Intelligence.BlazorBasic.Services;
 using Adaptive.Intelligence.LanguageService.CodeDom;
-using System.Text;
 
 namespace Test_Console;
 
 internal class Program
 {
+#if WINDOWS
+    static string file = @"C:\Temp\PriceDat.bas";
+#elif MACOS
     static string file = @"/users/samjones/Documents/PriceDat.bas";
+#endif
 
     static void Main(string[] args)
     {

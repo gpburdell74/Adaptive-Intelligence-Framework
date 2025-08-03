@@ -6,6 +6,7 @@ using Adaptive.Intelligence.LanguageService.CodeDom.Statements;
 using Adaptive.Intelligence.LanguageService.Execution;
 using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.IO;
+using System.CodeDom;
 
 namespace Adaptive.Intelligence.BlazorBasic;
 
@@ -444,6 +445,10 @@ public sealed class BasicStatementExecutor : DisposableObjectBase, ICodeDomState
                 ExecuteProcedureCall(  scopeContainer, procCallStatement);
                 break;
 
+            case BasicPokeStatement pokeStatement:
+                ExecutePoke(scopeContainer, pokeStatement);
+                break;
+
             case BasicCommentStatement:
             case BlazorBasicEmptyStatement:
             case BasicEndStatement:
@@ -526,7 +531,11 @@ public sealed class BasicStatementExecutor : DisposableObjectBase, ICodeDomState
         }
         _statementIndex = endIfIndex + 1;
     }
+    private void ExecutePoke(IScopeContainer scopeContainer,
+        BasicPokeStatement pokeStatement)
+    {
 
+    }
     private void ExecuteProcedureCall(
         IScopeContainer scopeContainer,
         BasicProcedureCallStatement procCallStatement)

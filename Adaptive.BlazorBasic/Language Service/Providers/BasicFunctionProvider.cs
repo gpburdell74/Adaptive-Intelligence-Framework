@@ -53,6 +53,7 @@ public sealed class BasicFunctionProvider : DisposableObjectBase, IBuiltInFuncti
             FunctionNames.FunctionChr,
             FunctionNames.FunctionCos,
             FunctionNames.FunctionLTrim,
+            FunctionNames.FunctionPeek,
             FunctionNames.FunctionRTrim,
             FunctionNames.FunctionSin,
             FunctionNames.FunctionTrim,
