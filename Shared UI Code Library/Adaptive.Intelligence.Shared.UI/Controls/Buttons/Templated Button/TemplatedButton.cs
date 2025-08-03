@@ -2,7 +2,7 @@
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
-namespace Adaptive.Intelligence.Shared.UI.Controls;
+namespace Adaptive.Intelligence.Shared.UI;
 
 /// <summary>
 /// Provides an advanced styling button that supports templating.
@@ -45,13 +45,13 @@ public class TemplatedButton : Button
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         SetStyle(ControlStyles.ResizeRedraw, true);
         SetStyle(ControlStyles.Selectable, true);
-        SetStyle(ControlStyles.StandardClick, true);
         SetStyle(ControlStyles.SupportsTransparentBackColor, true);
         SetStyle(ControlStyles.UserPaint, true);
 
         // Create default objects.
         _template = new ButtonTemplate();
         _painter = new TemplatedButtonDrawingAlgorithm(_template);
+        SetImageReferences();
     }
     /// <summary>
     /// Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.ButtonBase" /> and optionally releases the managed resources.
@@ -147,6 +147,7 @@ public class TemplatedButton : Button
                 if (testTemplate != null)
                 {
                     Template = testTemplate;
+                    SetImageReferences();
                 }
             }
             Invalidate();
@@ -154,7 +155,7 @@ public class TemplatedButton : Button
     }
     #endregion
 
-    #region Protected Method Overrides    
+    #region Protected Method Overrides
     /// <summary>
     /// Raises the <see cref="Control.EnabledChanged" /> event 
     /// and sets the button state accordingly.
@@ -168,8 +169,12 @@ public class TemplatedButton : Button
         if (!Enabled)
         {
             _painter!.State = ButtonState.Disabled;
-            Invalidate();
         }
+        else
+        {
+            _painter!.State = ButtonState.Normal;
+        }
+        Invalidate();
     }
 
     /// <summary>
@@ -184,9 +189,9 @@ public class TemplatedButton : Button
         if (Enabled && _painter!.State != ButtonState.Hover && _painter.State != ButtonState.Checked)
         {
             _painter!.State = ButtonState.Hover;
-            Invalidate();
         }
         base.OnMouseEnter(e);
+        Invalidate();
     }
 
     /// <summary>
@@ -198,12 +203,15 @@ public class TemplatedButton : Button
     /// </param>
     protected override void OnMouseLeave(EventArgs e)
     {
-        if (Enabled && _painter!.State != ButtonState.Normal && _painter.State != ButtonState.Checked)
+        if (Visible)
         {
-            _painter!.State = ButtonState.Normal;
+            if (Enabled && _painter!.State != ButtonState.Normal && _painter.State != ButtonState.Checked)
+            {
+                _painter!.State = ButtonState.Normal;
+            }
+            base.OnMouseLeave(e);
             Invalidate();
         }
-        base.OnMouseLeave(e);
     }
 
     /// <summary>
@@ -218,9 +226,9 @@ public class TemplatedButton : Button
         if (Enabled && _painter!.State != ButtonState.Pressed && _painter.State != ButtonState.Checked)
         {
             _painter!.State = ButtonState.Pressed;
-            Invalidate();
         }
         base.OnMouseDown(e);
+        Invalidate();
     }
 
     /// <summary>
@@ -232,12 +240,15 @@ public class TemplatedButton : Button
     /// </param>
     protected override void OnMouseUp(MouseEventArgs e)
     {
-        if (Enabled && _painter!.State != ButtonState.Normal && _painter.State != ButtonState.Checked)
+        if (Visible)
         {
-            _painter!.State = ButtonState.Normal;
+            if (Enabled && _painter!.State != ButtonState.Normal && _painter.State != ButtonState.Checked)
+            {
+                _painter!.State = ButtonState.Normal;
+            }
+            base.OnMouseUp(e);
             Invalidate();
         }
-        base.OnMouseUp(e);
     }
 
     /// <summary>
@@ -289,4 +300,28 @@ public class TemplatedButton : Button
         Invalidate();
     }
     #endregion
+
+    #region Private Methods / Functions
+
+    private void SetImageReferences()
+    {
+        if (Image != null)
+        {
+            if (_template.Normal.Image == null)
+                _template.Normal.Image = Image;
+
+            if (_template.Disabled.Image == null)
+                _template.Disabled.Image = Image;
+
+            if (_template.Hover.Image == null)
+                _template.Hover.Image = Image;
+
+            if (_template.Pressed.Image == null)
+                _template.Pressed.Image = Image;
+
+            if (_template.Checked.Image == null)
+                _template.Checked.Image = Image;
+        }
+        #endregion
+    }
 }

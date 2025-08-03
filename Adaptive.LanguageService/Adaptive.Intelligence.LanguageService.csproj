@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Adaptive.Intelligence.LanguageService</AssemblyName>
+    <RootNamespace>Adaptive.Intelligence.LanguageService</RootNamespace>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageId>Adaptive.Intelligence.LanguageService</PackageId>
+    <Title>Adaptive Intelligence Language Service Abstractions Library</Title>
+    <Version>0.3.0.0</Version>
+    <Authors>Sam Jones</Authors>
+    <Company>Adaptive Intelligence</Company>
+    <Product>Adaptive Intelligence Blazor BASIC</Product>
+    <Description>A .NET Library containing the abstractions and definitions used to represent a simplified procedural programming or scripting language.</Description>
+    <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://samjones.azurewebsites.net/BlazorBasic</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="AI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

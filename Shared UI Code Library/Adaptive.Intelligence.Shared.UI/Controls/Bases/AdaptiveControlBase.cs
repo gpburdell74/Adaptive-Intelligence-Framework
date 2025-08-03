@@ -59,6 +59,9 @@ namespace Adaptive.Intelligence.Shared.UI
         /// </remarks>
         public AdaptiveControlBase()
         {
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
             // Initialize the standard basic properties for the dialog.
             InternalInitializeComponent();
 
@@ -213,38 +216,17 @@ namespace Adaptive.Intelligence.Shared.UI
             if (!DesignMode)
                 RemoveEventHandlers();
         }
+
         /// <summary>
-        /// Raises the <see cref="Control.VisibleChanged" /> event.
+        /// Raises the <see cref="E:System.Windows.Forms.Control.Resize" /> event.
         /// </summary>
-        /// <remarks>
-        /// When the control becomes visible, the <see cref="SetState"/> and
-        /// <see cref="SetSecurityState"/> methods are invoked.
-        /// </remarks>
-        /// <param name="e">
-        /// The <see cref="EventArgs"/> instance containing the event data.
-        /// </param>
-        protected override void OnVisibleChanged(EventArgs e)
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        protected override void OnResize(EventArgs e)
         {
-
-            if (DesignMode)
-                base.OnVisibleChanged(e);
-
-            else
-            {
-                if (_initLoadComplete)
-                {
-                    ContinueInMainThread(() =>
-                    {
-                        if (Visible)
-                        {
-                            AdaptiveDebug.WriteLine(_typeName + "::OnVisibleChanged()");
-                            base.OnVisibleChanged(e);
-
-                            SetState();
-                        }
-                    });
-                }
-            }
+            ResumeLayout();
+            Invalidate();
+            
+            base.OnResize(e);
         }
         #endregion
 
@@ -258,14 +240,35 @@ namespace Adaptive.Intelligence.Shared.UI
         /// <summary>
         /// Assigns the event handlers for the controls on the dialog.
         /// </summary>
+        /// <remarks>
+        /// It is recommended that the overrides of this method call the base method.
+        /// </remarks>
         protected virtual void AssignEventHandlers()
         {
+            // Automatically bind the ContentChanged event of child controls, when present.
+            foreach (Control item in this.Controls)
+            {
+                AdaptiveControlBase? adaptiveControl = item as AdaptiveControlBase;
+                if (adaptiveControl != null)
+                    adaptiveControl.ContentChanged += HandleGenericContentChange;
+            }
+
         }
         /// <summary>
         /// Removes the event handlers for the controls on the dialog.
         /// </summary>
+        /// <remarks>
+        /// It is recommended that the overrides of this method call the base method.
+        /// </remarks>
         protected virtual void RemoveEventHandlers()
         {
+            // Automatically remove the ContentChanged event handler of child controls, when present.
+            foreach (Control item in this.Controls)
+            {
+                AdaptiveControlBase? adaptiveControl = item as AdaptiveControlBase;
+                if (adaptiveControl != null)
+                    adaptiveControl.ContentChanged -= HandleGenericContentChange;
+            }
         }
         /// <summary>
         /// Continues the execution of the provided lambda or method in the main
@@ -301,20 +304,44 @@ namespace Adaptive.Intelligence.Shared.UI
         /// <summary>
         /// Sets the state of the UI controls before the data content is loaded.
         /// </summary>
+        /// <remarks>
+        /// It is recommended that the overrides of this method call the base method.
+        /// </remarks>
         protected virtual void SetPreLoadState()
         {
             AdaptiveDebug.WriteLine(Name + "::SetPreLoadState()");
 
             Cursor = Cursors.WaitCursor;
+            SuspendLayout();
+
+            // Propagate the call to child controls.
+            foreach (Control item in this.Controls)
+            {
+                AdaptiveControlBase? adaptiveControl = item as AdaptiveControlBase;
+                if (adaptiveControl != null)
+                    adaptiveControl.SetPreLoadState();
+            }
 
         }
         /// <summary>
         /// Sets the state of the UI controls after the data content is loaded.
         /// </summary>
+        /// <remarks>
+        /// It is recommended that the overrides of this method call the base method.
+        /// </remarks>
         protected virtual void SetPostLoadState()
         {
             AdaptiveDebug.WriteLine(Name + "::SetPostLoadState()");
             Cursor = Cursors.Default;
+
+            // Propagate the call to child controls.
+            foreach (Control item in this.Controls)
+            {
+                AdaptiveControlBase? adaptiveControl = item as AdaptiveControlBase;
+                if (adaptiveControl != null)
+                    adaptiveControl.SetPostLoadState();
+            }
+            ResumeLayout();
         }
         /// <summary>
         /// When implemented in a derived class, sets the display state for the controls on the dialog based on
@@ -416,7 +443,7 @@ namespace Adaptive.Intelligence.Shared.UI
                 MessageBox.Show(message, caption, buttons, MessageBoxIcon.Information);
         }
         /// <summary>
-        /// Handles the generic event when the content of a control changes.
+        /// Handles the generic event when a control changes.
         /// </summary>
         /// <remarks>
         /// This is used in various locations to invoke <see cref="SetState"/>,
@@ -431,6 +458,23 @@ namespace Adaptive.Intelligence.Shared.UI
         protected virtual void HandleGenericControlChange(object? sender, EventArgs e)
         {
             ContinueInMainThread(SetState);
+        }
+        /// <summary>
+        /// Handles the generic event when the content of a control changes.
+        /// </summary>
+        /// <remarks>
+        /// This is used to bubble up the <see cref="ContentChanged"/> event 
+        /// when <see cref="AdaptiveControlBase"/> child controls are contained.
+        /// </remarks>
+        /// <param name="sender">
+        /// The reference to the object that raised the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="EventArgs"/> instance containing the event data.
+        /// </param>
+        protected virtual void HandleGenericContentChange(object? sender, EventArgs e)
+        {
+            OnContentChanged(e);
         }
         #endregion
 
@@ -464,6 +508,14 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             SetSecurityState();
             SetDisplayState();
+
+            // Propagate the call to child controls.
+            foreach(Control item in this.Controls)
+            {
+                AdaptiveControlBase? adaptiveControl = item as AdaptiveControlBase;
+                if (adaptiveControl != null)
+                    adaptiveControl.SetState();
+            }
         }
         #endregion
 

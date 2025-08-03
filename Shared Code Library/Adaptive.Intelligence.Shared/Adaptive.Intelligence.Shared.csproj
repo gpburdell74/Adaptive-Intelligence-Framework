@@ -9,7 +9,7 @@
     <Description>A general use .NET Class Library</Description>
     <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
     <ApplicationIcon>AI.ico</ApplicationIcon>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <FileVersion>0.2.0.0</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
@@ -23,6 +23,25 @@
 	<EnableAnalyzers>true</EnableAnalyzers>
 	<EnableNETAnalyzers>True</EnableNETAnalyzers>
 	<AnalysisLevel>latest</AnalysisLevel>
+	<AssemblyName>Adaptive.Intelligence.Shared</AssemblyName>
+	<RootNamespace>Adaptive.Intelligence.Shared</RootNamespace>
+	<PackageId>Adaptive.Intelligence.Shared</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IsTrimmable>True</IsTrimmable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,7 +69,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.14.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0">
       <PrivateAssets>all</PrivateAssets>
@@ -67,9 +85,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.CodeDom" Version="9.0.6" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
-    <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
+    <PackageReference Include="System.CodeDom" Version="9.0.7" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
   </ItemGroup>
 
   <ItemGroup>

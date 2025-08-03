@@ -1,67 +1,67 @@
-﻿using Adaptive.Taz;
+﻿#define WINDOWS 
+//#define MACOS 
 
-namespace Test_Console
+using Adaptive.Intelligence.BlazorBasic;
+using Adaptive.Intelligence.BlazorBasic.Execution;
+using Adaptive.Intelligence.BlazorBasic.LanguageService;
+using Adaptive.Intelligence.BlazorBasic.Parser;
+using Adaptive.Intelligence.BlazorBasic.Services;
+using Adaptive.Intelligence.LanguageService.CodeDom;
+
+namespace Test_Console;
+
+internal class Program
 {
-    internal class Program
+#if WINDOWS
+    static string file = @"C:\Temp\PriceDat.bas";
+#elif MACOS
+    static string file = @"/users/samjones/Documents/PriceDat.bas";
+#endif
+
+    static void Main(string[] args)
     {
-        private const string ClearTazFile = @"C:\Temp\Test Data\DX\ClearArchive.taz";
-        private const string ClearExtractPath = @"C:\Temp\Test Data\Clear Output\";
+        BlazorBasicProviderService providerService = new BlazorBasicProviderService(
+             new BasicDataTypeProvider(),
+        new BasicDelimiterProvider(),
+        new BasicErrorProvider(),
+        new BasicFunctionProvider(),
+        new BasicKeywordProvider(),
+        new BasicOperatorProvider());
 
-        private const string SecureTazFile = @"C:\Temp\Test Data\DX\SecureArchive.taz.secure";
-        private const string SecureExtractPath = @"C:\Temp\Test Data\Secure Output\";
+        BlazorBasicLanguageService service = new BlazorBasicLanguageService(providerService);
+        ParserOutputLogger logger = new ParserOutputLogger();
+        BlazorBasicParsingService parsingService = new BlazorBasicParsingService(
+            service,
+            new BlazorBasicParserWorker(service, logger, new BlazorBasicTokenFactory(service)),
+            logger);
 
-        static void Main(string[] args)
-        {
-            MainAsync().Wait();
-        }
-        private static async Task MainAsync()
-        {
-            //	await CreateAndReadClearArchiveTestAsync();
-            await CreateAndReadSecureArchiveTestAsync();
+        BlazorBasicConsole console = new BlazorBasicConsole();
 
-        }
-        private const string UserID = "gpburdell74";
-        private const string Pwd = "7329.Wnyhiq";
-        private const string UserPIN = "111362";
+        FileStream sourceStream = new FileStream(file, FileMode.Open, FileAccess.Read);
+        ICodeInterpreterUnit execUnit = parsingService.ParseCodeContent(sourceStream);
+        sourceStream.Close();
+        sourceStream.Dispose();
 
-        private static async Task CreateAndReadSecureArchiveTestAsync()
-        {
-            string[] fileList = System.IO.Directory.GetFiles(@"C:\Temp\Test Data");
+        BasicVirtualSystem system = new BasicVirtualSystem();
 
-            if (File.Exists(SecureTazFile))
-                File.Delete(SecureTazFile);
 
-            TazFile file = new TazFile(UserID, Pwd, UserPIN);
-            await file.CreateArchiveAsync(SecureTazFile, fileList);
-            file.Dispose();
+        BasicExecutionEnvironment env = new BasicExecutionEnvironment(
+            new BasicDataTypeProvider(),
+            new BasicIdGenerator(),
+            new BasicFunctionTable(null),
+            new BlazorBasicProcedureTable(null),
+            new BasicVariableTable(null),
+            console,
+            system);
 
-            file = new TazFile(UserID, Pwd, UserPIN);
-            await file.LoadDirectoryContentAsync(SecureTazFile);
-            file.Dispose();
+        BlazorBasicExecutionEngine engine = new BlazorBasicExecutionEngine(env);
 
-            file = new TazFile(UserID, Pwd, UserPIN);
-            await file.ExtractFilesAsync(SecureTazFile, SecureExtractPath);
-            file.Dispose();
-        }
-        private static async Task CreateAndReadClearArchiveTestAsync()
-        {
-            string[] fileList = System.IO.Directory.GetFiles(@"C:\Temp\Test Data");
+        env.LoadUnit(execUnit);
 
-            if (File.Exists(ClearTazFile))
-                File.Delete(ClearTazFile);
-
-            TazFile file = new TazFile();
-            await file.CreateArchiveAsync(ClearTazFile, fileList);
-            file.Dispose();
-
-            file = new TazFile();
-            await file.LoadDirectoryContentAsync(ClearTazFile);
-            file.Dispose();
-
-            file = new TazFile();
-            await file.ExtractFilesAsync(ClearTazFile, ClearExtractPath);
-            file.Dispose();
-
-        }
+        engine.Execute();
+        
+        Console.WriteLine("");
+        Console.WriteLine("Press [Enter] To Exit");
+        Console.ReadLine();
     }
 }

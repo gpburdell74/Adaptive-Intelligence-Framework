@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Adaptive.Intelligence.BlazorBasic</AssemblyName>
+    <RootNamespace>Adaptive.Intelligence.BlazorBasic</RootNamespace>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageId>Adaptive.Intelligence.BlazorBasic</PackageId>
+    <Title>Blazor BASIC Library</Title>
+    <Version>0.3.0</Version>
+    <Authors>Sam Jones</Authors>
+    <Company>Adaptive Intelligence</Company>
+    <Product>Adaptive.Intelligence.BlazorBasic</Product>
+    <Description>A library providing a language service and interpreter for the Blazor BASIC language.</Description>
+    <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://samjones.azurewebsites.net/BlazorBasic</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="AI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adaptive.LanguageService\Adaptive.Intelligence.LanguageService.csproj" />
+    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,9 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.Windows.Forms.Design;
 
 namespace Adaptive.Intelligence.Shared.UI;
 
@@ -11,6 +13,8 @@ namespace Adaptive.Intelligence.Shared.UI;
 /// <seealso cref="Panel" />
 public class GradientPanel : Panel
 {
+    private string? _templateFile;
+
     #region Constructor / Dispose Methods    
     /// <summary>
     /// Initializes a new instance of the <see cref="GradientPanel"/> class.
@@ -37,20 +41,52 @@ public class GradientPanel : Panel
         }
 
         Template = null;
+        _templateFile = null;
         base.Dispose(disposing);
     }
     #endregion
 
     #region Public Properties    
     /// <summary>
-    /// Gets or sets the template to use.
+    /// Gets or sets the reference to the button template to use when drawing the button.
     /// </summary>
     /// <value>
-    /// The template.
+    /// The <see cref="ButtonTemplate"/> instance.
     /// </value>
     [Browsable(false),
+     Category("Appearance"),
+     Description("Gets or sets the button template to use."),
      DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ButtonStateTemplate? Template { get; set; }
+
+    /// <summary>
+    /// Gets or sets the template file.
+    /// </summary>
+    /// <value>
+    /// A string containing the fully-qualified path and name of the template file.
+    /// </value>
+    [Browsable(true),
+     Category("Appearance"),
+     Description("Gets or sets the button template file to use."),
+     DesignerSerializationVisibility(DesignerSerializationVisibility.Visible),
+     Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+    public string? TemplateFile
+    {
+        get => _templateFile;
+        set
+        {
+            _templateFile = value;
+            if (value != null)
+            {
+                ButtonTemplate testTemplate = ButtonTemplate.Load(_templateFile);
+                if (testTemplate != null)
+                {
+                    Template = testTemplate.Normal;
+                }
+            }
+            Invalidate();
+        }
+    }
     #endregion
 
     #region Protected Method Overrides    
