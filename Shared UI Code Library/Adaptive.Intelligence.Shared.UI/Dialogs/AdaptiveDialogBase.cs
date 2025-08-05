@@ -338,7 +338,10 @@ namespace Adaptive.Intelligence.Shared.UI
         {
             AdaptiveDebug.WriteLine(UIConstants.MethodStartText(Name, nameof(ShowError)));
 
-            // Invoke the message box.
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+
+            DialogResult result = MessageBox.Show(
+                message, caption, buttons, MessageBoxIcon.Error);
         }
         /// <summary>
         /// Displays the specified error message to the user.
