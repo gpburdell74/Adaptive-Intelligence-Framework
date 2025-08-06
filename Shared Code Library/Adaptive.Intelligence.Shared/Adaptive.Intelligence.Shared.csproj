@@ -9,8 +9,8 @@
     <Description>A general use .NET Class Library</Description>
     <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
     <ApplicationIcon>AI.ico</ApplicationIcon>
-    <Version>0.3.0</Version>
-    <FileVersion>0.2.0.0</FileVersion>
+    <Version>0.9.1</Version>
+    <FileVersion>0.9.1.0</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
