@@ -20,7 +20,9 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void DisposeTest()
         {
-            var file = new TextFile(@"C:\Temp\TextFIleText.txt");
+            string fileName = FileNameRenderer.RenderFileNameInUserPath("TestFileText.txt");
+            
+            var file = new TextFile(fileName);
             file.Dispose();
             file.Dispose();
             file.Dispose();
@@ -46,8 +48,9 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void CreateTestPart2()
         {
-            var fileName = @"C:\Temp\TextFileText2.txt";
-
+            var fileName =
+                FileNameRenderer.RenderFileNameInUserPath("TestFileTest2.txt");
+            
             if (File.Exists(fileName))
                 File.Delete(fileName);
 
@@ -64,7 +67,8 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         public void DeleteTest()
         {
             var fileName = $@"{System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\DeleteTextFileText.txt";
-
+            if (!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
+                fileName = $@"{System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/DeleteTextFileText.txt";
             var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             var writer = new StreamWriter(fileStream);
             writer.Write(DateTime.Now.ToString());
@@ -82,8 +86,8 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void DeleteTest2()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-                @"\DeleteTextFileText.txt";
+            var fileName = FileNameRenderer.RenderFileNameInUserPath(
+                @"DeleteTextFileText.txt");
 
             var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             var w = new StreamWriter(fs);
@@ -118,8 +122,7 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void IsOpenTest()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-                @"\IsOpenTextFileText.txt";
+            var fileName = FileNameRenderer.RenderFileNameInUserPath("IsOpenTestFileText.txt");
 
             var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             var w = new StreamWriter(fs);
@@ -144,8 +147,8 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void OpenForReadingTest()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-                @"\IsOpenForReadTextFileText.txt";
+            var fileName = FileNameRenderer.RenderFileNameInUserPath(
+                @"IsOpenForReadTextFileText.txt");
 
             var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             var w = new StreamWriter(fs);
@@ -173,8 +176,8 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void OpenForWritingTest()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-                @"\IsOpenForWriteTextFileText.txt";
+            var fileName = FileNameRenderer.RenderFileNameInUserPath(
+                @"IsOpenForWriteTextFileText.txt");
 
             var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             var w = new StreamWriter(fs);
@@ -202,9 +205,15 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void FileNameTest()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
+            string fileName = string.Empty;
+            
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
+                fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
                 @"\FileNameTextFileText.txt";
-
+            else
+                fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
+                    "/FileNameTextFileText.txt";
+            
             var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             var w = new StreamWriter(fs);
             w.Write(DateTime.Now.ToString());
@@ -221,8 +230,8 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void ReadTest()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-    @"\ReadLinesTextFileText.txt";
+            var fileName = FileNameRenderer.RenderFileNameInUserPath(
+                @"ReadLinesTextFileText.txt");
 
             var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             var w = new StreamWriter(fs);
@@ -261,8 +270,8 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void WriteTest()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-            @"\WriteLinesTextFileText.txt";
+            var fileName = FileNameRenderer.RenderFileNameInUserPath(
+                @"WriteLinesTextFileText.txt");
 
             var textFile = new TextFile(fileName);
             textFile.OpenForWrite();
@@ -293,8 +302,7 @@ namespace Adaptive.Intelligence.Shared.Test.IO
         [Fact]
         public void ReadAllTest()
         {
-            var fileName = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-    @"\ReadAllTextFileText.txt";
+            var fileName = FileNameRenderer.RenderFileNameInUserPath(@"ReadAllTextFileText.txt");
 
             var builder = new StringBuilder();
             builder.AppendLine(DateTime.Now.ToString());

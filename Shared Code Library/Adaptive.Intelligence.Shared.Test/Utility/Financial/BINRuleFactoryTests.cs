@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests.Utility.Financial
+﻿namespace Adaptive.Intelligence.Shared.Test.Utility.Financial
 {
     public class BINRuleFactoryTests
     {

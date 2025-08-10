@@ -1,4 +1,6 @@
-﻿namespace Adaptive.Intelligence.Shared.Security.Tests.Security
+﻿using Adaptive.Intelligence.Shared.Security;
+
+namespace Adaptive.Intelligence.Shared.Test.Security
 {
     public class BitSplicerTests
     {

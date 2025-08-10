@@ -43,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IsTrimmable>True</IsTrimmable>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <Compile Remove="Adaptive.Intelligence.Shared.Test\**" />
     <Compile Remove="Adaptive.Intelligtece.Shared.Test\**" />

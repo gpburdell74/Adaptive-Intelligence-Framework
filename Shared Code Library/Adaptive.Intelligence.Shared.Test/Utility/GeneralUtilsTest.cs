@@ -656,7 +656,8 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         public void FindTimeZoneForOffset_Int_ShouldReturnCorrectTimeZone()
         {
             // Act
-            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset(-5);
+            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset(
+                DateTimeOffset.Now.Offset.Hours);
 
             // Assert
             Assert.Equal("Eastern Standard Time", result.Id);

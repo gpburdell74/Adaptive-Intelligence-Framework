@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Shared.Tests.Converters
+﻿namespace Adaptive.Intelligence.Shared.Test.Converters
 {
     public class BooleanConverterTests
     {
