@@ -73,13 +73,44 @@ namespace Adaptive.Intelligence.Shared.IO
                     File.Copy(originalFile, newFile);
                     success = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // TODO: Global logging.
+                    ExceptionLog.LogException(ex);
                 }
             }
             return success;
         }
+
+        /// <summary>
+        /// Creates the file for an exclusive write operation.
+        /// </summary>
+        /// <param name="fileName">
+        /// A string containing the fully-qualified path and name of the file to be created.
+        /// </param>
+        /// <returns>
+        /// The new <see cref="FileStream"/> instance if successful; otherwise, returns
+        /// <b>null</b>.
+        /// </returns>
+        public static FileStream? CreateFileForExclusiveWrite(string fileName)
+        {
+            FileStream? stream = null;
+
+            if (FileExists(fileName))
+                DeleteFile(fileName);
+
+            try
+            {
+                stream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.LogException(ex);
+                stream = null;
+            }
+
+            return stream;
+        }
+
         /// <summary>
         /// Decompresses the GZ file.
         /// </summary>
@@ -704,6 +735,65 @@ namespace Adaptive.Intelligence.Shared.IO
             }
 
             return size;
+        }
+
+        /// <summary>
+        /// Opens the file for an exclusive read operation.
+        /// </summary>
+        /// <param name="fileName">
+        /// A string containing the fully-qualified path and name of the file to be created.
+        /// </param>
+        /// <returns>
+        /// The new <see cref="FileStream"/> instance if successful; otherwise, returns
+        /// <b>null</b>.
+        /// </returns>
+        public static FileStream? OpenFileForExclusiveRead(string fileName)
+        {
+            FileStream? stream = null;
+
+            if (FileExists(fileName))
+            {
+                try
+                {
+                    stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
+                    stream = null;
+                }
+            }
+            return stream;
+        }
+
+
+        /// <summary>
+        /// Opens the file for an exclusive write operation.
+        /// </summary>
+        /// <param name="fileName">
+        /// A string containing the fully-qualified path and name of the file to be created.
+        /// </param>
+        /// <returns>
+        /// The new <see cref="FileStream"/> instance if successful; otherwise, returns
+        /// <b>null</b>.
+        /// </returns>
+        public static FileStream? OpenFileForExclusiveWrite(string fileName)
+        {
+            FileStream? stream = null;
+
+            if (FileExists(fileName))
+            {
+                try
+                {
+                    stream = new FileStream(fileName, FileMode.Open, FileAccess.Write, FileShare.None);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
+                    stream = null;
+                }
+            }
+            return stream;
         }
         /// <summary>
         /// Attempts to read the specified file into a byte array.

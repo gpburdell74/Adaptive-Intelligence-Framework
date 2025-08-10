@@ -7,7 +7,7 @@ namespace Adaptive.Intelligence.Shared
     /// Represents and manages a set of user and password credentials in memory.
     /// </summary>
     /// <seealso cref="DisposableObjectBase" />
-    public sealed class InMemoryCredentials : DisposableObjectBase
+    public sealed class InMemoryCredentials : DisposableObjectBase, ICloneable
     {
         #region Private Member Declarations
         /// <summary>
@@ -18,6 +18,11 @@ namespace Adaptive.Intelligence.Shared
         /// The password value stored as a secure string.
         /// </summary>
         private SecureByteArray? _password;
+        /// <summary>
+        /// The pin value stored as a secure integer.
+        /// </summary>
+        private SecureInt32? _pinValue;
+
         /// <summary>
         /// The primary key and IV values.
         /// </summary>
@@ -57,6 +62,30 @@ namespace Adaptive.Intelligence.Shared
             GenerateKeyData();
             _userId = EncodeString(userId);
             _password = EncodeString(password);
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InMemoryCredentials"/> class.
+        /// </summary>
+        /// <param name="userId">
+        /// A string containing the user ID value.
+        /// </param>
+        /// <param name="password">
+        /// A string containing the password value.
+        /// </param>
+        /// <param name="pinValue">
+        /// An integer containing a personal identification number.
+        /// </param>
+        public InMemoryCredentials(string? userId, string? password, int? pinValue)
+        {
+            GenerateKeyData();
+            _userId = EncodeString(userId);
+            _password = EncodeString(password);
+            if (pinValue != null)
+            {
+                _pinValue = new SecureInt32();
+                _pinValue.Value = pinValue.Value;
+                pinValue = 0;
+            }
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -109,9 +138,74 @@ namespace Adaptive.Intelligence.Shared
             get => DecodeString(_password);
             set => _password = EncodeString(value);
         }
+
+
+        /// <summary>
+        /// Gets or sets the PIN value being stored.
+        /// </summary>
+        /// <value>
+        /// The integer containing the user PIN value, or <b>null</b> if not used.
+        /// </value>
+        public int? PIN
+        {
+            get
+            {
+                if (_pinValue == null)
+                    return null;
+                else
+                    return _pinValue.Value;
+            }
+            set
+            {
+                _pinValue?.Dispose();
+                _pinValue = null;
+                if (value != null)
+                {
+                    _pinValue = new SecureInt32(value.Value);
+                }
+
+            }
+        }
         #endregion
 
         #region Public Methods / Functions
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="InMemoryCredentials"/> instance that is a copy of this instance.
+        /// </returns>
+        public InMemoryCredentials Clone()
+        {
+            InMemoryCredentials credentials;
+
+            if (_pinValue != null)
+            {
+                credentials = new InMemoryCredentials(
+                    DecodeString(_userId),
+                    DecodeString(_password),
+                    _pinValue.Value);
+            }
+            else
+            {
+                credentials = new InMemoryCredentials(
+                    DecodeString(_userId),
+                    DecodeString(_password));
+            }
+            return credentials;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
         /// <summary>
         /// Generates AES key data from the user's login and and password values.
         /// </summary>
