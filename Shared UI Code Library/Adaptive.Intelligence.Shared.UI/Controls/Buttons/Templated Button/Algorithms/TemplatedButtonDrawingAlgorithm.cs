@@ -405,7 +405,9 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
         int width = drawingArea.Width;
         int height = drawingArea.Height;
 
-        if (_currentState.Image == null || _currentState.TextImageRelation == TextImageRelation.Overlay)
+        if (_currentState.Image == null ||
+            !ImageIsValid(_currentState.Image) || 
+            _currentState.TextImageRelation == TextImageRelation.Overlay)
         {
             // Standard Positioning
             y -= 2;
@@ -416,8 +418,13 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
             {
                 case TextImageRelation.ImageBeforeText:
                     y = -2;
-                    x += _currentState.Image.Width;
-                    width -= _currentState.Image.Width;
+                    try
+                    {
+                        x += _currentState.Image.Width;
+                        width -= _currentState.Image.Width;
+                    }
+                    catch { }
+                    
                     break;
 
                 case TextImageRelation.ImageAboveText:
@@ -451,7 +458,7 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     private void DrawButtonImage(Graphics g, Rectangle drawingArea)
     {
         Image? image = _currentState?.Image;
-        if (image != null)
+        if (image != null && ImageIsValid(image))
         {
             Rectangle location = CalculateImagePosition(drawingArea);
             try
@@ -481,6 +488,23 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
         }
+    }
+
+    private bool ImageIsValid(Image image)
+    {
+        bool isValid = false;
+
+        try
+        {
+            int x = image.Width;
+            int y = image.Height;
+            isValid = true;
+        }
+        catch (Exception ex)
+        {
+            ExceptionLog.LogException(ex);
+        }
+        return isValid;
     }
     #endregion
 }

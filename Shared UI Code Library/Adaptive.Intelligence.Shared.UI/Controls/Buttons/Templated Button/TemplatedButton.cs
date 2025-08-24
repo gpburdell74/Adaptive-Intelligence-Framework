@@ -5,7 +5,7 @@ using System.Windows.Forms.Design;
 namespace Adaptive.Intelligence.Shared.UI;
 
 /// <summary>
-/// Provides an advanced styling button that supports templating.
+/// Provides an advanced styling button that supports templates for button designs.
 /// </summary>
 /// <seealso cref="Button" />
 [ToolboxItem(typeof(Button))]
@@ -130,6 +130,26 @@ public class TemplatedButton : Button
         }
     }
 
+    private byte[]? _templateData;
+
+    [Browsable(true),
+     Category("Appearance"),
+     Localizable(true),
+     Description("Gets or sets the button template content to use."),
+     DesignerSerializationVisibility(DesignerSerializationVisibility.Visible),
+     Editor(typeof(ImageEditor), typeof(UITypeEditor))]
+    public byte[]? ResourceTemplate
+    {
+        get => _templateData;
+        set
+        {
+            _templateData = value;
+            Template = ButtonTemplate.Load(_templateData);
+            SetImageReferences();
+            Invalidate();
+        }
+    }
+
     [Browsable(true),
      Category("Appearance"),
      Description("Gets or sets the button template file to use."),
@@ -140,16 +160,16 @@ public class TemplatedButton : Button
         get => _templateFile;
         set
         {
-            _templateFile = value;
-            if (value != null)
-            {
-                ButtonTemplate testTemplate = ButtonTemplate.Load(_templateFile);
-                if (testTemplate != null)
-                {
-                    Template = testTemplate;
-                    SetImageReferences();
-                }
-            }
+            //_templateFile = value;
+            //if (value != null)
+            //{
+            //    ButtonTemplate testTemplate = ButtonTemplate.Load(_templateFile);
+            //    if (testTemplate != null)
+            //    {
+            //        Template = testTemplate;
+            //        SetImageReferences();
+            //    }
+            //}
             Invalidate();
         }
     }

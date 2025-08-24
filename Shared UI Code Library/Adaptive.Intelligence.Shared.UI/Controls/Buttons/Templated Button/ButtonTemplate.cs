@@ -262,6 +262,30 @@ public sealed class ButtonTemplate : DisposableObjectBase, ICloneable
         return template;
     }
 
+
+    /// <summary>
+    /// Loads the button template from the specified file.
+    /// </summary>
+    /// <param name="templateData">
+    /// A byte array containing the template data content.
+    /// </param>
+    /// <returns>
+    /// The new <see cref="ButtonTemplate"/> instance that was loaded, or <b>null</b>.
+    /// </returns>
+    public static ButtonTemplate? Load(byte[]? templateData)
+    {
+        ButtonTemplate? template = null;
+
+        ButtonTemplateFile file = new ButtonTemplateFile();
+        OperationalResult<ButtonTemplate> result = file.LoadTemplate(templateData);
+        if (result.Success)
+            template = result.DataContent;
+        result.Dispose();
+        file.Dispose();
+
+        return template;
+    }
+
     /// <summary>
     /// Saves the button template to the specified file.
     /// </summary>

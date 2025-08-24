@@ -54,6 +54,38 @@ internal sealed class ButtonTemplateFile : DisposableObjectBase
         return loadResult;
 
     }
+    /// <summary>
+    /// Attempts to read the template from the specified file.
+    /// </summary>
+    /// <param name="templateData">
+    /// A byte array containing the template data content.
+    /// </param>
+    /// <returns>
+    /// An <see cref="OperationalResult{T}"/> containing the <see cref="ButtonTemplate"/> that was loaded
+    /// if successful; otherwise, contains the error.
+    /// </returns>
+    public OperationalResult<ButtonTemplate> LoadTemplate(byte[]? templateData)
+    {
+        OperationalResult<ButtonTemplate> loadResult;
+
+        if (templateData != null)
+        {
+            MemoryStream ms = new MemoryStream(templateData);
+            ButtonTemplateReader reader = new ButtonTemplateReader(ms);
+            loadResult = reader.Read();
+            reader.Close();
+
+            ms.Close();
+            ms.Dispose();
+        }
+        else
+        {
+            loadResult = new OperationalResult<ButtonTemplate>(false, "No template data was provided.");
+        }
+
+        return loadResult;
+
+    }
 
     /// <summary>
     /// Attempts to save the template to the specified file.
