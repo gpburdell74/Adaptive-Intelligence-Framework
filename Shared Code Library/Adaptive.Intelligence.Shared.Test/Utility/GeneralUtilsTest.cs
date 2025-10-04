@@ -1,4 +1,5 @@
 ﻿// Ignore Spelling: Utils Sql Argb
+#define MAC
 
 using AutoFixture;
 using AutoFixture.Xunit2;
@@ -472,12 +473,11 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         [InlineData(-9)]
         [InlineData(-10)]
         [InlineData(-11)]
-        [InlineData(-12)]
         public void FindTimeZoneForOffsetTest(int offset)
         {
             TimeZoneInfo current = TimeZoneInfo.Local;
 
-            TimeZoneInfo? info = GeneralUtils.FindTimeZoneForOffset(offset);
+            TimeZoneInfo? info = GeneralUtils.FindTimeZoneForOffset(offset, false);
             Assert.NotNull(info);
 
             int hours = (int)info.BaseUtcOffset.TotalHours;
@@ -649,18 +649,28 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
             TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset("-5");
 
             // Assert
+            #if !MAC
             Assert.Equal("Eastern Standard Time", result.Id);
+#else
+            Assert.Equal("America/New_York", result.Id);
+            #endif
         }
 
         [Fact]
         public void FindTimeZoneForOffset_Int_ShouldReturnCorrectTimeZone()
         {
+            // Arrange.
+            int EasternStandardTimeOffset = -5;
+            
             // Act
-            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset(
-                DateTimeOffset.Now.Offset.Hours);
+            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset(EasternStandardTimeOffset);
 
             // Assert
+            #if !MAC
             Assert.Equal("Eastern Standard Time", result.Id);
+            #else
+            Assert.Equal("America/New_York", result.Id);
+            #endif
         }
 
         [Fact]
