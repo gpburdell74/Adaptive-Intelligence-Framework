@@ -301,3 +301,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,aspnetcore
 /.gitignore
 /.gitignore
+/Shared Code Library/Adaptive.Intelligence.Shared/NuGet ApiKey.txt

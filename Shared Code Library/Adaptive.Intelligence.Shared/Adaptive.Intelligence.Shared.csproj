@@ -9,13 +9,13 @@
     <Description>A general use .NET Class Library</Description>
     <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
     <ApplicationIcon>AI.ico</ApplicationIcon>
-    <Version>0.91.100.0001</Version>
-    <FileVersion>0.91.100.0001</FileVersion>
+    <Version>0.91.200.0022</Version>
+    <FileVersion>0.91.200.0022</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
-    <PackageIcon>AI.png</PackageIcon>
+    <PackageIcon></PackageIcon>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework</RepositoryUrl>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
@@ -25,7 +25,10 @@
 	<AnalysisLevel>latest</AnalysisLevel>
 	<AssemblyName>Adaptive.Intelligence.Shared</AssemblyName>
 	<RootNamespace>Adaptive.Intelligence.Shared</RootNamespace>
-	<PackageId>Adaptive.Intelligence.Shared</PackageId>
+	<PackageId>Sam.Jones.Adaptive.Intelligence.Shared</PackageId>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<NeutralLanguage>en-US</NeutralLanguage>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -58,33 +61,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="NuGet ApiKey.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="AI.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\Branding\AI.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.14.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="System.CodeDom" Version="9.0.7" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
   </ItemGroup>
@@ -102,6 +87,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="License.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
