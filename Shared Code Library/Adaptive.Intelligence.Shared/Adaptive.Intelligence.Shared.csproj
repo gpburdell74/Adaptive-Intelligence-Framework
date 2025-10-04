@@ -61,6 +61,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="NuGet ApiKey.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="AI.ico" />
   </ItemGroup>
 
