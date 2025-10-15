@@ -254,14 +254,25 @@ namespace Adaptive.Intelligence.Shared
         /// </summary>
         /// <param name="hoursOffset"></param>
         /// <returns></returns>
-        public static TimeZoneInfo FindTimeZoneForOffset(int hoursOffset)
+        public static TimeZoneInfo FindTimeZoneForOffset(int hoursOffset, bool matchLocal=true)
         {
             // The time zone information reference.
             TimeZoneInfo? timeZoneResult = null;
-
+            
             // Get the system list and query for the specific offset.  There may be multiple results.
-            ReadOnlyCollection<TimeZoneInfo> systemList = TimeZoneInfo.GetSystemTimeZones();
-            List<TimeZoneInfo> candidateList = systemList.Where(x => x.BaseUtcOffset.Hours == hoursOffset).ToList();
+            ReadOnlyCollection<TimeZoneInfo> systemList = TimeZoneInfo.GetSystemTimeZones(true);
+            List<TimeZoneInfo> candidateList;
+
+            if (matchLocal)
+            {
+                candidateList = systemList.Where(x => x.BaseUtcOffset.Hours == hoursOffset
+                                                      && x.HasSameRules(TimeZoneInfo.Local)).ToList();
+            }
+            else
+            {
+                candidateList = systemList.Where(x => x.BaseUtcOffset.Hours == hoursOffset).ToList();
+            }
+
             if (candidateList.Count == 1)
                 timeZoneResult = candidateList[0];
             else
@@ -269,8 +280,10 @@ namespace Adaptive.Intelligence.Shared
                 // Look for US timezones.
                 timeZoneResult = candidateList.FirstOrDefault(x => x.DisplayName.Contains("US"));
                 if (timeZoneResult == null)
-                    timeZoneResult = candidateList[0];
-
+                {
+                    if (candidateList.Count > 0)
+                        timeZoneResult = candidateList[0];
+                }
             }
 
             // Return the default if the other(s) cannot be found.
