@@ -9,8 +9,8 @@
     <Description>A general use .NET Class Library</Description>
     <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
     <ApplicationIcon>AI.ico</ApplicationIcon>
-    <Version>0.91.200.0022</Version>
-    <FileVersion>0.91.200.0022</FileVersion>
+    <Version>0.92.100.0001</Version>
+    <FileVersion>0.92.100.0001</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
@@ -69,9 +69,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.CodeDom" Version="9.0.7" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
+    <PackageReference Include="System.CodeDom" Version="9.0.10" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,8 +10,9 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageId>Adaptive.Intelligence.LanguageService</PackageId>
     <Title>Adaptive Intelligence Language Service Abstractions Library</Title>
-    <Version>0.3.0.0</Version>
-    <Authors>Sam Jones</Authors>
+    <Version>0.92.100.0001</Version>
+    <FileVersion>0.92.100.0001</FileVersion>
+	  <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Blazor BASIC</Product>
     <Description>A .NET Library containing the abstractions and definitions used to represent a simplified procedural programming or scripting language.</Description>

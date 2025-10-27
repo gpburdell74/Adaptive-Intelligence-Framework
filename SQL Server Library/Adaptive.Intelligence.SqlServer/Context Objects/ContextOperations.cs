@@ -10,10 +10,10 @@ using Adaptive.Intelligence.SqlServer.CodeDom;
 using Adaptive.Intelligence.SqlServer.ORM;
 using Adaptive.Intelligence.SqlServer.Schema;
 using Adaptive.SqlServer.Client;
-using Microsoft.Data.SqlClient;
 using System.CodeDom;
 using System.Collections.Specialized;
 using System.Data;
+using Microsoft.Data.SqlClient;
 using System.Text;
 
 namespace Adaptive.Intelligence.SqlServer
