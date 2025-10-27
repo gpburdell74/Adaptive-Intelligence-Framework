@@ -92,6 +92,54 @@ namespace Adaptive.Intelligence.Shared.IO
 
             return compressedData;
         }
+
+        /// <summary>
+        /// Compresses the content of the input stream and writes it to the output stream.
+        /// </summary>
+        /// <param name="inputStream">
+        /// The reference to the input <see cref="Stream"/> instance.
+        /// </param>
+        /// <param name="outputStream">
+        /// The reference to the output <see cref="Stream"/> instance.
+            /// </param>
+        public static void Compress(Stream inputStream, Stream outputStream)
+        {
+            GZipStream? compressionStream = CreateCompressionStream(outputStream);
+            if (compressionStream != null)
+            {
+                // Perform the actual compression.
+                if (WriteData(compressionStream, inputStream))
+                {
+                    compressionStream.Flush();
+                    compressionStream.Dispose();
+                }
+                compressionStream.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Compresses the content of the input stream and writes it to the output stream.
+        /// </summary>
+        /// <param name="inputStream">
+        /// The reference to the input <see cref="Stream"/> instance.
+        /// </param>
+        /// <param name="outputStream">
+        /// The reference to the output <see cref="Stream"/> instance.
+        /// </param>
+        public static async Task CompressAsync(Stream inputStream, Stream outputStream)
+        {
+            GZipStream? compressionStream = CreateCompressionStream(outputStream);
+            if (compressionStream != null)
+            {
+                // Perform the actual compression.
+                if (await WriteDataAsync(compressionStream, inputStream).ConfigureAwait(false))
+                {
+                    await compressionStream.FlushAsync().ConfigureAwait(false);
+                    await compressionStream.DisposeAsync().ConfigureAwait(false);
+                }
+                await compressionStream.DisposeAsync().ConfigureAwait(false);
+            }
+        }
         #endregion
 
         #region Decompression
@@ -185,6 +233,78 @@ namespace Adaptive.Intelligence.Shared.IO
 
             return result;
         }
+
+        /// <summary>
+        /// Decompresses the specified data from one stream to another.
+        /// </summary>
+        /// <param name="sourceStream">
+        /// An open, readable <see cref="Stream"/> instance containing the
+        /// compressed data.
+        /// </param>
+        /// <param name="destinationStream">
+        /// An open, writable <see cref="Stream"/> instance to where the expanded data content will be written.
+        /// </param>
+        /// <exception cref="ArgumentNullException">sourceContent</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Cannot read from specified stream.</exception>
+        public static void Decompress(Stream sourceStream, Stream destinationStream)
+        {
+            if (!sourceStream.CanRead)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceStream), Resources.ErrorStreamRead);
+            }
+            if (!destinationStream.CanWrite)
+            {
+                throw new ArgumentOutOfRangeException(nameof(destinationStream), Resources.ErrorStreamWrite);
+            }
+
+            destinationStream.Seek(0, SeekOrigin.Begin);
+
+            GZipStream? decompressionStream = CreateDecompressionStream(destinationStream);
+            if (decompressionStream != null)
+            {
+                DecompressContent(decompressionStream, destinationStream);
+                decompressionStream.Dispose();
+            }
+
+            destinationStream.Flush();
+        }
+
+
+        /// <summary>
+        /// Decompresses the specified data from one stream to another.
+        /// </summary>
+        /// <param name="sourceStream">
+        /// An open, readable <see cref="Stream"/> instance containing the
+        /// compressed data.
+        /// </param>
+        /// <param name="destinationStream">
+        /// An open, writable <see cref="Stream"/> instance to where the expanded data content will be written.
+        /// </param>
+        /// <exception cref="ArgumentNullException">sourceContent</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Cannot read from specified stream.</exception>
+        public static async Task DecompressAsync(Stream sourceStream, Stream destinationStream)
+        {
+            if (!sourceStream.CanRead)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceStream), Resources.ErrorStreamRead);
+            }
+            if (!destinationStream.CanWrite)
+            {
+                throw new ArgumentOutOfRangeException(nameof(destinationStream), Resources.ErrorStreamWrite);
+            }
+
+            destinationStream.Seek(0, SeekOrigin.Begin);
+
+            GZipStream? decompressionStream = CreateDecompressionStream(destinationStream);
+            if (decompressionStream != null)
+            {
+                await DecompressContentAsync(decompressionStream, destinationStream).ConfigureAwait(false);
+                await decompressionStream.DisposeAsync().ConfigureAwait(false);
+            }
+
+            await destinationStream.FlushAsync().ConfigureAwait(false);
+        }
+
         #endregion
 
         #endregion
@@ -194,14 +314,14 @@ namespace Adaptive.Intelligence.Shared.IO
         /// Attempts to create the compression stream.
         /// </summary>
         /// <param name="outputStream">
-        /// The output <see cref="MemoryStream"/> to which the compressed data
+        /// The output <see cref="Stream"/> to which the compressed data
         /// will be written.
         /// </param>
         /// <returns>
         /// A new <see cref="GZipStream"/> instance, or <b>null</b> if the operation
         /// fails.
         /// </returns>
-        private static GZipStream? CreateCompressionStream(MemoryStream? outputStream)
+        private static GZipStream? CreateCompressionStream(Stream? outputStream)
         {
             GZipStream? compressionStream = null;
 
@@ -219,18 +339,19 @@ namespace Adaptive.Intelligence.Shared.IO
 
             return compressionStream;
         }
+
         /// <summary>
         /// Attempts to create the decompression stream.
         /// </summary>
         /// <param name="inputStream">
-        /// The output <see cref="MemoryStream"/> from which the compressed data
+        /// The output <see cref="Stream"/> from which the compressed data
         /// will be read.
         /// </param>
         /// <returns>
         /// A new <see cref="GZipStream"/> instance, or <b>null</b> if the operation
         /// fails.
         /// </returns>
-        private static GZipStream? CreateDecompressionStream(MemoryStream? inputStream)
+        private static GZipStream? CreateDecompressionStream(Stream? inputStream)
         {
             GZipStream? decompressionStream = null;
             if (inputStream != null)
@@ -247,6 +368,96 @@ namespace Adaptive.Intelligence.Shared.IO
 
             return decompressionStream;
         }
+
+        /// <summary>
+        /// Decompresses the content from the provided stream.
+        /// </summary>
+        /// <param name="decompressionStream">
+        /// The <see cref="GZipStream"/> decompression stream.
+        /// </param>
+        /// <returns>
+        /// A byte array containing the uncompressed data, or <b>null</b>.
+        /// </returns>
+        private static byte[]? DecompressContent(GZipStream? decompressionStream)
+        {
+            byte[]? result = null;
+
+            if (decompressionStream != null)
+            {
+                using (var outputStream = new MemoryStream())
+                {
+                    try
+                    {
+                        decompressionStream.CopyTo(outputStream);
+                        decompressionStream.Dispose();
+                        result = outputStream.ToArray();
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionLog.LogException(ex);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Decompresses the content from the provided stream.
+        /// </summary>
+        /// <param name="decompressionStream">
+        /// The <see cref="GZipStream"/> decompression stream.
+        /// </param>
+        /// <param name="destinationStream">
+        /// The <see cref="Stream"/> instance to write to.
+        /// </param>
+        /// <returns>
+        /// A byte array containing the uncompressed data, or <b>null</b>.
+        /// </returns>
+        private static void DecompressContent(GZipStream? decompressionStream, Stream? destinationStream)
+        {
+            if (decompressionStream != null && destinationStream != null)
+            {
+                try
+                {
+                    decompressionStream.CopyTo(destinationStream);
+                    decompressionStream.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Decompresses the content from the provided stream.
+        /// </summary>
+        /// <param name="decompressionStream">
+        /// The <see cref="GZipStream"/> decompression stream.
+        /// </param>
+        /// <param name="destinationStream">
+        /// The <see cref="Stream"/> instance to write to.
+        /// </param>
+        /// <returns>
+        /// A byte array containing the uncompressed data, or <b>null</b>.
+        /// </returns>
+        private static async Task DecompressContentAsync(GZipStream? decompressionStream, Stream? destinationStream)
+        {
+            if (decompressionStream != null && destinationStream != null)
+            {
+                try
+                {
+                    await decompressionStream.CopyToAsync(destinationStream).ConfigureAwait(false);
+                    await decompressionStream.DisposeAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
+                }
+            }
+        }
+
         /// <summary>
         /// Writes the original data to the compression stream.
         /// </summary>
@@ -279,37 +490,81 @@ namespace Adaptive.Intelligence.Shared.IO
 
             return success;
         }
+
         /// <summary>
-        /// Decompresses the content from the provided stream.
+        /// Writes the original data to the compression stream.
         /// </summary>
-        /// <param name="decompressionStream">
-        /// The <see cref="GZipStream"/> decompression stream.
+        /// <param name="compressionStream">
+        /// The <see cref="GZipStream"/> compression stream.
+        /// </param>
+        /// <param name="sourceContent">
+        /// The <see cref="Stream"/> containing the original data to be compressed.
         /// </param>
         /// <returns>
-        /// A byte array containing the uncompressed data, or <b>null</b>.
+        /// <b>true</b> if the operation is successful; otherwise,
+        /// returns <b>false</b>.
         /// </returns>
-        private static byte[]? DecompressContent(GZipStream? decompressionStream)
+        private static bool WriteData(GZipStream? compressionStream, Stream? sourceContent)
         {
-            byte[]? result = null;
-
-            if (decompressionStream != null)
+            var success = false;
+            if ((compressionStream != null) && (sourceContent != null))
             {
-                using (var outputStream = new MemoryStream())
+                try
                 {
-                    try
-                    {
-                        decompressionStream.CopyTo(outputStream);
-                        decompressionStream.Dispose();
-                        result = outputStream.ToArray();
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionLog.LogException(ex);
-                    }
+
+                    byte[] sourceArray = new byte[sourceContent.Length];
+                    sourceContent.Read(sourceArray, 0, sourceArray.Length);
+                    compressionStream.Write(sourceArray, 0, sourceArray.Length);
+                    ByteArrayUtil.Clear(sourceArray);
+                    
+                    compressionStream.Flush();
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
                 }
             }
 
-            return result;
+            return success;
+        }
+
+        /// <summary>
+        /// Writes the original data to the compression stream.
+        /// </summary>
+        /// <param name="compressionStream">
+        /// The <see cref="GZipStream"/> compression stream.
+        /// </param>
+        /// <param name="sourceContent">
+        /// The <see cref="Stream"/> containing the original data to be compressed.
+        /// </param>
+        /// <returns>
+        /// <b>true</b> if the operation is successful; otherwise,
+        /// returns <b>false</b>.
+        /// </returns>
+        private static async Task<bool> WriteDataAsync(GZipStream? compressionStream, Stream? sourceContent)
+        {
+            bool success = false;
+            if ((compressionStream != null) && (sourceContent != null))
+            {
+                try
+                {
+
+                    byte[] sourceArray = new byte[sourceContent.Length];
+                    await sourceContent.ReadAsync(sourceArray, 0, sourceArray.Length).ConfigureAwait(false);
+                    await compressionStream.WriteAsync(sourceArray, 0, sourceArray.Length).ConfigureAwait(false);
+                    ByteArrayUtil.Clear(sourceArray);
+
+                    await compressionStream.FlushAsync().ConfigureAwait(false);
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLog.LogException(ex);
+                }
+            }
+
+            return success;
         }
         #endregion
     }

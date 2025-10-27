@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net9.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<Title>.NET CSV Processing Library for Adaptive Intelligence Applications.</Title>
+	<Description>A .NET Class Library for reading and writing CSV data files.</Description>
+	<Copyright>Copyright © 2025 by Sam Jones.  All rights reserved.</Copyright>
+	<ApplicationIcon>AI.ico</ApplicationIcon>
+	<Version>0.92.100.0001</Version>
+	<FileVersion>0.92.200.0012</FileVersion>
+	<Authors>Sam Jones</Authors>
+	<Company>Adaptive Intelligence</Company>
+	<Product>Adaptive Intelligence Framework</Product>
+	<PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+	<PackageIcon></PackageIcon>
+	<RepositoryType>GitHub</RepositoryType>
+	<RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework</RepositoryUrl>
+	<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<EnableAnalyzers>true</EnableAnalyzers>
+	<EnableNETAnalyzers>True</EnableNETAnalyzers>
+	<AnalysisLevel>latest</AnalysisLevel>
+	<AssemblyName>Adaptive.Intelligence.Csv</AssemblyName>
+	<RootNamespace>Adaptive.Intelligence.Csv</RootNamespace>
+	<PackageId>Sam.Jones.Adaptive.Intelligence.Csv</PackageId>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+	  <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+	  <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adaptive.Intelligence.Unsafe\Adaptive.Intelligence.Unsafe.csproj" />
+    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

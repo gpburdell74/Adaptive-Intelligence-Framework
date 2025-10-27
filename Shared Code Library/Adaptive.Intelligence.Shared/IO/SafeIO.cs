@@ -782,17 +782,18 @@ namespace Adaptive.Intelligence.Shared.IO
             FileStream? stream = null;
 
             if (FileExists(fileName))
+                DeleteFile(fileName);
+
+            try
             {
-                try
-                {
-                    stream = new FileStream(fileName, FileMode.Open, FileAccess.Write, FileShare.None);
-                }
-                catch (Exception ex)
-                {
-                    ExceptionLog.LogException(ex);
-                    stream = null;
-                }
+                stream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write, FileShare.None);
             }
+            catch (Exception ex)
+            {
+                ExceptionLog.LogException(ex);
+                stream = null;
+            }
+
             return stream;
         }
         /// <summary>

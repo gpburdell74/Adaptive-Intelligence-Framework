@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <Platforms>AnyCPU;x64</Platforms>
+	  <Title>.NET Shared Class (Unsafe Code) Library for Adaptive Intelligence Applications.</Title>
+	  <Description>A general use .NET Class Library</Description>
+	  <Copyright>Copyright © 2025 by Sam Jones.  All rights reserved.</Copyright>
+	  <ApplicationIcon>AI.ico</ApplicationIcon>
+	  <Version>0.92.100.0001</Version>
+	  <FileVersion>0.92.100.0001</FileVersion>
+	  <Authors>Sam Jones</Authors>
+	  <Company>Adaptive Intelligence</Company>
+	  <Product>Adaptive Intelligence Framework</Product>
+	  <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+	  <PackageIcon></PackageIcon>
+	  <RepositoryType>GitHub</RepositoryType>
+	  <RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework</RepositoryUrl>
+	  <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <EnableAnalyzers>true</EnableAnalyzers>
+	  <EnableNETAnalyzers>True</EnableNETAnalyzers>
+	  <AnalysisLevel>latest</AnalysisLevel>
+	  <AssemblyName>Adaptive.Intelligence.Shared.Unsafe</AssemblyName>
+	  <RootNamespace>Adaptive.Intelligence.Shared.Unsafe</RootNamespace>
+	  <PackageId>Sam.Jones.Adaptive.Intelligence.Unsafe</PackageId>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <NeutralLanguage>en-US</NeutralLanguage>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

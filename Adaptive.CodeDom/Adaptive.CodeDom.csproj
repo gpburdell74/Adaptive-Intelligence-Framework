@@ -6,15 +6,17 @@
     <Nullable>enable</Nullable>
     <ApplicationIcon>AI.ico</ApplicationIcon>
     <Title>Extensions for the .NET Code DOM</Title>
-    <Version>0.3.0.0</Version>
-    <Company>Adaptive Intelligence</Company>
+	  <Version>0.92.100.0001</Version>
+	  <FileVersion>0.92.100.0001</FileVersion>
+	  <AssemblyVersion>0.92.100.0001</AssemblyVersion>
+	  <Company>Adaptive Intelligence</Company>
     <Authors>Sam Jones</Authors>
     <Product>Adaptive Intelligence Framework</Product>
     <Copyright>Copyright © 2025 by Sam Jones.  All rights reserved.</Copyright>
     <Description>A class library for use with the.NET Code DOM system that adds extended functionality.</Description>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
     <PackageIcon>AI.png</PackageIcon>
-    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -27,10 +29,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Sam.Jones.Adaptive.Intelligence.Shared" Version="0.91.200.22" />
   </ItemGroup>
 
   <ItemGroup>

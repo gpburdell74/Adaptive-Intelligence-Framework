@@ -6,7 +6,6 @@ using Adaptive.CodeDom.Model;
 using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.SqlServer.Analysis;
 using Adaptive.Intelligence.SqlServer.Schema;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.CodeDom;
 
 namespace Adaptive.Intelligence.SqlServer.ORM

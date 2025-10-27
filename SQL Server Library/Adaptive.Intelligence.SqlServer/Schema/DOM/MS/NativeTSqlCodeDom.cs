@@ -3,7 +3,6 @@ using Adaptive.SqlServer.Client;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.Collections.Specialized;
-using System.Data.Common;
 using System.Text;
 
 namespace Adaptive.Intelligence.SqlServer.CodeDom
