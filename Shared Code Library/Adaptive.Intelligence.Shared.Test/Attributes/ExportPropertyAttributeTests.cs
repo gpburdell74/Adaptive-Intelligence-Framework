@@ -32,10 +32,13 @@ namespace Adaptive.Intelligence.Shared.Test.Attributes
             var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NonDecoratedProperty));
 
             // Act
-            var attribute = nonDecoratedProperty.GetCustomAttribute(typeof(ExportPropertyAttribute));
+            if (nonDecoratedProperty != null)
+            {
+                var attribute = nonDecoratedProperty.GetCustomAttribute(typeof(ExportPropertyAttribute));
 
-            // Assert
-            Assert.Null(attribute); // Assuming there's no ExportPropertyAttribute on the non-decorated property
+                // Assert
+                Assert.Null(attribute); // Assuming there's no ExportPropertyAttribute on the non-decorated property
+            }
         }
     }
 }

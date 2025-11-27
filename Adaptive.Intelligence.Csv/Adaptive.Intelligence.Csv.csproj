@@ -19,35 +19,34 @@
 	<RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework</RepositoryUrl>
 	<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
-	<EnableAnalyzers>true</EnableAnalyzers>
-	<EnableNETAnalyzers>True</EnableNETAnalyzers>
-	<AnalysisLevel>latest</AnalysisLevel>
 	<AssemblyName>Adaptive.Intelligence.Csv</AssemblyName>
 	<RootNamespace>Adaptive.Intelligence.Csv</RootNamespace>
 	<PackageId>Sam.Jones.Adaptive.Intelligence.Csv</PackageId>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<NeutralLanguage>en-US</NeutralLanguage>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageTags>.NET C# Fast CSV</PackageTags>
+	<PackageReleaseNotes>This is an initial alpha release.</PackageReleaseNotes>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-	  <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-	  <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\Shared Code Library\Adaptive.Intelligence.Shared\License.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Adaptive.Intelligence.Unsafe\Adaptive.Intelligence.Unsafe.csproj" />
     <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

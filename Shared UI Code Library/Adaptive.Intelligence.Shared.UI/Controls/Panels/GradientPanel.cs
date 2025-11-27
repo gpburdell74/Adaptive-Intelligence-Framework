@@ -76,9 +76,9 @@ public class GradientPanel : Panel
         set
         {
             _templateFile = value;
-            if (value != null)
+            if (_templateFile != null)
             {
-                ButtonTemplate testTemplate = ButtonTemplate.Load(_templateFile);
+                ButtonTemplate? testTemplate = ButtonTemplate.Load(_templateFile);
                 if (testTemplate != null)
                 {
                     Template = testTemplate.Normal;
@@ -137,7 +137,7 @@ public class GradientPanel : Panel
         DrawBackground(g);
 
         // Use the correct font.
-        Font? textFont = Template.Font;
+        Font? textFont = Template?.Font;
 
         // Draw the image.
         DrawButtonImage(g);
@@ -163,7 +163,7 @@ public class GradientPanel : Panel
         int height = 16;
         int width = 16;
 
-        if (Template.Image != null)
+        if (Template != null && Template.Image != null)
         {
             int imageHeight;
             try
@@ -236,7 +236,7 @@ public class GradientPanel : Panel
     /// </param>
     private void DrawBorder(Graphics g)
     {
-        if (Template.BorderWidth > 0)
+        if (Template != null && Template.BorderWidth > 0)
         {
             Pen? borderPen = GetBorderPen();
             if (borderPen != null)
@@ -262,6 +262,7 @@ public class GradientPanel : Panel
             TextFormatFlags formatFlags = GetTextFormatFlags();
             Rectangle adjustmentRectangle = CalculateTextRectangle();
 
+            if (Template != null)
             TextRenderer.DrawText(g, Text, textFont, adjustmentRectangle, Template.ForeColor, formatFlags);
         }
     }
@@ -275,45 +276,47 @@ public class GradientPanel : Panel
     {
         TextFormatFlags formatFlags = TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis;
 
-        switch (Template.TextAlign)
+        if (Template != null)
         {
-            case ContentAlignment.BottomCenter:
-                formatFlags |= TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter;
-                break;
+            switch (Template.TextAlign)
+            {
+                case ContentAlignment.BottomCenter:
+                    formatFlags |= TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter;
+                    break;
 
-            case ContentAlignment.BottomLeft:
-                formatFlags |= TextFormatFlags.Bottom | TextFormatFlags.Left;
-                break;
+                case ContentAlignment.BottomLeft:
+                    formatFlags |= TextFormatFlags.Bottom | TextFormatFlags.Left;
+                    break;
 
-            case ContentAlignment.BottomRight:
-                formatFlags |= TextFormatFlags.Bottom | TextFormatFlags.Right;
-                break;
+                case ContentAlignment.BottomRight:
+                    formatFlags |= TextFormatFlags.Bottom | TextFormatFlags.Right;
+                    break;
 
-            case ContentAlignment.MiddleCenter:
-                formatFlags |= TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
-                break;
+                case ContentAlignment.MiddleCenter:
+                    formatFlags |= TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
+                    break;
 
-            case ContentAlignment.MiddleLeft:
-                formatFlags |= TextFormatFlags.VerticalCenter | TextFormatFlags.Left;
-                break;
+                case ContentAlignment.MiddleLeft:
+                    formatFlags |= TextFormatFlags.VerticalCenter | TextFormatFlags.Left;
+                    break;
 
-            case ContentAlignment.MiddleRight:
-                formatFlags |= TextFormatFlags.VerticalCenter | TextFormatFlags.Right;
-                break;
+                case ContentAlignment.MiddleRight:
+                    formatFlags |= TextFormatFlags.VerticalCenter | TextFormatFlags.Right;
+                    break;
 
-            case ContentAlignment.TopCenter:
-                formatFlags |= TextFormatFlags.Top | TextFormatFlags.HorizontalCenter;
-                break;
+                case ContentAlignment.TopCenter:
+                    formatFlags |= TextFormatFlags.Top | TextFormatFlags.HorizontalCenter;
+                    break;
 
-            case ContentAlignment.TopLeft:
-                formatFlags |= TextFormatFlags.Top | TextFormatFlags.Left;
-                break;
+                case ContentAlignment.TopLeft:
+                    formatFlags |= TextFormatFlags.Top | TextFormatFlags.Left;
+                    break;
 
-            case ContentAlignment.TopRight:
-                formatFlags |= TextFormatFlags.Top | TextFormatFlags.Right;
-                break;
+                case ContentAlignment.TopRight:
+                    formatFlags |= TextFormatFlags.Top | TextFormatFlags.Right;
+                    break;
+            }
         }
-
         return formatFlags;
     }
     /// <summary>
@@ -329,35 +332,38 @@ public class GradientPanel : Panel
         int width = Width;
         int height = Height;
 
-        if (Template.Image == null || Template.TextImageRelation == TextImageRelation.Overlay)
+        if (Template != null)
         {
-            // Standard Positioning
-            y -= 2;
-        }
-        else
-        {
-            switch (Template.TextImageRelation)
+            if (Template.Image == null || Template.TextImageRelation == TextImageRelation.Overlay)
             {
-                case TextImageRelation.ImageBeforeText:
-                    y = -2;
-                    x += Template.Image.Width;
-                    width -= Template.Image.Width;
-                    break;
+                // Standard Positioning
+                y -= 2;
+            }
+            else
+            {
+                switch (Template.TextImageRelation)
+                {
+                    case TextImageRelation.ImageBeforeText:
+                        y = -2;
+                        x += Template.Image.Width;
+                        width -= Template.Image.Width;
+                        break;
 
-                case TextImageRelation.ImageAboveText:
-                    y += Template.Image.Height + 2;
-                    height -= y + 2;
-                    break;
+                    case TextImageRelation.ImageAboveText:
+                        y += Template.Image.Height + 2;
+                        height -= y + 2;
+                        break;
 
-                case TextImageRelation.TextAboveImage:
-                    y = -2;
-                    height -= Template.Image.Height;
-                    break;
+                    case TextImageRelation.TextAboveImage:
+                        y = -2;
+                        height -= Template.Image.Height;
+                        break;
 
-                case TextImageRelation.TextBeforeImage:
-                    y -= 2;
-                    width -= Template.Image.Width;
-                    break;
+                    case TextImageRelation.TextBeforeImage:
+                        y -= 2;
+                        width -= Template.Image.Width;
+                        break;
+                }
             }
         }
 
@@ -374,13 +380,16 @@ public class GradientPanel : Panel
         LinearGradientBrush backBrush;
         SetDrawingQuality(g);
 
-        Rectangle actualRectangle = new Rectangle(0, -1, Width, Height + 2);
+        if (Template != null)
+        {
+            Rectangle actualRectangle = new Rectangle(0, -1, Width, Height + 2);
 
-        backBrush = new LinearGradientBrush(ClientRectangle, Template.StartColor, Template.EndColor,
-            Template.Mode);
+            backBrush = new LinearGradientBrush(ClientRectangle, Template.StartColor, Template.EndColor,
+                Template.Mode);
 
-        g.FillRectangle(backBrush, actualRectangle);
-        backBrush.Dispose();
+            g.FillRectangle(backBrush, actualRectangle);
+            backBrush.Dispose();
+        }
     }
 
     /// <summary>
@@ -390,7 +399,7 @@ public class GradientPanel : Panel
     /// </param>
     private void DrawButtonImage(Graphics? g)
     {
-        if (Template.Image != null)
+        if (Template != null && Template.Image != null)
         {
             Rectangle location = CalculateImagePosition();
             try
@@ -412,6 +421,9 @@ public class GradientPanel : Panel
     /// </returns>
     private Pen? GetBorderPen()
     {
+        if (Template == null)
+            return null;
+
         return Template.CreateBorderPen();
     }
 

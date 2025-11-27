@@ -165,13 +165,25 @@
         /// advanced by two.
         /// </summary>
         void Write(Half value);
+
         /// <summary>
         /// Writes a length-prefixed string to this stream in the BinaryWriter's
         /// current Encoding. This method first writes the length of the string as
         /// an encoded unsigned integer with variable length, and then writes that many characters
         /// to the stream.
         /// </summary>
+        /// <param name="value">The value to be written.</param>
         void Write(string? value);
+
+        /// <summary>
+        /// Writes a bolean value indicating whether the data is null, and then, if not null,
+        /// writes a length-prefixed string to this stream in the <see cref="BinaryWriter"/>'s
+        /// current Encoding. This method first writes the length of the string as
+        /// an encoded unsigned integer with variable length, and then writes that many characters
+        /// to the stream.
+        /// </summary>
+        /// <param name="value">The value to be written.</param>
+        void WriteNullable(string? value);
         /// <summary>
         /// Writes the content of the read-only span of bytes to the stream.
         /// </summary>

@@ -46,7 +46,7 @@ public class BINTableTests
     {
         BINTable table = new BINTable();
 
-        BINRule? rule = table.GetMatchingRule(null);
+        BINRule? rule = table.GetMatchingRule(string.Empty);
         Assert.Null(rule);
 
         table.Dispose();

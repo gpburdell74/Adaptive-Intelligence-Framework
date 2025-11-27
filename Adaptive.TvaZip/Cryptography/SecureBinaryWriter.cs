@@ -604,7 +604,14 @@ public sealed class SecureBinaryWriter : ExceptionTrackingBase, ISafeBinaryWrite
             Exceptions?.Add(ex);
         }
     }
-
+    /// <summary>
+    /// Writes the nullable string.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    public void WriteNullable(string? value)
+    {
+        Write(value);
+    }
     /// <summary>
     /// Writes the content of the read-only span of bytes to the stream.
     /// </summary>

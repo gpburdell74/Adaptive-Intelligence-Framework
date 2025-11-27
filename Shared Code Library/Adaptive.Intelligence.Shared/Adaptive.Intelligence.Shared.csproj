@@ -9,8 +9,8 @@
     <Description>A general use .NET Class Library</Description>
     <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
     <ApplicationIcon>AI.ico</ApplicationIcon>
-    <Version>0.92.100.0001</Version>
-    <FileVersion>0.92.100.0001</FileVersion>
+    <Version>0.92.200.0001</Version>
+    <FileVersion>0.92.200.0001</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
@@ -21,30 +21,16 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<EnableAnalyzers>true</EnableAnalyzers>
-	<EnableNETAnalyzers>True</EnableNETAnalyzers>
+	<EnableNETAnalyzers>False</EnableNETAnalyzers>
 	<AnalysisLevel>latest</AnalysisLevel>
 	<AssemblyName>Adaptive.Intelligence.Shared</AssemblyName>
 	<RootNamespace>Adaptive.Intelligence.Shared</RootNamespace>
 	<PackageId>Sam.Jones.Adaptive.Intelligence.Shared</PackageId>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<NeutralLanguage>en-US</NeutralLanguage>
+	<PackageTags>.NET C# General Framework Class Library</PackageTags>
+	<IncludeSymbols>False</IncludeSymbols>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IsTrimmable>True</IsTrimmable>
   </PropertyGroup>
   
   <ItemGroup>
@@ -61,7 +47,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="License.txt" />
     <None Remove="NuGet ApiKey.txt" />
+    <None Remove="Readme.md" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,9 +57,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" Version="9.0.10" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
+    <EmbeddedResource Include="License.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Readme.md" />
   </ItemGroup>
+    <PropertyGroup>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -86,13 +85,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="License.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>

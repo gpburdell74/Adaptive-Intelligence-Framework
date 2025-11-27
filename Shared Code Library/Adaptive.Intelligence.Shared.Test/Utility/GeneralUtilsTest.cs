@@ -6,6 +6,7 @@ using AutoFixture.Xunit2;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
+using Xunit;
 
 namespace Adaptive.Intelligence.Shared.Test.Utility
 {

@@ -31,10 +31,6 @@ namespace Adaptive.Intelligence.Shared.UI
         /// The current process name.
         /// </summary>
         private static string? _processName;
-        /// <summary>
-        /// The initial load process is complete flag.
-        /// </summary>
-        private bool _initLoadComplete;
         #endregion
 
         #region Private Member Declarations
@@ -510,9 +506,6 @@ namespace Adaptive.Intelligence.Shared.UI
             }
 
             ResumeLayout();
-
-            // Indicate the initial load process has completed.
-            _initLoadComplete = true;
             OnInitLoadComplete();
         }
         #endregion
