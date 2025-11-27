@@ -130,26 +130,12 @@ public class TemplatedButton : Button
         }
     }
 
-    private byte[]? _templateData;
-
-    [Browsable(true),
-     Category("Appearance"),
-     Localizable(true),
-     Description("Gets or sets the button template content to use."),
-     DesignerSerializationVisibility(DesignerSerializationVisibility.Visible),
-     Editor(typeof(ImageEditor), typeof(UITypeEditor))]
-    public byte[]? ResourceTemplate
-    {
-        get => _templateData;
-        set
-        {
-            _templateData = value;
-            Template = ButtonTemplate.Load(_templateData);
-            SetImageReferences();
-            Invalidate();
-        }
-    }
-
+    /// <summary>
+    /// Gets or sets the template file.
+    /// </summary>
+    /// <value>
+    /// A string containing the path and name of the template to be used.
+    /// </value>
     [Browsable(true),
      Category("Appearance"),
      Description("Gets or sets the button template file to use."),
@@ -160,16 +146,16 @@ public class TemplatedButton : Button
         get => _templateFile;
         set
         {
-            //_templateFile = value;
-            //if (value != null)
-            //{
-            //    ButtonTemplate testTemplate = ButtonTemplate.Load(_templateFile);
-            //    if (testTemplate != null)
-            //    {
-            //        Template = testTemplate;
-            //        SetImageReferences();
-            //    }
-            //}
+            _templateFile = value;
+            if (!string.IsNullOrEmpty(_templateFile))
+            {
+                ButtonTemplate? testTemplate = ButtonTemplate.Load(_templateFile);
+                if (testTemplate != null)
+                {
+                    Template = testTemplate;
+                    SetImageReferences();
+                }
+            }
             Invalidate();
         }
     }
@@ -325,23 +311,23 @@ public class TemplatedButton : Button
 
     private void SetImageReferences()
     {
-        if (Image != null)
+        if (Image != null && _template != null)
         {
-            if (_template.Normal.Image == null)
+            if (_template.Normal != null && _template.Normal.Image == null)
                 _template.Normal.Image = Image;
 
-            if (_template.Disabled.Image == null)
+            if (_template.Disabled != null && _template.Disabled.Image == null)
                 _template.Disabled.Image = Image;
 
-            if (_template.Hover.Image == null)
+            if (_template.Hover != null && _template.Hover.Image == null)
                 _template.Hover.Image = Image;
 
-            if (_template.Pressed.Image == null)
+            if (_template.Pressed != null && _template.Pressed.Image == null)
                 _template.Pressed.Image = Image;
 
-            if (_template.Checked.Image == null)
+            if (_template.Checked != null && _template.Checked.Image == null)
                 _template.Checked.Image = Image;
         }
-        #endregion
     }
+    #endregion
 }

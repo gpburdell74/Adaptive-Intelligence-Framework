@@ -34,7 +34,7 @@ namespace Adaptive.Intelligence.Shared.Test.Bases
                 Assert.Null(args.PropertyName);
             };
 
-            mock.InvokeOnPropertyChanged(null);
+            mock.InvokeOnPropertyChanged(string.Empty);
 
             Assert.True(eventRaised, "PropertyChanged event should handle null property names.");
         }

@@ -675,6 +675,19 @@ public sealed class SecureBinaryReader : ExceptionTrackingBase, ISafeBinaryReade
         }
         return value;
     }
+
+    /// <summary>
+    /// Reads a length-prefixed string from this stream in the BinaryReader's
+    /// current Encoding.
+    /// </summary>
+    /// <returns>
+    /// The string that was read, or <b>null</b>.
+    /// </returns>
+    public string? ReadNullableString()
+    {
+        return ReadString();
+    }
+
     /// <summary>
     /// Reads the integer from the stream as a 7-bit encoded returns.
     /// </summary>

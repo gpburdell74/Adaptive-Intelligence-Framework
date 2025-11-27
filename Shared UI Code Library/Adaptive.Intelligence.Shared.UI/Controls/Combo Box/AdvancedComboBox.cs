@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Adaptive.Intelligence.Shared.UI.Controls.Combo_Box
+namespace Adaptive.Intelligence.Shared.UI.Controls
 {
     /// <summary>
     /// Provides a descendant class of the ComboBox control as a base
@@ -129,14 +129,22 @@ namespace Adaptive.Intelligence.Shared.UI.Controls.Combo_Box
             if (!DesignMode)
                 RemoveEventHandlers();
         }
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+
+        /// <summary>
+        /// Provides a method to initialize the content of the control when it is first loaded.
+        /// </summary>
+        protected virtual void InitializeDataContent()
+        {
+        }
+
         /// <summary>
         /// Provides an asynchronous method to initialize the content of the control when it is first loaded.
         /// </summary>
-        protected virtual async Task LoadDataContentAsync()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        protected virtual Task LoadDataContentAsync()
         {
+            return Task.CompletedTask;
         }
+
         /// <summary>
         /// Initializes the content of the control when it is first loaded.
         /// </summary>
@@ -195,21 +203,6 @@ namespace Adaptive.Intelligence.Shared.UI.Controls.Combo_Box
         protected virtual void ReleaseResources()
         {
         }
-        ///// <summary>
-        ///// Sends a message to the specified control to turn on re-drawing of the control.
-        ///// </summary>
-        //protected void ResumeDrawing()
-        //{
-        //    Win32Api.ResumeDrawing(this.Handle);
-        //    Invalidate();
-        //}
-        ///// <summary>
-        ///// Sends a message to the specified control to turn off re-drawing of the control.
-        ///// </summary>
-        //public void SuspendDrawing()
-        //{
-        //    Win32Api.StopDrawing(this.Handle);
-        //}
         #endregion
 
         #region Public Methods / Functions

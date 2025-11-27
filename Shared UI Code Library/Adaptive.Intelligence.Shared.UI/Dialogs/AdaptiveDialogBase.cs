@@ -1,5 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
 using System.ComponentModel;
+using System.Runtime.Versioning;
 
 namespace Adaptive.Intelligence.Shared.UI
 {
@@ -8,6 +9,7 @@ namespace Adaptive.Intelligence.Shared.UI
     /// <summary>
     /// Provides the standard base dialog definition for dialogs in UI applications.
     /// </summary>
+    [SupportedOSPlatform("windows")]
     public class AdaptiveDialogBase : Form
     {
         #region Private Member Declarations

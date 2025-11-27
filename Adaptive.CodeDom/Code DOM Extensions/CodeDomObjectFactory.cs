@@ -461,7 +461,6 @@ namespace Adaptive.CodeDom
         #region Private Static Methods / Functions
         #endregion
 
-
         /// <summary>
         /// Creates the XML value pre-defined text for boolean values.
         /// </summary>

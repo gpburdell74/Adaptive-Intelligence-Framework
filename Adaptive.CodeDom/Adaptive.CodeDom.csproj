@@ -36,6 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.CodeDom">
+      <HintPath>..\..\..\NuGet\system.codedom\6.0.0\lib\net6.0\System.CodeDom.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

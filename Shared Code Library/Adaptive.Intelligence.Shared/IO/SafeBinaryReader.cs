@@ -639,6 +639,30 @@ namespace Adaptive.Intelligence.Shared.IO
             return returns;
         }
         /// <summary>
+        /// Reads the string.
+        /// </summary>
+        /// <returns></returns>
+        public string? ReadNullableString()
+        {
+            string? returns = null;
+            try
+            {
+                if (_reader != null)
+                {
+                    int hasData = _reader.ReadByte();
+                    if (hasData == 1)
+                    {
+                        returns = _reader.ReadString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AddException(ex);
+            }
+            return returns;
+        }
+        /// <summary>
         /// Reads the integer from the stream as a 7-bit encoded returns.
         /// </summary>
         /// <returns>

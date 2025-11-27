@@ -41,6 +41,7 @@
         /// may raise exceptions.
         /// </summary>
         void Close();
+
         /// <summary>
         /// Moves the current position in the file to the specified location.
         /// </summary>
@@ -54,6 +55,7 @@
         /// A <see cref="long"/> specifying the new position in the file.
         /// </returns>
         long Seek(int offset, SeekOrigin origin);
+
         /// <summary>
         /// Reads the byte array into the specified buffer.
         /// </summary>
@@ -67,6 +69,7 @@
         /// An integer specifying the number of bytes to be read.
         /// </param>
         void Read(byte[] buffer, int startIndex, int numberOfBytes);
+
         /// <summary>
         /// Reads the next boolean value from the <see cref="Stream"/>.
         /// </summary>
@@ -214,6 +217,15 @@
         /// The string that was read, or <b>null</b>.
         /// </returns>
         string? ReadString();
+        /// <summary>
+        /// Reads a length-prefixed string from this stream in the BinaryReader's
+        /// current Encoding. 
+        /// </summary>
+        /// <returns>
+        /// The string that was read, or <b>null</b>.
+        /// </returns>
+        string? ReadNullableString();
+
         /// <summary>
         /// Reads the integer from the stream as a 7-bit encoded returns.
         /// </summary>

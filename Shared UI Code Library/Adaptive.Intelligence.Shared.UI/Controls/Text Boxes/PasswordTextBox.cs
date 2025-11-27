@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 namespace Adaptive.Intelligence.Shared.UI
 {
@@ -42,9 +43,17 @@ namespace Adaptive.Intelligence.Shared.UI
         /// <value>
         /// The <see cref="Font"/> to be used.
         /// </value>
+        [Category("Appearance"),
+         Localizable(true),
+         AmbientValue(null),
+         Description(""),
+         AllowNull]
         public override Font Font
         {
-            get => base.Font;
+            get
+            {
+                return base.Font;
+            }
             set
             {
                 base.Font = value;

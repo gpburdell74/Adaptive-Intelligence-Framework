@@ -509,6 +509,7 @@ public sealed class SafeBinaryWriter : ExceptionTrackingBase, ISafeBinaryWriter
             Exceptions?.Add(ex);
         }
     }
+
     /// <summary>
     /// Writes a length-prefixed string to this stream in the BinaryWriter's
     /// current Encoding. This method first writes the length of the string as
@@ -532,6 +533,37 @@ public sealed class SafeBinaryWriter : ExceptionTrackingBase, ISafeBinaryWriter
             Exceptions?.Add(ex);
         }
     }
+
+
+    /// <summary>
+    /// Writes a length-prefixed string to this stream in the BinaryWriter's
+    /// current Encoding. This method first writes the length of the string as
+    /// an encoded unsigned integer with variable length, and then writes that many characters
+    /// to the stream.
+    /// </summary>
+    /// <param name="value">
+    /// The <see cref="string"/> value to be written.
+    /// </param>
+    public void WriteNullable(string? value)
+    {
+        try
+        {
+            if (value != null)
+            {
+                _writer?.Write((byte)1);
+                _writer?.Write(value);
+            }
+            else
+            {
+                _writer?.Write((byte)0);
+            }
+        }
+        catch (Exception ex)
+        {
+            Exceptions?.Add(ex);
+        }
+    }
+
     /// <summary>
     /// Writes the content of the read-only span of bytes to the stream.
     /// </summary>

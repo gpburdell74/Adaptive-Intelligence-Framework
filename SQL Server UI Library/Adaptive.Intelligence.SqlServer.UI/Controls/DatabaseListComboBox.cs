@@ -1,5 +1,5 @@
 ﻿using Adaptive.Intelligence.Shared;
-using Adaptive.Intelligence.Shared.UI.Controls.Combo_Box;
+using Adaptive.Intelligence.Shared.UI.Controls;
 using Adaptive.SqlServer.Client;
 using Microsoft.Data.SqlClient;
 using System.ComponentModel;

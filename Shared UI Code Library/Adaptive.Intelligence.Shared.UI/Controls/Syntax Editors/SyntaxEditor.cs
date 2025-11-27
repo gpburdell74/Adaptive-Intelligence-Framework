@@ -188,28 +188,34 @@ namespace Adaptive.Intelligence.Shared.UI
         /// <param name="e">A <see cref="T:System.Windows.Forms.KeyEventArgs" /> that contains the event data.</param>
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            // Undo = Ctrl + Z
-            if (e.Control && e.KeyCode == Keys.Z)
+            if (_undoBuffer != null)
             {
-                e.Handled = true;
-                // Undo operation.
-                if (_undoBuffer!.HasData)
+                // Undo = Ctrl + Z
+                if (e.Control && e.KeyCode == Keys.Z)
                 {
-                    _undoing = true;
-                    string oldText = _undoBuffer!.GetLast();
-                    Text = oldText;
-                    _undoing = false;
+                    e.Handled = true;
+                    // Undo operation.
+                    if (_undoBuffer.HasData)
+                    {
+                        _undoing = true;
+                        string? oldText = _undoBuffer.GetLast();
+                        if (oldText == null)
+                            Text = string.Empty;
+                        else
+                            Text = oldText;
+                        _undoing = false;
+                    }
                 }
-            }
-            else if (!e.Control && !e.Alt)
-            {
-                if (!_undoing)
+                else if (!e.Control && !e.Alt)
                 {
-                    string value = Text;
-                    if (!_undoBuffer!.IsSame(value))
-                        _undoBuffer.Add(value);
+                    if (!_undoing)
+                    {
+                        string value = Text;
+                        if (!_undoBuffer!.IsSame(value))
+                            _undoBuffer.Add(value);
+                    }
+                    base.OnKeyUp(e);
                 }
-                base.OnKeyUp(e);
             }
         }
 

@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0-windows7.0</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
     <Title>Adaptive Intelligence WinForms UI Library</Title>
-    <Version>0.92.100.0001</Version>
-    <FileVersion>0.92.100.0001</FileVersion>
+    <Version>0.92.200.0001</Version>
+    <FileVersion>0.92.200.0001</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
@@ -18,6 +18,7 @@
     <PackageIcon>AI.png</PackageIcon>
     <ApplicationIcon>AI.ico</ApplicationIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,10 +49,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
   </ItemGroup>
 
   <ItemGroup>
