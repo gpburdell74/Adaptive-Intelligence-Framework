@@ -128,9 +128,13 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
 
             string schema;
             if (string.IsNullOrEmpty(table.Schema))
+            {
                 schema = TSqlConstants.DefaultDatabaseOwner;
+            }
             else
+            {
                 schema = table.Schema;
+            }
 
             profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
 
@@ -161,7 +165,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                     if (tableRef == null)
                     {
                         if (subName.EndsWith("y"))
+                        {
                             subName = subName.Substring(0, subName.Length - 1) + "ies";
+                        }
+
                         tableRef = _sourceDatabase.Tables.HeuristicFind(subName);
                     }
 
@@ -174,9 +181,13 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                             KeyField = name,
                         };
                         if (table.Columns[name]!.IsNullable)
+                        {
                             newItem.UsesLeftJoin = true;
+                        }
                         else
+                        {
                             newItem.UsesLeftJoin = false;
+                        }
 
                         AdaptiveTableProfile? subProfile = _profiles[tableRef.TableName!];
                         profile.ReferencedTableJoins?.Add(newItem);
@@ -190,7 +201,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             // Find and load the existing standard CRUD stored procedures that may have been defined.
             var proceduresList = SqlDatabase.GetStoredProceduresForTable(provider, table.TableName!);
             if (proceduresList != null)
+            {
                 profile.StandardStoredProcedures?.AddRange(proceduresList);
+            }
         }
 
         /// <summary>
@@ -215,9 +228,13 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
 
                     string schema;
                     if (string.IsNullOrEmpty(table.Schema))
+                    {
                         schema = TSqlConstants.DefaultDatabaseOwner;
+                    }
                     else
+                    {
                         schema = table.Schema;
+                    }
 
                     profile.QualifiedName = TSqlConstants.RenderSchemaAndTableName(schema, table.TableName);
 
@@ -248,7 +265,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                             if (tableRef == null)
                             {
                                 if (subName.EndsWith("y"))
+                                {
                                     subName = subName.Substring(0, subName.Length - 1) + "ies";
+                                }
+
                                 tableRef = _sourceDatabase?.Tables?.HeuristicFind(subName);
                             }
 
@@ -261,9 +281,13 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                                     KeyField = name,
                                 };
                                 if (table.Columns[name]!.IsNullable)
+                                {
                                     newItem.UsesLeftJoin = true;
+                                }
                                 else
+                                {
                                     newItem.UsesLeftJoin = false;
+                                }
 
                                 AdaptiveTableProfile? subProfile = _profiles[tableRef.TableName!];
                                 profile?.ReferencedTableJoins?.Add(newItem);
@@ -283,7 +307,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                                 table.TableName ?? string.Empty)
                             .ConfigureAwait(false);
                         if (list != null)
+                        {
                             profile?.StandardStoredProcedures?.AddRange(list);
+                        }
                     }
                 }
             }

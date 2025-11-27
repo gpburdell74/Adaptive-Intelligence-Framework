@@ -104,12 +104,16 @@ namespace Adaptive.Intelligence.Shared
                     // If we have not yet encountered a period, treat the period as a number -
                     // unless <i>isFloatingPoint</i> is <b>false</b>.
                     if (charToExamine == '.' && !dotFound)
+                    {
                         dotFound = true;
+                    }
                     else
+                    {
                         position = index;
+                    }
                 }
                 index++;
-            };
+            }
 
             return position;
         }
@@ -146,7 +150,9 @@ namespace Adaptive.Intelligence.Shared
                         comparisonValue.EndsWith(EndingsExceptionUles) ||
                         comparisonValue.EndsWith(EndingsExceptionPlates))
                         // In this case, just remove the "s".
+                    {
                         returnValue = originalValue.Substring(0, comparisonValue.Length - 1);
+                    }
                     else
                     {
                         if (!originalValue.EndsWith(EndingsSS))
@@ -155,12 +161,16 @@ namespace Adaptive.Intelligence.Shared
                             returnValue = originalValue.Substring(0, comparisonValue.Length - 2);
                         }
                         else
+                        {
                             returnValue = originalValue;
+                        }
                     }
                 }
                 else if (!comparisonValue.EndsWith(EndingsSS) && comparisonValue.EndsWith(EndingsS))
                     // Standard word - remove the "s"
+                {
                     returnValue = originalValue.Substring(0, comparisonValue.Length - 1);
+                }
             }
             return returnValue;
         }
@@ -186,7 +196,9 @@ namespace Adaptive.Intelligence.Shared
                     // Determine if just adding "s" is needed...
                     bool endsInS = YWordEndsInS(comparisonValue);
                     if (endsInS)
+                    {
                         returnValue = originalValue + EndingsS;
+                    }
                     else
                     {
                         // Remove Y and ends with "ies".
@@ -198,7 +210,9 @@ namespace Adaptive.Intelligence.Shared
                     returnValue = originalValue + EndingsS;
                 }
                 else
+                {
                     returnValue = originalValue + EndingsS;
+                }
             }
             return returnValue;
         }

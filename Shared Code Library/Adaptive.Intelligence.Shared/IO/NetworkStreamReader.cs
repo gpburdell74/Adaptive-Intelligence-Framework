@@ -96,7 +96,9 @@ namespace Adaptive.Intelligence.Shared.IO
 
                         // If -1 is done, either the stream failed or no more data is to be read.
                         if (nextChar == -1)
+                        {
                             isDone = true;
+                        }
                         else
                         {
                             // Add the character that was read.
@@ -106,7 +108,9 @@ namespace Adaptive.Intelligence.Shared.IO
                             // (Carriage-return, if present, always precedes linefeed.  Carriage-return
                             //  may not be sent by UNIX/Linux systems.)
                             if (nextChar == 10)
+                            {
                                 isDone = true;
+                            }
                         }
 
                     } while (!isDone);
@@ -114,7 +118,9 @@ namespace Adaptive.Intelligence.Shared.IO
 
                 // Return the string buffer that was read.
                 if (builder.Length > 0)
+                {
                     returnValue = builder.ToString();
+                }
             }
 
             return returnValue;

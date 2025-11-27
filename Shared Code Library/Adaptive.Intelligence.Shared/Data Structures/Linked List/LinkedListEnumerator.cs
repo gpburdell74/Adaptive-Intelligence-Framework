@@ -56,9 +56,13 @@ namespace Adaptive.Intelligence.Shared
             get
             {
                 if (_current == null)
+                {
                     return default!;
+                }
                 else
+                {
                     return _current.Data!;
+                }
             }
         }
         /// <summary>
@@ -82,9 +86,13 @@ namespace Adaptive.Intelligence.Shared
         public bool MoveNext()
         {
             if (_current == null && _parentList != null && _parentList.Count > 0)
+            {
                 _current = _parentList.FirstNode;
+            }
             else if (_current != null)
+            {
                 _current = _current.Next;
+            }
 
             return (_current != null);
         }

@@ -68,7 +68,9 @@
                 if (value != null)
                 {
                     if (_items != null && _items.ContainsKey(name))
+                    {
                         _items[name] = value;
+                    }
                 }
             }
         }
@@ -119,7 +121,9 @@
         public new void AddRange(IEnumerable<T> collection)
         {
             foreach (T item in collection)
+            {
                 Add(item);
+            }
         }
         /// <summary>
         /// Determines whether the collection contains an instance that is identified with the specified key value.

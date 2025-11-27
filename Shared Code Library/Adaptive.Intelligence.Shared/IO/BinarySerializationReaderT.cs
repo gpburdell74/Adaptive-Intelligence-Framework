@@ -47,7 +47,9 @@ namespace Adaptive.Intelligence.Shared.IO
 
             Type[] arguments = GetType().GetGenericArguments();
             if (arguments.Length > 0)
+            {
                 _itemType = arguments[0];
+            }
 
             _serialProps = new List<SerializationProperty>();
         }
@@ -58,7 +60,9 @@ namespace Adaptive.Intelligence.Shared.IO
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _reader?.Dispose();
+            }
 
             _itemType = null;
             _reader = null;
@@ -87,7 +91,9 @@ namespace Adaptive.Intelligence.Shared.IO
         public List<T> ReadList()
         {
             if (_reader == null)
+            {
                 throw new InvalidOperationException(Resources.ErrorStreamRead);
+            }
 
             // Read the property list.
             ReadPropertyList();
@@ -100,7 +106,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 T instance = Read();
                 if (instance != null)
+                {
                     list.Add(instance);
+                }
             }
             return list;
 
@@ -132,7 +140,9 @@ namespace Adaptive.Intelligence.Shared.IO
                     try
                     {
                         if (serialProp.PropertyName != null)
+                        {
                             propInstance = _itemType.GetProperty(serialProp.PropertyName);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -143,7 +153,9 @@ namespace Adaptive.Intelligence.Shared.IO
                         serialProp.ExistingProperty = propInstance;
                     }
                     if (_serialProps == null)
+                    {
                         _serialProps = new List<SerializationProperty>();
+                    }
 
                     _serialProps.Add(serialProp);
                 }
@@ -161,7 +173,9 @@ namespace Adaptive.Intelligence.Shared.IO
             if (_serialProps != null)
             {
                 foreach (SerializationProperty prop in _serialProps)
+                {
                     ReadProperty(currentInstance, prop);
+                }
             }
             return currentInstance;
         }
@@ -227,8 +241,12 @@ namespace Adaptive.Intelligence.Shared.IO
                         value = ReadByType(actualType);
                     }
                     if (propertyDefinition.ExistingProperty != null)
+                    {
                         if (propertyDefinition.ExistingProperty.CanWrite)
+                        {
                             propertyDefinition.ExistingProperty.SetValue(currentInstance, value);
+                        }
+                    }
                 }
             }
         }
@@ -249,11 +267,17 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 object? value = null;
                 if (propertyDefinition.PropertyType != null)
+                {
                     ReadByType(propertyDefinition.PropertyType);
+                }
 
                 if (propertyDefinition.ExistingProperty != null)
+                {
                     if (propertyDefinition.ExistingProperty.CanWrite)
+                    {
                         propertyDefinition.ExistingProperty.SetValue(currentInstance, value);
+                    }
+                }
             }
         }
         /// <summary>
@@ -266,9 +290,13 @@ namespace Adaptive.Intelligence.Shared.IO
         private bool ReadIsNotNull()
         {
             if (_reader == null)
+            {
                 return false;
+            }
             else
+            {
                 return (_reader.ReadByte() > 0);
+            }
         }
         /// <summary>
         /// Reads the data of the property from the serialization stream based
@@ -288,7 +316,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 // Handle arrays specially.
                 if (propertyType.IsArray)
+                {
                     returnValue = ReadArrayByType(propertyType);
+                }
                 else
                 {
                     TypeCode typeCode = Type.GetTypeCode(propertyType);
@@ -432,7 +462,9 @@ namespace Adaptive.Intelligence.Shared.IO
                             int length = _reader.ReadInt32();
                             string[] result = new string[length];
                             for (int count = 0; count < length; count++)
+                            {
                                 result[count] = _reader.ReadString();
+                            }
 
                             returnValue = result;
                         }

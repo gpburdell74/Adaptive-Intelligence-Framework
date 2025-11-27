@@ -25,7 +25,7 @@ public class BusinessCollectionBase<T, E> : BusinessCollectionBase<T>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public BusinessCollectionBase() : base()
+    public BusinessCollectionBase()
     {
     }
     /// <summary>
@@ -47,7 +47,9 @@ public class BusinessCollectionBase<T, E> : BusinessCollectionBase<T>
     public BusinessCollectionBase(IEnumerable<T>? sourceList) : base(sourceList)
     {
         if (sourceList != null)
+        {
             AddRange(sourceList);
+        }
     }
 
     /// <summary>

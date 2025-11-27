@@ -90,9 +90,13 @@
             {
                 _columnName?.Dispose();
                 if (value == null)
+                {
                     _columnName = null;
+                }
                 else
+                {
                     _columnName = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -108,9 +112,13 @@
             {
                 _tableName?.Dispose();
                 if (value == null)
+                {
                     _tableName = null;
+                }
                 else
+                {
                     _tableName = value.Clone();
+                }
             }
         }
         #endregion

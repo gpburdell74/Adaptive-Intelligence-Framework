@@ -26,7 +26,7 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public MruFileProvider() : base()
+    public MruFileProvider()
     {
     }
 
@@ -36,7 +36,7 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
     /// <param name="localFileName">
     /// A string containing the path and name of the local file to use to store MRU data.
     /// </param>
-    public MruFileProvider(string localFileName) : base()
+    public MruFileProvider(string localFileName)
     {
         _fileName = localFileName;
         UseLocalExecutionPath = false;
@@ -51,7 +51,7 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
     /// <param name="useExecutionPath">
     /// A value indicating whether to look for the file in the local execution path.
     /// </param>
-    public MruFileProvider(string localFileName, bool useExecutionPath) : base()
+    public MruFileProvider(string localFileName, bool useExecutionPath)
     {
         _fileName = localFileName;
         UseLocalExecutionPath = useExecutionPath;
@@ -95,9 +95,13 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
         get
         {
             if (_entries == null)
+            {
                 return 0;
+            }
             else
+            {
                 return _entries.Count;
+            }
         }
     }
     /// <summary>
@@ -136,7 +140,9 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
         if (_entries != null)
         {
             if (!_entries.ContainsFile(pathAndFileName))
+            {
                 _entries.AddFile(pathAndFileName, displayText);
+            }
         }
     }
 
@@ -152,7 +158,9 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
         {
             MruFileEntry? fileEntry = entry as MruFileEntry;
             if (fileEntry != null)
+            {
                 _entries.Add(fileEntry);
+            }
         }
     }
 
@@ -168,7 +176,9 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
         {
             MruFileEntry? fileEntry = entry as MruFileEntry;
             if (fileEntry != null)
+            {
                 _entries.Remove(fileEntry);
+            }
         }
     }
 
@@ -196,9 +206,13 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
     public MruFileEntry? GetEntry(int index)
     {
         if (_entries != null && index >= 0 && index < _entries.Count)
+        {
             return _entries[index];
+        }
         else
+        {
             return null;
+        }
     }
 
     /// <summary>
@@ -237,7 +251,9 @@ public class MruFileProvider : DisposableObjectBase, IMruProvider
         string fileToSave = DetermineFileName();
 
         if (SafeIO.FileExists(fileToSave))
+        {
             SafeIO.DeleteFile(fileToSave);
+        }
 
         // Write the data.
         FileStream? destinationStream = SafeIO.OpenFileForExclusiveWrite(fileToSave);

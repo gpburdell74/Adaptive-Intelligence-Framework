@@ -175,7 +175,10 @@ namespace Adaptive.Intelligence.Shared
             if (!string.IsNullOrEmpty(ZipPlus4))
             {
                 if (!string.IsNullOrEmpty(ZipCode))
+                {
                     cityStateZipBuilder.Append(Constants.Dash);
+                }
+
                 cityStateZipBuilder.Append(ZipPlus4);
             }
 

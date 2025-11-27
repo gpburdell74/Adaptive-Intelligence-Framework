@@ -42,7 +42,9 @@ public class BusinessCollectionBase<T> : List<T>
     public BusinessCollectionBase(IEnumerable<T>? sourceList)
     {
         if (sourceList != null)
+        {
             AddRange(sourceList);
+        }
     }
 
     /// <summary>
@@ -109,10 +111,14 @@ public class BusinessCollectionBase<T> : List<T>
 
             // If successful, ensure the object is disposed.
             if (success)
+            {
                 itemToDelete.Dispose();
+            }
             else
                 // Otherwise, re-add to the collection since it was not deleted.
+            {
                 Add(itemToDelete);
+            }
         }
 
         return success;

@@ -57,7 +57,9 @@ namespace Adaptive.Intelligence.Shared.IO
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing && _readerLocal)
+            {
                 _reader?.Dispose();
+            }
 
             _reader = null;
             _sourceStream = null;
@@ -159,7 +161,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_sourceStream != null)
+                {
                     newPosition = _sourceStream.Seek(offset, origin);
+                }
             }
             catch (Exception ex)
             {
@@ -179,7 +183,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     value = _reader.ReadBoolean();
+                }
             }
             catch (Exception ex)
             {
@@ -199,7 +205,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     value = _reader.ReadByte();
+                }
             }
             catch (Exception ex)
             {
@@ -219,7 +227,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     value = _reader.ReadSByte();
+                }
             }
             catch (Exception ex)
             {
@@ -249,7 +259,9 @@ namespace Adaptive.Intelligence.Shared.IO
                     length = ReadInt32();
 
                     if (length > 0)
+                    {
                         data = _reader.ReadBytes(length);
+                    }
                 }
             }
             catch (Exception ex)
@@ -283,7 +295,9 @@ namespace Adaptive.Intelligence.Shared.IO
                         int length = _reader.ReadInt32();
 
                         if (length > 0)
+                        {
                             data = _reader.ReadBytes(length);
+                        }
                     }
                 }
             }
@@ -308,7 +322,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     data = _reader.ReadBytes(count);
+                }
             }
             catch (Exception ex)
             {
@@ -328,7 +344,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     value = _reader.ReadChar();
+                }
             }
             catch (Exception ex)
             {
@@ -378,7 +396,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     data = _reader.ReadChars(count);
+                }
             }
             catch (Exception ex)
             {
@@ -425,7 +445,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     value = _reader.ReadDouble();
+                }
             }
             catch (Exception ex)
             {
@@ -445,7 +467,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     value = _reader.ReadDecimal();
+                }
             }
             catch (Exception ex)
             {
@@ -465,7 +489,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadInt16();
+                }
             }
             catch (Exception ex)
             {
@@ -486,7 +512,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadUInt16();
+                }
             }
             catch (Exception ex)
             {
@@ -507,7 +535,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadInt32();
+                }
             }
             catch (Exception ex)
             {
@@ -528,7 +558,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadUInt32();
+                }
             }
             catch (Exception ex)
             {
@@ -549,7 +581,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadInt64();
+                }
             }
             catch (Exception ex)
             {
@@ -570,7 +604,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadUInt64();
+                }
             }
             catch (Exception ex)
             {
@@ -591,7 +627,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadSingle();
+                }
             }
             catch (Exception ex)
             {
@@ -612,7 +650,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadHalf();
+                }
             }
             catch (Exception ex)
             {
@@ -630,7 +670,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.ReadString();
+                }
             }
             catch (Exception ex)
             {
@@ -674,7 +716,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.Read7BitEncodedInt();
+                }
             }
             catch (Exception ex)
             {
@@ -694,7 +738,9 @@ namespace Adaptive.Intelligence.Shared.IO
             try
             {
                 if (_reader != null)
+                {
                     returns = _reader.Read7BitEncodedInt64();
+                }
             }
             catch (Exception ex)
             {

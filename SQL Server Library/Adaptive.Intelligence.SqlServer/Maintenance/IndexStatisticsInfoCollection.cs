@@ -74,7 +74,9 @@
             foreach (IndexStatisticsInfo item in this)
             {
                 if (item.NeedsToRebuild)
+                {
                     count++;
+                }
             }
             return (count > 0);
         }
@@ -92,7 +94,9 @@
             foreach (IndexStatisticsInfo item in this)
             {
                 if (item.NeedsToRebuild)
+                {
                     list.Add(item);
+                }
             }
             return list;
         }

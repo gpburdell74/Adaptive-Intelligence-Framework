@@ -31,7 +31,9 @@ namespace Adaptive.Intelligence.Shared
             if (sourceList != null)
             {
                 foreach (var data in sourceList)
+                {
                     Add(data);
+                }
             }
         }
 
@@ -50,7 +52,9 @@ namespace Adaptive.Intelligence.Shared
                 foreach (var data in sourceData)
                 {
                     if (data != null)
+                    {
                         Add(data);
+                    }
                 }
             }
         }
@@ -141,7 +145,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 Clear();
                 foreach (var item in originalList)
+                {
                     Add(item);
+                }
             }
         }
         /// <summary>
@@ -157,7 +163,9 @@ namespace Adaptive.Intelligence.Shared
             foreach (var item in this)
             {
                 if (item != null)
+                {
                     list.Add(item);
+                }
             }
             return list;
         }

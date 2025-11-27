@@ -115,12 +115,18 @@ namespace Adaptive.Intelligence.Shared.Security
                 }
 
                 if (encryptedBytes != null)
+                {
                     return Decrypt(encryptedBytes);
+                }
                 else
+                {
                     return null;
+                }
             }
             else
+            {
                 return null;
+            }
         }
         /// <summary>
         /// Attempts to encrypt the provided data.
@@ -166,13 +172,19 @@ namespace Adaptive.Intelligence.Shared.Security
         public string? GetKeyValueForExport()
         {
             if (_currentKey == null)
+            {
                 return null;
+            }
             else if (!_currentKey.HasValue || _currentKey.Value.Modulus == null || _currentKey.Value.Exponent == null)
+            {
                 return null;
+            }
             else
+            {
                 return
                     Convert.ToBase64String(_currentKey.Value.Modulus) +
                     Convert.ToBase64String(_currentKey.Value.Exponent);
+            }
         }
         /// <summary>
         /// Gets the RSA public key value for exporting to another client or consumer.
@@ -183,9 +195,13 @@ namespace Adaptive.Intelligence.Shared.Security
         public byte[]? GetKeyValueForExportAsByteArray()
         {
             if (_currentKey == null)
+            {
                 return null;
+            }
             else if (!_currentKey.HasValue || _currentKey.Value.Modulus == null || _currentKey.Value.Exponent == null)
+            {
                 return null;
+            }
             else
             {
                 byte[] mod = _currentKey.Value.Modulus;
@@ -345,28 +361,45 @@ namespace Adaptive.Intelligence.Shared.Security
                 try
                 {
                     if (_currentKey.Value.D != null)
+                    {
                         writer.Write(_currentKey.Value.D);
+                    }
 
                     if (_currentKey.Value.DP != null)
+                    {
                         writer.Write(_currentKey.Value.DP);
+                    }
 
                     if (_currentKey.Value.DQ != null)
+                    {
                         writer.Write(_currentKey.Value.DQ);
+                    }
 
                     if (_currentKey.Value.Exponent != null)
+                    {
                         writer.Write(_currentKey.Value.Exponent);
+                    }
 
                     if (_currentKey.Value.InverseQ != null)
+                    {
                         writer.Write(_currentKey.Value.InverseQ);
+                    }
 
                     if (_currentKey.Value.Modulus != null)
+                    {
                         writer.Write(_currentKey.Value.Modulus);
+                    }
 
                     if (_currentKey.Value.P != null)
+                    {
                         writer.Write(_currentKey.Value.P);
+                    }
 
                     if (_currentKey.Value.Q != null)
+                    {
                         writer.Write(_currentKey.Value.Q);
+                    }
+
                     writer.Flush();
                     returnData = stream.ToArray();
                 }
@@ -391,28 +424,44 @@ namespace Adaptive.Intelligence.Shared.Security
             if (_currentKey != null && _currentKey.HasValue)
             {
                 if (_currentKey.Value.D != null)
+                {
                     Array.Clear(_currentKey.Value.D, 0, _currentKey.Value.D.Length);
+                }
 
                 if (_currentKey.Value.DP != null)
+                {
                     Array.Clear(_currentKey.Value.DP, 0, _currentKey.Value.DP.Length);
+                }
 
                 if (_currentKey.Value.DQ != null)
+                {
                     Array.Clear(_currentKey.Value.DQ, 0, _currentKey.Value.DQ.Length);
+                }
 
                 if (_currentKey.Value.Exponent != null)
+                {
                     Array.Clear(_currentKey.Value.Exponent, 0, _currentKey.Value.Exponent.Length);
+                }
 
                 if (_currentKey.Value.InverseQ != null)
+                {
                     Array.Clear(_currentKey.Value.InverseQ, 0, _currentKey.Value.InverseQ.Length);
+                }
 
                 if (_currentKey.Value.Modulus != null)
+                {
                     Array.Clear(_currentKey.Value.Modulus, 0, _currentKey.Value.Modulus.Length);
+                }
 
                 if (_currentKey.Value.P != null)
+                {
                     Array.Clear(_currentKey.Value.P, 0, _currentKey.Value.P.Length);
+                }
 
                 if (_currentKey.Value.Q != null)
+                {
                     Array.Clear(_currentKey.Value.Q, 0, _currentKey.Value.Q.Length);
+                }
             }
         }
         #endregion

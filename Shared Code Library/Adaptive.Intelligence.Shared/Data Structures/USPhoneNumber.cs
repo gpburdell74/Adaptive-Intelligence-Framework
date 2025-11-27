@@ -89,9 +89,13 @@ namespace Adaptive.Intelligence.Shared
             set
             {
                 if (value != null && value.Length == 3 && IsNumeric(value))
+                {
                     _areaCode = value;
+                }
                 else
+                {
                     _areaCode = null;
+                }
             }
         }
         /// <summary>
@@ -128,9 +132,13 @@ namespace Adaptive.Intelligence.Shared
             set
             {
                 if (value != null && value.Length == 4 && IsNumeric(value))
+                {
                     _number = value;
+                }
                 else
+                {
                     _number = null;
+                }
             }
         }
         /// <summary>
@@ -145,9 +153,13 @@ namespace Adaptive.Intelligence.Shared
             set
             {
                 if (value != null && value.Length == 3 && IsNumeric(value))
+                {
                     _prefix = value;
+                }
                 else
+                {
                     _prefix = null;
+                }
             }
         }
         #endregion
@@ -183,16 +195,24 @@ namespace Adaptive.Intelligence.Shared
         {
             StringBuilder item = new StringBuilder();
             if (_countryCode != null)
+            {
                 item.Append(_countryCode);
+            }
 
             if (_areaCode != null)
+            {
                 item.Append(_areaCode);
+            }
 
             if (_prefix != null)
+            {
                 item.Append(_prefix);
+            }
 
             if (_number != null)
+            {
                 item.Append(_number);
+            }
 
             return item.ToString().GetHashCode();
         }
@@ -212,7 +232,9 @@ namespace Adaptive.Intelligence.Shared
             else
             {
                 if (IsNaPN && other.IsNaPN)
+                {
                     return true;
+                }
                 else
                 {
                     return _areaCode == other.AreaCode &&
@@ -240,7 +262,9 @@ namespace Adaptive.Intelligence.Shared
             else
             {
                 if (IsNaPN && rightSide.IsNaPN)
+                {
                     return true;
+                }
                 else
                 {
                     return _areaCode == rightSide.AreaCode &&
@@ -258,17 +282,27 @@ namespace Adaptive.Intelligence.Shared
         public override string ToString()
         {
             if (IsNaPN)
+            {
                 return string.Empty;
+            }
             else
             {
                 StringBuilder builder = new StringBuilder();
 
                 if (_areaCode != null)
+                {
                     builder.Append(_areaCode);
+                }
+
                 if (_prefix != null)
+                {
                     builder.Append(_prefix);
+                }
+
                 if (_number != null)
+                {
                     builder.Append(_number);
+                }
 
                 return builder.ToString();
             }
@@ -289,29 +323,46 @@ namespace Adaptive.Intelligence.Shared
         {
             string returnValue;
             if (IsNaPN)
+            {
                 returnValue = string.Empty;
+            }
             else
             {
                 if (!formatted)
                 {
                     if (withCountryCode)
+                    {
                         returnValue = _countryCode + ToString();
+                    }
                     else
+                    {
                         returnValue = ToString();
+                    }
                 }
                 else
                 {
                     StringBuilder builder = new StringBuilder();
 
                     if (withCountryCode)
+                    {
                         builder.Append("+" + _countryCode + " ");
+                    }
 
                     if (_areaCode != null)
+                    {
                         builder.Append("(" + _areaCode + ") ");
+                    }
+
                     if (_prefix != null)
+                    {
                         builder.Append(_prefix + " - ");
+                    }
+
                     if (_number != null)
+                    {
                         builder.Append(_number);
+                    }
+
                     returnValue = builder.ToString().Trim();
                 }
             }
@@ -336,7 +387,9 @@ namespace Adaptive.Intelligence.Shared
 
                 // Parse in specific format if all numbers.
                 if (IsNumeric(originalData))
+                {
                     ParseAsNumbers(originalData);
+                }
                 else
                 {
                     // Standardize the tokens.
@@ -364,7 +417,9 @@ namespace Adaptive.Intelligence.Shared
             foreach (char c in data)
             {
                 if (!char.IsNumber(c))
+                {
                     isNumeric = false;
+                }
             }
             return isNumeric;
         }
@@ -412,10 +467,13 @@ namespace Adaptive.Intelligence.Shared
         {
             // Replace the ( ) and - delimiters with .
             if (original != null)
+            {
                 original = original
                     .Replace(Constants.OpenParen, string.Empty)
                     .Replace(Constants.CloseParen, Constants.Dot)
                     .Replace(Constants.Dash, Constants.Dot);
+            }
+
             return original;
         }
         /// <summary>
@@ -434,7 +492,9 @@ namespace Adaptive.Intelligence.Shared
                 {
                     string number = data.Replace("+", "");
                     if (IsNumeric(number))
+                    {
                         ParseAsNumbers(number);
+                    }
                     else
                     {
                         _areaCode = null;

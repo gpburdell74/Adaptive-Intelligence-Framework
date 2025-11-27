@@ -20,7 +20,9 @@
         public static int Percent(int numerator, int denominator)
         {
             if (denominator == 0)
+            {
                 return 0;
+            }
 
             return (int)(((float)numerator / (float)denominator) * 100);
         }
@@ -39,7 +41,9 @@
         public static float PercentF(float numerator, float denominator)
         {
             if (denominator == 0)
+            {
                 return 0;
+            }
 
             return (numerator / denominator) * 100;
         }

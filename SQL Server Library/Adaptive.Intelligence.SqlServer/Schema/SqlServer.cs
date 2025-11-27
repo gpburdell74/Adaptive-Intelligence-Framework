@@ -91,9 +91,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public bool LoadSchema(SqlDataProvider provider)
         {
             if (_databases == null)
+            {
                 _databases = new SqlDatabaseCollection();
+            }
             else
+            {
                 _databases.Clear();
+            }
 
             // Step 1. Load the list of databases.
             IOperationalResult<List<string>> result = provider.GetDatabaseNames();
@@ -126,9 +130,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public async Task<bool> LoadSchemaAsync(SqlDataProvider provider)
         {
             if (_databases == null)
+            {
                 _databases = new SqlDatabaseCollection();
+            }
             else
+            {
                 _databases.Clear();
+            }
 
             // Step 1. Load the list of databases.
             IOperationalResult<List<string>> result = await provider.GetDatabaseNamesAsync().ConfigureAwait(false);

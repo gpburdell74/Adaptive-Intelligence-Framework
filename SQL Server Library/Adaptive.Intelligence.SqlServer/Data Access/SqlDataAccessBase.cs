@@ -134,7 +134,9 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<int> result = _provider.ExecuteSql(sqlToExecute);
                 if (result.Success)
+                {
                     rowsAffected = result.DataContent;
+                }
 
                 CopyExceptions(result);
                 result.Dispose();
@@ -160,7 +162,10 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<int> result = await _provider.ExecuteSqlAsync(sqlToExecute).ConfigureAwait(false);
                 if (result.Success)
+                {
                     rowsAffected = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
             }
@@ -189,7 +194,9 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<int> result = _provider.ExecuteParameterizedSql(sqlText, parameterList);
                 if (result.Success)
+                {
                     rowsAffected = result.DataContent;
+                }
 
                 CopyExceptions(result);
                 result.Dispose();
@@ -219,7 +226,10 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<int> result = await _provider.ExecuteParameterizedSqlAsync(sql, parameterList).ConfigureAwait(false);
                 if (result.Success)
+                {
                     rowsAffected = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
             }
@@ -351,7 +361,10 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<ISafeSqlDataReader> result = _provider.GetDataReader(sqlToExecute);
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
             }
@@ -377,7 +390,10 @@ namespace Adaptive.Intelligence.SqlServer
                 IOperationalResult<ISafeSqlDataReader> result = await _provider.GetDataReaderAsync(sqlToExecute)
                     .ConfigureAwait(false);
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
             }
@@ -413,7 +429,10 @@ namespace Adaptive.Intelligence.SqlServer
                 IOperationalResult<ISafeSqlDataReader?> result = _provider.GetReaderForParameterizedCommand(command,
                     sqlParamsList);
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
 
@@ -447,7 +466,10 @@ namespace Adaptive.Intelligence.SqlServer
                     sqlParamsList).ConfigureAwait(false);
 
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
             }
@@ -480,7 +502,10 @@ namespace Adaptive.Intelligence.SqlServer
                     command,
                     sqlParamsList);
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
                 command.Dispose();
@@ -515,7 +540,10 @@ namespace Adaptive.Intelligence.SqlServer
                     sqlParamsList).ConfigureAwait(false);
 
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
                 command.Dispose();
@@ -542,7 +570,7 @@ namespace Adaptive.Intelligence.SqlServer
         {
             ISafeSqlDataReader? reader = null;
 
-            if (_provider != null)
+            if (_provider != null && sqlParamsList != null)
             {
                 SqlCommand command = new SqlCommand(storedProcedure);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -552,7 +580,10 @@ namespace Adaptive.Intelligence.SqlServer
                     sqlParamsList);
 
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
                 command.Dispose();
@@ -589,7 +620,10 @@ namespace Adaptive.Intelligence.SqlServer
                     sqlParamsList).ConfigureAwait(false);
 
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
                 command.Dispose();
@@ -628,7 +662,10 @@ namespace Adaptive.Intelligence.SqlServer
 
 
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
                 command.Dispose();
@@ -656,7 +693,10 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<ISafeSqlDataReader?> result = _provider.GetReaderForMultiResultQuery(sqlToExecute);
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
             }
@@ -682,7 +722,10 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<ISafeSqlDataReader?> result = await _provider.GetReaderForMultiResultQueryAsync(sqlToExecute).ConfigureAwait(false);
                 if (result.Success)
+                {
                     reader = result.DataContent;
+                }
+
                 CopyExceptions(result);
                 result.Dispose();
             }
@@ -827,7 +870,9 @@ namespace Adaptive.Intelligence.SqlServer
                 parameter.Scale = 2;
             }
             else if (value is string stringValue)
+            {
                 parameter = CreateParameter(name, stringValue);
+            }
 
             return parameter;
         }
@@ -860,7 +905,9 @@ namespace Adaptive.Intelligence.SqlServer
                 parameter.Scale = 2;
             }
             else if (value is string)
+            {
                 parameter = CreateParameter(name, (string)(object)value);
+            }
 
             return parameter;
         }
@@ -874,9 +921,13 @@ namespace Adaptive.Intelligence.SqlServer
         protected static string ToSqlBoolean(bool value)
         {
             if (value)
+            {
                 return TSqlConstants.BooleanTrueNumber;
+            }
             else
+            {
                 return TSqlConstants.BooleanFalseNumber;
+            }
         }
         /// <summary>
         /// Translates the specified string value for inclusion in a SQL query string.
@@ -890,12 +941,16 @@ namespace Adaptive.Intelligence.SqlServer
         protected static string ToSqlString(string? value)
         {
             if (value == null)
+            {
                 return TSqlConstants.SqlNull;
+            }
             else
+            {
                 return
                     TSqlConstants.SqlSingleQuote +
                     value.Replace(TSqlConstants.SqlSingleQuote, TSqlConstants.SqlSingleQuoteEscaped) +
                     TSqlConstants.SqlSingleQuote;
+            }
         }
         /// <summary>
         /// Translates the specified list of string values for inclusion in a SQL query string.
@@ -960,7 +1015,9 @@ namespace Adaptive.Intelligence.SqlServer
 
                 int length = valueList.Count;
                 for (int count = 0; count < length - 1; count++)
+                {
                     builder.Append(ToSqlString(valueList[count]) + TSqlConstants.SqlCommaChar);
+                }
 
                 builder.Append(ToSqlString(valueList[length - 1]));
                 sql = builder.ToString();
@@ -980,9 +1037,13 @@ namespace Adaptive.Intelligence.SqlServer
         protected static string ToSqlDateTimeOffset(DateTimeOffset? dateTimeValue)
         {
             if (dateTimeValue == null)
+            {
                 return TSqlConstants.SqlNull;
+            }
             else
+            {
                 return TSqlConstants.SqlSingleQuote + dateTimeValue.ToString() + TSqlConstants.SqlSingleQuote;
+            }
         }
         /// <summary>
         /// Translates the specified date/time value for inclusion in a SQL query string.
@@ -996,12 +1057,16 @@ namespace Adaptive.Intelligence.SqlServer
         protected static string ToSqlDateTime(DateTime? dateTimeValue)
         {
             if (dateTimeValue == null)
+            {
                 return TSqlConstants.SqlNull;
+            }
             else
+            {
                 return
                     TSqlConstants.SqlSingleQuote +
                     dateTimeValue.Value.ToString(TSqlConstants.DateTimeFormatUS) +
                     TSqlConstants.SqlSingleQuote;
+            }
         }
         #endregion
     }

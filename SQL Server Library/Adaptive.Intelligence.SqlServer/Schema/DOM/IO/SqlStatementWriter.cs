@@ -146,18 +146,26 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 // @ParamName       type definition
                 int len = statement.Parameters.Count;
                 if (len > 0)
+                {
                     SafeIndent();
+                }
+
                 for (int count = 0; count < len; count++)
                 {
                     SafeWriteTabs();
                     _expressionWriter.WriteParameterDefinitionExpression(statement.Parameters[count]);
                     // Append a comma if not the last item in the list.
                     if (count < len - 1)
+                    {
                         SafeWrite(", ");
+                    }
+
                     SafeWriteLine();
                 }
                 if (len > 0)
+                {
                     SafeUnIndent();
+                }
 
                 // AS
                 SafeWriteTabs();
@@ -213,7 +221,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     await _expressionWriter.WriteParameterDefinitionExpressionAsync(statement.Parameters[count]).ConfigureAwait(false);
                     // Append a comma if not the last item in the list.
                     if (count < len - 1)
+                    {
                         await SafeWriteAsync(", ").ConfigureAwait(false);
+                    }
+
                     await SafeWriteLineAsync().ConfigureAwait(false);
                 }
                 SafeUnIndent();
@@ -273,7 +284,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 {
                     _expressionWriter.WriteColumnNameExpression(statement.InsertColumnList[count]);
                     if (count < len - 1)
+                    {
                         SafeWrite(", ");
+                    }
                 }
                 SafeWrite(CloseParenthesis);
                 SafeWriteLine();
@@ -293,7 +306,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 {
                     _expressionWriter.WriteExpression(statement.ValuesList[count]);
                     if (count < len - 1)
+                    {
                         SafeWrite(", ");
+                    }
                 }
                 SafeWrite(CloseParenthesis);
                 SafeWriteLine();
@@ -327,7 +342,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 {
                     await _expressionWriter.WriteColumnNameExpressionAsync(statement.InsertColumnList[count]).ConfigureAwait(false);
                     if (count < len - 1)
+                    {
                         await SafeWriteAsync(Constants.CommaWithSpace).ConfigureAwait(false);
+                    }
                 }
                 await SafeWriteAsync(CloseParenthesis).ConfigureAwait(false);
                 await SafeWriteLineAsync().ConfigureAwait(false);
@@ -347,7 +364,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 {
                     await _expressionWriter.WriteExpressionAsync(statement.ValuesList[count]).ConfigureAwait(false);
                     if (count < len - 1)
+                    {
                         await SafeWriteAsync(Constants.CommaWithSpace).ConfigureAwait(false);
+                    }
                 }
                 await SafeWriteAsync(CloseParenthesis).ConfigureAwait(false);
                 await SafeWriteLineAsync().ConfigureAwait(false);
@@ -563,14 +582,19 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     SafeWriteTabs();
                     _expressionWriter.WriteAssignmentExpression(statement.UpdateColumnList[count]);
                     if (count < len - 1)
+                    {
                         SafeWrite(",");
+                    }
+
                     SafeWriteLine();
                 }
                 SafeUnIndent();
 
                 // WHERE
                 if (statement.WhereClause != null && _clauseWriter != null)
+                {
                     _clauseWriter.WriteWhereClause(statement.WhereClause);
+                }
             }
         }
         /// <summary>
@@ -585,9 +609,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteDeleteStatement(SqlCodeDeleteStatement? statement, bool hardDelete = false)
         {
             if (hardDelete)
+            {
                 WriteHardDeleteStatement(statement);
+            }
             else
+            {
                 WriteSoftDeleteStatement(statement);
+            }
         }
         /// <summary>
         /// Writes the SQL DELETE statement.
@@ -602,9 +630,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         {
             await Task.Yield();
             if (hardDelete)
+            {
                 WriteHardDeleteStatement(statement);
+            }
             else
+            {
                 WriteSoftDeleteStatement(statement);
+            }
         }
         /// <summary>
         /// Writes a hard SQL DELETE statement.
@@ -625,7 +657,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                 // WHERE ...
                 if (statement.WhereClause != null && _clauseWriter != null)
+                {
                     _clauseWriter.WriteWhereClause(statement.WhereClause);
+                }
             }
         }
         /// <summary>
@@ -664,7 +698,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                 // WHERE
                 if (statement.WhereClause != null && _clauseWriter != null)
+                {
                     _clauseWriter.WriteWhereClause(statement.WhereClause);
+                }
             }
         }
         /// <summary>
@@ -696,14 +732,19 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     await SafeWriteTabsAsync().ConfigureAwait(false);
                     await _expressionWriter.WriteAssignmentExpressionAsync(statement.UpdateColumnList[count]).ConfigureAwait(false);
                     if (count < len - 1)
+                    {
                         await SafeWriteAsync(",").ConfigureAwait(false);
+                    }
+
                     await SafeWriteLineAsync().ConfigureAwait(false);
                 }
                 SafeUnIndent();
 
                 // WHERE
                 if (_clauseWriter != null && statement.WhereClause != null)
+                {
                     await _clauseWriter.WriteWhereClauseAsync(statement.WhereClause).ConfigureAwait(false);
+                }
             }
         }
         /// <summary>

@@ -312,7 +312,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get
             {
                 if (_queryParameters == null)
+                {
                     _queryParameters = new SqlQueryParameterCollection();
+                }
+
                 return _queryParameters;
             }
         }
@@ -329,7 +332,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get
             {
                 if (_referencedTableJoins == null)
+                {
                     _referencedTableJoins = new ReferencedTableJoinCollection();
+                }
+
                 return _referencedTableJoins;
             }
         }
@@ -344,7 +350,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get
             {
                 if (string.IsNullOrEmpty(_schemaName))
+                {
                     _schemaName = TSqlConstants.DefaultDatabaseOwner;
+                }
+
                 return _schemaName;
             }
             set => _schemaName = value;
@@ -379,7 +388,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get
             {
                 if (_standardQueryFieldsToUse == null)
+                {
                     _standardQueryFieldsToUse = new List<string>();
+                }
+
                 return _standardQueryFieldsToUse;
             }
         }
@@ -561,7 +573,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             if (_tableReference != null && _tableReference.Columns != null)
             {
                 if (_queryParameters == null)
+                {
                     _queryParameters = new SqlQueryParameterCollection();
+                }
 
                 foreach (SqlColumn column in _tableReference.Columns)
                 {
@@ -585,9 +599,14 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             if (reader != null && reader.BaseStream.CanRead)
             {
                 if (_subJoinQueryFieldsToUse == null)
+                {
                     _subJoinQueryFieldsToUse = new List<string>();
+                }
+
                 if (_standardQueryFieldsToUse == null)
+                {
                     _standardQueryFieldsToUse = new List<string>();
+                }
 
                 try
                 {
@@ -613,13 +632,17 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                     int len = reader.ReadInt32();
                     _subJoinQueryFieldsToUse.Clear();
                     for (int count = 0; count < len; count++)
+                    {
                         _subJoinQueryFieldsToUse.Add(reader.ReadString());
+                    }
 
 
                     len = reader.ReadInt32();
                     _standardQueryFieldsToUse.Clear();
                     for (int count = 0; count < len; count++)
+                    {
                         _standardQueryFieldsToUse.Add(reader.ReadString());
+                    }
 
                     success = true;
                 }
@@ -666,21 +689,29 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                     writer.Write(_deleteSpName != null ? _deleteSpName : string.Empty);
 
                     if (_subJoinQueryFieldsToUse == null)
+                    {
                         writer.Write(0);
+                    }
                     else
                     {
                         writer.Write(_subJoinQueryFieldsToUse.Count);
                         foreach (string item in _subJoinQueryFieldsToUse)
+                        {
                             writer.Write(item);
+                        }
                     }
 
                     if (_standardQueryFieldsToUse == null)
+                    {
                         writer.Write(0);
+                    }
                     else
                     {
                         writer.Write(_standardQueryFieldsToUse.Count);
                         foreach (string item in _standardQueryFieldsToUse)
+                        {
                             writer.Write(item);
+                        }
                     }
                     success = true;
 

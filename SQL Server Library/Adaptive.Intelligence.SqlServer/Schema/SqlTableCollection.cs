@@ -59,7 +59,10 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                 }
 
                 if (item == null)
+                {
                     item = HeuristicFind(tableName);
+                }
+
                 return item;
             }
         }

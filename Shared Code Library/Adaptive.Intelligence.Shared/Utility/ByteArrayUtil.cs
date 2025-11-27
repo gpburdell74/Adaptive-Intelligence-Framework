@@ -20,7 +20,9 @@ namespace Adaptive.Intelligence.Shared
         public static void Clear<T>(T[]? array)
         {
             if (array != null && array.Length > 0)
+            {
                 Array.Clear(array, 0, array.Length);
+            }
         }
         /// <summary>
         /// Creates a byte array that is pinned in memory and will not be moved by the garbage collector.
@@ -85,7 +87,9 @@ namespace Adaptive.Intelligence.Shared
         public static T[]? CopyToNewArray<T>(T[]? array)
         {
             if (array == null)
+            {
                 return null;
+            }
 
             T[] newArray = new T[array.Length];
             Array.Copy(array, newArray, array.Length);

@@ -151,9 +151,13 @@ namespace Adaptive.Intelligence.Shared
             get
             {
                 if (_pinValue == null)
+                {
                     return null;
+                }
                 else
+                {
                     return _pinValue.Value;
+                }
             }
             set
             {
@@ -285,9 +289,14 @@ namespace Adaptive.Intelligence.Shared
                         Array.Clear(third, 0, third.Length);
                     }
                     if (first != null)
+                    {
                         Array.Clear(first, 0, first.Length);
+                    }
+
                     if (second != null)
+                    {
                         Array.Clear(second, 0, second.Length);
+                    }
                 }
 
             }
@@ -310,7 +319,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 byte[]? content = data.Value;
                 if (content == null || content.Length == 0)
+                {
                     clearValue = string.Empty;
+                }
                 else
                 {
                     AesProvider provider = new AesProvider();
@@ -335,11 +346,19 @@ namespace Adaptive.Intelligence.Shared
                     Array.Clear(content, 0, content.Length);
 
                     if (second != null)
+                    {
                         Array.Clear(second, 0, second.Length);
+                    }
+
                     if (third != null)
+                    {
                         Array.Clear(third, 0, third.Length);
+                    }
+
                     if (encrypted != null)
+                    {
                         Array.Clear(encrypted, 0, encrypted.Length);
+                    }
                 }
             }
             return clearValue;

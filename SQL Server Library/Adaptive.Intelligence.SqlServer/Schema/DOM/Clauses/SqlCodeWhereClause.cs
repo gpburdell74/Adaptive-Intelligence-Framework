@@ -49,7 +49,9 @@
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _conditions?.Clear();
+            }
 
             _conditions = null;
             base.Dispose(disposing);
@@ -68,7 +70,10 @@
             get
             {
                 if (_conditions == null)
+                {
                     _conditions = new SqlCodeConditionListExpressionCollection();
+                }
+
                 return _conditions;
             }
         }

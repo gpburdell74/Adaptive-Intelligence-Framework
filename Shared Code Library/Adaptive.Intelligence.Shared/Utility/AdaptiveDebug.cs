@@ -105,7 +105,10 @@ namespace System
         {
             string output = RenderOutputPrefix() + content;
             if (Debugger.IsAttached)
+            {
                 Debug.WriteLine(output);
+            }
+
             FileOutput(content);
         }
         /// <summary>
@@ -153,7 +156,10 @@ namespace System
         {
             string output = RenderOutputPrefix() + content;
             if (Debugger.IsAttached)
+            {
                 Debug.Write(output);
+            }
+
             FileOutput(content);
         }
         /// <summary>
@@ -167,7 +173,10 @@ namespace System
         {
             string output = RenderOutputPrefix() + content;
             if (Debugger.IsAttached)
+            {
                 Debug.WriteLine(output);
+            }
+
             FileOutput(content);
         }
         #endregion
@@ -195,7 +204,10 @@ namespace System
             long elapsed = 0;
             long current = Environment.TickCount;
             if (_lastTicks > 0)
+            {
                 elapsed = current - _lastTicks;
+            }
+
             _lastTicks = current;
 
             if (_outputFile != null)

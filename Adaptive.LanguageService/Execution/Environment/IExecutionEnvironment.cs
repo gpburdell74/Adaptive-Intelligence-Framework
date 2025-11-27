@@ -8,7 +8,7 @@ namespace Adaptive.Intelligence.LanguageService.Execution;
 /// language code is executed.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface IExecutionEnvironment : IScopeContainer, IDisposable
+public interface IExecutionEnvironment : IScopeContainer
 {
     #region Properties
     /// <summary>
@@ -116,9 +116,6 @@ public interface IExecutionEnvironment : IScopeContainer, IDisposable
     /// <param name="stream">
     /// The <see cref="FileStream"/> instance that was opened.
     /// </param>
-    /// <exception cref="BasicEngineExecutionException">
-    /// Thrown when the internal file manager / file  table instance is <b>null</b>.
-    /// </exception>
     void RegisterFileHandle(int lineNumber, int fileHandle, FileStream stream);
 
     /// <summary>

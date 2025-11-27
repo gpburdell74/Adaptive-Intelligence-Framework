@@ -15,7 +15,9 @@
         public void AddExpression(SqlCodeExpression? selectItemExpression)
         {
             if (selectItemExpression != null)
+            {
                 Add(new SqlCodeSelectListItemExpression(selectItemExpression));
+            }
         }
         /// <summary>
         /// Adds the <see cref="SqlCodeTableColumnReferenceExpression"/> expression to the list of items to be selected.
@@ -25,7 +27,9 @@
         public void AddExpression(string? tableName, string? columnName)
         {
             if (tableName != null && columnName != null)
+            {
                 Add(new SqlCodeSelectListItemExpression(new SqlCodeTableColumnReferenceExpression(tableName, columnName)));
+            }
         }
         /// <summary>
         /// Adds the select all expression to the collection.
@@ -65,7 +69,10 @@
                 {
                     case SqlCodeLiteralExpression literalExpression:
                         if (!string.IsNullOrEmpty(literalExpression.Expression))
+                        {
                             index = pos;
+                        }
+
                         break;
 
                     default:

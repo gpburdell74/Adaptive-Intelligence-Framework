@@ -84,11 +84,17 @@ namespace Adaptive.Intelligence.Shared
         public Time(int totalNumberOfSeconds)
         {
             if (totalNumberOfSeconds > MaxSecondsPerDay)
+            {
                 _timeData = MaxSecondsPerDay;
+            }
             else if (totalNumberOfSeconds < 0)
+            {
                 _timeData = 0;
+            }
             else
+            {
                 _timeData = totalNumberOfSeconds;
+            }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Time"/> structure.
@@ -241,9 +247,11 @@ namespace Adaptive.Intelligence.Shared
         public int CompareTo(object? obj)
         {
             if (!(obj is Time))
+            {
                 throw new ArgumentException(
-                   Resources.ErrorCompareInvalidType,
-                                   nameof(obj));
+                    Resources.ErrorCompareInvalidType,
+                    nameof(obj));
+            }
 
             return _timeData.CompareTo(((Time)obj).TotalSeconds);
         }
@@ -277,11 +285,17 @@ namespace Adaptive.Intelligence.Shared
         public override bool Equals(object? obj)
         {
             if (obj == null)
+            {
                 return false;
+            }
             else if (obj is not Time)
+            {
                 return false;
+            }
             else
+            {
                 return _timeData == ((Time)obj).TotalSeconds;
+            }
         }
         /// <summary>
         /// Determines whether the specified <see cref="Time"/>, is equal to this instance.
@@ -380,16 +394,22 @@ namespace Adaptive.Intelligence.Shared
             {
                 amPmValue = AppendAM;
                 if (Hour == 0)
+                {
                     displayHour = 12;
+                }
                 else
+                {
                     displayHour = Hour;
+                }
             }
             else
             {
                 amPmValue = AppendPM;
                 displayHour = Hour - 12;
                 if (displayHour == 0)
+                {
                     displayHour = 12;
+                }
             }
 
             // Return the formatted string.
@@ -409,7 +429,9 @@ namespace Adaptive.Intelligence.Shared
         public string ToString(bool withAmPm)
         {
             if (withAmPm)
+            {
                 return ToString();
+            }
             else
             {
                 return Hour.ToString(FormatHour) + DelimiterUS +
@@ -533,18 +555,26 @@ namespace Adaptive.Intelligence.Shared
         public static Time Parse(string timeString)
         {
             if (string.IsNullOrEmpty(timeString))
+            {
                 throw new ArgumentNullException(
                     nameof(timeString), Resources.ErrorMessageNullTime);
+            }
 
             // Numeric-only strings, such as 2300 or 123456.
             if (IsNumericOnly(timeString))
             {
                 if (timeString.Length == 4)
+                {
                     return ParseFour(timeString);
+                }
                 else if (timeString.Length == 6)
+                {
                     return ParseSix(timeString);
+                }
                 else
+                {
                     throw new Exception(Resources.ErrorMessageCantParseTime);
+                }
             }
             else
             {
@@ -596,11 +626,17 @@ namespace Adaptive.Intelligence.Shared
             string hourText;
 
             if (hour == 0)
+            {
                 hourText = "12";
+            }
             else if (hour < 13)
+            {
                 hourText = hour.ToString();
+            }
             else
+            {
                 hourText = (hour - 12).ToString();
+            }
 
             return hourText;
         }
@@ -616,9 +652,13 @@ namespace Adaptive.Intelligence.Shared
         public static string RenderAmPm(int hour)
         {
             if (hour < 12)
+            {
                 return "AM";
+            }
             else
+            {
                 return "PM";
+            }
         }
         #endregion
 
@@ -637,21 +677,33 @@ namespace Adaptive.Intelligence.Shared
         {
             // Adjust the hour value.
             if (hour < 0)
+            {
                 hour = 0;
+            }
             else if (hour > 23)
+            {
                 hour = 23;
+            }
 
             // Adjust the minute value.
             if (minute < 0)
+            {
                 minute = 0;
+            }
             else if (minute > 59)
+            {
                 minute = 59;
+            }
 
             // Adjust the seconds value.
             if (seconds < 0)
+            {
                 seconds = 0;
+            }
             else if (seconds > 59)
+            {
                 seconds = 59;
+            }
 
             return (hour * SecondsPerHour) + (minute * SecondsPerMinute) + seconds;
         }
@@ -666,11 +718,17 @@ namespace Adaptive.Intelligence.Shared
         private static int BoundsCheckValue(int totalSeconds)
         {
             if (totalSeconds > MaxSecondsPerDay)
+            {
                 return MaxSecondsPerDay;
+            }
             else if (totalSeconds < 0)
+            {
                 return 0;
+            }
             else
+            {
                 return totalSeconds;
+            }
         }
         #endregion
 
@@ -693,7 +751,10 @@ namespace Adaptive.Intelligence.Shared
             do
             {
                 if (!char.IsNumber(original[count]))
+                {
                     isNumeric = false;
+                }
+
                 count++;
             } while ((isNumeric) && (count < length));
 
@@ -718,10 +779,14 @@ namespace Adaptive.Intelligence.Shared
             string mins = timeValue.Substring(2, 2);
 
             if (!int.TryParse(hours, out int hourValue))
+            {
                 hourValue = 0;
+            }
 
             if (!int.TryParse(mins, out int minValue))
+            {
                 minValue = 0;
+            }
 
             return new Time(hourValue, minValue, 0);
         }
@@ -745,13 +810,19 @@ namespace Adaptive.Intelligence.Shared
             string secs = timeValue.Substring(4, 2);
 
             if (!int.TryParse(hours, out int hourValue))
+            {
                 hourValue = 0;
+            }
 
             if (!int.TryParse(minutes, out int minValue))
+            {
                 minValue = 0;
+            }
 
             if (!int.TryParse(secs, out int secsValue))
+            {
                 secsValue = 0;
+            }
 
             return new Time(hourValue, minValue, secsValue);
         }
@@ -789,7 +860,9 @@ namespace Adaptive.Intelligence.Shared
             int delimiterPositionA = FindFirstDelimiter(timeValue);
             int delimiterPositionB = timeValue.IndexOf(DelimiterUS, delimiterPositionA + 1, StringComparison.Ordinal);
             if (delimiterPositionB == -1)
+            {
                 delimiterPositionB = timeValue.IndexOf(DelimiterEU, delimiterPositionA + 1, StringComparison.Ordinal);
+            }
 
             // If only one delimiter is found, parse just the hour and seconds;
             // Otherwise, parse all three positions.
@@ -816,11 +889,15 @@ namespace Adaptive.Intelligence.Shared
         {
             int delimiterPositionA = timeValue.IndexOf(DelimiterUS, StringComparison.Ordinal);
             if (delimiterPositionA == -1)
+            {
                 delimiterPositionA = timeValue.IndexOf(DelimiterEU, StringComparison.Ordinal);
+            }
 
             // If the first delimiter is not present, the string is not parseable in this context.
             if (delimiterPositionA == -1)
+            {
                 throw new ArgumentOutOfRangeException(Resources.ErrorMessageCantParseTime);
+            }
 
             return delimiterPositionA;
         }
@@ -835,16 +912,22 @@ namespace Adaptive.Intelligence.Shared
             int minValue = 0;
             bool translated = int.TryParse(left, out int hourValue);
             if (translated)
+            {
                 translated = int.TryParse(right, out minValue);
+            }
 
             if (translated)
             {
                 // Adjust the hour value based on whether the "AM" or "PM" text was in the original
                 // string.
                 if (isPm && hourValue < 12)
+                {
                     hourValue += 12;
+                }
                 else if (isAm && hourValue >= 12)
+                {
                     hourValue -= 12;
+                }
             }
 
             return new Time(hourValue, minValue, 0);
@@ -867,7 +950,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 translated = int.TryParse(mid, out minValue);
                 if (translated)
+                {
                     translated = int.TryParse(right, out secValue);
+                }
             }
 
             if (translated)
@@ -875,9 +960,13 @@ namespace Adaptive.Intelligence.Shared
                 // Adjust the hour value based on whether the "AM" or "PM" text was in the original
                 // string.
                 if (isPm && hourValue < 12)
+                {
                     hourValue += 12;
+                }
                 else if (isAm && hourValue >= 12)
+                {
                     hourValue -= 12;
+                }
             }
 
             return new Time(hourValue, minValue, secValue);

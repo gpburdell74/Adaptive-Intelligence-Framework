@@ -55,7 +55,9 @@
                 do
                 {
                     if (candidateDate.Day == 1 || candidateDate.Day == 15)
+                    {
                         list.Add(candidateDate);
+                    }
 
                     candidateDate = candidateDate.AddDays(1);
 
@@ -87,25 +89,39 @@
             do
             {
                 if (dateValue.DayOfWeek == DayOfWeek.Sunday && (selectedDays & SelectedDays.Sunday) != 0)
+                {
                     list.Add(dateValue);
+                }
 
                 if (dateValue.DayOfWeek == DayOfWeek.Monday && (selectedDays & SelectedDays.Monday) != 0)
+                {
                     list.Add(dateValue);
+                }
 
                 if (dateValue.DayOfWeek == DayOfWeek.Tuesday && (selectedDays & SelectedDays.Tuesday) != 0)
+                {
                     list.Add(dateValue);
+                }
 
                 if (dateValue.DayOfWeek == DayOfWeek.Wednesday && (selectedDays & SelectedDays.Wednesday) != 0)
+                {
                     list.Add(dateValue);
+                }
 
                 if (dateValue.DayOfWeek == DayOfWeek.Thursday && (selectedDays & SelectedDays.Thursday) != 0)
+                {
                     list.Add(dateValue);
+                }
 
                 if (dateValue.DayOfWeek == DayOfWeek.Friday && (selectedDays & SelectedDays.Friday) != 0)
+                {
                     list.Add(dateValue);
+                }
 
                 if (dateValue.DayOfWeek == DayOfWeek.Saturday && (selectedDays & SelectedDays.Saturday) != 0)
+                {
                     list.Add(dateValue);
+                }
 
                 dateValue = dateValue.AddDays(1);
             } while (dateValue <= endDate);
@@ -142,13 +158,18 @@
             do
             {
                 if (dateValue <= endDate && dateValue >= startDate)
+                {
                     dateList.Insert(0, dateValue);
+                }
 
                 if (interval <= 0)
+                {
                     dateValue = dateValue.AddDays(-1);
+                }
                 else
+                {
                     dateValue = dateValue.AddDays(interval * -1);
-
+                }
             } while (dateValue >= startDate);
 
             return dateList;
@@ -183,13 +204,18 @@
             do
             {
                 if (dateValue <= endDate && dateValue >= startDate)
+                {
                     dateList.Add(dateValue);
+                }
 
                 if (interval <= 0)
+                {
                     dateValue = dateValue.AddDays(1);
+                }
                 else
+                {
                     dateValue = dateValue.AddDays(interval);
-
+                }
             } while (dateValue <= endDate);
 
             return dateList;
@@ -215,7 +241,9 @@
             do
             {
                 if (candidateDate.Day == 1)
+                {
                     list.Add(candidateDate);
+                }
 
                 candidateDate = candidateDate.AddDays(1);
 

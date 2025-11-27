@@ -13,7 +13,7 @@ public class MruFileEntryList : MruEntryList<MruFileEntry>
     /// <summary>
     /// Initializes a new instance of the <see cref="MruFileEntryList"/> class.
     /// </summary>
-    public MruFileEntryList() : base()
+    public MruFileEntryList()
     {
     }
 
@@ -118,7 +118,9 @@ public class MruFileEntryList : MruEntryList<MruFileEntry>
     {
         MruFileEntry? entry = this.FirstOrDefault(x => x.FileName == pathAndFileName);
         if (entry != null)
+        {
             Remove(entry);
+        }
     }
     #endregion
 }

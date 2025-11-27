@@ -77,9 +77,13 @@
             {
                 _assignedToExpression?.Dispose();
                 if (value == null)
+                {
                     _assignedToExpression = null;
+                }
                 else
+                {
                     _assignedToExpression = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -95,9 +99,13 @@
             {
                 _valueExpression?.Dispose();
                 if (value == null)
+                {
                     _valueExpression = null;
+                }
                 else
+                {
                     _valueExpression = value.Clone();
+                }
             }
         }
         #endregion

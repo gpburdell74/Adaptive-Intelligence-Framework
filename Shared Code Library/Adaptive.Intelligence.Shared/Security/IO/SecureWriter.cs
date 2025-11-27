@@ -96,11 +96,19 @@ namespace Adaptive.Intelligence.Shared.Security.IO
         public void WriteStream(Stream sourceStream)
         {
             if (_keyTable == null)
+            {
                 throw new InvalidOperationException(Resources.ErrorKeysNotInitialized);
+            }
+
             if (!sourceStream.CanRead)
+            {
                 throw new InvalidOperationException(Resources.ErrorStreamRead);
+            }
+
             if (_destinationStream == null)
+            {
                 throw new InvalidOperationException(Resources.ErrorStreamWrite);
+            }
 
             BinaryReader? reader = CreateReader(sourceStream);
             if (reader != null && CreateWriter())
@@ -198,7 +206,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
                 // Encrypt the data and the hash.
                 byte[]? encryptedData = EncryptBlock(data, hash);
                 if (encryptedData == null)
+                {
                     break;
+                }
 
                 // Encrypt the size of the encrypted data.  Write the size of the encrypted size, and then
                 // the encrypted actual size value.
@@ -242,7 +252,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
             // Encrypt the integer value.
             byte[]? encryptedInt = _provider!.Encrypt(intBits);
             if (encryptedInt == null)
+            {
                 throw new InvalidOperationException(Resources.ErrorCantEncrypt);
+            }
 
             // Clear memory and return the encrypted data.
             CryptoUtil.SecureClear(intBits);

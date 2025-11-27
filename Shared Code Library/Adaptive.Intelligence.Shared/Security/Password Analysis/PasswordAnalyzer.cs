@@ -163,7 +163,10 @@
             if (!string.IsNullOrEmpty(passwordValue))
             {
                 if (passwordValue.Length >= MinimumLength)
+                {
                     result.HasRequiredLength = true;
+                }
+
                 AnalyzePasswordValue(result, passwordValue);
             }
 
@@ -209,7 +212,10 @@
             {
                 // Count if the previous character is repeated.
                 if (character == prevChar)
+                {
                     repeatCount++;
+                }
+
                 prevChar = character;
 
                 // If a lower case letter is present...
@@ -223,7 +229,9 @@
                     // is more than one, store this information.  This is discounted
                     // against the password strength.
                     if (consecutiveUpperCase > 1)
+                    {
                         totalConsecutiveUpperCase += consecutiveUpperCase;
+                    }
 
                     // Reset the consecutive upper case letter count since we encountered a lower
                     // case character.
@@ -241,7 +249,9 @@
                     // is more than one, store this information.  This is discounted
                     // against the password strength.
                     if (consecutiveLowerCase > 1)
+                    {
                         totalConsecutiveUpperCase += consecutiveLowerCase;
+                    }
 
                     // Reset the consecutive lower case letter count since we encountered an upper
                     // case character.
@@ -258,19 +268,25 @@
                     // list of characters, count this as a positive toward password strength.
                     int index = SpecialChars.IndexOf(character);
                     if (index >= 3 && index <= 19)
+                    {
                         middleNumberOrSymbols++;
+                    }
 
                     // The consecutive upper case letters are counted.  If there
                     // is more than one, store this information.  This is discounted
                     // against the password strength.
                     if (consecutiveUpperCase > 1)
+                    {
                         totalConsecutiveUpperCase += consecutiveUpperCase;
+                    }
 
                     // The consecutive lower case letters are counted.  If there
                     // is more than one, store this information.  This is discounted
                     // against the password strength.
                     if (consecutiveLowerCase > 1)
+                    {
                         totalConsecutiveLowerCase += consecutiveLowerCase;
+                    }
 
                     // Reset the consecutive lower case letter count since we encountered a special
                     // character.
@@ -288,19 +304,25 @@
                     // Determine the index of the character.  If the index is in the "middle" of the
                     // list of numbers, count this as a positive toward password strength.
                     if (number >= 3 && number < 8)
+                    {
                         middleNumberOrSymbols++;
+                    }
 
                     // The consecutive upper case letters are counted.  If there
                     // is more than one, store this information.  This is discounted
                     // against the password strength.
                     if (consecutiveUpperCase > 1)
+                    {
                         totalConsecutiveUpperCase += consecutiveUpperCase;
+                    }
 
                     // The consecutive lower case letters are counted.  If there
                     // is more than one, store this information.  This is discounted
                     // against the password strength.
                     if (consecutiveLowerCase > 1)
+                    {
                         totalConsecutiveLowerCase += consecutiveLowerCase;
+                    }
 
                     // Reset the consecutive lower case letter count since we encountered a special
                     // character.
@@ -313,7 +335,9 @@
                 // (Such as "1234" or "ABCDE").
                 // No processing required if this is the first character.
                 if (lastEncountered.Count == 0)
+                {
                     lastEncountered.Add(character);
+                }
                 else
                 {
 
@@ -324,7 +348,9 @@
                     // the ASCII char limit (255).
                     char nextChar = (char)255;
                     if (lastChar < 254)
+                    {
                         nextChar = (char)((lastChar) + 1);
+                    }
 
                     // If the password character matches, store it.
                     if (nextChar == character)
@@ -345,11 +371,17 @@
                         if (len > 1)
                         {
                             if (char.IsUpper(character) || char.IsLower(character))
+                            {
                                 sequentialLetterCount += len;
+                            }
                             else if (char.IsNumber(character))
+                            {
                                 sequentialNumberCount += len;
+                            }
                             else if (SpecialChars.Contains(character.ToString()))
+                            {
                                 sequentialSymbolCount += len;
+                            }
                         }
                     }
                 }
@@ -357,9 +389,14 @@
 
             // Ensure these last bits are added.
             if (consecutiveUpperCase > 1)
+            {
                 totalConsecutiveUpperCase += consecutiveUpperCase;
+            }
+
             if (consecutiveLowerCase > 1)
+            {
                 totalConsecutiveLowerCase += consecutiveLowerCase;
+            }
 
             // Calculate the raw score.
             int passwordScore = CalculateScore(passwordValue.Length, lowerCount, upperCount, numberCount, symbolCount,
@@ -372,7 +409,9 @@
             foreach (string bad in BadList)
             {
                 if (lower.Contains(bad))
+                {
                     passwordScore -= 30;
+                }
             }
 
             // Store the final results.
@@ -559,15 +598,25 @@
             if (score >= 0)
             {
                 if (score <= RangeMaxVeryWeak)
+                {
                     range = PasswordScoreRange.VeryWeak;
+                }
                 else if (score < RangeMaxWeak)
+                {
                     range = PasswordScoreRange.Weak;
+                }
                 else if (score < RangeMaxFair)
+                {
                     range = PasswordScoreRange.Fair;
+                }
                 else if (score < RangeMaxStrong)
+                {
                     range = PasswordScoreRange.Strong;
+                }
                 else
+                {
                     range = PasswordScoreRange.VeryStrong;
+                }
             }
             return range;
         }

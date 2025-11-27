@@ -164,7 +164,10 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public override string ToString()
         {
             if (IndexName == null)
+            {
                 return nameof(SqlIndex);
+            }
+
             return IndexName;
         }
         #endregion

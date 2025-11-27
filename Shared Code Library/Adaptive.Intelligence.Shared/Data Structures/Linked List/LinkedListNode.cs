@@ -125,11 +125,17 @@
         public bool HasData(T? value)
         {
             if (_value == null && value == null)
+            {
                 return true;
+            }
             else if (_value != null)
+            {
                 return _value.Equals(value);
+            }
             else
+            {
                 return false;
+            }
         }
         #endregion
     }

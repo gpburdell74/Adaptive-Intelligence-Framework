@@ -74,7 +74,10 @@
             get
             {
                 if (_fromClause == null)
+                {
                     _fromClause = new SqlCodeFromClause();
+                }
+
                 return _fromClause;
             }
         }
@@ -89,7 +92,10 @@
             get
             {
                 if (_whereClause == null)
+                {
                     _whereClause = new SqlCodeWhereClause();
+                }
+
                 return _whereClause;
             }
         }

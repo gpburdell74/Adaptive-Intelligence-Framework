@@ -98,11 +98,19 @@ namespace Adaptive.Intelligence.Shared.Security.IO
         public void ReadStream(Stream destinationStream)
         {
             if (_keyTable == null)
+            {
                 throw new InvalidOperationException(Resources.ErrorKeysNotInitialized);
+            }
+
             if (!destinationStream.CanWrite)
+            {
                 throw new InvalidOperationException(Resources.ErrorStreamRead);
+            }
+
             if (_sourceStream == null)
+            {
                 throw new InvalidOperationException(Resources.ErrorStreamWrite);
+            }
 
             // Create the reader and writer instances.
             BinaryWriter? writer = CreateWriter(destinationStream);
@@ -170,7 +178,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
         private void ReadStreamContent(BinaryWriter writer)
         {
             if (_keyTable == null)
+            {
                 throw new ArgumentOutOfRangeException(Resources.ErrorKeysNotInitialized);
+            }
 
             // Read the number of total blocks.
             int length = _reader!.ReadInt32();
@@ -263,10 +273,14 @@ namespace Adaptive.Intelligence.Shared.Security.IO
             // Decrypt the data and set the expected data block size.
             byte[]? decrypted = _provider!.Decrypt(encrypted);
             if (decrypted == null)
+            {
                 throw new CryptographicUnexpectedOperationException(Resources.ErrorCantDecrypt);
+            }
 
             if (decrypted.Length < BlockSize + 64)
+            {
                 size = lastBlockSize;
+            }
 
             // Split the data and the has - perform the hash comparison.
             byte[] clearData = new byte[size];

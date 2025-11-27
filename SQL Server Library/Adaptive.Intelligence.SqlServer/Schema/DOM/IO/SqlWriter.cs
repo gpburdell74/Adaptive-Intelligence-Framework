@@ -140,7 +140,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 _expressionWriter?.Dispose();
 
                 if (_isStreamLocal)
+                {
                     _stream?.Dispose();
+                }
             }
 
             _statementWriter = null;
@@ -168,7 +170,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task FlushAsync()
         {
             if (_writer != null)
+            {
                 await _writer.FlushAsync().ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Increases the indentation level.
@@ -193,7 +197,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteExpression(SqlCodeExpression? expression)
         {
             if (expression != null)
+            {
                 _expressionWriter?.WriteExpression(expression);
+            }
         }
         /// <summary>
         /// Writes the expression.
@@ -204,7 +210,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteExpressionAsync(SqlCodeExpression? expression)
         {
             if (expression != null && _expressionWriter != null)
+            {
                 await _expressionWriter.WriteExpressionAsync(expression).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL statement to the output destination.
@@ -215,7 +223,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteStatement(SqlCodeStatement? statement)
         {
             if (statement != null)
+            {
                 _statementWriter?.WriteStatement(statement);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL statement to the output destination.
@@ -226,7 +236,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteStatementAsync(SqlCodeStatement? statement)
         {
             if (statement != null && _statementWriter != null)
+            {
                 await _statementWriter.WriteStatementAsync(statement).ConfigureAwait(false);
+            }
         }
         #endregion
     }

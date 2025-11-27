@@ -43,7 +43,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 TableColumn?.Dispose();
+            }
 
             TableColumn = null;
             base.Dispose(disposing);

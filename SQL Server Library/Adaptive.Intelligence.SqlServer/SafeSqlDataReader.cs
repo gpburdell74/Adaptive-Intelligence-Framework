@@ -80,9 +80,13 @@ namespace Adaptive.Intelligence.SqlServer
             get
             {
                 if (_reader == null)
+                {
                     return 0;
+                }
                 else
+                {
                     return _reader.FieldCount;
+                }
             }
         }
         /// <summary>
@@ -107,9 +111,13 @@ namespace Adaptive.Intelligence.SqlServer
             get
             {
                 if (_reader == null)
+                {
                     return false;
+                }
                 else
+                {
                     return _reader.HasRows;
+                }
             }
         }
         /// <summary>
@@ -128,9 +136,13 @@ namespace Adaptive.Intelligence.SqlServer
             get
             {
                 if (_reader == null)
+                {
                     return true;
+                }
                 else
+                {
                     return _reader.IsClosed;
+                }
             }
         }
         /// <summary>
@@ -208,7 +220,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsClosed)
+                    {
                         _reader.Close();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -253,7 +267,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetBoolean(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -298,9 +314,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = 0;
+                    }
                     else
+                    {
                         returnValue = _reader.GetByte(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -345,9 +365,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = '\0';
+                    }
                     else
+                    {
                         returnValue = _reader.GetChar(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -414,7 +438,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetDateTime(index).Date;
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -438,7 +464,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetDateTime(index).Date;
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -463,7 +491,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetDateTime(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -508,7 +538,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetDateTime(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -553,7 +585,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = DateTimeOffset.MinValue;
+                    }
                     else
                     {
                         returnValue = (_reader).GetDateTimeOffset(index);
@@ -603,7 +637,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = (_reader).GetDateTimeOffset(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -648,9 +684,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = 0;
+                    }
                     else
+                    {
                         returnValue = _reader.GetDecimal(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -672,7 +712,9 @@ namespace Adaptive.Intelligence.SqlServer
             decimal returnValue = 0;
 
             if (_reader != null)
+            {
                 returnValue = _reader.GetDecimal(GetOrdinal(columnName));
+            }
 
             return returnValue;
         }
@@ -696,9 +738,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = 0;
+                    }
                     else
+                    {
                         returnValue = (double)_reader.GetDecimal(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -723,9 +769,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = 0;
+                    }
                     else
+                    {
                         returnValue = (float)_reader.GetDecimal(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -747,7 +797,9 @@ namespace Adaptive.Intelligence.SqlServer
             float returnValue = 0;
 
             if (_reader != null)
+            {
                 returnValue = GetDecimalAsSingle(GetOrdinal(columnName));
+            }
 
             return returnValue;
         }
@@ -771,9 +823,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = 0;
+                    }
                     else
+                    {
                         returnValue = _reader.GetDouble(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -816,7 +872,9 @@ namespace Adaptive.Intelligence.SqlServer
                 {
                     string? name = GetColumnName(count);
                     if (!string.IsNullOrEmpty(name))
+                    {
                         list.Add(name);
+                    }
                 }
             }
             return list;
@@ -841,9 +899,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = 0;
+                    }
                     else
+                    {
                         returnValue = _reader.GetFloat(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -887,9 +949,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = Guid.Empty;
+                    }
                     else
+                    {
                         returnValue = _reader.GetGuid(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -931,9 +997,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = null;
+                    }
                     else
+                    {
                         returnValue = _reader.GetGuid(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -958,9 +1028,13 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (_reader.IsDBNull(index))
+                    {
                         returnValue = 0;
+                    }
                     else
+                    {
                         returnValue = _reader.GetInt16(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -1005,7 +1079,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetInt32(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -1050,7 +1126,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetInt32(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -1095,7 +1173,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetInt64(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -1179,7 +1259,9 @@ namespace Adaptive.Intelligence.SqlServer
                 try
                 {
                     if (!_reader.IsDBNull(index))
+                    {
                         returnValue = _reader.GetString(index);
+                    }
                 }
                 catch (Exception ex) { AddException(ex); }
             }
@@ -1219,12 +1301,18 @@ namespace Adaptive.Intelligence.SqlServer
         public string? GetStringUnsafe(int index)
         {
             if (_reader == null)
+            {
                 return null;
+            }
 
             if (_reader.IsDBNull(index))
+            {
                 return null;
+            }
             else
+            {
                 return _reader.GetString(index);
+            }
         }
         /// <summary>
         /// Gets the values for the specified number of columns.
@@ -1299,9 +1387,13 @@ namespace Adaptive.Intelligence.SqlServer
         public bool NextResult()
         {
             if (_reader == null)
+            {
                 return false;
+            }
             else
+            {
                 return _reader.NextResult();
+            }
         }
         /// <summary>
         /// Advances the <see cref="SafeSqlDataReader"/> to the next record.
@@ -1334,7 +1426,9 @@ namespace Adaptive.Intelligence.SqlServer
             bool success = false;
 
             if (_reader != null)
+            {
                 success = await _reader.ReadAsync().ConfigureAwait(false);
+            }
 
             return success;
         }

@@ -47,7 +47,9 @@
         public SqlCodeConditionExpression(SqlCodeExpression? leftExpression, SqlCodeExpression? rightExpression, SqlComparisonOperator sqlOperator)
         {
             if (sqlOperator == SqlComparisonOperator.NotSpecified)
+            {
                 throw new ArgumentOutOfRangeException(nameof(sqlOperator));
+            }
 
             _leftExpression = leftExpression ?? throw new ArgumentNullException(nameof(leftExpression));
             _rightExpression = rightExpression ?? throw new ArgumentNullException(nameof(rightExpression));
@@ -85,9 +87,13 @@
             {
                 _leftExpression?.Dispose();
                 if (value == null)
+                {
                     _leftExpression = null;
+                }
                 else
+                {
                     _leftExpression = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -114,9 +120,13 @@
             {
                 _rightExpression?.Dispose();
                 if (value == null)
+                {
                     _rightExpression = null;
+                }
                 else
+                {
                     _rightExpression = value.Clone();
+                }
             }
         }
         #endregion

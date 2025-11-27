@@ -63,7 +63,10 @@
                 {
                     BINRule rule = _ruleList[pos];
                     if (rule.Matches(cardNumber))
+                    {
                         matching = rule;
+                    }
+
                     pos++;
 
                 } while (pos < count && matching == null);

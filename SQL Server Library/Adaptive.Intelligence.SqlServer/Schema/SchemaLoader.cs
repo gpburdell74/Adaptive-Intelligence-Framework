@@ -24,7 +24,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                 {
                     SqlTable? table = tableList.FirstOrDefault(t => t.TableName == fk.ParentTableName);
                     if (table != null && table.ForeignKeys != null)
+                    {
                         table.ForeignKeys.Add(fk);
+                    }
                 }
             }
         }

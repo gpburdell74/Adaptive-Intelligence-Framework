@@ -19,7 +19,9 @@ namespace Adaptive.Intelligence.Shared.IO
         public SerializationProperty(string data)
         {
             if (!string.IsNullOrEmpty(data))
+            {
                 ParsePropertyDefinition(data);
+            }
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -93,7 +95,9 @@ namespace Adaptive.Intelligence.Shared.IO
                 {
                     PropertyType = Type.GetType(DataType);
                     if (PropertyType != null)
+                    {
                         DataType = PropertyType.Name;
+                    }
                 }
                 catch (Exception ex)
                 {

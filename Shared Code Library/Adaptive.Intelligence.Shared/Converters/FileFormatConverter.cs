@@ -51,7 +51,9 @@
             _convertTable.TryGetValue(originalValue, out string? extension);
 
             if (extension == null)
+            {
                 extension = string.Empty;
+            }
 
             return extension;
         }
@@ -74,7 +76,10 @@
             {
                 // Remove the leading ".", if present... ensure the whole thing is lowercase for comparison.
                 if (convertedValue[0] == '.')
+                {
                     convertedValue = convertedValue.Substring(1, convertedValue.Length - 1);
+                }
+
                 _reConvertTable.TryGetValue(convertedValue.ToLower(), out value);
             }
 

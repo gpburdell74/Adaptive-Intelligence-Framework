@@ -60,9 +60,13 @@
             {
                 _expression?.Dispose();
                 if (value == null)
+                {
                     _expression = null;
+                }
                 else
+                {
                     _expression = value.Clone();
+                }
             }
         }
         #endregion

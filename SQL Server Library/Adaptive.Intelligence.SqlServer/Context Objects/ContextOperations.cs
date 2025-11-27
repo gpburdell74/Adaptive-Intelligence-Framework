@@ -118,7 +118,10 @@ namespace Adaptive.Intelligence.SqlServer
             get
             {
                 if (_connectString == null)
+                {
                     _connectString = new SqlConnectionStringBuilder();
+                }
+
                 return _connectString;
             }
         }
@@ -134,9 +137,13 @@ namespace Adaptive.Intelligence.SqlServer
         public DatabaseInfo? GetDbInfo(string databaseName)
         {
             if (_dbInfoList == null)
+            {
                 return null;
+            }
             else
+            {
                 return _dbInfoList[databaseName];
+            }
         }
 
         #region C# Code DOM Operations
@@ -188,9 +195,13 @@ namespace Adaptive.Intelligence.SqlServer
                     if (parentClass == null)
                     {
                         if (disposable)
+                        {
                             parentClass = "IDisposable";
+                        }
                         else
+                        {
                             parentClass = string.Empty;
+                        }
                     }
                     // public sealed class [TableName]Record 
                     // 
@@ -239,7 +250,9 @@ namespace Adaptive.Intelligence.SqlServer
 
                         //  #region Public Properties
                         if (first != null)
+                        {
                             first.StartDirectives.Add(CodeDomObjectFactory.StartRegion("Public Properties"));
+                        }
 
                         //  #endregion
                         if (last != null)
@@ -296,7 +309,9 @@ namespace Adaptive.Intelligence.SqlServer
         public async Task CancelDatabaseMaintenanceAsync()
         {
             if (_maintenanceProcessor != null)
+            {
                 _maintenanceProcessor.Cancel = true;
+            }
 
             while (_maintenanceProcessor != null && _maintenanceProcessor.IsExecuting)
             {
@@ -348,7 +363,9 @@ namespace Adaptive.Intelligence.SqlServer
                             StringCollection? procedureText = result.PrimaryDatabaseProcedures![currentProc];
                             StringBuilder builder = new StringBuilder();
                             foreach (var line in procedureText)
+                            {
                                 builder.Append(line);
+                            }
 
                             // Execute the stored procedure creation.
                             await secondaryProvider.ExecuteSqlAsync(builder.ToString()).ConfigureAwait(false);
@@ -409,7 +426,9 @@ namespace Adaptive.Intelligence.SqlServer
                             if (procedureText != null && procedureText.Count > 0)
                             {
                                 foreach (var line in procedureText)
+                                {
                                     builder.Append(line);
+                                }
                             }
 
                             // Execute the stored procedure creation.
@@ -558,7 +577,10 @@ namespace Adaptive.Intelligence.SqlServer
             {
                 IOperationalResult<DataTable> result = await dbInfo.Provider.FillDataTableAsync(sqlQuery).ConfigureAwait(false);
                 if (result.Success)
+                {
                     table = result.DataContent;
+                }
+
                 result.Dispose();
             }
             return table;
@@ -597,7 +619,9 @@ namespace Adaptive.Intelligence.SqlServer
                     if (dbInfo.Provider.HasExceptions)
                     {
                         if (dbInfo.Provider.Exceptions != null && dbInfo.Provider.Exceptions.Count > 0)
+                        {
                             result.Message = dbInfo.Provider.Exceptions[0].Message;
+                        }
                     }
                 }
             }
@@ -647,7 +671,9 @@ namespace Adaptive.Intelligence.SqlServer
         public async Task WaitForConnectAsync()
         {
             while (_connecting)
+            {
                 await Task.Yield();
+            }
         }
         #endregion
 
@@ -670,7 +696,9 @@ namespace Adaptive.Intelligence.SqlServer
         public string? CreateDeleteStoredProcedureText(string databaseName, SqlTable? table)
         {
             if (table == null)
+            {
                 return null;
+            }
 
             string sql = string.Empty;
 
@@ -706,7 +734,9 @@ namespace Adaptive.Intelligence.SqlServer
         public string? CreateGetAllStoredProcedureText(string databaseName, SqlTable? table)
         {
             if (table == null)
+            {
                 return null;
+            }
 
             string sql = string.Empty;
 
@@ -742,7 +772,9 @@ namespace Adaptive.Intelligence.SqlServer
         public string? CreateGetByIdProcedureText(string databaseName, SqlTable? table)
         {
             if (table == null)
+            {
                 return null;
+            }
 
             string sql = string.Empty;
 
@@ -778,7 +810,9 @@ namespace Adaptive.Intelligence.SqlServer
         public string? CreateInsertStoredProcedureText(string databaseName, SqlTable table)
         {
             if (table == null)
+            {
                 return null;
+            }
 
             string sql = string.Empty;
 
@@ -814,7 +848,9 @@ namespace Adaptive.Intelligence.SqlServer
         public string? CreateUpdateStoredProcedureText(string databaseName, SqlTable table)
         {
             if (table == null)
+            {
                 return null;
+            }
 
             string sql = string.Empty;
 
@@ -921,7 +957,9 @@ namespace Adaptive.Intelligence.SqlServer
         public void SaveSqlFile(string fileName, string sql)
         {
             if (SafeIO.FileExists(fileName))
+            {
                 SafeIO.DeleteFile(fileName);
+            }
 
             using (TextFile file = new TextFile(fileName))
             {

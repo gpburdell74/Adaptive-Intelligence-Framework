@@ -156,7 +156,10 @@ namespace Adaptive.Intelligence.SqlServer
             set
             {
                 if (value < 1)
+                {
                     value = 1;
+                }
+
                 _passCount = value;
             }
         }
@@ -265,11 +268,15 @@ namespace Adaptive.Intelligence.SqlServer
 
                     // Perform Smart Operation.
                     if (!_cancelOperation)
+                    {
                         PerformSmartRebuild();
+                    }
 
                     // Set objects for re-compilation.
                     if (!_cancelOperation)
+                    {
                         SetForRecompile();
+                    }
                 }
             }
         }
@@ -295,11 +302,15 @@ namespace Adaptive.Intelligence.SqlServer
 
                     // Perform Smart Operation.
                     if (!_cancelOperation)
+                    {
                         await PerformSmartRebuildAsync();
+                    }
 
                     // Set objects for re-compilation.
                     if (!_cancelOperation)
+                    {
                         await SetForRecompileAsync();
+                    }
                 }
             }
         }
@@ -390,14 +401,17 @@ namespace Adaptive.Intelligence.SqlServer
                             PerformTableStatsUpdate(table.Name, count + 1, length);
                             string tableName = TSqlConstants.RenderSchemaAndTableName(table.Schema, table.Name);
                             if (!string.IsNullOrEmpty(tableName))
+                            {
                                 success = await _dataAccess.UpdateStatisticsForTableAsync(tableName).ConfigureAwait(false);
-
+                            }
                         }
                         count++;
                     } while (success && (count < length) && (!_cancelOperation));
                 }
                 else
+                {
                     success = false;
+                }
             }
 
             return success;
@@ -506,7 +520,9 @@ namespace Adaptive.Intelligence.SqlServer
                                         {
                                             IndexStatisticsInfo? index = table.Indexes.GetByIndexId(stat.IndexId);
                                             if (index != null && index.Statistics != null)
+                                            {
                                                 index.Statistics.Add(stat);
+                                            }
                                         }
                                     }
                                 }
@@ -621,7 +637,10 @@ namespace Adaptive.Intelligence.SqlServer
                 foreach (IndexStatisticsInfo index in indexList)
                 {
                     if (_cancelOperation)
+                    {
                         break;
+                    }
+
                     // Find the parent table.
                     TableStatistic? table = _db.Tables.GetByObjectId(index.TableId);
 
@@ -823,7 +842,10 @@ namespace Adaptive.Intelligence.SqlServer
         {
             int percentDone = 0;
             if (total > 0)
+            {
                 percentDone = Math.Percent(current, total);
+            }
+
             OnStatusUpdate(new ProgressUpdateEventArgs(status, subStatus, percentDone));
         }
         /// <summary>

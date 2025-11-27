@@ -77,9 +77,13 @@ namespace Adaptive.Intelligence.SqlServer.Maintenance
             get
             {
                 if (_statistics == null || _statistics.Count == 0)
+                {
                     return new IndexStatistic();
+                }
                 else
+                {
                     return _statistics.Last;
+                }
             }
         }
         /// <summary>
@@ -133,7 +137,9 @@ namespace Adaptive.Intelligence.SqlServer.Maintenance
             get
             {
                 if (_statistics == null || _statistics.Count == 0)
+                {
                     return false;
+                }
                 else
                 {
                     IndexStatistic stat = LastStatistic;

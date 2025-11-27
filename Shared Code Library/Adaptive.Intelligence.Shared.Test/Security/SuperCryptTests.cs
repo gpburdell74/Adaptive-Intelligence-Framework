@@ -127,7 +127,7 @@ public class SuperCryptTests
     private static string RandomString(int length)
     {
         byte[] data = RandomNumberGenerator.GetBytes(length);
-        return System.Text.ASCIIEncoding.ASCII.GetString(data);
+        return System.Text.Encoding.ASCII.GetString(data);
 
     }
 }

@@ -177,7 +177,10 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_deletedColumnName == null)
+                {
                     _deletedColumnName = string.Empty;
+                }
+
                 return _deletedColumnName;
             }
             set
@@ -214,7 +217,10 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_idColumnName == null)
+                {
                     _idColumnName = string.Empty;
+                }
+
                 return _idColumnName;
             }
             set
@@ -334,7 +340,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
         public string RenderStoredProcedureName(string? table, string? originalProcedureName)
         {
             if (string.IsNullOrEmpty(originalProcedureName))
+            {
                 return string.Empty;
+            }
             else
             {
                 if (_useTableNamesForStoredProcedureNames && !string.IsNullOrEmpty(table))
@@ -358,7 +366,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             {
                 // Create the initial default file, if not already there.
                 if (!SafeIO.DirectoryExists(path))
+                {
                     Save();
+                }
 
                 path += @"\.magicsql";
                 string fileName = path + "\\ormoptions.dat";
@@ -399,7 +409,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             {
                 path += @"\.magicsql";
                 if (!SafeIO.DirectoryExists(path))
+                {
                     System.IO.Directory.CreateDirectory(path);
+                }
 
                 string fileName = path + "\\ormoptions.dat";
                 SafeIO.DeleteFile(fileName);

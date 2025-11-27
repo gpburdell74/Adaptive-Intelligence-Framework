@@ -96,7 +96,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get
             {
                 if (_dataTypes == null)
+                {
                     _dataTypes = new SqlDataTypeCollection();
+                }
+
                 return _dataTypes;
             }
         }
@@ -111,7 +114,10 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get
             {
                 if (_profiles == null)
+                {
                     _profiles = new AdaptiveTableProfileCollection();
+                }
+
                 return _profiles;
             }
         }
@@ -132,9 +138,13 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             get
             {
                 if (tableName == null || _profiles == null)
+                {
                     return null;
+                }
                 else
+                {
                     return _profiles[tableName];
+                }
             }
         }
         /// <summary>
@@ -244,57 +254,83 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
 
                     // Separate the singular from the plural, where possible.
                     if (string.IsNullOrEmpty(profile.SingularName))
+                    {
                         profile.SingularName = GeneralUtils.GetSingleEnglishForm(table.TableName);
+                    }
 
                     string singleName = profile.SingularName;
 
                     if (string.IsNullOrEmpty(profile.DataAccessClassName))
+                    {
                         profile.DataAccessClassName = singleName + OrmDatabaseOptions.Current.DataAccessClassSuffix;
+                    }
 
                     if (string.IsNullOrEmpty(profile.DataDefinitionClassName))
+                    {
                         profile.DataDefinitionClassName = singleName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.Description))
+                    {
                         profile.Description = table.TableName + OrmDatabaseOptions.Current.TableNameSuffix;
+                    }
 
                     if (string.IsNullOrEmpty(profile.FriendlyName))
+                    {
                         profile.FriendlyName = table.TableName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.PluralName))
+                    {
                         profile.PluralName = table.TableName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.QualifiedName))
+                    {
                         profile.QualifiedName =
                             OrmDatabaseOptions.Current.DefaultQualifiedOwner +
                             OrmDatabaseOptions.Current.QualifiedNameSeparatorOpen +
                             table.TableName +
                             OrmDatabaseOptions.Current.QualifiedNameSeparatorClose;
+                    }
 
                     if (string.IsNullOrEmpty(profile.StoredProcedureNamePrefix))
                     {
                         if (OrmDatabaseOptions.Current.UseTableNamesForStoredProcedureNames)
+                        {
                             profile.StoredProcedureNamePrefix = table.TableName;
+                        }
                     }
 
                     if (string.IsNullOrEmpty(profile.GetAllStoredProcedureName))
+                    {
                         profile.GetAllStoredProcedureName = profile.StoredProcedureNamePrefix +
-                            OrmDatabaseOptions.Current.RetrieveAllRecordsStoredProcedureName;
+                                                            OrmDatabaseOptions.Current.RetrieveAllRecordsStoredProcedureName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.GetByIdStoredProcedureName))
+                    {
                         profile.GetByIdStoredProcedureName = profile.StoredProcedureNamePrefix +
-                            OrmDatabaseOptions.Current.RetrieveRecordByIdStoredProcedureName;
+                                                             OrmDatabaseOptions.Current.RetrieveRecordByIdStoredProcedureName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.InsertStoredProcedureName))
+                    {
                         profile.InsertStoredProcedureName = profile.StoredProcedureNamePrefix +
-                            OrmDatabaseOptions.Current.InsertStoredProcedureName;
+                                                            OrmDatabaseOptions.Current.InsertStoredProcedureName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.UpdateStoredProcedureName))
+                    {
                         profile.UpdateStoredProcedureName = profile.StoredProcedureNamePrefix +
-                            OrmDatabaseOptions.Current.UpdateStoredProcedureName;
+                                                            OrmDatabaseOptions.Current.UpdateStoredProcedureName;
+                    }
 
                     if (string.IsNullOrEmpty(profile.DeleteStoredProcedureName))
+                    {
                         profile.DeleteStoredProcedureName = profile.StoredProcedureNamePrefix +
-                            OrmDatabaseOptions.Current.DeleteStoredProcedureName;
+                                                            OrmDatabaseOptions.Current.DeleteStoredProcedureName;
+                    }
                 }
             }
         }

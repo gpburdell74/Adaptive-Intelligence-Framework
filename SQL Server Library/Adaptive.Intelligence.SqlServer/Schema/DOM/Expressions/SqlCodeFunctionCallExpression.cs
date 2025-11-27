@@ -54,7 +54,9 @@
             if (parameterExpressions != null)
             {
                 foreach (SqlCodeExpression item in parameterExpressions)
+                {
                     _functionParameters.Add(item.Clone());
+                }
             }
         }
         /// <summary>

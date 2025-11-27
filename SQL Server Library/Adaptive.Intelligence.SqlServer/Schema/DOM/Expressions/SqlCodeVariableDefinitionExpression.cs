@@ -42,7 +42,9 @@
         {
             _name = name;
             if (dataTypeExpression != null)
+            {
                 _dataTypeExpression = dataTypeExpression.Clone();
+            }
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -51,7 +53,9 @@
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _dataTypeExpression?.Dispose();
+            }
 
             _dataTypeExpression = null;
             _name = null;
@@ -73,9 +77,13 @@
             {
                 _dataTypeExpression?.Dispose();
                 if (value == null)
+                {
                     _dataTypeExpression = null;
+                }
                 else
+                {
                     _dataTypeExpression = value.Clone();
+                }
             }
         }
         /// <summary>

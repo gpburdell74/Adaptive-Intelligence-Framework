@@ -216,7 +216,6 @@ public sealed class SecureTazReader : ExceptionTrackingBase, ITazContentReader
             // Move to the directory start position.	
             _sourceStream.Seek(directoryStart, SeekOrigin.Begin);
 
-            int length = _reader.ReadInt32();
             byte[]? directoryData = _reader.ReadByteArray();
             if (directoryData != null)
             {

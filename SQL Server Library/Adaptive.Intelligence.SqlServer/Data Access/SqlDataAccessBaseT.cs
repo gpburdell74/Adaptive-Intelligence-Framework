@@ -129,7 +129,10 @@ namespace Adaptive.Intelligence.SqlServer
             if (reader != null)
             {
                 if (await reader.ReadAsync().ConfigureAwait(false))
+                {
                     newId = reader.GetGuid(0);
+                }
+
                 reader.Dispose();
             }
             return newId;

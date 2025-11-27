@@ -54,10 +54,14 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public SqlTextWriter(Stream destinationStream)
         {
             if (destinationStream == null)
+            {
                 throw new ArgumentNullException(nameof(destinationStream));
+            }
 
             if (!destinationStream.CanWrite)
+            {
                 throw new InvalidOperationException("The provided stream cannot be written to.");
+            }
 
             _stream = destinationStream;
             _writer = new StreamWriter(_stream);
@@ -96,7 +100,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             set
             {
                 if (value < 0)
+                {
                     value = 0;
+                }
+
                 _indentLevel = value;
             }
         }
@@ -116,7 +123,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task FlushAsync()
         {
             if (_writer != null)
+            {
                 await _writer.FlushAsync().ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Increases the indentation level.
@@ -141,7 +150,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void Write(string text)
         {
             if (_builder != null)
+            {
                 _builder.Append(text);
+            }
             else
             {
                 _writer?.Write(text);
@@ -156,9 +167,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteAsync(string text)
         {
             if (_builder != null)
+            {
                 _builder.Append(text);
+            }
             else if (_writer != null)
+            {
                 await _writer.WriteAsync(text).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Writes the end-of-line to the output stream.
@@ -166,7 +181,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteLine()
         {
             if (_builder != null)
+            {
                 _builder.AppendLine();
+            }
             else
             {
                 _writer?.WriteLine();
@@ -181,7 +198,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteLine(string text)
         {
             if (_builder != null)
+            {
                 _builder.AppendLine(text);
+            }
             else
             {
                 _writer?.WriteLine(text);
@@ -193,9 +212,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteLineAsync()
         {
             if (_builder != null)
+            {
                 _builder.AppendLine();
+            }
             else if (_writer != null)
+            {
                 await _writer.WriteLineAsync().ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Writes the specified line of text to the current output.
@@ -206,9 +229,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteLineAsync(string text)
         {
             if (_builder != null)
+            {
                 _builder.AppendLine(text);
+            }
             else if (_writer != null)
+            {
                 await _writer.WriteLineAsync(text).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders the tabs based on the current indention level.
@@ -219,7 +246,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteTabs()
         {
             if (_indentLevel > 0)
+            {
                 Write(new string('\t', _indentLevel));
+            }
         }
         /// <summary>
         /// Renders the tabs based on the current indention level.
@@ -230,7 +259,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteTabsAsync()
         {
             if (_indentLevel > 0)
+            {
                 await WriteAsync(new string(Constants.TabChar, _indentLevel));
+            }
         }
         #endregion
     }

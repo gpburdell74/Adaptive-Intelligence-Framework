@@ -760,27 +760,27 @@ public sealed class SecureBinaryReader : ExceptionTrackingBase, ISafeBinaryReade
 
         switch (returnContent)
         {
-            case bool boolValue:
+            case bool:
                 converted = BitConverter.ToBoolean(value);
                 break;
 
-            case byte byteValue:
+            case byte:
                 converted = value[0];
                 break;
 
-            case byte[] byteArray:
+            case byte[]:
                 converted = ByteArrayUtil.CopyToNewArray(value);
                 break;
 
-            case sbyte sbyteValue:
+            case sbyte:
                 converted = (sbyte)value[0];
                 break;
 
-            case char charValue:
+            case char:
                 converted = BitConverter.ToChar(value);
                 break;
 
-            case char[] charArray:
+            case char[]:
                 List<char> list = new List<char>();
                 MemoryStream ms = new MemoryStream(value);
                 BinaryReader reader = new BinaryReader(ms);
@@ -796,43 +796,43 @@ public sealed class SecureBinaryReader : ExceptionTrackingBase, ISafeBinaryReade
                 ms.Dispose();
                 break;
 
-            case short shortValue:
+            case short:
                 converted = BitConverter.ToInt16(value);
                 break;
 
-            case ushort ushortValue:
+            case ushort:
                 converted = BitConverter.ToUInt16(value);
                 break;
 
-            case int intValue:
+            case int:
                 converted = BitConverter.ToInt32(value);
                 break;
 
-            case uint uintValue:
+            case uint:
                 converted = BitConverter.ToUInt32(value);
                 break;
 
-            case long longValue:
+            case long:
                 converted = BitConverter.ToInt64(value);
                 break;
 
-            case ulong ulongValue:
+            case ulong:
                 converted = BitConverter.ToUInt64(value);
                 break;
 
-            case float floatValue:
+            case float:
                 converted = BitConverter.ToSingle(value);
                 break;
 
-            case double doubleValue:
+            case double:
                 converted = BitConverter.ToDouble(value);
                 break;
 
-            case decimal decimalValue:
+            case decimal:
                 converted = SafeConverter.DecimalFromArray(value);
                 break;
 
-            case string stringValue:
+            case string:
                 converted = System.Text.Encoding.UTF8.GetString(value);
                 break;
         }

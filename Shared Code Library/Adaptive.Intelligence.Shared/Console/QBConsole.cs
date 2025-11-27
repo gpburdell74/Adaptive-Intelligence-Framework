@@ -61,7 +61,9 @@ namespace Adaptive.Intelligence.Shared.Console
         protected override void Dispose(bool disposing)
         {
             if (_characterSet != null)
+            {
                 Array.Clear(_characterSet, 0, 256);
+            }
 
             _characterSet = null;
             base.Dispose(disposing);
@@ -86,7 +88,9 @@ namespace Adaptive.Intelligence.Shared.Console
             string returnContent;
 
             if (content.Length >= width)
+            {
                 returnContent = content.Substring(0, width);
+            }
             else
             {
                 int spaces = width - content.Length;
@@ -180,9 +184,13 @@ namespace Adaptive.Intelligence.Shared.Console
         public void DrawProgressBar(int x, int y, int width, int percent)
         {
             if (percent < 0)
+            {
                 percent = 0;
+            }
             else if (percent > 100)
+            {
                 percent = 100;
+            }
 
             int leftChars = (int)(width * (float)percent / 100);
             int rightChars = width - leftChars;
@@ -226,7 +234,9 @@ namespace Adaptive.Intelligence.Shared.Console
         public static void Print(string content)
         {
             if (!string.IsNullOrEmpty(content))
+            {
                 System.Console.Write(content);
+            }
         }
         /// <summary>
         /// Prints the specified content at the specified location.
@@ -289,7 +299,10 @@ namespace Adaptive.Intelligence.Shared.Console
             System.Console.SetCursorPosition(x, y);
             PrintDoubleBoxTopLeft();
             if (width > 0)
+            {
                 System.Console.Write(new string(GetAsciiCharacter(205), width - 2));
+            }
+
             PrintDoubleBoxTopRight();
 
             for (int row = 1; row < rows; row++)
@@ -300,7 +313,10 @@ namespace Adaptive.Intelligence.Shared.Console
             System.Console.SetCursorPosition(x, y + height - 2);
             PrintDoubleBoxBottomLeft();
             if (width > 0)
+            {
                 PrintDoubleBoxHorizontal(width - 2);
+            }
+
             PrintDoubleBoxBottomRight();
         }
         /// <summary>
@@ -385,7 +401,9 @@ namespace Adaptive.Intelligence.Shared.Console
         {
             byte[] data = new byte[256];
             for (int count = 0; count < 256; count++)
+            {
                 data[count] = (byte)count;
+            }
 
             try
             {
@@ -415,7 +433,9 @@ System.Console.CursorVisible = false;
             char returnChar = Constants.NullChar;
 
             if (_characterSet != null)
+            {
                 returnChar = _characterSet[characterNumber];
+            }
 
             return returnChar;
         }

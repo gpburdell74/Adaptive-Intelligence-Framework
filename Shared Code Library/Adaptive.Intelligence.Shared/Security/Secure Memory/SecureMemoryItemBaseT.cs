@@ -309,7 +309,9 @@ namespace Adaptive.Intelligence.Shared.Security
             byte[]? data = TranslateValueToBytes(value);
 
             if (data != null)
+            {
                 WriteToStorage(data);
+            }
         }
         /// <summary>
         /// Translates the content currently being securely stored to a value.

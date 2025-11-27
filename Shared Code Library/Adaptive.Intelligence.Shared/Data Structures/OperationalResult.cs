@@ -85,9 +85,13 @@
             get
             {
                 if (ListExtensions.IsNullOrEmpty(Exceptions))
+                {
                     return null;
+                }
                 else
+                {
                     return Exceptions![0];
+                }
             }
         }
         /// <summary>
@@ -156,7 +160,9 @@
                 newResult.Message = Message;
                 newResult.Success = Success;
                 if (Exceptions != null && Exceptions.Count > 0)
+                {
                     newResult.Exceptions?.AddRange(Exceptions);
+                }
             }
         }
         /// <summary>

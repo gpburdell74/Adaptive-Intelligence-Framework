@@ -51,7 +51,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _columns?.Clear();
+            }
 
             TypeName = null;
             _columns = null;

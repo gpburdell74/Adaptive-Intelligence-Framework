@@ -42,7 +42,9 @@
         public SqlCodeInsertStatement(SqlCodeTableReferenceExpression? table) : base(SqlStatementType.Insert)
         {
             if (table != null)
+            {
                 _tableToInsert = table.Clone();
+            }
 
             _columnsToUse = new SqlCodeColumnNameExpressionCollection();
             _values = new SqlCodeExpressionCollection();
@@ -80,7 +82,10 @@
             get
             {
                 if (_columnsToUse == null)
+                {
                     _columnsToUse = new SqlCodeColumnNameExpressionCollection();
+                }
+
                 return _columnsToUse;
             }
         }
@@ -98,9 +103,13 @@
             {
                 _tableToInsert?.Dispose();
                 if (value == null)
+                {
                     _tableToInsert = null;
+                }
                 else
+                {
                     _tableToInsert = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -118,7 +127,10 @@
             get
             {
                 if (_values == null)
+                {
                     _values = new SqlCodeExpressionCollection();
+                }
+
                 return _values;
             }
         }

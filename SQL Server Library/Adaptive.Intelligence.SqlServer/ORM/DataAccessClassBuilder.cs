@@ -139,7 +139,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 if (_class.CodeSections != null)
                 {
                     foreach (CodeSectionModel model in _class.CodeSections)
+                    {
                         model.ClassName = _class.ClassName;
+                    }
                 }
 
                 ClassModelGenerator generator = new ClassModelGenerator();
@@ -176,9 +178,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             if (_class != null)
             {
                 if (string.IsNullOrEmpty(_standardNameSpace))
+                {
                     _class.Namespace = GenerationSettings.Current.DefaultNamespace ?? string.Empty;
+                }
                 else
+                {
                     _class.Namespace = _standardNameSpace;
+                }
             }
         }
         /// <summary>
@@ -517,7 +523,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                         // Create a variable name for the child entity instance.
                         string variableName = string.Empty;
                         if (referencedProfile != null)
+                        {
                             variableName = RenderVariableName(referencedProfile);
+                        }
 
                         // Add a comment.
                         CodeCommentStatement itemComment = new CodeCommentStatement(variableName);
@@ -614,7 +622,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             if (name != null)
             {
                 if (name.EndsWith("s"))
+                {
                     name = name.Substring(0, name.Length - 1);
+                }
 
                 // Ensure the first character is lowerCase.
                 name = name.Substring(0, 1).ToLower() + name.Substring(1, name.Length - 1);

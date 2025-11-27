@@ -111,7 +111,7 @@ public sealed class TcpClient : LoggableBase
     /// <summary>
     /// The client socket instance - may be provided from a listner instance or created locally.
     /// </summary>
-    private Socket? _clientSocket = null;
+    private Socket? _clientSocket;
 
     /// <summary>
     /// The local binding, if used.
@@ -177,7 +177,7 @@ public sealed class TcpClient : LoggableBase
     public TcpClient(IPEndPoint localEndPoint)
     {
         WriteStatus("TcpClient Created - Using default options.");
-        WriteStatus($"LocalEP Binding: {localEndPoint.ToString()}");
+        WriteStatus($"LocalEP Binding: {localEndPoint}");
         _options = TcpClientOptions.Default;
 
         CreateSocket();
@@ -257,7 +257,9 @@ public sealed class TcpClient : LoggableBase
         WriteStatus("Waiting for polling to terminate...");
         _executePollingThread = false;
         while (_pollingThreadRunning)
+        {
             Thread.Sleep(50);
+        }
 
         WriteStatus("... Polling terminated.");
         if (_clientSocket != null)
@@ -365,13 +367,14 @@ public sealed class TcpClient : LoggableBase
     /// <param name="data">
     /// A byte array containing the data to be sent.
     /// The data.</param>
-    public void Send(byte[] data)
+    public int Send(byte[] data)
     {
+        int sentBytes = 0;
         if (_clientSocket != null && _clientSocket.Connected)
         {
             try
             {
-                int sent = _clientSocket.Send(data);
+                sentBytes = _clientSocket.Send(data);
             }
             catch (Exception ex)
             {
@@ -380,7 +383,9 @@ public sealed class TcpClient : LoggableBase
                 OnSendFailure(ex);
             }
         }
+        return sentBytes;
     }
+    
     /// <summary>
     /// Sends the specified text to the remote host.
     /// </summary>
@@ -790,9 +795,9 @@ public sealed class TcpClient : LoggableBase
                 WriteStatus($"\tDontFragment = true");
                 _clientSocket.DontFragment = true;
 
-                WriteStatus($"\tLingerState = {_options.LingerState.ToString()}");
                 if (_options.LingerState != null)
                 {
+                    WriteStatus($"\tLingerState = {_options.LingerState.ToString()}");
                     _clientSocket.LingerState = _options.LingerState;
                 }
 

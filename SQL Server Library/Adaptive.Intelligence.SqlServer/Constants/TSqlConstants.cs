@@ -498,9 +498,13 @@ namespace Adaptive.Intelligence.SqlServer
         public static string BracketName(string? name)
         {
             if (string.IsNullOrEmpty(name))
+            {
                 return string.Empty;
+            }
             else
+            {
                 return SqlStartObjectDelimiter + name + SqlEndObjectDelimiter;
+            }
         }
         /// <summary>
         /// Combines the schema and table name into a single string.	
@@ -517,20 +521,28 @@ namespace Adaptive.Intelligence.SqlServer
         public static string RenderSchemaAndTableName(string? schema, string? tableName)
         {
             if (string.IsNullOrEmpty(schema) && string.IsNullOrEmpty(tableName))
+            {
                 return string.Empty;
+            }
             else
             {
                 string prefix = BracketName(schema);
                 string suffix = BracketName(tableName);
 
                 if (!string.IsNullOrEmpty(prefix) && !string.IsNullOrEmpty(suffix))
+                {
                     return prefix + SqlObjectDelimiter + suffix;
+                }
 
                 else if (!string.IsNullOrEmpty(prefix))
+                {
                     return prefix;
+                }
 
                 else
+                {
                     return suffix;
+                }
             }
 
         }

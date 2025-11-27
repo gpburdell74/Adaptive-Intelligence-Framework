@@ -17,9 +17,13 @@
         public string Convert(bool originalValue)
         {
             if (originalValue)
+            {
                 return Constants.TrueFormatted;
+            }
             else
+            {
                 return Constants.FalseFormatted;
+            }
         }
         /// <summary>
         /// Converts the converted value to the original representation.

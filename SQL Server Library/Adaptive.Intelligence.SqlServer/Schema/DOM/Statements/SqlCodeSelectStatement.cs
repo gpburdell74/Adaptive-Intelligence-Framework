@@ -43,13 +43,19 @@
         public SqlCodeSelectStatement(SqlCodeSelectClause? selectClause, SqlCodeFromClause? fromClause, SqlCodeWhereClause? whereClause) : base(SqlStatementType.Select)
         {
             if (selectClause != null)
+            {
                 _selectClause = selectClause.Clone();
+            }
 
             if (fromClause != null)
+            {
                 _fromClause = fromClause.Clone();
+            }
 
             if (whereClause != null)
+            {
                 _whereClause = whereClause.Clone();
+            }
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -84,7 +90,10 @@
             get
             {
                 if (_fromClause == null)
+                {
                     _fromClause = new SqlCodeFromClause();
+                }
+
                 return _fromClause;
             }
         }
@@ -99,7 +108,10 @@
             get
             {
                 if (_selectClause == null)
+                {
                     _selectClause = new SqlCodeSelectClause();
+                }
+
                 return _selectClause;
             }
         }
@@ -114,7 +126,10 @@
             get
             {
                 if (_whereClause == null)
+                {
                     _whereClause = new SqlCodeWhereClause();
+                }
+
                 return _whereClause;
             }
         }

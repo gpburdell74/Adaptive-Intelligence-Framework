@@ -19,7 +19,9 @@
         public USState? GetStateByAbbreviation(string? abbreviation)
         {
             if (abbreviation == null)
+            {
                 return null;
+            }
             else
             {
                 IEnumerable<USState> query =
@@ -29,9 +31,13 @@
 
                 List<USState> list = query.ToList();
                 if (list.Count == 0)
+                {
                     return null;
+                }
                 else
+                {
                     return list[0];
+                }
             }
         }
         /// <summary>

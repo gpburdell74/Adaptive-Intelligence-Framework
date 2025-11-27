@@ -102,11 +102,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 
             builder.Append(TSqlConstants.SqlAlterProcedure + " ");
             if (owner != null)
+            {
                 builder.Append(
                     TSqlConstants.SqlStartObjectDelimiter +
                     owner.Name +
                     TSqlConstants.SqlEndObjectDelimiter +
                     TSqlConstants.SqlObjectDelimiter);
+            }
 
             builder.Append(TSqlConstants.SqlStartObjectDelimiter + name + TSqlConstants.SqlEndObjectDelimiter + ".");
             return builder.ToString();
@@ -182,7 +184,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 
             builder.Append(TSqlConstants.SqlCreateProcedure + " ");
             if (owner != null)
+            {
                 builder.Append(TSqlConstants.SqlStartObjectDelimiter + owner.Name + TSqlConstants.SqlEndObjectDelimiter + ".");
+            }
 
             builder.Append(TSqlConstants.SqlStartObjectDelimiter + name + TSqlConstants.SqlEndObjectDelimiter);
             return builder.ToString();
@@ -429,9 +433,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.CodeProvider
 
             builder.Append(TSqlConstants.SqlSelect);
             if (distinct)
+            {
                 builder.Append(" " + TSqlConstants.SqlDistinct);
+            }
             else if (topRecordsCount > 0)
+            {
                 builder.Append(" " + TSqlConstants.SqlTop + " " + topRecordsCount.ToString());
+            }
 
             return builder.ToString();
         }

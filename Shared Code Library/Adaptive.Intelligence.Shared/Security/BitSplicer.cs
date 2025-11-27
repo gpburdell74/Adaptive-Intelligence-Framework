@@ -79,7 +79,9 @@ namespace Adaptive.Intelligence.Shared.Security
                 // Translate to byte array.
                 var combined = new byte[originalLength];
                 if (combinedArray != null)
+                {
                     combinedArray.CopyTo(combined, 0);
+                }
 
                 // Get original content.
                 return ReadOriginalArray(combined);
@@ -116,7 +118,9 @@ namespace Adaptive.Intelligence.Shared.Security
 
                 // If the original array's length is an odd number, add an extra byte.
                 if (original.Length % 2 != 0)
+                {
                     writer.Write((byte)0);
+                }
 
                 writer.Flush();
 
@@ -259,7 +263,10 @@ namespace Adaptive.Intelligence.Shared.Security
         {
             var subBytes = new byte[length];
             if (splicedData != null)
+            {
                 Array.Copy(splicedData, index, subBytes, 0, length);
+            }
+
             return new BitArray(subBytes);
         }
         #endregion

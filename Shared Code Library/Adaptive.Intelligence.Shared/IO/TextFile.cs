@@ -100,7 +100,9 @@ namespace Adaptive.Intelligence.Shared.IO
             set
             {
                 if (_stream == null)
+                {
                     _fileName = value;
+                }
             }
         }
         /// <summary>
@@ -138,7 +140,10 @@ namespace Adaptive.Intelligence.Shared.IO
         {
             bool success = false;
             if (!string.IsNullOrEmpty(_fileName))
+            {
                 success = Create(_fileName);
+            }
+
             return success;
         }
         /// <summary>
@@ -158,7 +163,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 success = CreateWriter();
                 if (!success)
+                {
                     Close();
+                }
             }
             return success;
         }
@@ -175,7 +182,10 @@ namespace Adaptive.Intelligence.Shared.IO
         {
             bool success = false;
             if (!string.IsNullOrEmpty(_fileName))
+            {
                 success = Delete(_fileName);
+            }
+
             return success;
         }
         /// <summary>
@@ -239,7 +249,10 @@ namespace Adaptive.Intelligence.Shared.IO
         {
             bool success = false;
             if (!string.IsNullOrEmpty(_fileName))
+            {
                 success = OpenForRead(_fileName);
+            }
+
             return success;
         }
         /// <summary>
@@ -261,7 +274,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 success = CreateReader();
                 if (!success)
+                {
                     Close();
+                }
             }
             return success;
         }
@@ -283,7 +298,10 @@ namespace Adaptive.Intelligence.Shared.IO
         {
             bool success = false;
             if (!string.IsNullOrEmpty(_fileName))
+            {
                 success = OpenForWrite(_fileName);
+            }
+
             return success;
         }
         /// <summary>
@@ -308,7 +326,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 success = CreateWriter();
                 if (!success)
+                {
                     Close();
+                }
             }
             return success;
         }
@@ -517,12 +537,16 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 // Remove the old file, if present.
                 if (createNew)
+                {
                     success = Delete(fileName);
+                }
 
                 // Set the file mode.
                 FileMode mode = FileMode.Append;
                 if (createNew)
+                {
                     mode = FileMode.CreateNew;
+                }
 
                 try
                 {

@@ -40,7 +40,9 @@ public class ManagedTokenList : List<IToken>
     public ManagedTokenList(IEnumerable<IToken>? tokenList)
     {
         if (tokenList != null)
+        {
             AddRange(tokenList);
+        }
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagedTokenList"/> class.
@@ -54,15 +56,20 @@ public class ManagedTokenList : List<IToken>
     /// </param>
     public ManagedTokenList(IEnumerable<IToken>? tokenList, bool trim)
     {
-        if (tokenList != null && tokenList.Count() > 0)
+        if (tokenList != null)
         {
-            if (!trim)
-                AddRange(tokenList);
-            else
+            List<IToken> list = tokenList.ToList();
+            if (list.Count > 0)
             {
-                List<IToken> list = tokenList.ToList();
-                CopyFromSourceAndTrim(list);
-                list.Clear();
+                if (!trim)
+                {
+                    AddRange(list);
+                }
+                else
+                {
+                    CopyFromSourceAndTrim(list);
+                    list.Clear();
+                }
             }
         }
     }
@@ -92,7 +99,10 @@ public class ManagedTokenList : List<IToken>
                 start = true;
             }
             if (start)
+            {
                 Add(token);
+            }
+
             index++;
         } while (index < length);
 
@@ -122,7 +132,9 @@ public class ManagedTokenList : List<IToken>
         ManagedTokenList newList = new ManagedTokenList(Count - startIndex);
 
         for (int index = startIndex; index < Count; index++)
+        {
             newList.Add(this[index]);
+        }
 
         return newList;
     }
@@ -146,7 +158,9 @@ public class ManagedTokenList : List<IToken>
         ManagedTokenList newList = new ManagedTokenList(length);
 
         for (int index = startIndex; index <= endIndex; index++)
+        {
             newList.Add(this[index]);
+        }
 
         return newList;
     }
@@ -169,7 +183,10 @@ public class ManagedTokenList : List<IToken>
         while (index < length && tokenIndex == -1)
         {
             if (this[index].TokenType == tokenType)
+            {
                 tokenIndex = index;
+            }
+
             index++;
         }
 
@@ -193,7 +210,10 @@ public class ManagedTokenList : List<IToken>
         while (index > -1 && tokenIndex == -1)
         {
             if (this[index].TokenType == tokenType)
+            {
                 tokenIndex = index;
+            }
+
             index--;
         }
 
@@ -221,7 +241,10 @@ public class ManagedTokenList : List<IToken>
         while (index < length && tokenIndex == -1)
         {
             if (this[index].TokenType == tokenType)
+            {
                 tokenIndex = index;
+            }
+
             index++;
         }
 
@@ -245,7 +268,9 @@ public class ManagedTokenList : List<IToken>
         for (int count = 0; count < length; count++)
         {
             if (this[count].TokenType == tokenType)
+            {
                 indices.Add(count);
+            }
         }
         return indices;
     }
@@ -290,7 +315,10 @@ public class ManagedTokenList : List<IToken>
         while (index < length && !hasMathOperator)
         {
             if (this[index].TokenType == TokenType.ArithmeticOperator)
+            {
                 hasMathOperator = true;
+            }
+
             index++;
         }
         return hasMathOperator;
@@ -365,7 +393,10 @@ public class ManagedTokenList : List<IToken>
                     start = true;
                 }
                 if (start)
+                {
                     newList.Add(token);
+                }
+
                 index++;
             } while (index < length);
 

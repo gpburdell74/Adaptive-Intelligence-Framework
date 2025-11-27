@@ -97,7 +97,9 @@ namespace Adaptive.Intelligence.Shared.Logging
                 lock (_syncRoot)
                 {
                     if (_log == null)
+                    {
                         _log = new ExceptionLog();
+                    }
                 }
 
                 WriteException(ex, st.ToString());
@@ -148,7 +150,9 @@ namespace Adaptive.Intelligence.Shared.Logging
             lock (_syncRoot)
             {
                 if (_log == null)
+                {
                     _log = new ExceptionLog();
+                }
             }
 
             _log.WriteLines(builder);
@@ -207,20 +211,28 @@ namespace Adaptive.Intelligence.Shared.Logging
             // Type, Message
             builder.AppendLine(string.Format(ExceptionTypeOuter, ex.GetType().Name));
             if (!string.IsNullOrEmpty(ex.Message))
+            {
                 builder.AppendLine(string.Format(ExceptionMessageOuter, ex.Message));
+            }
 
             // Application Stack Trace
             builder.AppendLine(ApplicationStackTraceOuter);
             builder.AppendLine(DividerLineInner);
             if (currentCallStack != null)
+            {
                 builder.AppendLine(string.Format(StackTraceValueOuter, currentCallStack));
+            }
+
             builder.AppendLine(DividerLineInner);
 
             // Exception Stack Trace
             builder.AppendLine(ExceptionStackTraceOuter);
             builder.AppendLine(DividerLineInner);
             if (ex.StackTrace != null)
+            {
                 builder.AppendLine(string.Format(StackTraceValueOuter, ex.StackTrace));
+            }
+
             builder.AppendLine(DividerLineInner);
 
             // Inner Exception
@@ -230,7 +242,10 @@ namespace Adaptive.Intelligence.Shared.Logging
                 builder.AppendLine(DividerLineInner);
                 builder.AppendLine(string.Format(ExceptionTypeInner, ex.InnerException.GetType().Name));
                 if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                {
                     builder.AppendLine(string.Format(ExceptionMessageInner, ex.InnerException.Message));
+                }
+
                 builder.AppendLine(ExceptionStackTraceInner);
                 builder.AppendLine(DividerLineInner);
                 builder.AppendLine(string.Format(StackTraceValueInner, ex.StackTrace));
@@ -273,7 +288,9 @@ namespace Adaptive.Intelligence.Shared.Logging
         public void InstanceResume()
         {
             if (!string.IsNullOrEmpty(_fileName))
+            {
                 CreateStream(_fileName);
+            }
         }
         #endregion
 

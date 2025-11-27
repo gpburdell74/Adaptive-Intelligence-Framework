@@ -93,9 +93,13 @@
             {
                 _variableDefinition?.Dispose();
                 if (value == null)
+                {
                     _variableDefinition = null;
+                }
                 else
+                {
                     _variableDefinition = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -111,9 +115,13 @@
             {
                 _valueExpression?.Dispose();
                 if (value == null)
+                {
                     _valueExpression = null;
+                }
                 else
+                {
                     _valueExpression = value.Clone();
+                }
             }
         }
         #endregion

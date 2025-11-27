@@ -70,9 +70,13 @@
             {
                 _dataTypeExpression?.Dispose();
                 if (value == null)
+                {
                     _dataTypeExpression = null;
+                }
                 else
+                {
                     _dataTypeExpression = value.Clone();
+                }
             }
         }
         /// <summary>

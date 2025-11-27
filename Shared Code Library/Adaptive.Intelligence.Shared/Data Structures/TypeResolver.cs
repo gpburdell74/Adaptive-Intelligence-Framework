@@ -35,10 +35,14 @@ namespace Adaptive.Intelligence.Shared
             {
                 // Read the cached instance, if present.
                 if (_typeMap.TryGetValue(interfaceType, out Type? value))
+                {
                     typeToReturn = value;
+                }
                 else
                     // Otherwise, attempt to find it.
+                {
                     typeToReturn = PerformTypeSearch(interfaceType);
+                }
             }
 
             return typeToReturn;
@@ -190,7 +194,9 @@ namespace Adaptive.Intelligence.Shared
                     !candidateType.IsInterface &&
                     !candidateType.IsAbstract &&
                     interfaceType.IsAssignableFrom(candidateType))
+                {
                     matchedType = candidateType;
+                }
             }
 
             return matchedType;

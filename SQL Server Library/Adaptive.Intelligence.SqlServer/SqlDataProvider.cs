@@ -73,7 +73,9 @@ namespace Adaptive.SqlServer.Client
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _connectionString?.Clear();
+            }
 
             _connectionString = null;
             base.Dispose(disposing);
@@ -92,9 +94,13 @@ namespace Adaptive.SqlServer.Client
             get
             {
                 if (_connectionString == null)
+                {
                     return null;
+                }
                 else
+                {
                     return _connectionString.ToString();
+                }
             }
             set => _connectionString = new SqlConnectionStringBuilder(value);
         }
@@ -139,7 +145,9 @@ namespace Adaptive.SqlServer.Client
             IOperationalResult<SqlConnection> result;
 
             if (connection == null)
+            {
                 result = new OperationalResult<SqlConnection>(false);
+            }
             else
             {
                 try
@@ -174,7 +182,9 @@ namespace Adaptive.SqlServer.Client
             IOperationalResult<SqlConnection> result;
 
             if (connection == null)
+            {
                 result = new OperationalResult<SqlConnection>(false);
+            }
             else
             {
                 try
@@ -209,7 +219,9 @@ namespace Adaptive.SqlServer.Client
             // Try to create the object instance.
             SqlConnection? connection = CreateConnectionInstance();
             if (connection != null && connection.State == ConnectionState.Open)
+            {
                 result = new OperationalResult<SqlConnection>(connection);
+            }
 
             else if (connection != null)
             {
@@ -664,7 +676,9 @@ namespace Adaptive.SqlServer.Client
                                 result.Success = false;
                             }
                             if (failed)
+                            {
                                 break;
+                            }
                         }
 
                         // If an operation failed, rollback the transaction, otherwise,
@@ -749,7 +763,9 @@ namespace Adaptive.SqlServer.Client
                                 result.Success = false;
                             }
                             if (failed)
+                            {
                                 break;
+                            }
                         }
 
                         // If an operation failed, rollback the transaction, otherwise,
@@ -812,7 +828,9 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 result = new OperationalResult<SqlDataAdapter>(false);
+            }
 
             return result;
         }
@@ -847,7 +865,9 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 result = new OperationalResult<SqlDataReader>(false);
+            }
 
             return result;
         }
@@ -955,7 +975,9 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 result = new OperationalResult<DataTable>(false);
+            }
 
             return result;
         }
@@ -1007,7 +1029,9 @@ namespace Adaptive.SqlServer.Client
                 connection?.Dispose();
             }
             else
+            {
                 result = new OperationalResult<DataTable>(false);
+            }
 
             connectResult.Dispose();
             return result;
@@ -1095,13 +1119,18 @@ namespace Adaptive.SqlServer.Client
                     failed = true;
                 }
                 if (failed)
+                {
                     break;
+                }
             }
 
             if (failed)
             {
                 if (result == null)
+                {
                     result = new OperationalResult(false);
+                }
+
                 transaction.Rollback();
             }
             else
@@ -1139,7 +1168,10 @@ namespace Adaptive.SqlServer.Client
 
             // Clear memory.
             foreach (SqlCommand command in commandList)
+            {
                 command.Dispose();
+            }
+
             commandList.Clear();
 
             return result;
@@ -1175,13 +1207,18 @@ namespace Adaptive.SqlServer.Client
                     failed = true;
                 }
                 if (failed)
+                {
                     break;
+                }
             }
 
             if (failed)
             {
                 if (result == null)
+                {
                     result = new OperationalResult(false);
+                }
+
                 await transaction.RollbackAsync().ConfigureAwait(false);
             }
             else
@@ -1220,7 +1257,10 @@ namespace Adaptive.SqlServer.Client
 
             // Clear memory.
             foreach (SqlCommand command in commandList)
+            {
                 command.Dispose();
+            }
+
             commandList.Clear();
 
             return result;
@@ -1258,7 +1298,9 @@ namespace Adaptive.SqlServer.Client
 
                         // Add the parameters to the command, if present.
                         if (parameterList != null)
+                        {
                             command.Parameters.AddRange(parameterList.ToArray());
+                        }
 
                         // Execute.
                         try
@@ -1276,14 +1318,18 @@ namespace Adaptive.SqlServer.Client
                         command.Dispose();
                     }
                     else
+                    {
                         commandResult.CopyTo(result);
+                    }
 
                     commandResult.Dispose();
                     TryClose(connection);
                     connection.Dispose();
                 }
                 else
+                {
                     connectResult.CopyTo(result);
+                }
 
                 connectResult.Dispose();
             }
@@ -1322,7 +1368,9 @@ namespace Adaptive.SqlServer.Client
 
                         // Add the parameters to the command, if present.
                         if (parameterList != null)
+                        {
                             command.Parameters.AddRange(parameterList.ToArray());
+                        }
 
                         // Execute.
                         try
@@ -1340,14 +1388,18 @@ namespace Adaptive.SqlServer.Client
                         command.Dispose();
                     }
                     else
+                    {
                         commandResult.CopyTo(result);
+                    }
 
                     commandResult.Dispose();
                     TryClose(connection);
                     connection.Dispose();
                 }
                 else
+                {
                     connectResult.CopyTo(result);
+                }
 
                 connectResult.Dispose();
             }
@@ -1393,13 +1445,18 @@ namespace Adaptive.SqlServer.Client
                         command.Dispose();
                     }
                     else
+                    {
                         commandResult.CopyTo(result);
+                    }
+
                     commandResult.Dispose();
                     TryClose(connection);
                     connection.Dispose();
                 }
                 else
+                {
                     connectResult.CopyTo(result);
+                }
             }
             return result;
 
@@ -1444,13 +1501,18 @@ namespace Adaptive.SqlServer.Client
                         command.Dispose();
                     }
                     else
+                    {
                         commandResult.CopyTo(result);
+                    }
+
                     commandResult.Dispose();
                     TryClose(connection);
                     connection.Dispose();
                 }
                 else
+                {
                     connectResult.CopyTo(result);
+                }
             }
             return result;
         }
@@ -1488,7 +1550,9 @@ namespace Adaptive.SqlServer.Client
 
                         // Add the parameters to the command, if present.
                         if (parameterList != null)
+                        {
                             command.Parameters.AddRange(parameterList.ToArray());
+                        }
 
                         // Execute.
                         try
@@ -1506,14 +1570,18 @@ namespace Adaptive.SqlServer.Client
                         command.Dispose();
                     }
                     else
+                    {
                         commandResult.CopyTo(result);
+                    }
 
                     commandResult.Dispose();
                     TryClose(connection);
                     connection.Dispose();
                 }
                 else
+                {
                     connectResult.CopyTo(result);
+                }
 
                 connectResult.Dispose();
             }
@@ -1553,7 +1621,9 @@ namespace Adaptive.SqlServer.Client
 
                         // Add the parameters to the command, if present.
                         if (parameterList != null)
+                        {
                             command.Parameters.AddRange(parameterList.ToArray());
+                        }
 
                         // Execute.
                         try
@@ -1571,14 +1641,18 @@ namespace Adaptive.SqlServer.Client
                         command.Dispose();
                     }
                     else
+                    {
                         commandResult.CopyTo(result);
+                    }
 
                     commandResult.Dispose();
                     TryClose(connection);
                     connection.Dispose();
                 }
                 else
+                {
                     connectResult.CopyTo(result);
+                }
 
                 connectResult.Dispose();
             }
@@ -1763,10 +1837,14 @@ namespace Adaptive.SqlServer.Client
                     }
                 }
                 else
+                {
                     commandResult.CopyTo(result);
+                }
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
 
             connectResult.Dispose();
 
@@ -1820,10 +1898,15 @@ namespace Adaptive.SqlServer.Client
                     }
                 }
                 else
+                {
                     commandResult.CopyTo(result);
+                }
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
+
             connectResult.Dispose();
 
             return result;
@@ -1926,11 +2009,16 @@ namespace Adaptive.SqlServer.Client
                     }
                 }
                 else
+                {
                     commandResult.CopyTo(result);
+                }
+
                 commandResult.Dispose();
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
 
             connectResult.Dispose();
             return result;
@@ -2005,11 +2093,16 @@ namespace Adaptive.SqlServer.Client
                     result = (OperationalResult<ISafeSqlDataReader?>)await GetReaderForMultiResultQueryAsync(command).ConfigureAwait(false);
                 }
                 else
+                {
                     commandResult.CopyTo(result);
+                }
+
                 commandResult.Dispose();
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
 
             connectResult.Dispose();
             return result;
@@ -2088,7 +2181,9 @@ namespace Adaptive.SqlServer.Client
                 {
                     SqlParameter[] list = sqlParamsList.ToArray();
                     if (list.Length > 0)
+                    {
                         command.Parameters.AddRange(list);
+                    }
                 }
 
                 try
@@ -2106,7 +2201,10 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
+
             connectResult.Dispose();
 
             return result;
@@ -2147,7 +2245,9 @@ namespace Adaptive.SqlServer.Client
                     {
                         SqlParameter[] list = sqlParamsList.ToArray();
                         if (list.Length > 0)
+                        {
                             command.Parameters.AddRange(list);
+                        }
                     }
 
                     try
@@ -2167,7 +2267,10 @@ namespace Adaptive.SqlServer.Client
                     }
                 }
                 else
+                {
                     connectResult.CopyTo(result);
+                }
+
                 connectResult.Dispose();
             }
             return result;
@@ -2204,7 +2307,9 @@ namespace Adaptive.SqlServer.Client
                 // Add the parameters.
                 SqlParameter[] list = sqlParamsList.ToArray();
                 if (list.Length > 0)
+                {
                     storedProcedure.Parameters.AddRange(list);
+                }
 
                 try
                 {
@@ -2221,7 +2326,9 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
 
             connectResult.Dispose();
 
@@ -2261,7 +2368,9 @@ namespace Adaptive.SqlServer.Client
                 {
                     SqlParameter[] list = sqlParamsList.ToArray();
                     if (list.Length > 0)
+                    {
                         storedProcedure.Parameters.AddRange(list);
+                    }
                 }
 
                 try
@@ -2280,7 +2389,9 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
 
             connectResult.Dispose();
 
@@ -2320,7 +2431,9 @@ namespace Adaptive.SqlServer.Client
                 // Add the parameters.
                 SqlParameter[] list = sqlParamsList.ToArray();
                 if (list.Length > 0)
+                {
                     command.Parameters.AddRange(list);
+                }
 
                 try
                 {
@@ -2337,7 +2450,10 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
+
             connectResult.Dispose();
 
             return result;
@@ -2374,7 +2490,9 @@ namespace Adaptive.SqlServer.Client
                 // Add the parameters.
                 SqlParameter[] list = sqlParamsList.ToArray();
                 if (list.Length > 0)
+                {
                     command.Parameters.AddRange(list);
+                }
 
                 try
                 {
@@ -2392,7 +2510,10 @@ namespace Adaptive.SqlServer.Client
                 }
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
+
             connectResult.Dispose();
 
             return result;
@@ -2421,7 +2542,9 @@ namespace Adaptive.SqlServer.Client
                 {
                     string? name = reader.GetString(0);
                     if (!string.IsNullOrEmpty(name))
+                    {
                         dbList.Add(name);
+                    }
                 }
                 reader.Dispose();
                 result.Success = true;
@@ -2453,7 +2576,9 @@ namespace Adaptive.SqlServer.Client
                 {
                     string? name = reader.GetString(0);
                     if (!string.IsNullOrEmpty(name))
+                    {
                         dbList.Add(name);
+                    }
                 }
 
                 reader.Dispose();
@@ -2477,9 +2602,13 @@ namespace Adaptive.SqlServer.Client
         public static List<TSqlStatement>? GetStatements(string? sqlQuery)
         {
             if (sqlQuery == null)
+            {
                 return null;
+            }
             else
+            {
                 return NativeTSqlCodeDom.ParseStatements(sqlQuery);
+            }
         }
         /// <summary>
         /// Determines whether the specified SQL query has a select statement.
@@ -2492,7 +2621,9 @@ namespace Adaptive.SqlServer.Client
         public static bool HasSelect(string? sql)
         {
             if (sql == null)
+            {
                 return false;
+            }
 
             return NativeTSqlCodeDom.HasSelectStatement(sql);
         }
@@ -2509,7 +2640,9 @@ namespace Adaptive.SqlServer.Client
         public static SqlQueryErrorCollection? ParseSqlString(string? sql)
         {
             if (sql == null)
+            {
                 return null;
+            }
 
             return NativeTSqlCodeDom.ParseSql(sql);
         }
@@ -2531,7 +2664,9 @@ namespace Adaptive.SqlServer.Client
                 return ParseSqlString(sql);
             }
             else
+            {
                 return null;
+            }
         }
 
         /// <summary>
@@ -2543,7 +2678,9 @@ namespace Adaptive.SqlServer.Client
         public void SetDatabase(string databaseName)
         {
             if (_connectionString != null)
+            {
                 _connectionString.InitialCatalog = databaseName;
+            }
         }
         /// <summary>
         /// Tests the ability to connect to SQL Server asynchronously.
@@ -2562,7 +2699,10 @@ namespace Adaptive.SqlServer.Client
                 connectResult.DataContent!.Dispose();
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
+
             connectResult.Dispose();
             return result;
         }
@@ -2583,7 +2723,10 @@ namespace Adaptive.SqlServer.Client
                 connectResult.DataContent!.Dispose();
             }
             else
+            {
                 connectResult.CopyTo(result);
+            }
+
             connectResult.Dispose();
             return result;
         }

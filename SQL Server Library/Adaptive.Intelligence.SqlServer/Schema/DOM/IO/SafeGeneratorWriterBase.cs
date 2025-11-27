@@ -62,7 +62,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.AssignmentOperator;
             }
@@ -91,7 +93,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.CloseParenthesis;
             }
@@ -107,7 +111,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.ObjectNameStartDelimiter;
             }
@@ -123,7 +129,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.ObjectNameEndDelimiter;
             }
@@ -145,7 +153,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.OpenParenthesis;
             }
@@ -161,7 +171,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.ParameterNamePrefix;
             }
@@ -177,7 +189,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.SelectDelimiter;
             }
@@ -193,7 +207,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             get
             {
                 if (_codeProvider == null)
+                {
                     return null;
+                }
 
                 return _codeProvider.SqlCommentLineDelimiter;
             }
@@ -210,7 +226,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderBlockBodyEnd()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderBlockBodyEnd();
         }
@@ -223,7 +241,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderBlockBodyStart()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderBlockBodyStart();
         }
@@ -236,7 +256,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderCommentBlockEnd()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderCommentBlockEnd();
         }
@@ -249,7 +271,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderCommentBlockPrefix()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderCommentBlockPrefix();
 
@@ -263,7 +287,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderCommentBlockStart()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderCommentBlockEnd();
         }
@@ -285,7 +311,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderCreateProcedureOpenStatement(SqlCodeDatabaseNameOwnerNameExpression owner, string name)
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderCreateProcedureOpenStatement(owner, name);
 
@@ -302,7 +330,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderDataTypeName(SqlDataTypes sqlDataType)
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderDataTypeName(sqlDataType);
         }
@@ -315,7 +345,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderDeclare()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderDeclare();
         }
@@ -328,7 +360,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderDelete()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderDelete();
         }
@@ -341,7 +375,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderFrom()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderFrom();
         }
@@ -354,7 +390,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public string? RenderInnerJoin()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderInnerJoin();
         }
@@ -367,7 +405,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public string? RenderInsertStart()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderInsertStart();
 
@@ -381,7 +421,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public string? RenderInsertValues()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderInsertValues();
         }
@@ -394,7 +436,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public string? RenderJoinOn()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderJoinOn();
         }
@@ -407,7 +451,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public string? RenderLeftJoin()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderLeftJoin();
         }
@@ -428,7 +474,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderSelect(bool distinct, int topRecordsCount)
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderSelect(distinct, topRecordsCount);
         }
@@ -441,7 +489,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderSet()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderSet();
 
@@ -455,7 +505,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderSpBodyStart()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderSpBodyStart();
         }
@@ -471,7 +523,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderSqlComparisonOperator(SqlComparisonOperator sqlOperator)
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderSqlComparisonOperator(sqlOperator);
 
@@ -488,7 +542,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderSqlConditionOperator(SqlConditionOperator sqlOperator)
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderSqlConditionOperator(sqlOperator);
         }
@@ -501,7 +557,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderUpdate()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderUpdate();
         }
@@ -514,7 +572,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected string? RenderWhere()
         {
             if (_codeProvider == null)
+            {
                 return null;
+            }
 
             return _codeProvider.RenderWhere();
 
@@ -525,7 +585,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected void SafeIndent()
         {
             if (_writer != null)
+            {
                 _writer.Indent();
+            }
         }
         /// <summary>
         /// Decreases the indentation level.
@@ -533,7 +595,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected void SafeUnIndent()
         {
             if (_writer != null)
+            {
                 _writer.UnIndent();
+            }
         }
 
         /// <summary>
@@ -545,7 +609,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected void SafeWrite(string? content)
         {
             if (_writer != null && content != null)
+            {
                 _writer.Write(content);
+            }
         }
         /// <summary>
         /// Safely writes the content to the output stream.
@@ -556,7 +622,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected async Task SafeWriteAsync(string? content)
         {
             if (_writer != null && content != null)
+            {
                 await _writer.WriteAsync(content).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Safely writes a new line to the output stream.
@@ -564,7 +632,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected void SafeWriteLine()
         {
             if (_writer != null)
+            {
                 _writer.WriteLine();
+            }
         }
         /// <summary>
         /// Safely writes a new line to the output stream.
@@ -575,7 +645,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected void SafeWriteLine(string? lineContent)
         {
             if (_writer != null && lineContent != null)
+            {
                 _writer.WriteLine(lineContent);
+            }
         }
         /// <summary>
         /// Safely writes a new line to the output stream.
@@ -586,7 +658,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected async Task SafeWriteLineAsync(string? lineContent)
         {
             if (_writer != null && lineContent != null)
+            {
                 await _writer.WriteLineAsync(lineContent).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Safely writes a new line to the output stream.
@@ -594,7 +668,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected async Task SafeWriteLineAsync()
         {
             if (_writer != null)
+            {
                 await _writer.WriteLineAsync().ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Safely writes the number of tabs to the output stream.
@@ -602,7 +678,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected void SafeWriteTabs()
         {
             if (_writer != null)
+            {
                 _writer.WriteTabs();
+            }
         }
         /// <summary>
         /// Safely writes the number of tabs to the output stream.
@@ -623,7 +701,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         protected void SafeWriteTabs(int tabCount)
         {
             if (_writer != null)
+            {
                 _writer.Write(new string(Constants.TabChar, tabCount));
+            }
         }
         /// <summary>
         /// Safely writes the number of tabs to the output stream.

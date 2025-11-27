@@ -44,7 +44,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
         protected override string GetName(AdaptiveTableProfile? item)
         {
             if (item == null)
+            {
                 return string.Empty;
+            }
 
             return item.TableName!;
         }
@@ -66,7 +68,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 {
                     AdaptiveTableProfile? profile = this[table.TableName!];
                     if (profile != null)
+                    {
                         profile.TableReference = table;
+                    }
                     else
                     {
                         profile = new AdaptiveTableProfile(table);
@@ -94,7 +98,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 {
                     AdaptiveTableProfile? profile = this[table.TableName!];
                     if (profile != null)
+                    {
                         profile.TableReference = table;
+                    }
                     else
                     {
                         profile = new AdaptiveTableProfile(table);
@@ -237,7 +243,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             if (!string.IsNullOrEmpty(_fileName))
             {
                 if (File.Exists(_fileName))
+                {
                     SafeIO.DeleteFile(_fileName);
+                }
 
                 FileStream? outStream = null;
                 try
@@ -287,7 +295,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             if (!string.IsNullOrEmpty(_fileName))
             {
                 if (File.Exists(_fileName))
+                {
                     SafeIO.DeleteFile(_fileName);
+                }
 
                 FileStream? outStream = null;
                 try
