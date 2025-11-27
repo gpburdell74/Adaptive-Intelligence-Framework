@@ -41,7 +41,9 @@
         public SqlCodeUpdateStatement(SqlCodeTableReferenceExpression? table) : base(SqlStatementType.Update)
         {
             if (table != null)
+            {
                 _table = table.Clone();
+            }
 
             _updateColumnList = new SqlCodeAssignmentExpressionCollection();
         }
@@ -80,9 +82,13 @@
             {
                 _table?.Dispose();
                 if (value == null)
+                {
                     _table = null;
+                }
                 else
+                {
                     _table = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -96,7 +102,10 @@
             get
             {
                 if (_updateColumnList == null)
+                {
                     _updateColumnList = new SqlCodeAssignmentExpressionCollection();
+                }
+
                 return _updateColumnList;
             }
         }
@@ -113,9 +122,13 @@
             {
                 _whereClause?.Dispose();
                 if (value == null)
+                {
                     _whereClause = null;
+                }
                 else
+                {
                     _whereClause = value.Clone();
+                }
             }
         }
         #endregion
@@ -134,11 +147,15 @@
             if (_updateColumnList != null)
             {
                 foreach (SqlCodeAssignmentExpression expression in _updateColumnList)
+                {
                     item.UpdateColumnList!.Add(expression.Clone());
+                }
             }
 
             if (_whereClause != null)
+            {
                 item.WhereClause = _whereClause.Clone();
+            }
 
             return item;
         }

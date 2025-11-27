@@ -25,7 +25,9 @@
         public static void ClearArray(this Array? arrayToClear)
         {
             if (arrayToClear != null)
+            {
                 Array.Clear(arrayToClear, 0, arrayToClear.Length);
+            }
         }
         /// <summary>
         /// Compares the length and contents of one array to another.
@@ -50,20 +52,30 @@
             int result;
 
             if (firstArray == null && secondArray == null)
+            {
                 result = 0;
+            }
             else if (firstArray == null)
+            {
                 result = -1;
+            }
             else if (secondArray == null)
+            {
                 result = 1;
+            }
             else
             {
                 var firstLen = firstArray.Length;
                 var secondLen = secondArray.Length;
 
                 if (firstLen < secondLen)
+                {
                     result = -1;
+                }
                 else if (firstLen > secondLen)
+                {
                     result = 1;
+                }
                 else
                 {
                     result = 0;
@@ -121,7 +133,10 @@
                     {
                         whitespaceStart = pos + 1;
                         if (whitespaceStart >= length)
+                        {
                             whitespaceStart = -1;
+                        }
+
                         done = true;
                     }
                     pos--;

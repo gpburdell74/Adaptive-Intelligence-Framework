@@ -61,7 +61,9 @@ namespace Adaptive.Intelligence.Shared
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _propertyInfoCache?.Clear();
+            }
 
             _propertyInfoCache = null;
             _entity = default;
@@ -87,7 +89,9 @@ namespace Adaptive.Intelligence.Shared
         public virtual T? GetEntity()
         {
             if (_entity is ICloneable cloneable)
+            {
                 return (T)cloneable.Clone();
+            }
 
             return _entity;
         }
@@ -214,10 +218,14 @@ namespace Adaptive.Intelligence.Shared
                 int original = -1;
                 int newHash = -1;
                 if (value is not null)
+                {
                     original = value.GetHashCode();
+                }
 
                 if (box != null)
+                {
                     newHash = box.GetHashCode();
+                }
 
                 if (original != newHash)
                 {
@@ -248,7 +256,9 @@ namespace Adaptive.Intelligence.Shared
             try
             {
                 if (_entity != null)
+                {
                     success = PerformDelete(_entity);
+                }
             }
             catch (Exception ex)
             {
@@ -271,7 +281,9 @@ namespace Adaptive.Intelligence.Shared
             try
             {
                 if (_entity != null)
+                {
                     success = await PerformDeleteAsync(_entity).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
@@ -350,7 +362,9 @@ namespace Adaptive.Intelligence.Shared
             try
             {
                 if (_entity != null)
+                {
                     success = PerformSave(_entity);
+                }
             }
             catch (Exception ex)
             {
@@ -372,7 +386,9 @@ namespace Adaptive.Intelligence.Shared
             try
             {
                 if (_entity != null)
+                {
                     success = await PerformSaveAsync(_entity).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
@@ -428,7 +444,9 @@ namespace Adaptive.Intelligence.Shared
             if (propInfo == null)
             {
                 if (_propertyInfoCache == null)
+                {
                     _propertyInfoCache = new Dictionary<string, PropertyInfo>();
+                }
 
                 try
                 {

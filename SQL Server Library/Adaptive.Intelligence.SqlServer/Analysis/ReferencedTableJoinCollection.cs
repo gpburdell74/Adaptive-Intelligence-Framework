@@ -41,7 +41,9 @@
                 {
                     // If not in the list, add it to the dictionary.
                     if (!tableUseList.ContainsKey(item.ReferencedTable.TableName))
+                    {
                         tableUseList.Add(item.ReferencedTable.TableName, 1);
+                    }
                     else
                     {
                         // We have seen this table before... Create a new alias and increment the numeric value.

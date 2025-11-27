@@ -180,7 +180,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public override string ToString()
         {
             if (Name == null)
+            {
                 return nameof(SqlDataType);
+            }
 
             return Name;
         }

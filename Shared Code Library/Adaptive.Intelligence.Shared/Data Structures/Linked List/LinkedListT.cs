@@ -101,7 +101,9 @@ namespace Adaptive.Intelligence.Shared
 
                 LinkedListNode<T>? node = FindNodeAtIndex(index);
                 if (node != null)
+                {
                     returnData = node.Data;
+                }
 
                 return returnData!;
             }
@@ -136,7 +138,10 @@ namespace Adaptive.Intelligence.Shared
                 LinkedListNode<T> newNode = new LinkedListNode<T>(newValue);
                 newNode.Previous = _lastNode;
                 if (_lastNode != null)
+                {
                     _lastNode.Next = newNode;
+                }
+
                 _lastNode = newNode;
                 _count++;
             }
@@ -231,7 +236,9 @@ namespace Adaptive.Intelligence.Shared
                 else
                 {
                     if (prevNode != null)
+                    {
                         prevNode.Next = newNode;
+                    }
 
                     indexNode.Previous = newNode;
                     newNode.Previous = prevNode;
@@ -254,7 +261,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 bool success = RemoveNode(nodeToRemove);
                 if (success)
+                {
                     nodeToRemove.Dispose();
+                }
             }
         }
         /// <summary>
@@ -276,7 +285,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 success = RemoveNode(nodeToRemove);
                 if (success)
+                {
                     nodeToRemove.Dispose();
+                }
             }
 
             return success;
@@ -328,7 +339,9 @@ namespace Adaptive.Intelligence.Shared
                 }
 
                 if (ptr == null)
+                {
                     pos = -1;
+                }
             }
 
             return pos;
@@ -397,14 +410,24 @@ namespace Adaptive.Intelligence.Shared
                 LinkedListNode<T>? nextNode = nodeToRemove.Next;
 
                 if (nodeToRemove == _firstNode)
+                {
                     _firstNode = nextNode;
+                }
+
                 if (nodeToRemove == _lastNode)
+                {
                     _lastNode = prevNode;
+                }
 
                 if (prevNode != null)
+                {
                     prevNode.Next = nextNode;
+                }
+
                 if (nextNode != null)
+                {
                     nextNode.Previous = prevNode;
+                }
 
                 _count--;
                 success = true;

@@ -40,7 +40,9 @@
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _commentList?.Clear();
+            }
 
             _commentList = null;
             base.Dispose(disposing);

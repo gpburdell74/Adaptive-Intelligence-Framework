@@ -129,9 +129,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             string tableName)
         {
             if (provider != null)
+            {
                 return SchemaLoader.GetStoredProceduresForTable(provider, tableName);
+            }
             else
+            {
                 return null;
+            }
         }
         /// <summary>
 		/// Gets the list of stored procedures that are named after the specified table.

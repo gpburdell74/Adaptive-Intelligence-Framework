@@ -92,8 +92,10 @@ public static class FileNameRenderer
     public static string RenderInTempPath(string path)
     {
         if (_windows)
+        {
             return Path.Combine(Path.GetTempPath(),
                 path);
+        }
         else
         {
             return Path.Combine(Path.GetTempPath(),

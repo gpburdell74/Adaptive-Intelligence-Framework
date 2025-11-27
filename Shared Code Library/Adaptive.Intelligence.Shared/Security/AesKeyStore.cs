@@ -84,9 +84,13 @@
             get
             {
                 if (_iv == null || _iv.IsNull)
+                {
                     return null;
+                }
                 else
+                {
                     return _iv.Value;
+                }
             }
             set
             {
@@ -98,9 +102,13 @@
                 else
                 {
                     if (_iv == null)
+                    {
                         _iv = new SecureByteArray(value);
+                    }
                     else
+                    {
                         _iv.Value = value;
+                    }
                 }
             }
         }
@@ -115,9 +123,13 @@
             get
             {
                 if (_key == null || _key.IsNull)
+                {
                     return null;
+                }
                 else
+                {
                     return _key.Value;
+                }
             }
             set
             {
@@ -129,9 +141,13 @@
                 else
                 {
                     if (_key == null)
+                    {
                         _key = new SecureByteArray(value);
+                    }
                     else
+                    {
                         _key.Value = value;
+                    }
                 }
             }
         }
@@ -157,9 +173,13 @@
         public AesKeyStore Clone()
         {
             if (_iv == null || _key == null || _key.Value == null || _iv.Value == null)
+            {
                 return new AesKeyStore();
+            }
             else
+            {
                 return new AesKeyStore(_key.Value, _iv.Value);
+            }
         }
         /// <summary>
         /// Clones this instance.
@@ -182,7 +202,9 @@
         public byte[]? GetKeyIVData()
         {
             if (_key == null || _key.IsNull || _key.Value == null || _iv == null || _iv.IsNull || _iv.Value == null)
+            {
                 return null;
+            }
             else
             {
                 byte[] data = new byte[48];
@@ -207,7 +229,9 @@
             {
                 byte[]? data = GetKeyIVData();
                 if (data != null)
+                {
                     content = Convert.ToBase64String(data);
+                }
             }
             return content;
         }

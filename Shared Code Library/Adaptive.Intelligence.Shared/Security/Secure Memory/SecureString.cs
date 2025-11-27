@@ -96,13 +96,19 @@ namespace Adaptive.Intelligence.Shared.Security
         protected override string? TranslateValueFromBytes(byte[]? content)
         {
             if (content == null)
+            {
                 return null;
+            }
             else
             {
                 if (IsAscii)
+                {
                     return _asciiRef?.GetString(content);
+                }
                 else
+                {
                     return _utfRef?.GetString(content);
+                }
             }
 
         }
@@ -118,13 +124,19 @@ namespace Adaptive.Intelligence.Shared.Security
         protected override byte[]? TranslateValueToBytes(string? value)
         {
             if (value == null)
+            {
                 return null;
+            }
             else
             {
                 if (IsAscii)
+                {
                     return _asciiRef?.GetBytes(value);
+                }
                 else
+                {
                     return _utfRef?.GetBytes(value);
+                }
             }
         }
         #endregion

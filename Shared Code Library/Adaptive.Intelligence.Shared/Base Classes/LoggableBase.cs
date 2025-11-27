@@ -14,19 +14,23 @@ public class LoggableBase : ExceptionTrackingBase
     /// <summary>
     /// The enable logging flag.
     /// </summary>
-    private bool _enableLogging = true;
+    private readonly bool _enableLogging;
+    
     /// <summary>
     /// The log to console flag.
     /// </summary>
-    private bool _logToConsole = true;
+    private readonly bool _logToConsole;
+    
     /// <summary>
     /// The log file name.
     /// </summary>
-    private string? _logFileName;
+    private readonly string? _logFileName;
+    
     /// <summary>
     /// The log stream.
     /// </summary>
     private FileStream? _logStream;
+    
     /// <summary>
     /// The writer for hte log file.
     /// </summary>
@@ -37,7 +41,7 @@ public class LoggableBase : ExceptionTrackingBase
     /// <summary>
     /// The threading synchronization instance.
     /// </summary>
-    private static readonly object _syncLogRoot = new object();
+    private static readonly Lock _syncLogRoot = new Lock();
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -58,13 +62,10 @@ public class LoggableBase : ExceptionTrackingBase
         _enableLogging = enableLogging;
         _logToConsole = logToConsole;
         _logFileName = specificFileName;
-        if (_enableLogging)
+        if (_enableLogging && !_logToConsole)
         {
-            if (!_logToConsole)
-            {
-                _logFileName = GenerateLogFileName();
-                OpenLogFile();
-            }
+            _logFileName = GenerateLogFileName();
+            OpenLogFile();
         }
     }
 
@@ -76,7 +77,9 @@ public class LoggableBase : ExceptionTrackingBase
     protected override void Dispose(bool disposing)
     {
         if (_enableLogging)
+        {
             CloseLog();
+        }
 
         base.Dispose(disposing);
     }
@@ -92,33 +95,45 @@ public class LoggableBase : ExceptionTrackingBase
         {
             if (_logToConsole)
             {
-                System.Console.WriteLine("Press [Enter] To Exit...");
+                System.Console.WriteLine(@"Press [Enter] To Exit...");
                 System.Console.ReadLine();
             }
             else
             {
                 try
                 {
-                    _writer?.Close();
+                    lock (_syncLogRoot)
+                    {
+                        _writer?.Close();
+                    }
+
                     _logStream?.Close();
                 }
-                catch
-                { }
+                catch (Exception ex)
+                {
+                    AddException(ex);
+                }
             }
         }
-        _writer = null;
-        _logStream = null;
+
+        lock (_syncLogRoot)
+        {
+            _writer = null;
+            _logStream = null;
+        }
+
         GC.Collect();
     }
+    
     /// <summary>
     /// Generates a local file name for the new log file.
     /// </summary>
     /// <returns>
-    /// A string containing the data type name and tickcount as a text file name.
+    /// A string containing the data type name and tick-count as a text file name.
     /// </returns>
-    private string? GenerateLogFileName()
+    private string GenerateLogFileName()
     {
-        return GetType().Name + "Log-" + System.Environment.TickCount.ToString() + ".txt";
+        return GetType().Name + $"Log-{ Environment.TickCount.ToString()}.txt";
     }
     /// <summary>
     /// Attempts to open the local log file for writing.
@@ -130,12 +145,17 @@ public class LoggableBase : ExceptionTrackingBase
             try
             {
                 if (SafeIO.FileExists(_logFileName))
+                {
                     SafeIO.DeleteFile(_logFileName);
+                }
 
                 _logStream = new FileStream(_logFileName, FileMode.CreateNew, FileAccess.Write, FileShare.Read);
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                AddException(ex);
+            }
+            
             if (_logStream != null)
             {
                 _writer = new StreamWriter(_logStream);
@@ -153,7 +173,9 @@ public class LoggableBase : ExceptionTrackingBase
     protected void WriteStatus(string message)
     {
         if (_enableLogging)
+        {
             WriteLogData(message);
+        }
     }
 
     /// <summary>
@@ -168,7 +190,9 @@ public class LoggableBase : ExceptionTrackingBase
         {
             WriteLogData(ex.Message);
             if (ex.InnerException != null)
+            {
                 WriteException(ex.InnerException);
+            }
         }
     }
 
@@ -199,7 +223,7 @@ public class LoggableBase : ExceptionTrackingBase
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(DateTime.Now.ToString("o") + "\t");
-            builder.Append("Thread: " + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString() + "\t");
+            builder.Append("Thread: " + Thread.CurrentThread.ManagedThreadId.ToString() + "\t");
             builder.Append(content);
 
             // One thread at a time, please...
@@ -220,6 +244,7 @@ public class LoggableBase : ExceptionTrackingBase
                     }
                     catch (Exception ex)
                     {
+                        AddException(ex);
                     }
                 }
             }

@@ -135,7 +135,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public override string ToString()
         {
             if (ForeignKeyName == null)
+            {
                 return nameof(SqlForeignKey);
+            }
 
             return ForeignKeyName;
         }

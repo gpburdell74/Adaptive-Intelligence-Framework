@@ -127,7 +127,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public override string ToString()
         {
             if (_definition == null)
+            {
                 return nameof(SqlStoredProcedure);
+            }
 
             return _definition;
         }

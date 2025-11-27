@@ -55,9 +55,13 @@ namespace Adaptive.Intelligence.Shared
             get
             {
                 if (_exceptionList == null)
+                {
                     return new ExceptionCollection();
+                }
                 else
+                {
                     return _exceptionList;
+                }
             }
         }
         /// <summary>
@@ -71,7 +75,9 @@ namespace Adaptive.Intelligence.Shared
             get
             {
                 if (_exceptionList == null || _exceptionList.Count == 0)
+                {
                     return string.Empty;
+                }
                 else
                 {
                     StringBuilder builder = new StringBuilder();
@@ -96,9 +102,13 @@ namespace Adaptive.Intelligence.Shared
             get
             {
                 if (_exceptionList == null || _exceptionList.Count == 0)
+                {
                     return null;
+                }
                 else
+                {
                     return _exceptionList[0];
+                }
             }
         }
         /// <summary>
@@ -137,7 +147,9 @@ namespace Adaptive.Intelligence.Shared
         public void CopyExceptions(IOperationalResult? result)
         {
             if (_exceptionList != null && result != null && result.HasExceptions)
+            {
                 _exceptionList.AddRange(result.Exceptions!);
+            }
         }
         #endregion
     }

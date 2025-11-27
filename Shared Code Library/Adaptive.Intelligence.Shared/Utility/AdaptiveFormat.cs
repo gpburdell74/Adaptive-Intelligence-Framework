@@ -52,10 +52,14 @@ namespace Adaptive.Intelligence.Shared
         {
             StringBuilder builder = new StringBuilder();
             if (!string.IsNullOrEmpty(line1))
+            {
                 builder.AppendLine(line1);
+            }
 
             if (!string.IsNullOrEmpty(line2))
+            {
                 builder.AppendLine(line2);
+            }
 
             return builder.ToString();
         }
@@ -72,9 +76,13 @@ namespace Adaptive.Intelligence.Shared
         public static string FormatBoolean(bool value)
         {
             if (value)
+            {
                 return Constants.TrueFormatted;
+            }
             else
+            {
                 return Constants.FalseFormatted;
+            }
         }
         /// <summary>
         /// Formats the size value as a value of bytes.
@@ -156,9 +164,13 @@ namespace Adaptive.Intelligence.Shared
         public static string FormatDateValue(DateTime original)
         {
             if (original.IsRidiculousDate())
+            {
                 return string.Empty;
+            }
             else
+            {
                 return original.ToString(Constants.USDateFormat);
+            }
         }
         /// <summary>
         /// Formats the gender string into a standard display format.
@@ -172,11 +184,17 @@ namespace Adaptive.Intelligence.Shared
         public static string FormatGender(string original)
         {
             if (string.IsNullOrEmpty(original))
+            {
                 return string.Empty;
+            }
             else if (original == Constants.GenderCodeMale)
+            {
                 return Constants.GenderMale;
+            }
             else
+            {
                 return Constants.GenderFemale;
+            }
         }
         /// <summary>
         /// Formats the mailing address.
@@ -189,9 +207,13 @@ namespace Adaptive.Intelligence.Shared
         public static string? FormatMailingAddress(IStandardPostalAddress? address)
         {
             if (address == null)
+            {
                 return null;
+            }
             else
+            {
                 return address.ToString();
+            }
         }
         /// <summary>
         /// Determines whether the specified string value is numeric.
@@ -203,7 +225,9 @@ namespace Adaptive.Intelligence.Shared
         public static bool IsNumeric(string original)
         {
             if (string.IsNullOrEmpty(original))
+            {
                 return false;
+            }
 
             bool isNumeric;
             int length = original.Length;

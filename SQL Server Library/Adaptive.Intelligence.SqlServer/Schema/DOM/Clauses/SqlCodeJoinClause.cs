@@ -108,9 +108,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
             {
                 _leftColumn?.Dispose();
                 if (value == null)
+                {
                     _leftColumn = null;
+                }
                 else
+                {
                     _leftColumn = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -175,9 +179,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
             {
                 _referencedTable?.Dispose();
                 if (value == null)
+                {
                     _referencedTable = null;
+                }
                 else
+                {
                     _referencedTable = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -193,9 +201,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
             {
                 _rightColumn?.Dispose();
                 if (value == null)
+                {
                     _rightColumn = null;
+                }
                 else
+                {
                     _rightColumn = value.Clone();
+                }
             }
         }
         #endregion

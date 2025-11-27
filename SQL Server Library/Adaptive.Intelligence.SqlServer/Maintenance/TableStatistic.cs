@@ -98,7 +98,9 @@ namespace Adaptive.Intelligence.SqlServer.Maintenance
         public void AddIndex(IndexStatisticsInfo index)
         {
             if (_indexes != null)
+            {
                 _indexes.Add(index);
+            }
         }
         /// <summary>
         /// Determines whether the table has indexes that need rebuilding.
@@ -109,7 +111,9 @@ namespace Adaptive.Intelligence.SqlServer.Maintenance
         public bool HasIndexesToRebuild()
         {
             if (_indexes == null)
+            {
                 return false;
+            }
 
             return _indexes.HasIndexesToRebuild();
         }

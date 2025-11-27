@@ -39,7 +39,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 {
                     PropertyProfile? propProfile = CreatePropertyProfileForSqlColumn(column, dbInfo);
                     if (propProfile != null)
+                    {
                         propertyList.Add(propProfile);
+                    }
                 }
 
                 // Create Property Profiles for key fields that reference other tables.
@@ -52,7 +54,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                         {
                             PropertyProfile? propProfile = CreatePropertyProfileForReferencedSqlColumn(referencedProfile);
                             if (propProfile != null)
+                            {
                                 propertyList.Add(propProfile);
+                            }
                         }
                     }
                 }
@@ -96,13 +100,19 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 propProfile.TypeName = propertyType.Name;
 
                 if (!propertyType.IsValueType)
+                {
                     propProfile.IsNullable = true;
+                }
 
                 if (propertyType.IsClass && isDisposable != null)
+                {
                     propProfile.IsDisposable = true;
+                }
 
                 if (propertyType.BaseType == typeof(List<>))
+                {
                     propProfile.IsList = true;
+                }
             }
             return propProfile;
         }

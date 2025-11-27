@@ -49,8 +49,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteAliasExpressionAsync(SqlCodeAliasExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
+            {
                 await SafeWriteAsync(ObjectNameStartDelimiter + expression.Name + ObjectNameEndDelimiter)
                     .ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the assignment expression.
@@ -106,9 +108,11 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteColumnNameExpressionAsync(SqlCodeColumnNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.ColumnName))
+            {
                 await SafeWriteAsync(
                     ObjectNameStartDelimiter + expression.ColumnName +
-                        ObjectNameEndDelimiter).ConfigureAwait(false);
+                    ObjectNameEndDelimiter).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Writes the comment line as a line in a comment block.
@@ -119,7 +123,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteCommentBlockExpression(SqlCodeCommentExpression? commentExpression)
         {
             if (CanWrite && commentExpression != null)
+            {
                 SafeWrite(RenderCommentBlockPrefix() + commentExpression.Comment);
+            }
         }
         /// <summary>
         /// Writes the comment line as a line in a comment block.
@@ -130,10 +136,12 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteCommentBlockExpressionAsync(SqlCodeCommentExpression? commentExpression)
         {
             if (CanWrite && commentExpression != null)
+            {
                 await SafeWriteAsync(
                     RenderCommentBlockPrefix() +
-                            commentExpression.Comment
-                            ).ConfigureAwait(false);
+                    commentExpression.Comment
+                ).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Writes the comment block expression ending text.
@@ -141,7 +149,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteCommentBlockExpressionEnd()
         {
             if (CanWrite)
+            {
                 SafeWrite(RenderCommentBlockEnd());
+            }
         }
         /// <summary>
         /// Writes the comment block expression ending text.
@@ -149,7 +159,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteCommentBlockExpressionEndAsync()
         {
             if (CanWrite)
+            {
                 await SafeWriteAsync(RenderCommentBlockEnd()).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Writes the comment block expression start text.
@@ -157,7 +169,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteCommentBlockExpressionStart()
         {
             if (CanWrite)
+            {
                 SafeWrite(RenderCommentBlockStart());
+            }
         }
         /// <summary>
         /// Writes the comment block expression start text.
@@ -165,7 +179,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteCommentBlockExpressionStartAsync()
         {
             if (CanWrite)
+            {
                 await SafeWriteAsync(RenderCommentBlockStart()).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL comment expression.
@@ -176,7 +192,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteCommentExpression(SqlCodeCommentExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Comment))
+            {
                 SafeWrite(SqlCommentLineDelimiter + expression.Comment);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL comment expression.
@@ -187,8 +205,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteCommentExpressionAsync(SqlCodeCommentExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Comment))
+            {
                 await SafeWriteAsync(SqlCommentLineDelimiter + expression.Comment)
                     .ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL expression for a condition to be evaluated.
@@ -250,12 +270,16 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             if (CanWrite && expression != null && expression.Expression != null)
             {
                 if (useParens)
+                {
                     SafeWrite(OpenParenthesis);
+                }
 
                 WriteConditionExpression(expression.Expression);
 
                 if (useParens)
+                {
                     SafeWrite(CloseParenthesis);
+                }
 
                 if (expression.Operator != SqlConditionOperator.NotSpecified)
                 {
@@ -279,8 +303,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 await SafeWriteAsync(CloseParenthesis).ConfigureAwait(false);
 
                 if (expression.Operator != SqlConditionOperator.NotSpecified)
+                {
                     await SafeWriteAsync(RenderSqlConditionOperator(expression.Operator))
                         .ConfigureAwait(false);
+                }
             }
         }
         /// <summary>
@@ -292,7 +318,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteDatabaseNameExpression(SqlCodeDatabaseNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
+            {
                 SafeWrite(ObjectNameStartDelimiter + expression.Name + ObjectNameEndDelimiter);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL database name expression.
@@ -303,8 +331,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteDatabaseNameExpressionAsync(SqlCodeDatabaseNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
+            {
                 await SafeWriteAsync(ObjectNameStartDelimiter + expression.Name +
-                                         ObjectNameEndDelimiter).ConfigureAwait(false);
+                                     ObjectNameEndDelimiter).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL database owner name expression.
@@ -315,7 +345,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteDatabaseOwnerNameExpression(SqlCodeDatabaseNameOwnerNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
+            {
                 SafeWrite(ObjectNameStartDelimiter + expression.Name + ObjectNameEndDelimiter);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL database owner name expression.
@@ -326,8 +358,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteDatabaseOwnerNameExpressionAsync(SqlCodeDatabaseNameOwnerNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
+            {
                 await SafeWriteAsync(ObjectNameStartDelimiter + expression.Name + ObjectNameEndDelimiter)
                     .ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the data type expression.
@@ -351,16 +385,23 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     case Schema.SqlDataTypes.VarChar:
                         // Specify length value, if specified in expression.
                         if (expression.MaxLength > 0)
+                        {
                             SafeWrite(OpenParenthesis + expression.MaxLength + CloseParenthesis);
+                        }
+
                         break;
 
                     case Schema.SqlDataTypes.NVarCharOrSysName:
                         if (expression.MaxLength > 0)
                         {
                             if (!expression.IsPadded)
+                            {
                                 SafeWrite(OpenParenthesis + expression.MaxLength + CloseParenthesis);
+                            }
                             else
+                            {
                                 SafeWrite(OpenParenthesis + (expression.MaxLength / 2).ToString() + CloseParenthesis);
+                            }
                         }
                         break;
 
@@ -405,11 +446,14 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     case Schema.SqlDataTypes.VarChar:
                         // Specify length value, if specified in expression.
                         if (expression.MaxLength > 0)
+                        {
                             await SafeWriteAsync(
                                 OpenParenthesis +
                                 expression.MaxLength +
-                                                 CloseParenthesis
-                                                 ).ConfigureAwait(false);
+                                CloseParenthesis
+                            ).ConfigureAwait(false);
+                        }
+
                         break;
 
                     case Schema.SqlDataTypes.DateTimeOffset:
@@ -651,7 +695,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     {
                         WriteExpression(expression.ParameterValueList[count]);
                         if (count < len - 1)
+                        {
                             SafeWrite(Constants.CommaWithSpace);
+                        }
                     }
                 }
                 SafeWrite(CloseParenthesis);
@@ -675,7 +721,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     {
                         await WriteExpressionAsync(expression.ParameterValueList[count]);
                         if (count < len - 1)
+                        {
                             await SafeWriteAsync(Constants.CommaWithSpace).ConfigureAwait(false);
+                        }
                     }
                 }
                 await SafeWriteAsync(CloseParenthesis).ConfigureAwait(false);
@@ -690,7 +738,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteListItemExpression(SqlCodeSelectListItemExpression? expression)
         {
             if (expression != null)
+            {
                 WriteExpression(expression.Expression);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL select list item expression.
@@ -701,7 +751,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteListItemExpressionAsync(SqlCodeSelectListItemExpression? expression)
         {
             if (expression != null)
+            {
                 await WriteExpressionAsync(expression.Expression).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL literal expression.
@@ -712,7 +764,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteLiteralExpression(SqlCodeLiteralExpression? expression)
         {
             if (expression != null && !string.IsNullOrEmpty(expression.Expression))
+            {
                 SafeWrite(expression.Expression);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL literal expression.
@@ -723,7 +777,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteLiteralExpressionAsync(SqlCodeLiteralExpression? expression)
         {
             if (expression != null && !string.IsNullOrEmpty(expression.Expression))
+            {
                 await SafeWriteAsync(expression.Expression).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Writes the SQL parameter definition expression.
@@ -738,9 +794,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                 SafeWriteTabs();
                 //@ParameterName
                 if (ParameterNamePrefix != null && !expression.Name.StartsWith(ParameterNamePrefix))
+                {
                     SafeWrite(ParameterNamePrefix + expression.Name);
+                }
                 else
+                {
                     SafeWrite(expression.Name);
+                }
 
                 // Tab over some...
                 SafeWriteTabs(4);
@@ -788,7 +848,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteParameterNameExpression(SqlCodeParameterNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
+            {
                 SafeWrite(ParameterNamePrefix + expression.Name);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL parameter name expression.
@@ -801,9 +863,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
             {
                 if (ParameterNamePrefix != null && !expression.Name.StartsWith(ParameterNamePrefix))
+                {
                     await SafeWriteAsync(ParameterNamePrefix + expression.Name).ConfigureAwait(false);
+                }
                 else
+                {
                     await SafeWriteAsync(expression.Name).ConfigureAwait(false);
+                }
             }
         }
         /// <summary>
@@ -815,7 +881,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteParameterReferenceExpression(SqlCodeParameterReferenceExpression? expression)
         {
             if (expression != null)
+            {
                 WriteParameterNameExpression(expression.Name);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL parameter reference expression.
@@ -836,10 +904,12 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteStoredProcedureNameExpression(SqlCodeStoredProcedureNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.Name))
+            {
                 SafeWrite(
                     ObjectNameStartDelimiter +
                     expression.Name +
                     ObjectNameEndDelimiter);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL stored procedure name expression.
@@ -873,7 +943,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     SafeWrite(Constants.Dot);
                 }
                 if (expression.ColumnName != null)
+                {
                     WriteColumnNameExpression(expression.ColumnName);
+                }
             }
         }
         /// <summary>
@@ -892,7 +964,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     await SafeWriteAsync(Constants.Dot).ConfigureAwait(false);
                 }
                 if (expression.ColumnName != null)
+                {
                     await WriteColumnNameExpressionAsync(expression.ColumnName).ConfigureAwait(false);
+                }
             }
         }
         /// <summary>
@@ -904,7 +978,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteTableNameExpression(SqlCodeTableNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.TableName))
+            {
                 SafeWrite(ObjectNameStartDelimiter + expression.TableName + ObjectNameEndDelimiter);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL table name expression.
@@ -915,9 +991,11 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteTableNameExpressionAsync(SqlCodeTableNameExpression? expression)
         {
             if (CanWrite && expression != null && !string.IsNullOrEmpty(expression.TableName))
+            {
                 await SafeWriteAsync(ObjectNameStartDelimiter + expression.TableName +
-                                         ObjectNameEndDelimiter)
+                                     ObjectNameEndDelimiter)
                     .ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Renders and writes the SQL table source expression.
@@ -960,7 +1038,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             if (expression != null && expression.TableName != null)
             {
                 if (expression.OwnerName != null)
+                {
                     await WriteDatabaseOwnerNameExpressionAsync(expression.OwnerName).ConfigureAwait(false);
+                }
 
                 await WriteTableNameExpressionAsync(expression.TableName);
                 if (expression.Alias != null)
@@ -986,7 +1066,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                 // @DataType [(123) or (x,y)] etc.
                 if (expression.DataTypeExpression != null)
+                {
                     WriteDataTypeExpression(expression.DataTypeExpression);
+                }
             }
         }
         /// <summary>
@@ -1005,7 +1087,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                 // @DataType [(123) or (x,y)] etc.
                 if (expression.DataTypeExpression != null)
+                {
                     await WriteDataTypeExpressionAsync(expression.DataTypeExpression).ConfigureAwait(false);
+                }
             }
         }
         /// <summary>
@@ -1019,9 +1103,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             if (CanWrite && expression != null && expression.Name != null)
             {
                 if (ParameterNamePrefix != null && !expression.Name.StartsWith(ParameterNamePrefix))
+                {
                     SafeWrite(ParameterNamePrefix + expression.Name);
+                }
                 else
+                {
                     SafeWrite(expression.Name);
+                }
             }
         }
         /// <summary>
@@ -1035,9 +1123,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             if (CanWrite && expression != null && expression.Name != null)
             {
                 if (ParameterNamePrefix != null && !expression.Name.StartsWith(ParameterNamePrefix))
+                {
                     await SafeWriteAsync(ParameterNamePrefix + expression.Name).ConfigureAwait(false);
+                }
                 else
+                {
                     await SafeWriteAsync(expression.Name).ConfigureAwait(false);
+                }
             }
         }
         /// <summary>
@@ -1049,7 +1141,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public void WriteVariableReferenceExpression(SqlCodeVariableReferenceExpression? expression)
         {
             if (expression != null && expression.Name != null)
+            {
                 WriteVariableNameExpression(expression.Name);
+            }
         }
         /// <summary>
         /// Writes the variable reference expression.
@@ -1060,7 +1154,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         public async Task WriteVariableReferenceExpressionAsync(SqlCodeVariableReferenceExpression? expression)
         {
             if (expression != null && expression.Name != null)
+            {
                 await WriteVariableNameExpressionAsync(expression.Name).ConfigureAwait(false);
+            }
         }
         #endregion
 

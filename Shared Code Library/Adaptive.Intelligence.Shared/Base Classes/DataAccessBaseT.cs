@@ -101,7 +101,9 @@
             try
             {
                 if (item != null)
+                {
                     success = PerformDelete(item);
+                }
             }
             catch (Exception ex)
             {

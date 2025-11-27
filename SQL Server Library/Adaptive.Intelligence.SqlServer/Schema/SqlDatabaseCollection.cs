@@ -48,9 +48,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         protected override string GetName(SqlDatabase? item)
         {
             if (item == null)
+            {
                 return string.Empty;
+            }
             else
+            {
                 return item.Name ?? string.Empty;
+            }
         }
         #endregion
     }

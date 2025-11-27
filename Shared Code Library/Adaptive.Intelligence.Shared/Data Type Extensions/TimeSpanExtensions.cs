@@ -41,13 +41,19 @@
             string minutes = string.Empty;
 
             if (ts.Days > 0)
+            {
                 days = GeneralUtils.EnglishPlural(ts.Days, DayName, PluralS);
+            }
 
             if (ts.Hours > 0)
+            {
                 hours = GeneralUtils.EnglishPlural(ts.Hours, HourName, PluralS);
+            }
 
             if (ts.Minutes > 0)
+            {
                 minutes = GeneralUtils.EnglishPlural(ts.Minutes, MinuteName, PluralS);
+            }
 
             return GeneralUtils.EnglishStringAppend(new string[] { days, hours, minutes });
         }

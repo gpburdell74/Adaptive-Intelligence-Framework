@@ -218,11 +218,11 @@ namespace Adaptive.Taz.Cryptography
                 // Clear Memory.
                 ByteArrayUtil.Clear(parts);
 
-                return keyPart;
+                return newKeyPart;
             }
             else
             {
-                return new byte[0];
+                return [];
             }
         }
         /// <summary>

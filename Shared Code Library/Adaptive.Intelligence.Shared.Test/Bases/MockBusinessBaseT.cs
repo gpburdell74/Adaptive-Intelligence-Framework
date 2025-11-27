@@ -3,7 +3,7 @@
     public sealed class MockBusinessBase<T> : BusinessBase<T>
         where T: class
     {
-        public MockBusinessBase() : base()
+        public MockBusinessBase()
         {
             
         }

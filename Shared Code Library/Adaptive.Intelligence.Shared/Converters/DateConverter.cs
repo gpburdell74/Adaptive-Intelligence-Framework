@@ -29,7 +29,9 @@ namespace Adaptive.Intelligence.Shared
         public DateTime Convert(string originalValue)
         {
             if (string.IsNullOrEmpty(originalValue))
+            {
                 return new DateTime(1900, 1, 1);
+            }
             else
             {
                 originalValue = originalValue
@@ -37,19 +39,29 @@ namespace Adaptive.Intelligence.Shared
                     .Replace(Constants.CloseParen, string.Empty);
 
                 if (originalValue.Contains(Constants.Slash))
+                {
                     return ProcessWithDashes(Constants.Slash, originalValue);
+                }
 
                 else if (originalValue.Contains(Constants.Dash))
+                {
                     return ProcessWithDashes(Constants.Dash, originalValue);
+                }
 
                 else if (originalValue.Contains(Constants.Dot))
+                {
                     return ProcessWithDashes(Constants.Dot, originalValue);
+                }
                 else
                 {
                     if (DateTime.TryParse(originalValue, out DateTime dt))
+                    {
                         return dt;
+                    }
                     else
+                    {
                         return ProcessWithoutDashes(originalValue);
+                    }
                 }
             }
         }
@@ -103,7 +115,9 @@ namespace Adaptive.Intelligence.Shared
                         string rightValue = dateString.Substring(rightIndex + 1, dateString.Length - (rightIndex + 1));
                         int spaceIndex = rightValue.IndexOf(Constants.Space, StringComparison.Ordinal);
                         if (spaceIndex > -1)
+                        {
                             rightValue = rightValue.Substring(0, spaceIndex);
+                        }
 
                         if (leftValue.Length > 2)
                         {
@@ -115,7 +129,9 @@ namespace Adaptive.Intelligence.Shared
                                 month = System.Convert.ToInt32(rightValue);
                             }
                             else
+                            {
                                 day = System.Convert.ToInt32(rightValue);
+                            }
                         }
                         else if (rightValue.Length > 2)
                         {
@@ -127,11 +143,15 @@ namespace Adaptive.Intelligence.Shared
                                 month = System.Convert.ToInt32(midValue);
                             }
                             else
+                            {
                                 day = System.Convert.ToInt32(midValue);
+                            }
                         }
                     }
                     else
+                    {
                         return MakeDate(MinYear, 1, 1);
+                    }
                 }
             }
             return MakeDate(year, month, day);
@@ -162,7 +182,9 @@ namespace Adaptive.Intelligence.Shared
                     {
                         month = System.Convert.ToInt32(dateString.Substring(4, 2));
                         if (month <= 12)
+                        {
                             day = System.Convert.ToInt32(dateString.Substring(6, 2));
+                        }
                         else
                         {
                             day = month;
@@ -233,13 +255,19 @@ namespace Adaptive.Intelligence.Shared
                 (day > 0 && day <= 31))
             {
                 if (month == 2 && day <= 28)
+                {
                     isValid = true;
+                }
                 // ReSharper disable once AssignNullToNotNullAttribute
                 else if (MonthsWith31Days.Contains(month) && day <= 31)
+                {
                     isValid = true;
+                }
 
                 else if (day <= 30)
+                {
                     isValid = true;
+                }
             }
             return isValid;
         }

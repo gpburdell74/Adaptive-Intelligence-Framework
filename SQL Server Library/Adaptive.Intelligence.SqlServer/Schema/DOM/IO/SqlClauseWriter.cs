@@ -36,7 +36,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             : base(codeProvider, writer)
         {
             if (writer == null && writer == null)
+            {
                 throw new InvalidOperationException("A StringBuilder or StreamWriter destination must be provided.");
+            }
 
             _expressionWriter = expressionGeneratorWriter ?? throw new ArgumentNullException(nameof(expressionGeneratorWriter));
         }
@@ -69,9 +71,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
             {
                 // FROM [source table expression]
                 if (onSameLine)
+                {
                     SafeWrite(Constants.Space);
+                }
                 else
+                {
                     SafeWriteTabs();
+                }
 
                 SafeWrite(RenderFrom() + Constants.Space);
                 _expressionWriter.WriteTableReferenceExpression(fromClause.SourceTable);
@@ -125,14 +131,21 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     // LEFT or INNER JOIN
                     SafeWriteTabs();
                     if (joinItem.IsLeftJoin)
+                    {
                         SafeWrite(RenderLeftJoin() + " ");
+                    }
                     else
+                    {
                         SafeWrite(RenderInnerJoin() + " ");
+                    }
 
                     // [dbo].[Table] [Alias]
                     _expressionWriter.WriteTableReferenceExpression(joinItem.ReferencedTable);
                     if (joinItem.NoLock)
+                    {
                         SafeWrite(" WITH (NOLOCK) ");
+                    }
+
                     SafeWriteLine();
 
                     // ON <left expression> <operator> <right expression>
@@ -168,9 +181,13 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
                     // LEFT or INNER JOIN
                     await SafeWriteTabsAsync().ConfigureAwait(false);
                     if (joinItem.IsLeftJoin)
+                    {
                         await SafeWriteAsync(RenderLeftJoin()).ConfigureAwait(false);
+                    }
                     else
+                    {
                         await SafeWriteAsync(RenderInnerJoin()).ConfigureAwait(false);
+                    }
 
                     // [dbo].[Table] [Alias]
                     await _expressionWriter.WriteTableReferenceExpressionAsync(joinItem.ReferencedTable).ConfigureAwait(false);
@@ -272,16 +289,26 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                         case SqlCodeLiteralExpression literalExpression:
                             if (string.IsNullOrEmpty(literalExpression.Expression))
+                            {
                                 WriteSelectListItemExpression(listItem, string.Empty);
+                            }
                             else
+                            {
                                 WriteSelectListItemExpression(listItem, SelectDelimiter);
+                            }
+
                             break;
 
                         default:
                             if (count < lastIndex)
+                            {
                                 WriteSelectListItemExpression(listItem, SelectDelimiter);
+                            }
                             else
+                            {
                                 WriteSelectListItemExpression(listItem, string.Empty);
+                            }
+
                             break;
                     }
                     SafeWriteLine();
@@ -315,16 +342,26 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                         case SqlCodeLiteralExpression literalExpression:
                             if (string.IsNullOrEmpty(literalExpression.Expression))
+                            {
                                 await WriteSelectListItemExpressionAsync(listItem, string.Empty);
+                            }
                             else
+                            {
                                 await WriteSelectListItemExpressionAsync(listItem, SelectDelimiter);
+                            }
+
                             break;
 
                         default:
                             if (count < lastIndex)
+                            {
                                 await WriteSelectListItemExpressionAsync(listItem, SelectDelimiter);
+                            }
                             else
+                            {
                                 await WriteSelectListItemExpressionAsync(listItem, string.Empty);
+                            }
+
                             break;
                     }
                     await SafeWriteLineAsync().ConfigureAwait(false);
@@ -344,11 +381,15 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
         {
             if (listItem != null && delimiter != null && _expressionWriter != null)
                 // Render and write the expression.
+            {
                 _expressionWriter.WriteExpression(listItem.Expression);
+            }
 
             // Add the comma, if specified.
             if (!string.IsNullOrEmpty(delimiter))
+            {
                 SafeWrite(delimiter);
+            }
         }
         /// <summary>
         /// Writes the SQL code select list item expression.
@@ -368,7 +409,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom.IO
 
                 // Add the comma, if specified.
                 if (!string.IsNullOrEmpty(delimiter))
+                {
                     await SafeWriteAsync(delimiter).ConfigureAwait(false);
+                }
             }
         }
         /// <summary>

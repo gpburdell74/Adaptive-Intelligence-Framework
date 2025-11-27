@@ -294,7 +294,9 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
     public async Task PerformFirstKeyExchangeAsync(IOperationalResult result, IClientSession session)
     {
         if (_session == null)
+        {
             result.SetFailureMessage("The session is not initialized. Cannot continue.");
+        }
         else
         {
             List<byte[]?> resultList = await PerformKeyExchangeRequestAsync(result, PrimaryKexApi, _session.PrimaryRsaPublicKey)
@@ -335,6 +337,11 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
         {
             result.Success = false;
             result.Message = "The primary RSA public key is not set. Cannot perform key exchange.";
+        }
+        else if (_session.SecondaryRsaPublicKey == null)
+        {
+            result.Success = false;
+            result.Message = "The secondary RSA public key is not set. Cannot perform key exchange.";
         }
         else
         {
@@ -556,9 +563,9 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
     /// <returns>
     /// The <see cref="HttpResponseMessage"/> instance containing the response data, or <b>null</b> if an error occurs."/>
     /// </returns>
-    public async Task<HttpResponseMessage?> SendSecureRequestAsync(IOperationalResult result, string apiName, ISecureDataEnvelope? entity)
+    public Task<HttpResponseMessage?> SendSecureRequestAsync(IOperationalResult result, string apiName, ISecureDataEnvelope? entity)
     {
-        return null;
+        return Task.FromResult<HttpResponseMessage?>(null);
     }
     /// <summary>
     /// Sends the HTTP message and gets the clear HTTP response.
@@ -609,8 +616,8 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
     /// <summary>
     /// Sends the HTTP message and gets the clear HTTP response.
     /// </summary>
-    /// <param name="client">
-    /// The <see cref="HttpClient"/> instance to use for sending the request.
+    /// <param name="result">
+    /// An <see cref="IOperationalResult"/> instance containing the result of the operation.
     /// </param>
     /// <param name="message">
     /// The <see cref="HttpRequestMessage"/> instance containing the request details.
@@ -712,7 +719,7 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
         catch (Exception ex)
         {
             // Handle serialization exceptions if necessary
-            Console.WriteLine($"Serialization error: {ex.Message}");
+            Console.WriteLine($@"Serialization error: {ex.Message}");
             ExceptionLog.LogServerException(ex);
         }
         return json;
@@ -724,8 +731,11 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
     /// An <see cref="IOperationalResult"/> instance containing the result of
     /// the operation.
     /// </param>
-    /// <param name="session">
-    /// The <see cref="IClientSession"/> session instance provided by <see cref="StartSessionAsync"/>.
+    /// <param name="apiName">
+    /// A string containing the name of the API to use for the first key exchange.
+    /// </param>
+    /// <param name="rsaPublicKey">
+    /// A value containing the RSA public key to use for the first key exchange.
     /// </param>
     public async Task<List<byte[]?>> PerformKeyExchangeRequestAsync(IOperationalResult result, string apiName, byte[]? rsaPublicKey)
     {
@@ -762,7 +772,9 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
                     // Ensure the new key data is returned,
                     returnList.Add(newSymmetricKey);
                     if (nextSetOfData != null)
+                    {
                         returnList.Add(nextSetOfData);
+                    }
                 }
 
                 SymmetricCryptoProviderFactory.ReleaseSymmetricProvider(aes);

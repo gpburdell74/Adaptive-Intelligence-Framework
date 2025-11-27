@@ -27,7 +27,9 @@
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing && _imageData != null)
+            {
                 Array.Clear(_imageData, 0, _imageData.Length);
+            }
 
             _bankOrIssuerName = null;
             _prefixMax = null;
@@ -91,7 +93,9 @@
                 }
 
                 if (value != null)
+                {
                     _imageData = ByteArrayUtil.CopyToNewArray(value);
+                }
             }
         }
         /// <summary>
@@ -146,9 +150,13 @@
                     int v = SafeConverter.ToInt32(cardNumber.Substring(0, 6));
 
                     if (v == -1 || min == -1 || max == -1)
+                    {
                         matches = false;
+                    }
                     else
+                    {
                         matches = (v >= min && v <= max);
+                    }
                 }
             }
 

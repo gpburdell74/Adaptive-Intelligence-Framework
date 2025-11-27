@@ -69,9 +69,13 @@ public class MruFileEntry : DisposableObjectBase, IMruEntry
         get
         {
             if (string.IsNullOrEmpty(MruData))
+            {
                 return null;
+            }
             else
+            {
                 return Path.GetFileName(MruData);
+            }
         }
     }
 

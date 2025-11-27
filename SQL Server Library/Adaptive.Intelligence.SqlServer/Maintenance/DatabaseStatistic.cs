@@ -101,7 +101,9 @@ namespace Adaptive.Intelligence.SqlServer.Maintenance
         {
             TableStatistic? table = _tables?.GetByObjectId(tableId);
             if (table != null)
+            {
                 table.AddIndex(newIndex);
+            }
         }
         /// <summary>
         /// Gets the list of names of the table that need index rebuilding.
@@ -115,7 +117,9 @@ namespace Adaptive.Intelligence.SqlServer.Maintenance
                 foreach (TableStatistic table in _tables)
                 {
                     if (table.HasIndexesToRebuild() && table.Name != null)
+                    {
                         list.Add(table.Name);
+                    }
                 }
             }
             return list;

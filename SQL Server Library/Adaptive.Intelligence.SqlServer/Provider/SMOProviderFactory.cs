@@ -101,7 +101,9 @@ namespace Adaptive.Intelligence.SqlServer
 
             if (_server != null && _db != null)
                 // Already connected, return true.
+            {
                 success = true;
+            }
             else
             {
                 // Create the Server and connection.
@@ -183,7 +185,9 @@ namespace Adaptive.Intelligence.SqlServer
                 foreach (Table table in tableList)
                 {
                     if (table.ToString() == tableName)
+                    {
                         item = table;
+                    }
                 }
             }
             return item;
@@ -351,7 +355,9 @@ namespace Adaptive.Intelligence.SqlServer
                 server.SetDefaultInitFields(typeof(StoredProcedure), "IsSystemObject");
                 server.SetDefaultInitFields(typeof(StoredProcedure), true);
                 if (!server.ConnectionContext.IsOpen)
+                {
                     server.ConnectionContext.Connect();
+                }
             }
             catch (Exception ex)
             {

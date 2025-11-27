@@ -69,7 +69,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _selectItemsList?.Clear();
+            }
 
             _selectItemsList = null;
             base.Dispose(disposing);
@@ -107,7 +109,10 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
             get
             {
                 if (_selectItemsList == null)
+                {
                     _selectItemsList = new SqlCodeSelectListItemExpressionCollection();
+                }
+
                 return _selectItemsList;
             }
         }

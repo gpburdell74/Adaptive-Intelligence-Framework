@@ -83,21 +83,11 @@ public class TcpServer : LoggableBase
     /// The flag to allow to stop the polling thread.
     /// </summary>
     private bool _runExecuteThread;
-
-    /// <summary>
-    /// The exclusive address use flag.
-    /// </summary>
-    private bool _exclusiveAddressUse;
-
-    /// <summary>
-    /// The allow nat traversal flag.
-    /// </summary>
-    private bool? _allowNatTraversal;
-
+    
     /// <summary>
     /// The maximum number of connections.
     /// </summary>
-    private int _maxConnections = Int32.MaxValue - 1;
+    private int _maxConnections;
 
     /// <summary>
     /// The polling interval.
@@ -117,13 +107,6 @@ public class TcpServer : LoggableBase
     #endregion
 
     #region Constructor / Dispose Methods
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TcpServer"/> class.
-    /// </summary>
-    /// <param name="endPoint">The end point.</param>
-    public TcpServer(IPEndPoint endPoint) : this(endPoint, Int32.MaxValue - 1)
-    {
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TcpServer"/> class.
@@ -132,7 +115,7 @@ public class TcpServer : LoggableBase
     /// <param name="maxConnections">
     /// An integer specifying the maximum number of connections.
     /// </param>
-    public TcpServer(IPEndPoint endPoint, int maxConnections)
+    public TcpServer(IPEndPoint endPoint, int maxConnections = Int32.MaxValue - 1)
     {
         _listenerEndPoint = endPoint;
         CreateSocket();
@@ -179,10 +162,24 @@ public class TcpServer : LoggableBase
         get
         {
             if (_listenerSocket == null || _listenerEndPoint == null)
+            {
                 return null;
+            }
 
             return _listenerSocket.LocalEndPoint;
         }
+    }
+
+    /// <summary>
+    /// Gets or sets the maximum number of connections.
+    /// </summary>
+    /// <value>
+    /// An integer specifying the maximum number of connections.
+    /// </value>
+    public int MaxConnections
+    {
+        get => _maxConnections;
+        set => _maxConnections = value;
     }
     #endregion
 
@@ -307,7 +304,7 @@ public class TcpServer : LoggableBase
             _pollExecuting = true;
             while (_runExecuteThread && _listening && _listenerSocket != null)
             {
-                bool hasData = false;
+                bool hasData;
                 try
                 {
                     hasData = _listenerSocket.Poll(_pollingInterval, SelectMode.SelectRead);
@@ -334,9 +331,9 @@ public class TcpServer : LoggableBase
     /// </summary>
     private async Task StartAcceptProcessAsync()
     {
-        Socket? newSocket = null;
         if (_listenerSocket != null)
         {
+            Socket? newSocket;
             try
             {
                 newSocket = await _listenerSocket.AcceptAsync().ConfigureAwait(false);
@@ -391,10 +388,14 @@ public class TcpServer : LoggableBase
     /// </summary>
     /// <param name="client">
     /// The <see cref="TcpClient"/> instance resulting from an accept().
+    /// </param>
     private void StartNewClientSession(TcpClient client)
     {
         if (_clientList == null)
+        {
             _clientList = new List<TcpClient>();
+        }
+
         _clientList.Add(client);
         
         // Send Greeting.

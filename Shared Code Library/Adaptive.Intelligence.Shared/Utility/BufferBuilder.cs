@@ -54,7 +54,9 @@ namespace Adaptive.Intelligence.Shared
         public void Append(byte[]? data)
         {
             if (!ByteArrayUtil.IsNullOrEmpty(data))
+            {
                 _stream?.Write(data, 0, data.Length);
+            }
         }
         /// <summary>
         /// Appends the byte array to the buffer.
@@ -73,7 +75,9 @@ namespace Adaptive.Intelligence.Shared
             if (!ByteArrayUtil.IsNullOrEmpty(data))
             {
                 if (offset > -1 && length > 0)
+                {
                     _stream?.Write(data, offset, length);
+                }
             }
         }
         /// <summary>

@@ -117,7 +117,9 @@
         public override bool Equals(object? obj)
         {
             if (!(obj is SqlColumn rightColumn))
+            {
                 return false;
+            }
             else
             {
                 return (
@@ -140,7 +142,9 @@
         public override int GetHashCode()
         {
             if (ColumnName == null)
+            {
                 return 0;
+            }
 
             return ColumnName.GetHashCode();
         }
@@ -153,7 +157,9 @@
         public override string ToString()
         {
             if (ColumnName == null)
+            {
                 return nameof(SqlColumn);
+            }
 
             return ColumnName;
         }

@@ -135,7 +135,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
                 innerStream.Dispose();
             }
             else
+            {
                 throw new InvalidOperationException(Resources.ErrorNotOpenForWrite);
+            }
         }
         #endregion
 
@@ -155,9 +157,13 @@ namespace Adaptive.Intelligence.Shared.Security.IO
                 // otherwise write the length of the array.
                 int length = 0;
                 if (dataArray == null || dataArray.Length == 0)
+                {
                     length = 0;
+                }
                 else
+                {
                     length = dataArray.Length;
+                }
 
                 try
                 {

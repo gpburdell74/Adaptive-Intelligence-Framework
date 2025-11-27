@@ -190,7 +190,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
                 return result > TSqlConstants.ExecuteFailed;
             }
             else
+            {
                 return false;
+            }
         }
         /// <summary>
         /// Executes the query to mark the specified table for recompilation.
@@ -214,7 +216,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
                 return result > TSqlConstants.ExecuteFailed;
             }
             else
+            {
                 return false;
+            }
         }
         /// <summary>
         /// Tests the ability to connect to the remote database.
@@ -303,7 +307,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
                 return result > TSqlConstants.ExecuteFailed;
             }
             else
+            {
                 return false;
+            }
         }
         /// <summary>
         /// Executes the SQL command to update the statistics for the specified table.
@@ -324,7 +330,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
                 return (Exceptions.Count == 0);
             }
             else
+            {
                 return false;
+            }
         }
         #endregion
 
@@ -372,7 +380,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
                         ObjectId = reader.GetInt32(index)
                     };
                     if (db != null)
+                    {
                         db.AddTable(table);
+                    }
                 }
                 reader.NextResult();
             }
@@ -402,7 +412,9 @@ namespace Adaptive.Intelligence.SqlServer.Data_Access
                         PrimaryKey = reader.GetBoolean(index)
                     };
                     if (db != null)
+                    {
                         db.AddIndexToTable(newIndex.TableId, newIndex);
+                    }
                 }
                 reader.NextResult();
             }

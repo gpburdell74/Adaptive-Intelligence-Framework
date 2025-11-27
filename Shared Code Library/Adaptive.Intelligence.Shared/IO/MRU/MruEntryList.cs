@@ -80,7 +80,9 @@ public abstract class MruEntryList<T> : List<T>, IMruEntryList
     public void PopulateFromStream(Stream sourceStream)
     {
         if (!sourceStream.CanRead)
+        {
             throw new Exception("The input stream cannot be read from.");
+        }
 
         // Remove old content.
         Clear();
@@ -108,7 +110,9 @@ public abstract class MruEntryList<T> : List<T>, IMruEntryList
     public void SaveToStream(Stream destinationStream)
     {
         if (!destinationStream.CanWrite)
+        {
             throw new Exception("The input stream cannot be written to.");
+        }
 
         // Write the record count.
         SafeBinaryWriter writer = new SafeBinaryWriter(destinationStream);

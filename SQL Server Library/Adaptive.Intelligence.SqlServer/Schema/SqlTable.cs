@@ -96,7 +96,10 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             get
             {
                 if (_columns == null)
+                {
                     _columns = new SqlColumnCollection();
+                }
+
                 return _columns;
             }
         }
@@ -111,7 +114,10 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             get
             {
                 if (_foreignKeys == null)
+                {
                     _foreignKeys = new SqlForeignKeyCollection();
+                }
+
                 return _foreignKeys;
             }
         }
@@ -126,7 +132,10 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             get
             {
                 if (_indexes == null)
+                {
                     _indexes = new SqlIndexCollection();
+                }
+
                 return _indexes;
             }
         }
@@ -182,7 +191,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                 return NativeTSqlCodeDom.GenerateCreateTableScript(provider, TSqlConstants.RenderSchemaAndTableName(Schema, TableName));
             }
             else
+            {
                 return string.Empty;
+            }
         }
         /// <summary>
         /// Gets a value indicating whether the specified column can contain null values.
@@ -208,7 +219,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public override string ToString()
         {
             if (TableName == null)
+            {
                 return nameof(SqlTable);
+            }
 
             return TableName;
         }

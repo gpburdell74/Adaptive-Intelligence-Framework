@@ -95,7 +95,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
             _keyTable = ReadAndCreateKeyTable();
 
             if (_keyTable == null)
+            {
                 Close();
+            }
 
             return (_reader != null);
         }
@@ -135,7 +137,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
                 }
             }
             else
+            {
                 throw new InvalidOperationException(Resources.ErrorNotOpenForRead);
+            }
 
             return destinationStream;
         }
@@ -162,7 +166,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
                 // Decrypt the content and return it to a memory stream for further use.
                 byte[]? wrappedContent = _topCrypt.Decrypt(encryptedContentStream);
                 if (wrappedContent != null)
+                {
                     contentStream = new MemoryStream(wrappedContent);
+                }
 
                 // Clear memory.
                 CryptoUtil.SecureClear(encryptedContentStream);
@@ -189,7 +195,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
 
             int length = reader.ReadInt32();
             if (length > 0)
+            {
                 readData = reader.ReadBytes(length);
+            }
 
             return readData;
 
@@ -214,7 +222,9 @@ namespace Adaptive.Intelligence.Shared.Security.IO
             byte[]? senary = ReadAndDecryptKey();
 
             if (primary != null && secondary != null && tertiary != null && quarternary != null && quinary != null && senary != null)
+            {
                 keyTable = new AesKeyTable(primary, secondary, tertiary, quarternary, quinary, senary);
+            }
 
             CryptoUtil.SecureClear(primary);
             CryptoUtil.SecureClear(secondary);

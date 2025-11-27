@@ -76,9 +76,13 @@ namespace Adaptive.Intelligence.Shared.Security
         public RsaKeyStore? Clone()
         {
             if (_original == null)
+            {
                 return null;
+            }
             else
+            {
                 return new RsaKeyStore(_original.Value);
+            }
         }
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -99,9 +103,13 @@ namespace Adaptive.Intelligence.Shared.Security
         public string? GetKeyDataAsBase64String()
         {
             if (_original == null)
+            {
                 return null;
+            }
             else
+            {
                 return Convert.ToBase64String(_original.Value!);
+            }
         }
         /// <summary>
         /// Sets the AES key and IV data from the specified string.

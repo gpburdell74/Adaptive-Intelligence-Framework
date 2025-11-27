@@ -40,13 +40,19 @@ namespace Adaptive.Intelligence.Shared
             get
             {
                 if (!string.IsNullOrEmpty(Abbreviation) && !string.IsNullOrEmpty(Name))
+                {
                     return Abbreviation + " - " + Name;
+                }
 
                 if (!string.IsNullOrEmpty(Name))
+                {
                     return Name;
+                }
 
                 if (!string.IsNullOrEmpty(Abbreviation))
+                {
                     return Abbreviation;
+                }
 
                 return string.Empty;
             }

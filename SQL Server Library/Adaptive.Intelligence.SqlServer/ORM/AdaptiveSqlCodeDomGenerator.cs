@@ -131,7 +131,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 // Add the SELECT statement.
                 SqlCodeSelectStatement selectStatement = GenerateSelectAllStatement(table);
                 if (storedProcedureStatement.Statements != null)
+                {
                     storedProcedureStatement.Statements.Add(selectStatement);
+                }
             }
             return storedProcedureStatement;
         }
@@ -250,7 +252,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                             new SqlCodeVariableReferenceExpression(TSqlConstants.StandardParameterId)));
                 }
                 if (selectStatement.FromClause != null)
+                {
                     selectStatement.FromClause.SourceTable = null;
+                }
 
                 storedProcedureStatement.Statements.Add(selectStatement);
             }
@@ -305,7 +309,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                 //          SET
                 var statement = GenerateUpdateStatement(table);
                 if (statement != null)
+                {
                     storedProcedureStatement.Statements.Add(statement);
+                }
 
                 //
                 // SELECT ... by ID statement.
@@ -347,7 +353,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
                 // For each of the tables to be joined on, add the list of fields/columns from each of the joined tables.
                 if (profile.ReferencedTableJoins.Count > 0)
+                {
                     SetJoinTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
+                }
 
                 // Add a separator line.
                 selectStatement.SelectClause.SelectItemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
@@ -395,7 +403,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
                 // For each of the tables to be joined on, add the list of fields/columns from each of the joined tables.
                 if (profile.ReferencedTableJoins.Count > 0)
+                {
                     SetJoinTableItemsToQueryFor(selectStatement.SelectClause.SelectItemsList, profile, table);
+                }
 
                 // Add a separator line.
                 selectStatement.SelectClause.SelectItemsList.AddExpression(new SqlCodeLiteralExpression(string.Empty));
@@ -635,7 +645,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     {
                         // Always skip the Version column.
                         if (col.ColumnName != SqlParam.FieldNameVersion)
+                        {
                             itemsList.AddExpression(table.TableName, col.ColumnName);
+                        }
                     }
                 }
                 else
@@ -643,8 +655,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                     // Use the profile-defined list.
                     int len = profile.StandardQueryFieldsToUse.Count;
                     for (int count = 0; count < len; count++)
+                    {
                         itemsList.AddExpression(table.TableName, profile.StandardQueryFieldsToUse[count]);
-
+                    }
                 }
             }
         }
@@ -679,7 +692,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
                                 // Otherwise, add the list of columns as specified in the profile for when joining
                                 // to this table.
                                 foreach (string column in referencedProfile.SubJoinQueryFieldsToUse)
+                                {
                                     itemsList.AddExpression(referencedTable.TableName, column);
+                                }
                             }
                         }
                     }
@@ -734,7 +749,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
 
             // Find the profile for the table.
             if (_metaData != null && table != null)
+            {
                 profile = _metaData[table.TableName];
+            }
 
             return profile;
         }

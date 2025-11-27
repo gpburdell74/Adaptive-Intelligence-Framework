@@ -40,7 +40,9 @@ namespace Adaptive.Intelligence.Shared.Security
 
                 // Reset the integer array position index if needed.
                 if (intArrayPosIndex >= intArrayLength)
+                {
                     intArrayPosIndex = 0;
+                }
             }
 
             // Convert the short integer byte array to a regular byte array.
@@ -95,7 +97,9 @@ namespace Adaptive.Intelligence.Shared.Security
         public static void SecureClear(byte[]? originalData)
         {
             if (originalData != null)
+            {
                 CryptographicOperations.ZeroMemory(originalData);
+            }
         }
     }
 }

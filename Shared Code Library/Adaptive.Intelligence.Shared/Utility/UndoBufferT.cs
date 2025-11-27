@@ -87,10 +87,14 @@
         public bool IsSame(T itemToCheck)
         {
             if ((itemToCheck == null) && (_buffer == null))
-                    return true;
-            
+            {
+                return true;
+            }
+
             if (itemToCheck == null || _buffer == null ||  _buffer.Count == 0)
+            {
                 return false;
+            }
 
             return (itemToCheck.Equals(_buffer.Peek()));
         }

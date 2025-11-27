@@ -71,9 +71,13 @@
             {
                 _variableName?.Dispose();
                 if (value == null)
+                {
                     _variableName = null;
+                }
                 else
+                {
                     _variableName = value.Clone();
+                }
             }
         }
         #endregion

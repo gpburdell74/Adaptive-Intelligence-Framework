@@ -46,10 +46,14 @@ namespace Adaptive.Intelligence.Shared.IO
 
             Type[] arguments = GetType().GetGenericArguments();
             if (arguments.Length > 0)
+            {
                 _itemType = arguments[0];
+            }
 
             if (_itemType != null)
+            {
                 _propList = _itemType.GetProperties();
+            }
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -58,7 +62,9 @@ namespace Adaptive.Intelligence.Shared.IO
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 _writer?.Dispose();
+            }
 
             _propList = null;
             _itemType = null;
@@ -86,10 +92,14 @@ namespace Adaptive.Intelligence.Shared.IO
         public void WriteList(List<T> list)
         {
             if (_writer == null)
+            {
                 throw new InvalidOperationException(Resources.ErrorStreamWrite);
+            }
 
             if (list == null)
+            {
                 throw new ArgumentNullException(nameof(list));
+            }
 
             // Write the property list.
             WritePropertyList();
@@ -97,7 +107,10 @@ namespace Adaptive.Intelligence.Shared.IO
             // Write the count, and each instance.
             _writer.Write(list.Count);
             foreach (T instance in list)
+            {
                 Write(instance);
+            }
+
             _writer.Flush();
 
         }
@@ -136,7 +149,9 @@ namespace Adaptive.Intelligence.Shared.IO
             if (_propList != null)
             {
                 foreach (PropertyInfo prop in _propList)
+                {
                     WritePropertyValue(currentInstance, prop);
+                }
             }
         }
         /// <summary>
@@ -218,7 +233,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 object? value = propertyDefinition.GetValue(currentInstance);
                 if (value != null)
+                {
                     WriteByType(propertyDefinition.PropertyType, value);
+                }
             }
         }
         /// <summary>
@@ -230,9 +247,13 @@ namespace Adaptive.Intelligence.Shared.IO
             if (_writer != null)
             {
                 if (value == null)
+                {
                     _writer.Write((byte)0);
+                }
                 else
+                {
                     _writer.Write((byte)1);
+                }
             }
         }
         /// <summary>
@@ -251,7 +272,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 // Handle arrays specially.
                 if (propertyType.IsArray)
+                {
                     WriteArrayByType(propertyType, value);
+                }
                 else
                 {
                     TypeCode typeCode = Type.GetTypeCode(propertyType);
@@ -317,7 +340,10 @@ namespace Adaptive.Intelligence.Shared.IO
                             string? itemToWrite = value as string;
                             WriteIsNull(itemToWrite);
                             if (itemToWrite != null)
+                            {
                                 _writer.Write(itemToWrite);
+                            }
+
                             break;
 
                         case TypeCode.Object:
@@ -384,7 +410,9 @@ namespace Adaptive.Intelligence.Shared.IO
                             string[] data = (string[])value;
                             _writer.Write(data.Length);
                             for (int count = 0; count < data.Length; count++)
+                            {
                                 _writer.Write(data[count]);
+                            }
                         }
                         break;
                 }

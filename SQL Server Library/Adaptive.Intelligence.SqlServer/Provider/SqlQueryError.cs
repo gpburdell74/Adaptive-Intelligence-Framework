@@ -143,7 +143,9 @@ namespace Adaptive.Intelligence.SqlServer
         public override string ToString()
         {
             if (Message == null)
+            {
                 return nameof(SqlQueryError);
+            }
 
             return Message;
         }

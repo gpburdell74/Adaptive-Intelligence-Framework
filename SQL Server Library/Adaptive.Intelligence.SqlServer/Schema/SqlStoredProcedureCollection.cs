@@ -47,7 +47,9 @@
                 (from items in this where items.Name.Contains(name) select items).FirstOrDefault();
             }
             else
+            {
                 proc = (from items in this where items.Name.Contains(function) select items).FirstOrDefault();
+            }
 
             return proc;
         }

@@ -79,7 +79,9 @@
                 {
                     List<IndexStatisticsInfo> subList = table.Indexes.GetIndexesToRebuild();
                     if (subList.Count > 0)
+                    {
                         list.AddRange(subList);
+                    }
                 }
             }
             return list;

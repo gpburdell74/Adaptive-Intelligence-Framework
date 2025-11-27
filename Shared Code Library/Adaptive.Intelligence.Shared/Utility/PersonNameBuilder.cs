@@ -50,7 +50,9 @@ namespace Adaptive.Intelligence.Shared
         public PersonNameBuilder(string originalValue)
         {
             if (!string.IsNullOrEmpty(originalValue))
+            {
                 Parse(originalValue);
+            }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PersonNameBuilder"/> class.
@@ -178,35 +180,49 @@ namespace Adaptive.Intelligence.Shared
             if (!string.IsNullOrEmpty(_prefix))
             {
                 if (builder.Length > 0)
+                {
                     builder.AppendSpace();
+                }
+
                 builder.Append(_prefix);
             }
 
             if (!string.IsNullOrEmpty(_firstName))
             {
                 if (builder.Length > 0)
+                {
                     builder.AppendSpace();
+                }
+
                 builder.Append(_firstName);
             }
 
             if (!string.IsNullOrEmpty(_middleName))
             {
                 if (builder.Length > 0)
+                {
                     builder.AppendSpace();
+                }
+
                 builder.Append(_middleName);
             }
 
             if (!string.IsNullOrEmpty(_lastName))
             {
                 if (builder.Length > 0)
+                {
                     builder.AppendSpace();
+                }
+
                 builder.Append(_lastName);
             }
 
             if (!string.IsNullOrEmpty(_suffix))
             {
                 if (builder.Length > 0)
+                {
                     builder.Append(Constants.CommaWithSpace);
+                }
 
                 builder.Append(_suffix);
             }

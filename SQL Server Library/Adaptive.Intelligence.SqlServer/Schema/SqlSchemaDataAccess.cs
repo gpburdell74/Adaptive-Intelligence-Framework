@@ -389,7 +389,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                         IsAnsiPadded = record.IsPadded
                     };
                     if (table.Columns != null)
+                    {
                         table.Columns.Add(newColumn);
+                    }
                 }
                 reader.Dispose();
             }
@@ -458,7 +460,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
                         IsAnsiPadded = record.IsPadded
                     };
                     if (table.Columns != null)
+                    {
                         table.Columns.Add(newColumn);
+                    }
                 }
                 reader.Dispose();
             }

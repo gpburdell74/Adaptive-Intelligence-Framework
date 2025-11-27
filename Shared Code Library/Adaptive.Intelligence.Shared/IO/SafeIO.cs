@@ -96,7 +96,9 @@ namespace Adaptive.Intelligence.Shared.IO
             FileStream? stream = null;
 
             if (FileExists(fileName))
+            {
                 DeleteFile(fileName);
+            }
 
             try
             {
@@ -167,7 +169,9 @@ namespace Adaptive.Intelligence.Shared.IO
                         {
                             readCount = await decompressStream.ReadAsync(buffer, 0, 524288).ConfigureAwait(false);
                             if (readCount > 0)
+                            {
                                 await outStream.WriteAsync(buffer, 0, readCount).ConfigureAwait(false);
+                            }
                         } while (readCount > 0);
 
                         success = true;
@@ -184,9 +188,13 @@ namespace Adaptive.Intelligence.Shared.IO
                 await inStream.DisposeAsync();
 
                 if (success && deleteOriginal)
+                {
                     DeleteFile(inputFile);
+                }
                 else if (!success)
+                {
                     DeleteFile(outputFile);
+                }
             }
             return success;
         }
@@ -213,11 +221,15 @@ namespace Adaptive.Intelligence.Shared.IO
                     {
                         success = DeleteFile(file);
                         if (success)
+                        {
                             deleteCount++;
+                        }
                     }
                 }
                 if (files != null)
+                {
                     success = (deleteCount == files.Length);
+                }
             }
             return success;
         }
@@ -247,11 +259,15 @@ namespace Adaptive.Intelligence.Shared.IO
                     {
                         success = DeleteFile(file);
                         if (success)
+                        {
                             deleteCount++;
+                        }
                     }
                 }
                 if (files != null)
+                {
                     success = (deleteCount == files.Length);
+                }
             }
             return success;
         }
@@ -277,7 +293,9 @@ namespace Adaptive.Intelligence.Shared.IO
                         success = true;
                     }
                     else
+                    {
                         success = false;
+                    }
                 }
                 catch (DirectoryNotFoundException ex)
                 {
@@ -363,7 +381,9 @@ namespace Adaptive.Intelligence.Shared.IO
                     result = new OperationalResult(true);
                 }
                 else
+                {
                     result = new OperationalResult(false, Resources.ErrorFileDoesNotExist);
+                }
             }
             catch (Exception ex)
             {
@@ -486,7 +506,9 @@ namespace Adaptive.Intelligence.Shared.IO
                 foreach (DriveInfo drive in driveList)
                 {
                     if (drive.DriveType == DriveType.Removable && drive.IsReady)
+                    {
                         pathInfo = drive.RootDirectory;
+                    }
                 }
             }
             return pathInfo;
@@ -782,7 +804,9 @@ namespace Adaptive.Intelligence.Shared.IO
             FileStream? stream = null;
 
             if (FileExists(fileName))
+            {
                 DeleteFile(fileName);
+            }
 
             try
             {
@@ -1047,9 +1071,13 @@ namespace Adaptive.Intelligence.Shared.IO
             if (result.Success && result.DataContent != null)
             {
                 if (!isUnicode)
+                {
                     text = System.Text.Encoding.ASCII.GetString(result.DataContent);
+                }
                 else
+                {
                     text = System.Text.Encoding.Unicode.GetString(result.DataContent);
+                }
             }
             return text;
         }
@@ -1078,7 +1106,9 @@ namespace Adaptive.Intelligence.Shared.IO
             {
                 result = new OperationalResult(false);
                 if (existsResult.Exceptions != null && existsResult.Exceptions.Count > 0)
+                {
                     result.Exceptions?.AddRange(existsResult.Exceptions);
+                }
             }
             else
             {
@@ -1090,7 +1120,9 @@ namespace Adaptive.Intelligence.Shared.IO
                     {
                         result = new OperationalResult(false);
                         if (existsResult.Exceptions != null && existsResult.Exceptions.Count > 0)
+                        {
                             result.Exceptions?.AddRange(existsResult.Exceptions);
+                        }
                     }
                 }
 

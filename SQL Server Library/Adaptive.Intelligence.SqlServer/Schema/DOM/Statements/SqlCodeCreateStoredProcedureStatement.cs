@@ -63,7 +63,9 @@
             : base(SqlStatementType.CreateStoredProcedure)
         {
             if (ownerName != null)
+            {
                 _owner = ownerName.Clone();
+            }
 
             _name = name;
             _parameters = new SqlCodeParameterDefinitionExpressionCollection();
@@ -115,9 +117,13 @@
             {
                 _owner?.Dispose();
                 if (value == null)
+                {
                     _owner = null;
+                }
                 else
+                {
                     _owner = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -131,7 +137,9 @@
             get
             {
                 if (_parameters == null)
+                {
                     _parameters = new SqlCodeParameterDefinitionExpressionCollection();
+                }
 
                 return _parameters;
             }
@@ -147,7 +155,9 @@
             get
             {
                 if (_statements == null)
+                {
                     _statements = new SqlCodeStatementCollection();
+                }
 
                 return _statements;
             }
@@ -167,13 +177,17 @@
             if (_parameters != null)
             {
                 foreach (SqlCodeParameterDefinitionExpression expression in _parameters)
+                {
                     item.Parameters!.Add(expression.Clone());
+                }
             }
 
             if (_statements != null)
             {
                 foreach (SqlCodeStatement statement in _statements)
+                {
                     item.Statements!.Add(statement.Clone());
+                }
             }
 
             return item;

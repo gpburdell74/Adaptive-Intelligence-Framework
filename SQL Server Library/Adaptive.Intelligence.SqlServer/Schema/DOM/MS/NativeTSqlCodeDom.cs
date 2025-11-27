@@ -162,7 +162,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
                     for (int count = 0; count < length; count++)
                     {
                         if (statements.Statements[count] is SelectStatement)
+                        {
                             hasSelect = true;
+                        }
                     }
                 }
             }
@@ -227,7 +229,9 @@ namespace Adaptive.Intelligence.SqlServer.CodeDom
                         foreach (string? line in tableScript)
                         {
                             if (line != null)
+                            {
                                 builder.AppendLine(line);
+                            }
                         }
                         tableScript.Clear();
 

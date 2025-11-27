@@ -33,7 +33,9 @@ namespace Adaptive.Intelligence.SqlServer
         protected override void Dispose(bool disposing)
         {
             if (!IsDisposed && disposing)
+            {
                 Errors?.Clear();
+            }
 
             Errors = null;
             Message = null;

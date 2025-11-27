@@ -45,7 +45,9 @@ namespace Adaptive.Intelligence.Shared
                 {
                     int itemCount = length - index;
                     if (itemCount > blockSize)
+                    {
                         itemCount = blockSize;
+                    }
 
                     blockList.Add(originalList.GetRange(index, itemCount));
                 }
@@ -98,8 +100,10 @@ namespace Adaptive.Intelligence.Shared
                 // Add the remaining items that were not processed.
                 string lastItems = builder.ToString();
                 if (!string.IsNullOrEmpty(lastItems))
+                {
                     list.Add(Constants.SingleQuote + lastItems.Substring(0, lastItems.Length - 1) +
-                    Constants.SingleQuote);
+                             Constants.SingleQuote);
+                }
             }
 
             return list;
@@ -120,7 +124,9 @@ namespace Adaptive.Intelligence.Shared
                 return word.Pluralize();
             }
             else
+            {
                 return string.Empty;
+            }
         }
         /// <summary>
         /// Gets the singular English-language word for the specified English word in plural form.
@@ -138,7 +144,9 @@ namespace Adaptive.Intelligence.Shared
                 return word.Singularize();
             }
             else
+            {
                 return string.Empty;
+            }
         }
         /// <summary>
         /// Optionally pluralizes the text according to English rules.
@@ -152,9 +160,13 @@ namespace Adaptive.Intelligence.Shared
         public static string EnglishPlural(int value, string unitText, string pluralText)
         {
             if (value == 1)
+            {
                 return value.ToString() + " " + unitText;
+            }
             else
+            {
                 return value.ToString() + " " + unitText + pluralText;
+            }
         }
         /// <summary>
         /// Concatenates the supplied strings as if in an English sentence, with commas
@@ -176,15 +188,21 @@ namespace Adaptive.Intelligence.Shared
                 foreach (string content in items)
                 {
                     if (!string.IsNullOrEmpty(content.Trim()))
+                    {
                         nonEmptyList.Add(content.Trim());
+                    }
                 }
 
                 // Process by count.
                 int length = nonEmptyList.Count;
                 if (length == 1)
+                {
                     returnValue = nonEmptyList[0];
+                }
                 else if (length == 2)
+                {
                     returnValue = nonEmptyList[0] + " and " + nonEmptyList[1];
+                }
                 else
                 {
                     StringBuilder builder = new StringBuilder();
@@ -195,9 +213,14 @@ namespace Adaptive.Intelligence.Shared
                         {
                             builder.Append(nonEmptyList[pos]);
                             if (pos <= length - 3)
+                            {
                                 builder.Append(", ");
+                            }
                             else if (pos == length - 2)
+                            {
                                 builder.Append(" and ");
+                            }
+
                             pos++;
                         } while (pos < length);
                     }
@@ -247,13 +270,20 @@ namespace Adaptive.Intelligence.Shared
                 return FindTimeZoneForOffset(hoursOffset);
             }
             else
+            {
                 return TimeZoneInfo.Local;
+            }
         }
         /// <summary>
         /// gets the timezone info from the hours offset in the database
         /// </summary>
         /// <param name="hoursOffset"></param>
-        /// <returns></returns>
+        /// <param name="matchLocal">
+        /// An optional parameter value indicating whether to match the local timezone rules as well as the offset.
+        /// </param>
+        /// <returns>
+        /// A <see cref="TimeZoneInfo"/> for the specified offset value."/>
+        /// </returns>
         public static TimeZoneInfo FindTimeZoneForOffset(int hoursOffset, bool matchLocal=true)
         {
             // The time zone information reference.
@@ -274,7 +304,9 @@ namespace Adaptive.Intelligence.Shared
             }
 
             if (candidateList.Count == 1)
+            {
                 timeZoneResult = candidateList[0];
+            }
             else
             {
                 // Look for US timezones.
@@ -282,14 +314,18 @@ namespace Adaptive.Intelligence.Shared
                 if (timeZoneResult == null)
                 {
                     if (candidateList.Count > 0)
+                    {
                         timeZoneResult = candidateList[0];
+                    }
                 }
             }
 
             // Return the default if the other(s) cannot be found.
             if (timeZoneResult == null)
 
+            {
                 timeZoneResult = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            }
 
             return timeZoneResult;
 
@@ -327,12 +363,20 @@ namespace Adaptive.Intelligence.Shared
         public static string CleanUpPhoneNumber(this string phoneNumber)
         {
             if (string.IsNullOrWhiteSpace(phoneNumber))
+            {
                 return string.Empty;
+            }
+
             //use LINQ to remove all chars except for numbers! SWEET!
             string newCell = new string((from char c in phoneNumber where char.IsDigit(c) select c).ToArray());
             if (newCell.Length > 0)
+            {
                 if (newCell[0] == '1')
+                {
                     newCell = newCell.Substring(1);
+                }
+            }
+
             return newCell;
         }
         /// <summary>
@@ -353,7 +397,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 string noSign = moneyText.Replace("$", string.Empty);
                 if (!float.TryParse(noSign, out returnValue))
+                {
                     returnValue = 0;
+                }
             }
             return returnValue;
         }
@@ -374,7 +420,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 string noSign = doubleText.Replace("$", string.Empty);
                 if (!double.TryParse(noSign, out returnValue))
+                {
                     returnValue = 0;
+                }
             }
             return returnValue;
         }
@@ -395,7 +443,9 @@ namespace Adaptive.Intelligence.Shared
             {
                 string noSign = decimalText.Replace("$", string.Empty);
                 if (!decimal.TryParse(noSign, out returnValue))
+                {
                     returnValue = 0;
+                }
             }
             return returnValue;
         }
@@ -417,13 +467,24 @@ namespace Adaptive.Intelligence.Shared
             int bValue = 255;
 
             if (!string.IsNullOrEmpty(a))
+            {
                 aValue = Convert.ToInt32(a, 16);
+            }
+
             if (!string.IsNullOrEmpty(r))
+            {
                 rValue = Convert.ToInt32(r, 16);
+            }
+
             if (!string.IsNullOrEmpty(g))
+            {
                 gValue = Convert.ToInt32(g, 16);
+            }
+
             if (!string.IsNullOrEmpty(b))
+            {
                 bValue = Convert.ToInt32(b, 16);
+            }
 
             return Color.FromArgb(aValue, rValue, gValue, bValue);
         }
@@ -491,12 +552,16 @@ namespace Adaptive.Intelligence.Shared
             if (!string.IsNullOrEmpty(phone))
             {
                 if (phone.Length == 10)
+                {
                     returnValue = string.Format(Constants.PhoneNumberFormat,
                         phone.Substring(0, 3),
                         phone.Substring(3, 3),
                         phone.Substring(6));
+                }
                 else
+                {
                     returnValue = phone;
+                }
             }
             return returnValue;
         }
@@ -514,7 +579,9 @@ namespace Adaptive.Intelligence.Shared
             Color color;
 
             if (colorName.StartsWith("#"))
+            {
                 colorName = colorName.Substring(1, colorName.Length - 1);
+            }
 
             if (colorName.Length == 6)
             {
@@ -532,7 +599,9 @@ namespace Adaptive.Intelligence.Shared
 
             }
             else
+            {
                 color = Color.FromName(colorName);
+            }
 
             return color;
         }
@@ -547,13 +616,19 @@ namespace Adaptive.Intelligence.Shared
         public static string SmartTrim(this string data, int maxLength)
         {
             if (string.IsNullOrWhiteSpace(data))
+            {
                 return string.Empty;
+            }
 
             data = data.Trim();
             if (data.Length > maxLength)
+            {
                 return data.Substring(0, maxLength);
+            }
             else
+            {
                 return data;
+            }
         }
         /// <summary>
         /// Returns the formatted date string if the date value is not a null
@@ -574,9 +649,13 @@ namespace Adaptive.Intelligence.Shared
             string noDateText)
         {
             if (value.ToUniversalTime().Year > 1901)
+            {
                 return string.Format(Constants.DateFormat, value.ToUniversalTime());
+            }
             else
+            {
                 return noDateText;
+            }
         }
         /// <summary>
         /// Returns the formatted date/time string if the date value is not a null
@@ -597,9 +676,13 @@ namespace Adaptive.Intelligence.Shared
             string noDateText)
         {
             if (value.ToUniversalTime().Year > 1900)
+            {
                 return string.Format(Constants.DateTimeFormat, value.ToUniversalTime());
+            }
             else
+            {
                 return noDateText;
+            }
         }
         /// <summary>
         /// Provides an extension method to change the string value to a
@@ -616,7 +699,10 @@ namespace Adaptive.Intelligence.Shared
         public static string ToDefaultStringIfNull(this string value, string defaultValue)
         {
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return defaultValue;
+            }
+
             return value;
         }
         /// <summary>
@@ -631,9 +717,13 @@ namespace Adaptive.Intelligence.Shared
         public static string ToEmptyStringIfNull(this string value)
         {
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return string.Empty;
+            }
             else
+            {
                 return value;
+            }
         }
         /// <summary>
         /// Returns the formatted date string if the date value is not a null
@@ -649,9 +739,13 @@ namespace Adaptive.Intelligence.Shared
         public static string ToNoDateTextIfNull(this DateTimeOffset value)
         {
             if (value.ToUniversalTime().Year <= 1900)
+            {
                 return string.Empty;
+            }
             else
+            {
                 return string.Format(Constants.DateFormat, value.ToUniversalTime());
+            }
         }
         /// <summary>
         /// Returns the formatted date/time string if the date value is not a null
@@ -667,9 +761,13 @@ namespace Adaptive.Intelligence.Shared
         public static string ToNoDateTextIfNull(this DateTime value)
         {
             if (value.ToUniversalTime().Year == 1900)
+            {
                 return string.Empty;
+            }
             else
+            {
                 return string.Format(Constants.DateTimeFormat, value.ToUniversalTime());
+            }
         }
         /// <summary>
         /// Translates the specified date/time value to the local user's time.
@@ -687,7 +785,9 @@ namespace Adaptive.Intelligence.Shared
                 return value.AddHours(TimeZoneInfo.Utc.GetUtcOffset(DateTime.Now).Hours);
             }
             else
+            {
                 return value.AddHours(-1 * value.Offset.Hours);
+            }
         }
         /// <summary>
         /// Translates the specified date/time value to the local user's time.
@@ -784,7 +884,10 @@ namespace Adaptive.Intelligence.Shared
                 do
                 {
                     if (currentSubList == null)
+                    {
                         currentSubList = new List<T>();
+                    }
+
                     currentSubList.Add(originalList[index]);
 
                     if (currentSubList.Count == subListSize)
@@ -798,7 +901,9 @@ namespace Adaptive.Intelligence.Shared
                 } while (index < length);
 
                 if (currentSubList != null)
+                {
                     returnList.Add(currentSubList);
+                }
             }
             return returnList;
         }

@@ -52,9 +52,13 @@
         protected override int TranslateValueFromBytes(byte[]? content)
         {
             if (content == null)
+            {
                 return 0;
+            }
             else
+            {
                 return BitConverter.ToInt32(content, 0);
+            }
         }
         /// <summary>
         /// Translates provided the integer into a byte array.

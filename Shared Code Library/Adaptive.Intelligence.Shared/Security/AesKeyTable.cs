@@ -97,7 +97,9 @@ namespace Adaptive.Intelligence.Shared.Security
         public AesKeyTable(byte[] keyContent)
         {
             if (keyContent == null)
-                throw new ArgumentNullException(nameof(keyContent)); 
+            {
+                throw new ArgumentNullException(nameof(keyContent));
+            }
 
             if (keyContent.Length != SixKeySize)
             {

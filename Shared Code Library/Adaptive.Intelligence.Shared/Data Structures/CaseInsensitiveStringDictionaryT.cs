@@ -67,9 +67,13 @@ namespace Adaptive.Intelligence.Shared
             get
             {
                 if (_container == null)
+                {
                     return 0;
+                }
                 else
+                {
                     return _container.Count;
+                }
             }
         }
         /// <summary>
@@ -107,7 +111,9 @@ namespace Adaptive.Intelligence.Shared
                 {
                     string actualKey = key.ToLower();
                     if (_container.ContainsKey(actualKey))
+                    {
                         _container[actualKey] = value;
+                    }
                 }
             }
         }
@@ -264,9 +270,13 @@ namespace Adaptive.Intelligence.Shared
         public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
         {
             if (_container == null)
+            {
                 return new EmptyEnumerator<KeyValuePair<string, T>>();
+            }
             else
+            {
                 return _container.GetEnumerator();
+            }
         }
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
@@ -314,7 +324,9 @@ namespace Adaptive.Intelligence.Shared
                 string compareKey = key.ToLower();
                 _originalKeys.Remove(key);
                 if (_container.ContainsKey(compareKey))
+                {
                     success = _container.Remove(compareKey);
+                }
             }
 
             return success;

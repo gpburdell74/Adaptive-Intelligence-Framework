@@ -47,7 +47,7 @@ namespace Adaptive.Intelligence.Shared
             // Don't let the subscriber do anything goofy.
             try
             {
-                AsyncQueryStarted?.Invoke(null!, new StringEventArgs { Content = methodName });
+                AsyncQueryStarted?.Invoke(null, new StringEventArgs { Content = methodName });
             }
             catch (Exception ex)
             {
@@ -61,16 +61,17 @@ namespace Adaptive.Intelligence.Shared
         {
             lock (_syncRoot)
             {
-                _queriesRunning--;
+                _queriesRunning--; 
+                if (_queriesRunning < 0)
+                {
+                    _queriesRunning = 0;
+                }
             }
-
-            if (_queriesRunning < 0)
-                _queriesRunning = 0;
 
             // Don't let the subscriber do anything goofy.
             try
             {
-                AsyncQueryCompleted?.Invoke(null!, new StringEventArgs { Content = methodName });
+                AsyncQueryCompleted?.Invoke(null, new StringEventArgs { Content = methodName });
             }
             catch (Exception ex)
             {

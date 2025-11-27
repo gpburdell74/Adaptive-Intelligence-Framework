@@ -67,7 +67,9 @@ public class DataReceivedEventArgs : EventArgs
         // Copy the provided data.
         _buffer = new byte[dataLength];
         if (dataLength > 0)
+        {
             Array.Copy(socketBuffer, 0, _buffer, 0, dataLength);
+        }
     }
     /// <summary>
     /// Finalizes an instance of the <see cref="DataReceivedEventArgs"/> class.
@@ -105,7 +107,7 @@ public class DataReceivedEventArgs : EventArgs
             string? content = null;
             if (_buffer != null)
             {
-                content = System.Text.ASCIIEncoding.ASCII.GetString(_buffer);
+                content = System.Text.Encoding.ASCII.GetString(_buffer);
             }
             return content;
         }
@@ -127,7 +129,7 @@ public class DataReceivedEventArgs : EventArgs
             string? content = null;
             if (_buffer != null)
             {
-                content = System.Text.UnicodeEncoding.UTF8.GetString(_buffer);
+                content = System.Text.Encoding.UTF8.GetString(_buffer);
             }
             return content;
         }
@@ -149,7 +151,7 @@ public class DataReceivedEventArgs : EventArgs
             string? content = null;
             if (_buffer != null)
             {
-                content = System.Text.UnicodeEncoding.UTF32.GetString(_buffer);
+                content = System.Text.Encoding.UTF32.GetString(_buffer);
             }
             return content;
         }
@@ -166,9 +168,13 @@ public class DataReceivedEventArgs : EventArgs
         get
         {
             if (_buffer == null)
+            {
                 return 0;
+            }
             else
+            {
                 return _buffer.Length;
+            }
         }
     }
 

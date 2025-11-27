@@ -36,9 +36,13 @@ namespace Adaptive.Intelligence.SqlServer.Schema
 
             // Adjust the length specifier for NVARCHAR ANSI padding.
             if (TypeId == (int)(SqlDataTypes.NVarCharOrSysName) && sourceColumn.IsAnsiPadded)
+            {
                 MaxLength = (short)(sourceColumn.MaxLength / 2f);
+            }
             else
+            {
                 MaxLength = sourceColumn.MaxLength;
+            }
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -83,7 +87,9 @@ namespace Adaptive.Intelligence.SqlServer.Schema
             get
             {
                 if (ColumnName == null)
+                {
                     return null;
+                }
 
                 return Constants.At +
                        ColumnName.Substring(0, 1).ToUpper() +
@@ -133,7 +139,10 @@ namespace Adaptive.Intelligence.SqlServer.Schema
         public override string ToString()
         {
             if (ColumnName == null)
+            {
                 return nameof(SqlQueryParameter);
+            }
+
             return ColumnName;
         }
         #endregion

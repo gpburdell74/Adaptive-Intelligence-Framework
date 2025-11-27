@@ -198,7 +198,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 foreach (string key in _primaryProcedures.Keys)
                 {
                     if (!_completeNameList.Contains(key))
+                    {
                         _completeNameList.Add(key);
+                    }
                 }
             }
 
@@ -207,7 +209,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                 foreach (string key in _secondaryProcedures.Keys)
                 {
                     if (!_completeNameList.Contains(key))
+                    {
                         _completeNameList.Add(key);
+                    }
                 }
             }
         }
@@ -238,7 +242,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
                             _comparisons.Add(storedProcName, result);
                         }
                         else
+                        {
                             result = _comparisons[storedProcName];
+                        }
 
                         // Determine whether the procedure is missing in the list of procedures for the primary database.
                         if (_primaryProcedures != null && !_primaryProcedures.ContainsKey(storedProcName))
@@ -266,7 +272,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             if (_primaryProcedures != null && _secondaryProcedures != null && _completeNameList != null)
             {
                 if (_comparisons == null)
+                {
                     _comparisons = new Dictionary<string, StoredProcedureComparisonResult>();
+                }
 
                 foreach (string? storedProcedureName in _completeNameList)
                 {
@@ -298,7 +306,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             if (_primaryProcedures != null && _secondaryProcedures != null && _completeNameList != null)
             {
                 if (_comparisons == null)
+                {
                     _comparisons = new Dictionary<string, StoredProcedureComparisonResult>();
+                }
 
                 foreach (string? storedProcedureName in _completeNameList)
                 {
@@ -383,7 +393,9 @@ namespace Adaptive.Intelligence.SqlServer.Analysis
             foreach (string? line in text)
             {
                 if (line != null)
+                {
                     builder.AppendLine(line);
+                }
             }
             return builder.ToString();
         }

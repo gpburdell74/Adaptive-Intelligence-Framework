@@ -25,7 +25,7 @@ namespace Adaptive.Intelligence.Shared.Security
         /// </remarks>
         public AesProvider()
         {
-            _provider = AesCng.Create();
+            _provider = Aes.Create();
             _provider.BlockSize = 128;
             _provider.Mode = CipherMode.CBC;
             _provider.Padding = PaddingMode.PKCS7;
@@ -121,9 +121,13 @@ namespace Adaptive.Intelligence.Shared.Security
         public byte[]? DecryptFromBase64String(string? encryptedData)
         {
             if (!string.IsNullOrEmpty(encryptedData))
+            {
                 return Decrypt(Convert.FromBase64String(encryptedData));
+            }
             else
+            {
                 return null;
+            }
         }
         /// <summary>
         /// Attempts to encrypt the provided data.
@@ -192,7 +196,9 @@ namespace Adaptive.Intelligence.Shared.Security
                 return keyValue;
             }
             else
+            {
                 return null;
+            }
         }
         /// <summary>
         /// Gets the key and initialization vector data as a single byte array.
@@ -218,7 +224,7 @@ namespace Adaptive.Intelligence.Shared.Security
         {
             if (_provider == null)
             {
-                _provider = AesCng.Create();
+                _provider = Aes.Create();
                 _provider.BlockSize = 128;
                 _provider.Mode = CipherMode.CBC;
                 _provider.Padding = PaddingMode.PKCS7;

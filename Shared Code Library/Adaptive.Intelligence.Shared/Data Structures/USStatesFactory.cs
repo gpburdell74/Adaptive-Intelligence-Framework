@@ -337,9 +337,13 @@
         {
             USState? foundState = _states.FirstOrDefault(stateItem => stateItem.StateCode == state);
             if (foundState != null)
+            {
                 return foundState.Name;
+            }
             else
+            {
                 return string.Empty;
+            }
         }
         /// <summary>
         /// Gets the name of the specified State.
@@ -354,9 +358,13 @@
         {
             USState? foundState = _states.FirstOrDefault(stateItem => stateItem.StateCode == state);
             if (foundState != null)
+            {
                 return foundState.Abbreviation;
+            }
             else
+            {
                 return string.Empty;
+            }
         }
         /// <summary>
         /// Gets the state enumeration for the specified State name or abbreviation.
@@ -386,7 +394,9 @@
                     }
                 }
                 if (foundState != null)
+                {
                     state = foundState.StateCode;
+                }
             }
             return state;
         }

@@ -11,7 +11,7 @@ public class ValidationMessage : ValidationResult, IDisposable
     /// <summary>
     /// The default success validation instance.
     /// </summary>
-    public readonly static ValidationMessage DefaultSuccess = new();
+    public static readonly ValidationMessage DefaultSuccess = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ValidationMessage"/> class.
@@ -113,7 +113,7 @@ public class ValidationMessage : ValidationResult, IDisposable
     /// <value>
     /// A string containing the validation message, or <b>null</b>.
     /// </value>
-    public string? Message { get; set; } = null;
+    public string? Message { get; set; } 
 
     /// <summary>
     /// Gets or sets the name of the related property or field.
@@ -122,7 +122,7 @@ public class ValidationMessage : ValidationResult, IDisposable
     /// A string containing the name of the related field or property being evaluated, 
     /// or <b>null</b>.
     /// </value>
-    public string? PropertyName { get; set; } = null;
+    public string? PropertyName { get; set; } 
 
     /// <summary>
     /// Gets or sets a reference to another object.
@@ -130,5 +130,5 @@ public class ValidationMessage : ValidationResult, IDisposable
     /// <value>
     /// A reference to another object instance to be used later, or <b>null</b>.
     /// </value>
-    public object? Tag { get; set; } = null;
+    public object? Tag { get; set; }
 }

@@ -164,7 +164,10 @@ namespace Adaptive.Intelligence.SqlServer
             get
             {
                 if (_tableData == null)
+                {
                     _tableData = new AdaptiveTableMetadata(null);
+                }
+
                 return _tableData;
             }
         }
@@ -285,7 +288,9 @@ namespace Adaptive.Intelligence.SqlServer
                 foreach (StoredProcedure p in proceduresList)
                 {
                     if (!p.IsSystemObject)
+                    {
                         userProceduresList.Add(p);
+                    }
                 }
 
                 // Download the script content for each stored procedure.
@@ -335,7 +340,9 @@ namespace Adaptive.Intelligence.SqlServer
                 foreach (StoredProcedure p in proceduresList)
                 {
                     if (!p.IsSystemObject)
+                    {
                         userProceduresList.Add(p);
+                    }
                 }
 
                 // Download the script content for each stored procedure.
@@ -353,7 +360,10 @@ namespace Adaptive.Intelligence.SqlServer
                     code.Add(sp.TextBody);
 
                     if (!_spList.ContainsKey(sp.Name))
+                    {
                         _spList.Add(sp.Name, code);
+                    }
+
                     count++;
                 }
             }

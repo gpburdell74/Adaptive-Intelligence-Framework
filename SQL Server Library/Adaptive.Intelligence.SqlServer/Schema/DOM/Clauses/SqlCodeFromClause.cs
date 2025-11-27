@@ -99,9 +99,13 @@
             {
                 _table?.Dispose();
                 if (value == null)
+                {
                     _table = null;
+                }
                 else
+                {
                     _table = value.Clone();
+                }
             }
         }
         #endregion
@@ -121,7 +125,9 @@
                 if (clause.Joins != null)
                 {
                     foreach (SqlCodeJoinClause join in _joins)
+                    {
                         clause.Joins.Add(join.Clone());
+                    }
                 }
             }
             return clause;

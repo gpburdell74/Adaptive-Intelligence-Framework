@@ -33,7 +33,9 @@
         public SqlCodeParameterReferenceExpression(string? name)
         {
             if (name != null)
+            {
                 _parameterName = new SqlCodeParameterNameExpression(name);
+            }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlCodeParameterReferenceExpression"/> class.
@@ -71,9 +73,13 @@
             {
                 _parameterName?.Dispose();
                 if (value == null)
+                {
                     _parameterName = null;
+                }
                 else
+                {
                     _parameterName = value.Clone();
+                }
             }
         }
         #endregion

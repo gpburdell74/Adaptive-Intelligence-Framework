@@ -1,5 +1,4 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
-using System.Collections;
 
 namespace Adaptive.Intelligence.Shared;
 
@@ -19,7 +18,7 @@ public class AdaptiveCollectionBase<T> : List<T>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public AdaptiveCollectionBase()
+    protected AdaptiveCollectionBase()
     {
     }
 
@@ -29,7 +28,7 @@ public class AdaptiveCollectionBase<T> : List<T>
     /// <param name="capacity">
     /// The number of elements that the new list can initially store.
     /// </param>
-    public AdaptiveCollectionBase(int capacity) : base(capacity)
+    protected AdaptiveCollectionBase(int capacity) : base(capacity)
     {
     }
 
@@ -40,7 +39,7 @@ public class AdaptiveCollectionBase<T> : List<T>
     /// An <see cref="IEnumerable{T}"/> instance containing the objects used to
     /// populate the collection.
     /// </param>
-    public AdaptiveCollectionBase(IEnumerable<T>? sourceList)
+    protected AdaptiveCollectionBase(IEnumerable<T>? sourceList)
     {
         if (sourceList != null)
         {

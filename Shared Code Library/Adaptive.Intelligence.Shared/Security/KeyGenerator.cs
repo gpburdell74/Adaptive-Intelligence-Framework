@@ -25,7 +25,10 @@ namespace Adaptive.Intelligence.Shared.Security
                 // Create the authentication strings and variants.
                 returnData = new byte[original.Length];
                 for (int count = 1; count < original.Length - 2; count++)
+                {
                     returnData[count - 1] = original[count];
+                }
+
                 returnData[returnData.Length - 1] = original[0];
             }
 

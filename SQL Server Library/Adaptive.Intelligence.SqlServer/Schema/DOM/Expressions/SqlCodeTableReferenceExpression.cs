@@ -59,15 +59,20 @@
         public SqlCodeTableReferenceExpression(string? ownerName, string? tableName, string? aliasName = null)
         {
             if (string.IsNullOrEmpty(tableName))
+            {
                 throw new ArgumentNullException(nameof(tableName));
+            }
 
             _tableName = new SqlCodeTableNameExpression(tableName);
             if (!string.IsNullOrEmpty(ownerName))
+            {
                 _ownerName = new SqlCodeDatabaseNameOwnerNameExpression(ownerName);
+            }
 
             if (!string.IsNullOrEmpty(aliasName))
+            {
                 _alias = new SqlCodeAliasExpression(aliasName);
-
+            }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlCodeTableReferenceExpression"/> class.
@@ -87,13 +92,19 @@
             SqlCodeAliasExpression? aliasName)
         {
             if (ownerName != null)
+            {
                 _ownerName = ownerName.Clone();
+            }
 
             if (tableName != null)
+            {
                 _tableName = tableName.Clone();
+            }
 
             if (aliasName != null)
+            {
                 _alias = aliasName.Clone();
+            }
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -130,9 +141,13 @@
             {
                 _alias?.Dispose();
                 if (value == null)
+                {
                     _alias = null;
+                }
                 else
+                {
                     _alias = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -149,9 +164,13 @@
             {
                 _ownerName?.Dispose();
                 if (value == null)
+                {
                     _ownerName = null;
+                }
                 else
+                {
                     _ownerName = value.Clone();
+                }
             }
         }
         /// <summary>
@@ -167,9 +186,13 @@
             {
                 _tableName?.Dispose();
                 if (value == null)
+                {
                     _tableName = null;
+                }
                 else
+                {
                     _tableName = value.Clone();
+                }
             }
         }
         #endregion

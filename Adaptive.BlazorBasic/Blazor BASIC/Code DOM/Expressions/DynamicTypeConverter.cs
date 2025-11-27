@@ -300,7 +300,7 @@ public static class DynamicTypeConverter
                 break;
 
             case string stringValue:
-                content = System.Text.ASCIIEncoding.ASCII.GetBytes(stringValue);
+                content = System.Text.Encoding.ASCII.GetBytes(stringValue);
                 break;
 
             case DateTime dateTimeValue:

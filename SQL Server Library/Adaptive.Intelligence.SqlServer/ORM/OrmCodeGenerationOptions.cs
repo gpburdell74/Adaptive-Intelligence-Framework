@@ -198,9 +198,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daProviderVariableName == null)
+                {
                     return Resources.DaClassProviderVariableName;
+                }
                 else
+                {
                     return _daProviderVariableName;
+                }
             }
             set
             {
@@ -218,9 +222,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daProviderVariableParamSummary == null)
+                {
                     return Resources.DaClassProviderVariableParamSummary;
+                }
                 else
+                {
                     return _daProviderVariableParamSummary;
+                }
             }
             set
             {
@@ -238,9 +246,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daProviderVariableTypeName == null)
+                {
                     return Resources.DaClassProviderVariableTypeName;
+                }
                 else
+                {
                     return _daProviderVariableTypeName;
+                }
             }
             set
             {
@@ -258,9 +270,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daConstructorXmlRemarksTemplate == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daConstructorXmlRemarksTemplate;
+                }
             }
             set
             {
@@ -278,9 +294,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daConstructorXmlSummaryTemplate == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daConstructorXmlSummaryTemplate;
+                }
             }
             set
             {
@@ -298,9 +318,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daBaseClassName == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daBaseClassName;
+                }
             }
             set => _daBaseClassName = value;
         }
@@ -315,9 +339,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daClassRemarks == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daClassRemarks;
+                }
             }
             set => _daClassRemarks = value;
         }
@@ -332,9 +360,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daClassSummary == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daClassSummary;
+                }
             }
             set => _daClassSummary = value;
         }
@@ -360,9 +392,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daParamLessConstructorXmlRemarksTemplate == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daParamLessConstructorXmlRemarksTemplate;
+                }
             }
             set
             {
@@ -380,9 +416,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daParamLessConstructorXmlSummaryTemplate == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daParamLessConstructorXmlSummaryTemplate;
+                }
             }
             set
             {
@@ -400,9 +440,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spConstNameDelete == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spConstNameDelete;
+                }
             }
             set => _spConstNameDelete = value;
         }
@@ -417,9 +461,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spConstNameGetAll == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spConstNameGetAll;
+                }
             }
             set => _spConstNameGetAll = value;
         }
@@ -434,9 +482,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spConstNameGetById == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spConstNameGetById;
+                }
             }
             set => _spConstNameGetById = value;
         }
@@ -451,9 +503,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spConstNameInsert == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spConstNameInsert;
+                }
             }
             set => _spConstNameInsert = value;
         }
@@ -468,9 +524,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spConstNameUpdate == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spConstNameUpdate;
+                }
             }
             set => _spConstNameUpdate = value;
         }
@@ -485,9 +545,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spConstNameSqlParamPrefix == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spConstNameSqlParamPrefix;
+                }
             }
             set => _spConstNameSqlParamPrefix = value;
         }
@@ -502,9 +566,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spDeleteXmlSummary == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spDeleteXmlSummary;
+                }
             }
             set => _spDeleteXmlSummary = value;
         }
@@ -519,9 +587,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spGetAllXmlSummary == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spGetAllXmlSummary;
+                }
             }
             set => _spGetAllXmlSummary = value;
         }
@@ -536,9 +608,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spGetByIdXmlSummary == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spGetByIdXmlSummary;
+                }
             }
             set => _spGetByIdXmlSummary = value;
         }
@@ -553,9 +629,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spInsertXmlSummary == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spInsertXmlSummary;
+                }
             }
             set => _spInsertXmlSummary = value;
         }
@@ -570,9 +650,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spUpdateXmlSummary == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spUpdateXmlSummary;
+                }
             }
             set => _spUpdateXmlSummary = value;
         }
@@ -587,9 +671,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_spConstNameSqlParamPrefix == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _spConstNameSqlParamPrefix;
+                }
             }
             set => _spConstNameSqlParamPrefix = value;
         }
@@ -604,9 +692,13 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             get
             {
                 if (_daConstantPrefixForParameterSummary == null)
+                {
                     return string.Empty;
+                }
                 else
+                {
                     return _daConstantPrefixForParameterSummary;
+                }
             }
             set => _daConstantPrefixForParameterSummary = value;
         }
@@ -623,7 +715,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             {
                 // Create the initial default file, if not already there.
                 if (!SafeIO.DirectoryExists(path))
+                {
                     Save();
+                }
 
                 path += @"\.magicsql";
                 string fileName = path + "\\ormcodegenoptions.dat";
@@ -672,7 +766,9 @@ namespace Adaptive.Intelligence.SqlServer.ORM
             {
                 path += @"\.magicsql";
                 if (!SafeIO.DirectoryExists(path))
+                {
                     System.IO.Directory.CreateDirectory(path);
+                }
 
                 string fileName = path + "\\ormcodegenoptions.dat";
                 SafeIO.DeleteFile(fileName);
