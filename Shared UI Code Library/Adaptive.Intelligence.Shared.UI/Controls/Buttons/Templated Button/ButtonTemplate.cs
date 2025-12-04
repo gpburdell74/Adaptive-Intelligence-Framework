@@ -134,7 +134,7 @@ public sealed class ButtonTemplate : DisposableObjectBase, ICloneable
     /// </param>
     public ButtonTemplate(string templateFile)
     {
-
+        Load(templateFile);
     }
 
     /// <summary>
@@ -165,7 +165,6 @@ public sealed class ButtonTemplate : DisposableObjectBase, ICloneable
     #endregion
 
     #region Public Properties
-
     /// <summary>
     /// Gets the reference to the template to use when the button is in a checked state.
     /// </summary>
@@ -181,7 +180,6 @@ public sealed class ButtonTemplate : DisposableObjectBase, ICloneable
     /// A <see cref="ButtonStateTemplate"/> instance, or <b>null</b>.
     /// </value>
     public ButtonStateTemplate? Disabled { get => _disabled; }
-
 
     /// <summary>
     /// Gets the reference to the template to use when the mouse is hovering over the button.
@@ -207,12 +205,6 @@ public sealed class ButtonTemplate : DisposableObjectBase, ICloneable
     /// </value>
     public ButtonStateTemplate? Pressed { get => _pressed; }
 
-    #endregion
-
-    #region 
-    #endregion
-
-    #region 
     #endregion
 
     #region Public Methods / Functions
@@ -303,6 +295,27 @@ public sealed class ButtonTemplate : DisposableObjectBase, ICloneable
         file.Dispose();
 
         return success;
+    }
+
+    /// <summary>
+    /// Converts the template data to a byte array.
+    /// </summary>
+    /// <returns>
+    /// A byte array containing the template data, or <b>null</b> if the write operation fails.
+    /// </returns>
+    public byte[]? ToByteArray()
+    {
+        byte[]? data = null;
+
+        // Save to a byte array.
+        OperationalResult<byte[]?> result = ButtonTemplateFile.SaveTemplate(this);
+        if (result.Success)
+        {
+            data = ByteArrayUtil.CopyToNewArray(result.DataContent);
+        }
+        result.Dispose();
+
+        return data;
     }
     #endregion
 

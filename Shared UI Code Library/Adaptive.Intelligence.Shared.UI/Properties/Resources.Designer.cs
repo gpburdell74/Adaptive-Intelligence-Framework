@@ -91,6 +91,15 @@ namespace Adaptive.Intelligence.Shared.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while writing the template data..
+        /// </summary>
+        internal static string ErrorTemplateWrite {
+            get {
+                return ResourceManager.GetString("ErrorTemplateWrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap HideItem {

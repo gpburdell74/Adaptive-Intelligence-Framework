@@ -8,9 +8,6 @@
     <Compile Update="Controls\Bases\AdaptiveControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controls\Buttons\Templated Button\TemplatedButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Update="Controls\Combo Box\AdvancedComboBox.cs">
       <SubType>Component</SubType>
     </Compile>

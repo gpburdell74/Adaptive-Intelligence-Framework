@@ -54,6 +54,7 @@ internal sealed class ButtonTemplateFile : DisposableObjectBase
         return loadResult;
 
     }
+
     /// <summary>
     /// Attempts to read the template from the specified file.
     /// </summary>
@@ -128,6 +129,49 @@ internal sealed class ButtonTemplateFile : DisposableObjectBase
         }
 
         result.Dispose();
+        return saveResult;
+    }
+
+    /// <summary>
+    /// Attempts to save the template to memory.
+    /// </summary>
+    /// <param name="template">
+    /// The <see cref="ButtonTemplate"/> instance to be saved.
+    /// </param>
+    /// <returns>
+    /// An <see cref="OperationalResult{T}"/> containing a byte array containing the template data if successful;
+    /// otherwise, contains the error information.
+    /// </returns>
+    public static OperationalResult<byte[]?> SaveTemplate(ButtonTemplate template)
+    {
+        OperationalResult<byte[]?> saveResult = new OperationalResult<byte[]?>();
+
+        // Save the data content to a stream.
+        MemoryStream stream = new MemoryStream(1024);
+        ButtonTemplateWriter writer = new ButtonTemplateWriter(stream);
+        OperationalResult writeResult = writer.Write(template);
+        saveResult.Success = writeResult.Success;
+
+        // Successful write.
+        if (saveResult.Success)
+        {
+            saveResult.DataContent = stream.ToArray();
+        }
+        else
+        {
+            // Error when writing.
+            saveResult.Message = Properties.Resources.ErrorTemplateWrite;
+            if (writeResult.HasExceptions)
+            {
+                saveResult.AddExceptions(writeResult.Exceptions);
+            }
+        }
+
+        // Clear and return.
+        writer.Close();
+        stream.Close();
+        stream.Dispose();
+
         return saveResult;
     }
     #endregion

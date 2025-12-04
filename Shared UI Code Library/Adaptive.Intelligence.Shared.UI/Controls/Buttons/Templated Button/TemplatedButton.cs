@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Adaptive.Intelligence.Shared.UI.Controls;
+using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
@@ -8,12 +9,18 @@ namespace Adaptive.Intelligence.Shared.UI;
 /// Provides an advanced styling button that supports templates for button designs.
 /// </summary>
 /// <seealso cref="Button" />
-[ToolboxItem(typeof(Button))]
+[ToolboxItem(typeof(Button)),
+  DesignerCategory("Code"),
+  RefreshProperties(RefreshProperties.All)]
 public class TemplatedButton : Button
 {
     #region Private Member Declarations
 
-    private string? _templateFile;
+    /// <summary>
+    /// The template file to use.
+    /// </summary>
+    private string? _templateFile
+        ;
     /// <summary>
     /// The template.
     /// </summary>
@@ -47,6 +54,7 @@ public class TemplatedButton : Button
         SetStyle(ControlStyles.Selectable, true);
         SetStyle(ControlStyles.SupportsTransparentBackColor, true);
         SetStyle(ControlStyles.UserPaint, true);
+        UpdateStyles();
 
         // Create default objects.
         _template = new ButtonTemplate();
@@ -123,10 +131,55 @@ public class TemplatedButton : Button
                 _template = value;
                 if (_template == null)
                     _template = new ButtonTemplate();
+                else
+                    _templateFile = null;
 
                 _painter = new TemplatedButtonDrawingAlgorithm(_template);
                 Invalidate();
             }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the binary source of the template data.
+    /// </summary>
+    /// <value>
+    /// A byte array containing the template data, or <b>null</b>.
+    /// </value>
+    [Browsable(true),
+     Category("Appearance"),
+     Description("Gets or sets the data for the template to use."),
+     DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+     EditorBrowsable(EditorBrowsableState.Always),
+     Editor(typeof(ResourceImageUITypeEditor), typeof(UITypeEditor))]
+    public byte[]? TemplateSource 
+    {
+        get
+        {
+            if (_template == null)
+                return null;
+            else
+            {
+                return _template.ToByteArray();
+            }
+        }
+        set
+        {
+            if (value == null)
+            {
+                _template?.Dispose();
+                _template = null;
+            }
+            else
+            {
+                ButtonTemplate? testTemplate = ButtonTemplate.Load(value);
+                if (testTemplate != null)
+                {
+                    Template = testTemplate;
+                    SetImageReferences();
+                }
+            }
+            Invalidate();
         }
     }
 
