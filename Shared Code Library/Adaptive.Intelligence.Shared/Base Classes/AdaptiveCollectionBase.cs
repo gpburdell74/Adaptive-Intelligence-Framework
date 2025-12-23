@@ -46,14 +46,6 @@ public class AdaptiveCollectionBase<T> : List<T>
             AddRange(sourceList);
         }
     }
-
-    /// <summary>
-    /// Finalizes an instance of the <see cref="AdaptiveCollectionBase{T}"/> class.
-    /// </summary>
-    ~AdaptiveCollectionBase()
-    {
-        Clear();
-    }
     #endregion
 
     #region Protected Methods / Functions

@@ -25,6 +25,7 @@ namespace Adaptive.Intelligence.Shared
         /// <b>true</b> if the load operation is successful; otherwise, returns <b>false</b>.
         /// </returns>
         protected abstract bool PerformLoad<IdType>(IdType? id);
+
         /// <summary>
         /// When overridden in a derived class, perform the process of loading the content of the instance.
         /// </summary>
@@ -38,6 +39,7 @@ namespace Adaptive.Intelligence.Shared
         /// <b>true</b> if the load operation is successful; otherwise, returns <b>false</b>.
         /// </returns>
         protected abstract Task<bool> PerformLoadAsync<IdType>(IdType? id);
+
         /// <summary>
         /// Records, logs, or otherwise stores the exception information when an exception is caught.
         /// </summary>
@@ -50,7 +52,7 @@ namespace Adaptive.Intelligence.Shared
         }
         #endregion
 
-        #region Public Methods / Functions		
+        #region Public Methods / Functions
         /// <summary>
         /// Loads the content of the instance.
         /// </summary>

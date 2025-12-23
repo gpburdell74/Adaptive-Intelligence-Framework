@@ -650,11 +650,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
             TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset("-5");
 
             // Assert
-            #if !MAC
             Assert.Equal("Eastern Standard Time", result.Id);
-#else
-            Assert.Equal("America/New_York", result.Id);
-            #endif
         }
 
         [Fact]
@@ -670,7 +666,7 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
             #if !MAC
             Assert.Equal("Eastern Standard Time", result.Id);
             #else
-            Assert.Equal("America/New_York", result.Id);
+            Assert.Equal("Eastern Standard Time", result.Id);
             #endif
         }
 

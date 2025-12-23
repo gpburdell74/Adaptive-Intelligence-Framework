@@ -1,58 +1,59 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Platforms>AnyCPU;x64</Platforms>
-    <Title>Adaptive Intelligence WinForms UI Library</Title>
-    <Version>0.92.200.0001</Version>
-    <FileVersion>0.92.200.0001</FileVersion>
-    <Authors>Sam Jones</Authors>
-    <Company>Adaptive Intelligence</Company>
-    <Product>Adaptive Intelligence Framework</Product>
-    <Description>General Windows Forms Control Library</Description>
-    <Copyright>Copyright © 2024-2025 by Sam Jones.  All rights reserved.</Copyright>
-    <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
-    <PackageIcon>AI.png</PackageIcon>
-    <ApplicationIcon>AI.ico</ApplicationIcon>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>AnyCPU;x64</Platforms>
+		<Title>Adaptive Intelligence WinForms UI Library</Title>
+		<Version>0.93.200.0001</Version>
+		<FileVersion>0.93.200.0001</FileVersion>
+		<AssemblyVersion>0.93.200.0001</AssemblyVersion>
+		<Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
+		<Authors>Sam Jones</Authors>
+		<Company>Adaptive Intelligence</Company>
+		<Product>Adaptive Intelligence Framework</Product>
+		<Description>General Windows Forms Control Library</Description>
+		<PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+		<PackageIcon>AI.png</PackageIcon>
+		<ApplicationIcon>AI.ico</ApplicationIcon>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="AI.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="AI.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shell\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Shell\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\..\Branding\AI.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\..\Branding\AI.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+	</ItemGroup>
 
 </Project>
