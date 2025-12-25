@@ -7,11 +7,11 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Title>.NET Shared Classes Library for Adaptive Intelligence Applications.</Title>
     <Description>A general use .NET Class Library</Description>
-    <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
+    <Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
     <ApplicationIcon>AI.ico</ApplicationIcon>
-    <Version>0.92.200.0001</Version>
-    <FileVersion>0.92.200.0001</FileVersion>
-    <Authors>Sam Jones</Authors>
+	  <Version>0.93.100.0001</Version>
+	  <FileVersion>0.93.100.0001</FileVersion>
+	  <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
