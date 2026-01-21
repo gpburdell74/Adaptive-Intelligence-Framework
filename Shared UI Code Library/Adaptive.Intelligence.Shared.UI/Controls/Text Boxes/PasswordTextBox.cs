@@ -117,7 +117,17 @@ namespace Adaptive.Intelligence.Shared.UI
         }
         #endregion
 
-        #region Protected Method Overrides        
+        #region Protected Method Overrides
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Forms.Control.GotFocus" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        protected override void OnGotFocus(EventArgs e)
+        {
+            PasswordText.Focus();
+            PasswordText.SelectionStart = 0;
+            PasswordText.SelectionLength = PasswordText.Text.Length;
+        }
         /// <summary>
         /// Raises the <see cref="E:HandleCreated" /> event.
         /// </summary>
@@ -127,6 +137,7 @@ namespace Adaptive.Intelligence.Shared.UI
             base.OnHandleCreated(e);
             Height = PasswordText.Height;
         }
+
         /// <summary>
         /// Raises the <see cref="E:System.Windows.Forms.Control.Resize" /> event.
         /// </summary>
@@ -167,7 +178,7 @@ namespace Adaptive.Intelligence.Shared.UI
         }
         #endregion
 
-        #region Private Event Handlers                
+        #region Private Event Handlers
         /// <summary>
         /// Handles the event when the text box or button loses focus.
         /// </summary>
