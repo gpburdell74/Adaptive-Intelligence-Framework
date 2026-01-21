@@ -15,6 +15,11 @@
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
     <Description>Library to provide SQL Server UI components.</Description>
+    <Copyright>Copyright © 2024-2026 by Sam Jones.  All rights reserved.</Copyright>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
+	  <Version>0.93.200.0010</Version>
+	  <FileVersion>0.93.200.0010</FileVersion>
+	  <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
     <ApplicationIcon>AI.ico</ApplicationIcon>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
 	<PackageIcon>AI.png</PackageIcon>

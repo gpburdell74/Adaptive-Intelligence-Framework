@@ -420,6 +420,7 @@ public sealed class SafeBinaryWriter : ExceptionTrackingBase, ISafeBinaryWriter
             Exceptions?.Add(ex);
         }
     }
+
     /// <summary>
     /// Writes the specified unsigned integer value to the stream.
     /// </summary>

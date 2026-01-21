@@ -7,6 +7,10 @@
 	  <Platforms>AnyCPU;x64</Platforms>
 	  <Title>.NET Shared Class (Unsafe Code) Library for Adaptive Intelligence Applications.</Title>
 	  <Description>A general use .NET Class Library</Description>
+	  <Copyright>Copyright © 2025-2026 by Sam Jones.  All rights reserved.</Copyright>
+	  <ApplicationIcon>AI.ico</ApplicationIcon>
+	  <Version>0.93.200.0010</Version>
+	  <FileVersion>0.93.200.0010</FileVersion>
 	  <ApplicationIcon>AI.ico</ApplicationIcon>
 	  <Version>0.93.200.0001</Version>
 	  <FileVersion>0.93.200.0001</FileVersion>

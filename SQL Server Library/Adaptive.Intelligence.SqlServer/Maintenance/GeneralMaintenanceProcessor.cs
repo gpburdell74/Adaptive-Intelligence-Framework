@@ -728,7 +728,10 @@ namespace Adaptive.Intelligence.SqlServer
                             if (_dataAccess.HasExceptions)
                             {
                                 _dataAccess.Dispose();
-                                _dataAccess = new SqlMaintenanceDataAccess(_connectionString);
+                                if (!string.IsNullOrEmpty(_connectionString))
+                                {
+                                    _dataAccess = new SqlMaintenanceDataAccess(_connectionString);
+                                }
                             }
                             if (!_cancelOperation)
                             {

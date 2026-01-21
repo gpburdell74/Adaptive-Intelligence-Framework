@@ -207,20 +207,20 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 else
                 {
                     string nodeText = SelectedNode.Text;
-                    object item = SelectedNode.Tag;
-                    if (item is Schema.SqlServer || nodeText == "Databases")
+                    object? item = SelectedNode.Tag;
+                    if (item is not null && item is Schema.SqlServer || nodeText == "Databases")
                         return "master";
                     else if (item is SqlDatabase)
                         return ((SqlDatabase)item).Name!;
                     else
                     {
-                        TreeNode ptr = SelectedNode;
+                        TreeNode? ptr = SelectedNode;
                         do
                         {
                             ptr = ptr.Parent;
                         } while (ptr != null && !(ptr.Tag is SqlDatabase));
 
-                        if (ptr != null)
+                        if (ptr != null && ptr.Tag != null)
                             return ((SqlDatabase)ptr.Tag).Name!;
                         else
                             return "master";
@@ -304,7 +304,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                         _selectedSp = e.Node.Tag as SqlStoredProcedure;
                         if (_selectedSp != null)
                         {
-                            _selectedTable = e.Node.Parent.Parent.Tag as SqlTable;
+                            _selectedTable = e.Node?.Parent?.Parent?.Tag as SqlTable;
                             SpMenu.Enabled = true;
                             TableMenu.Enabled = false;
                         }
@@ -495,8 +495,8 @@ namespace Adaptive.Intelligence.SqlServer.UI
         private void HandleSpMenuOpening(object? sender, EventArgs e)
         {
             // Show the menu item only if the SP is currently missing.
-            TreeNode tn = SelectedNode;
-            SqlStoredProcedure? sp = tn.Tag as SqlStoredProcedure;
+            TreeNode? tn = SelectedNode;
+            SqlStoredProcedure? sp = tn?.Tag as SqlStoredProcedure;
             SpMenuGenerate.Enabled = (sp == null);
         }
         #endregion
@@ -952,7 +952,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 ImageIndex = TreeNodeImageFolderIndex,
                 SelectedImageIndex = TreeNodeImageFolderIndex,
                 Text = table.TableName!,
-                ToolTipText = table.TableName
+                ToolTipText = table.TableName ?? string.Empty
             };
             tableNode.ContextMenuStrip = TableMenu;
             parentNode.Nodes.Add(tableNode);
@@ -1079,7 +1079,7 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </returns>
         private SqlTableEventArgs CreateTableEventArguments()
         {
-            TreeNode selectedNode = SelectedNode;
+            TreeNode? selectedNode = SelectedNode;
             SqlTable? table = null;
 
             if (selectedNode != null && selectedNode.Tag != null)
@@ -1089,10 +1089,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
                 {
                     if (selectedNode.Tag is SqlStoredProcedure)
                     {
-                        table = selectedNode.Parent.Parent.Tag as SqlTable;
+                        table = selectedNode.Parent?.Parent?.Tag as SqlTable;
                     }
                     else if (selectedNode.Tag is SqlStoredProcedureCollection)
-                        table = selectedNode.Parent.Tag as SqlTable;
+                        table = selectedNode.Parent?.Tag as SqlTable;
                 }
             }
 
@@ -1107,10 +1107,10 @@ namespace Adaptive.Intelligence.SqlServer.UI
         /// </returns>
         private SqlStoredProcedureEventArgs CreateStoredProcedureEventArguments()
         {
-            TreeNode selectedNode = SelectedNode;
+            TreeNode? selectedNode = SelectedNode;
             SqlStoredProcedure? procedure = null;
 
-            if (selectedNode.Tag != null)
+            if (selectedNode?.Tag != null)
             {
                 procedure = (selectedNode.Tag as SqlStoredProcedure);
             }
