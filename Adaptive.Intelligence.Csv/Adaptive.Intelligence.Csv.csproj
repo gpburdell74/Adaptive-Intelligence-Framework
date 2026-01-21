@@ -6,10 +6,10 @@
 	<Nullable>enable</Nullable>
 	<Title>.NET CSV Processing Library for Adaptive Intelligence Applications.</Title>
 	<Description>A .NET Class Library for reading and writing CSV data files.</Description>
-	<Copyright>Copyright © 2025 by Sam Jones.  All rights reserved.</Copyright>
+	<Copyright>Copyright © 2025-2026 by Sam Jones.  All rights reserved.</Copyright>
 	<ApplicationIcon>AI.ico</ApplicationIcon>
-	<Version>0.92.100.0001</Version>
-	<FileVersion>0.92.200.0012</FileVersion>
+	<Version>0.93.200.0010</Version>
+	<FileVersion>0.93.200.0010</FileVersion>
 	<Authors>Sam Jones</Authors>
 	<Company>Adaptive Intelligence</Company>
 	<Product>Adaptive Intelligence Framework</Product>

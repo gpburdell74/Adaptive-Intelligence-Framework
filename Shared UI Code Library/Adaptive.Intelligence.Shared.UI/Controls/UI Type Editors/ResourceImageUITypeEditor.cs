@@ -6,6 +6,10 @@ using System.Windows.Forms.Design;
 
 namespace Adaptive.Intelligence.Shared.UI.Controls;
 
+/// <summary>
+/// Provides a UI type editor for selecting binary resources from the project's resources.
+/// </summary>
+/// <seealso cref="UITypeEditor" />
 public class ResourceImageUITypeEditor : UITypeEditor
 {
     /// <summary>
@@ -15,13 +19,22 @@ public class ResourceImageUITypeEditor : UITypeEditor
     /// <returns>
     /// A <see cref="T:System.Drawing.Design.UITypeEditorEditStyle" /> value that indicates the style of editor used by the <see cref="M:System.Drawing.Design.UITypeEditor.EditValue(System.IServiceProvider,System.Object)" /> method. If the <see cref="T:System.Drawing.Design.UITypeEditor" /> does not support this method, then <see cref="M:System.Drawing.Design.UITypeEditor.GetEditStyle" /> will return <see cref="F:System.Drawing.Design.UITypeEditorEditStyle.None" />.
     /// </returns>
-    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context)
     {
         // We want a dropdown list
         return UITypeEditorEditStyle.DropDown;
     }
 
-    public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+    /// <summary>
+    /// Edits the specified object's value using the editor style indicated by the <see cref="M:System.Drawing.Design.UITypeEditor.GetEditStyle" /> method.
+    /// </summary>
+    /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> that can be used to gain additional context information.</param>
+    /// <param name="provider">An <see cref="T:System.IServiceProvider" /> that this editor can use to obtain services.</param>
+    /// <param name="value">The object to edit.</param>
+    /// <returns>
+    /// The new value of the object. If the value of the object has not changed, this should return the same object it was passed.
+    /// </returns>
+    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)
     {
         if (provider.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService edSvc)
             return value;
@@ -43,9 +56,12 @@ public class ResourceImageUITypeEditor : UITypeEditor
         {
             if (listBox.SelectedItem != null)
             {
-                string selectedKey = listBox.SelectedItem.ToString();
-                value = templates[selectedKey];
-                edSvc.CloseDropDown();
+                string? selectedKey = listBox.SelectedItem?.ToString();
+                if (selectedKey != null)
+                {
+                    value = templates[selectedKey];
+                    edSvc.CloseDropDown();
+                }
             }
         };
 

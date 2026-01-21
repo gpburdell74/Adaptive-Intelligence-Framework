@@ -24,7 +24,7 @@ namespace Adaptive.Intelligence.SqlServer
     /// <seealso cref="DisposableObjectBase" />
     public sealed class ContextOperations : DisposableObjectBase
     {
-        #region Public Events        
+        #region Public Events
         /// <summary>
         /// Occurs when the object is connected to SQL Server.
         /// </summary>
