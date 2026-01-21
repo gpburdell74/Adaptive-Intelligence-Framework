@@ -6,13 +6,13 @@
     <Nullable>enable</Nullable>
     <ApplicationIcon>AI.ico</ApplicationIcon>
     <Title>Extensions for the .NET Code DOM</Title>
-	  <Version>0.92.100.0001</Version>
-	  <FileVersion>0.92.100.0001</FileVersion>
-	  <AssemblyVersion>0.92.100.0001</AssemblyVersion>
-	  <Company>Adaptive Intelligence</Company>
+    <Version>0.93.200.0001</Version>
+    <FileVersion>0.93.200.0001</FileVersion>
+    <AssemblyVersion>0.93.200.0001</AssemblyVersion>
+    <Company>Adaptive Intelligence</Company>
     <Authors>Sam Jones</Authors>
     <Product>Adaptive Intelligence Framework</Product>
-    <Copyright>Copyright © 2025 by Sam Jones.  All rights reserved.</Copyright>
+    <Copyright>Copyright © 2025 - 2026 by Sam Jones.  All rights reserved.</Copyright>
     <Description>A class library for use with the.NET Code DOM system that adds extended functionality.</Description>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
     <PackageIcon>AI.png</PackageIcon>
@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" Version="6.0.0" />
+    <PackageReference Include="System.CodeDom" Version="10.0.1" />
   </ItemGroup>
 
 </Project>

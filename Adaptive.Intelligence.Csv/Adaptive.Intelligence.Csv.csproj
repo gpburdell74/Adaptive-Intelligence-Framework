@@ -30,23 +30,23 @@
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\Shared Code Library\Adaptive.Intelligence.Shared\License.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\Shared Code Library\Adaptive.Intelligence.Shared\License.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Adaptive.Intelligence.Unsafe\Adaptive.Intelligence.Unsafe.csproj" />
-    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Adaptive.Intelligence.Unsafe\Adaptive.Intelligence.Unsafe.csproj" />
+		<ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

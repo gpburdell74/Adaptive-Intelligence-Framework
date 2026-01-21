@@ -11,6 +11,11 @@
 	  <ApplicationIcon>AI.ico</ApplicationIcon>
 	  <Version>0.93.200.0010</Version>
 	  <FileVersion>0.93.200.0010</FileVersion>
+	  <ApplicationIcon>AI.ico</ApplicationIcon>
+	  <Version>0.93.200.0001</Version>
+	  <FileVersion>0.93.200.0001</FileVersion>
+	  <AssemblyVersion>0.93.200.0001</AssemblyVersion>
+	  <Copyright>Copyright © 2025 - 2026 by Sam Jones.  All rights reserved.</Copyright>
 	  <Authors>Sam Jones</Authors>
 	  <Company>Adaptive Intelligence</Company>
 	  <Product>Adaptive Intelligence Framework</Product>
