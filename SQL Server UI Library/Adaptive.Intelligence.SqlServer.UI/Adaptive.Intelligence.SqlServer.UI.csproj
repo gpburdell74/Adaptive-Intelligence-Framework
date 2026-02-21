@@ -6,6 +6,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
+    <Version>0.93.200.0001</Version>
+    <FileVersion>0.93.200.0001</FileVersion>
+    <AssemblyVersion>0.93.200.0001</AssemblyVersion>
+    <Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
     <Title>Adaptive Intelligence SQL Server UI Client Library</Title>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
@@ -16,6 +20,8 @@
 	  <Version>0.94</Version>
 	  <FileVersion>0.94</FileVersion>
 	  <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
+    <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
 	<PackageIcon>AI.png</PackageIcon>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<AssemblyVersion>0.94</AssemblyVersion>

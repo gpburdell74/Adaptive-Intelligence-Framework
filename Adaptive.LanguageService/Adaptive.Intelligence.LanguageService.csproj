@@ -21,24 +21,24 @@
     <AssemblyVersion>0.94</AssemblyVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<IsTrimmable>True</IsTrimmable>
+		<IsAotCompatible>True</IsAotCompatible>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<IsTrimmable>True</IsTrimmable>
+		<IsAotCompatible>True</IsAotCompatible>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="AI.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="AI.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+	</ItemGroup>
 
 </Project>

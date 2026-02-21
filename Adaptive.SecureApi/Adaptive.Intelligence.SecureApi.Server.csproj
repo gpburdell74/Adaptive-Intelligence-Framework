@@ -25,9 +25,9 @@
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Adaptive.Intelligence.SecureApi.Common\Adaptive.Intelligence.SecureApi.Common.csproj" />
-    <ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Adaptive.Intelligence.SecureApi.Common\Adaptive.Intelligence.SecureApi.Common.csproj" />
+		<ProjectReference Include="..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+	</ItemGroup>
 
 </Project>

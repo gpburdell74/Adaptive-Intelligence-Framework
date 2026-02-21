@@ -10,6 +10,7 @@
     <FileVersion>0.94</FileVersion>
     <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
+    <Authors>Sam Jones</Authors>
     <Product>Tutus Archivium ZIP</Product>
     <Description>A library for creating file archives in ZIP format with optional encryption.</Description>
     <Copyright>Copyright © 2024-2026 by Sam Jones. All rights reserved.</Copyright>
