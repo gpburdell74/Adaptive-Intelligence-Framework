@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyName>Adaptive.Intelligence.BlazorBasic</AssemblyName>
@@ -11,9 +11,9 @@
 		<PackageId>Adaptive.Intelligence.BlazorBasic</PackageId>
 		<Title>Blazor BASIC Library</Title>
 		<Authors>Sam Jones</Authors>
-		<Version>0.93.200.0001</Version>
-		<FileVersion>0.93.200.0001</FileVersion>
-		<AssemblyVersion>0.93.200.0001</AssemblyVersion>
+		<Version>0.94</Version>
+		<FileVersion>0.94</FileVersion>
+		<AssemblyVersion>0.94</AssemblyVersion>
 		<Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
 		<Company>Adaptive Intelligence</Company>
 		<Product>Adaptive.Intelligence.BlazorBasic</Product>

@@ -34,67 +34,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Compile Remove="Adaptive.Intelligence.Shared.Test\**" />
-    <Compile Remove="Adaptive.Intelligtece.Shared.Test\**" />
-    <EmbeddedResource Remove="Adaptive.Intelligence.Shared.Test\**" />
-    <EmbeddedResource Remove="Adaptive.Intelligtece.Shared.Test\**" />
-    <None Remove="Adaptive.Intelligence.Shared.Test\**" />
-    <None Remove="Adaptive.Intelligtece.Shared.Test\**" />
-  </ItemGroup>
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<Platforms>AnyCPU;x64</Platforms>
-		<Title>.NET Shared Classes Library for Adaptive Intelligence Applications.</Title>
-		<Description>A general use .NET Class Library</Description>
-		<ApplicationIcon>AI.ico</ApplicationIcon>
-		<Version>0.93.200.0001</Version>
-		<FileVersion>0.93.200.0001</FileVersion>
-		<AssemblyVersion>0.93.200.0001</AssemblyVersion>
-		<Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
-		<Authors>Sam Jones</Authors>
-		<Company>Adaptive Intelligence</Company>
-		<Product>Adaptive Intelligence Framework</Product>
-		<PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
-		<PackageIcon></PackageIcon>
-		<RepositoryType>GitHub</RepositoryType>
-		<RepositoryUrl>https://github.com/gpburdell74/Adaptive-Intelligence-Framework</RepositoryUrl>
-		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<EnableAnalyzers>true</EnableAnalyzers>
-		<EnableNETAnalyzers>False</EnableNETAnalyzers>
-		<AnalysisLevel>latest</AnalysisLevel>
-		<AssemblyName>Adaptive.Intelligence.Shared</AssemblyName>
-		<RootNamespace>Adaptive.Intelligence.Shared</RootNamespace>
-		<PackageId>Sam.Jones.Adaptive.Intelligence.Shared</PackageId>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<NeutralLanguage>en-US</NeutralLanguage>
-		<PackageTags>.NET C# General Framework Class Library</PackageTags>
-		<IncludeSymbols>False</IncludeSymbols>
-		<PackageLicenseFile>License.txt</PackageLicenseFile>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<Compile Remove="Adaptive.Intelligence.Shared.Test\**" />
-		<Compile Remove="Adaptive.Intelligtece.Shared.Test\**" />
-		<EmbeddedResource Remove="Adaptive.Intelligence.Shared.Test\**" />
-		<EmbeddedResource Remove="Adaptive.Intelligtece.Shared.Test\**" />
-		<None Remove="Adaptive.Intelligence.Shared.Test\**" />
-		<None Remove="Adaptive.Intelligtece.Shared.Test\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Remove="IO\FileShellInfo.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Remove="License.txt" />
-		<None Remove="NuGet ApiKey.txt" />
-		<None Remove="Readme.md" />
-	</ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="License.txt">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -107,14 +46,6 @@
         <AssemblyTitle>Adaptive Intelligence Shared Code Framework</AssemblyTitle>
     </PropertyGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="License.txt">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</EmbeddedResource>
-		<EmbeddedResource Include="Readme.md" />
-	</ItemGroup>
 	<PropertyGroup>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
