@@ -41,9 +41,6 @@
     <Compile Update="Controls\Panels\DialogHeaderControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls\Panels\GradientPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Update="Controls\RatingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

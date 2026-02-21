@@ -1,8 +1,10 @@
 ﻿using Adaptive.Intelligence.Shared.IO;
 using Adaptive.Intelligence.Shared.Logging;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls.States;
 using System.Drawing.Drawing2D;
 
-namespace Adaptive.Intelligence.Shared.UI;
+namespace Adaptive.Intelligence.Shared.UI.TemplatedControls.IO;
 
 /// <summary>
 /// Provides the methods and functions for reading a <see cref="ButtonTemplate"/> from an underlying stream.
@@ -15,7 +17,7 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
     /// <summary>
     /// The default font instance.
     /// </summary>
-    private static readonly Font DefaultFont = new Font("Tahoma", 12f);
+    private static readonly FontTemplate DefaultFont = new FontTemplate("Segoe UI", 9.75f, FontStyle.Regular);
 
     /// <summary>
     /// The source stream to read from.
@@ -83,24 +85,22 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
     /// An <see cref="OperationalResult"/> containing the <see cref="ButtonTemplate"/> if successful;
     /// otherwise, contains the result of the operation.
     /// </returns>
-    public OperationalResult<ButtonTemplate> Read()
+    public ButtonTemplate Read(OperationalResult result)
     {
-        OperationalResult<ButtonTemplate> result = new OperationalResult<ButtonTemplate>();
         result.Success = true;
         ButtonTemplate? template = new ButtonTemplate();
 
         if (_reader != null)
         {
-            ButtonStateTemplate? checkedTemplate = ReadStateTemplate(result);
-            ButtonStateTemplate? disabledTemplate = ReadStateTemplate(result);
-            ButtonStateTemplate? hoverTemplate = ReadStateTemplate(result);
-            ButtonStateTemplate? normalTemplate = ReadStateTemplate(result);
-            ButtonStateTemplate? pressedTemplate = ReadStateTemplate(result);
+            StateTemplate? checkedTemplate = ReadStateTemplate(result);
+            StateTemplate? disabledTemplate = ReadStateTemplate(result);
+            StateTemplate? hoverTemplate = ReadStateTemplate(result);
+            StateTemplate? normalTemplate = ReadStateTemplate(result);
+            StateTemplate? pressedTemplate = ReadStateTemplate(result);
 
             if (result.Success)
             {
                 template = new ButtonTemplate(checkedTemplate, normalTemplate, disabledTemplate, hoverTemplate, pressedTemplate);
-                result.DataContent = template;
             }
             else
             {
@@ -111,7 +111,7 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
                 pressedTemplate?.Dispose();
             }
         }
-        return result;
+        return template;
     }
     #endregion
 
@@ -177,27 +177,27 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
     }
 
     /// <summary>
-    /// Reads the <see cref="ButtonStateTemplate"/> instance.
+    /// Reads the <see cref="StateTemplate"/> instance.
     /// </summary>
     /// <param name="result">
     /// The <see cref="OperationalResult"/> instance tracking the result of the operation.
     /// </param>
     /// <returns>
-    /// The <see cref="ButtonStateTemplate"/> instance if successful; otherwise, returns <b>null</b>.
+    /// The <see cref="StateTemplate"/> instance if successful; otherwise, returns <b>null</b>.
     /// </returns>
-    private ButtonStateTemplate? ReadStateTemplate(OperationalResult result)
+    private StateTemplate? ReadStateTemplate(OperationalResult result)
     {
-        ButtonStateTemplate? stateTemplate = null;
+        StateTemplate? stateTemplate = null;
 
         if (result.Success)
         {
-            stateTemplate = new ButtonStateTemplate();
+            stateTemplate = new StateTemplate();
             stateTemplate.BorderStyle = (BorderStyle)ReadInt32(result);
             stateTemplate.BorderColor = ReadColor(result);
             stateTemplate.EndColor = ReadColor(result);
             stateTemplate.StartColor = ReadColor(result);
             stateTemplate.ForeColor = ReadColor(result);
-            stateTemplate.Font = ReadFont(result);
+            stateTemplate.Font = ReadFontTemplate(result) ?? DefaultFont;
             stateTemplate.Mode =(LinearGradientMode) ReadInt32(result);
             stateTemplate.BorderWidth  = ReadInt32(result);
             stateTemplate.CornerRadius = ReadInt32(result);
@@ -282,11 +282,11 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
     /// The <see cref="OperationalResult"/> instance tracking the result of the operation.
     /// </param>
     /// <returns>
-    /// The <see cref="Font"/> instance that was read.
+    /// The <see cref="FontTemplate"/> instance that was read.
     /// </returns>
-    private Font ReadFont(OperationalResult result)
+    private FontTemplate? ReadFontTemplate(OperationalResult result)
     {
-        Font? newFont = null;
+        FontTemplate? newFont = null;
 
         if (result.Success)
         {
@@ -315,7 +315,7 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
                     if (underline)
                         calcStyle |= FontStyle.Underline;
 
-                    newFont = new Font(fontFamily!, emSize, calcStyle);
+                    newFont = new FontTemplate(fontFamily!, emSize, calcStyle);
                 }
             }
         }
@@ -357,7 +357,7 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
                     byte[]? sourceData = ReadBytes(result, dataLength);
                     if (result.Success && sourceData != null)
                     {
-                        newImage = ImageFromBytes(result, sourceData);
+                        newImage = BytesToImage(sourceData);
                     }
                     if (sourceData != null)
                         ByteArrayUtil.Clear(sourceData);
@@ -468,6 +468,28 @@ internal sealed class ButtonTemplateReader : DisposableObjectBase
             readValue = _reader!.ReadBytes(length);
         }
         return readValue;
+    }
+
+    private Image? BytesToImage(byte[]? dataSource)
+    {
+        Image? newImage = null;
+        if (dataSource != null)
+        {
+            MemoryStream sourceStream = new MemoryStream(dataSource);
+            try
+            {
+                newImage = Image.FromStream(sourceStream);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.LogException(ex);
+            }
+            finally
+            {
+                sourceStream.Dispose();
+            }
+        }
+        return newImage;
     }
     #endregion
 }

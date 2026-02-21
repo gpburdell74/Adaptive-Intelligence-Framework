@@ -19,6 +19,11 @@ namespace Adaptive.Intelligence.Shared.Security
         private const int DefaultKeyIterations = 2048;
 
         /// <summary>
+        /// Thread synchronization object for this instance.
+        /// </summary>
+        private static readonly object _syncRoot = new object();
+
+        /// <summary>
         /// The number of iterations to use when generating the private key data.
         /// </summary>
         private int _iterations = DefaultKeyIterations;
@@ -227,11 +232,18 @@ namespace Adaptive.Intelligence.Shared.Security
             if (randomizedPassword != null && salt != null)
             {
                 // Derive the instance's cryptographic keys from the randomly generated values.
-                Rfc2898DeriveBytes? keyGenerator = new Rfc2898DeriveBytes(randomizedPassword, salt, _iterations, HashAlgorithmName.SHA512);
-                byte[] key = keyGenerator.GetBytes(32);
-                byte[] iv = keyGenerator.GetBytes(16);
-                keyGenerator.Dispose();
-                keyGenerator = null;
+                byte[] generatedKeyData = 
+                    Rfc2898DeriveBytes.Pbkdf2(
+                        randomizedPassword, 
+                        salt, 
+                        _iterations, 
+                        HashAlgorithmName.SHA512, 
+                        48);
+
+                byte[] key = new byte[32];
+                byte[] iv = new byte[16];
+                Array.Copy(generatedKeyData, 0, key, 0, 32);
+                Array.Copy(generatedKeyData, 32, iv, 0, 16);
 
                 // Create the cryptographic engine.
                 _aes = Aes.Create();
@@ -258,39 +270,42 @@ namespace Adaptive.Intelligence.Shared.Security
         {
             byte[]? returnData = null;
 
-            if (_storage != null && _storageLength > 0 && _decryptor != null && _aes != null)
+            lock (_syncRoot)
             {
-                // Create the stream and reader object(s).
-                MemoryStream sourceStream = new MemoryStream(_storage);
-                CryptoStream decryptionStream = new CryptoStream(sourceStream, _decryptor, CryptoStreamMode.Read);
-                BinaryReader reader = new BinaryReader(decryptionStream);
-
-                // Try to decrypt.
-                byte[]? interimData;
-
-                try
+                if (_storage != null && _storageLength > 0 && _decryptor != null && _aes != null)
                 {
-                    int length = (int)sourceStream.Length;
-                    interimData = reader.ReadBytes(length);
-                }
-                catch (Exception ex)
-                {
-                    ExceptionLog.LogException(ex);
-                    interimData = null;
-                }
+                    // Create the stream and reader object(s).
+                    MemoryStream sourceStream = new MemoryStream(_storage);
+                    CryptoStream decryptionStream = new CryptoStream(sourceStream, _decryptor, CryptoStreamMode.Read);
+                    BinaryReader reader = new BinaryReader(decryptionStream);
 
-                if (interimData != null)
-                {
-                    // De-splice the bits for an added bit of fun.
-                    returnData = BitSplicer.UnSpliceBits(interimData);
-                    Array.Clear(interimData, 0, interimData.Length);
+                    // Try to decrypt.
+                    byte[]? interimData;
+
+                    try
+                    {
+                        int length = (int)sourceStream.Length;
+                        interimData = reader.ReadBytes(length);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionLog.LogException(ex);
+                        interimData = null;
+                    }
+
+                    if (interimData != null)
+                    {
+                        // De-splice the bits for an added bit of fun.
+                        returnData = BitSplicer.UnSpliceBits(interimData);
+                        Array.Clear(interimData, 0, interimData.Length);
+                    }
+
+                    // Dispose and clear.
+                    reader.Dispose();
+                    decryptionStream.Dispose();
+                    sourceStream.Dispose();
+
                 }
-
-                // Dispose and clear.
-                reader.Dispose();
-                decryptionStream.Dispose();
-                sourceStream.Dispose();
-
             }
             return returnData;
         }

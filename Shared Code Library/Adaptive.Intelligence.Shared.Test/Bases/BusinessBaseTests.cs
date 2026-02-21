@@ -138,8 +138,8 @@ namespace Adaptive.Intelligence.Shared.Test.Bases
             var businessObject = new MockBusinessBase();
             businessObject.AddValidationMessage("Error", false);
 
+            Assert.NotNull(businessObject.ValidationMessages);
             Assert.False(businessObject.ValidationMessages.AreAllValid());
-
             businessObject.Validate();
 
             Assert.True(businessObject.ValidationMessages.AreAllValid());

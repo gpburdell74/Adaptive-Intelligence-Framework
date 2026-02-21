@@ -178,10 +178,10 @@ namespace Adaptive.Intelligence.Shared.UI
         /// <param name="e">
         /// A <see cref="CancelEventArgs"/> that contains the event data.
         /// </param>
-        protected override void OnClosing(CancelEventArgs e)
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
             AdaptiveDebug.WriteLine(UIConstants.MethodStartText(Name, nameof(OnClosing)));
-            base.OnClosing(e);
+            base.OnFormClosing(e);
             if ((!e.Cancel) && (!DesignMode))
                 RemoveEventHandlers();
         }

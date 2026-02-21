@@ -19,6 +19,7 @@ namespace Adaptive.Intelligence.Shared.Test.Attributes
             var property = typeof(TestClass).GetProperty(nameof(TestClass.IgnoredProperty));
 
             // Act
+            Assert.NotNull(property); // Ensure the property exists);
             var attribute = property.GetCustomAttribute(typeof(ImportIgnoreAttribute));
 
             // Assert
@@ -35,6 +36,7 @@ namespace Adaptive.Intelligence.Shared.Test.Attributes
             var nonDecoratedProperty = typeof(TestClass).GetProperty(nameof(TestClass.NotDecoratedProperty));
 
             // Act
+            Assert.NotNull(nonDecoratedProperty); // Ensure the property exists
             var attribute = nonDecoratedProperty.GetCustomAttribute(typeof(ImportIgnoreAttribute));
 
             // Assert

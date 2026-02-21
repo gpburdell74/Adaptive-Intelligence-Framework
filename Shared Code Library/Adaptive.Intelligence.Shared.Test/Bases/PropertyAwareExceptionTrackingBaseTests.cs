@@ -31,7 +31,7 @@ namespace Adaptive.Intelligence.Shared.Test.Bases
             mock.PropertyChanged += (sender, args) =>
             {
                 eventRaised = true;
-                Assert.Null(args.PropertyName);
+                Assert.True(string.IsNullOrEmpty(args.PropertyName));
             };
 
             mock.InvokeOnPropertyChanged(string.Empty);

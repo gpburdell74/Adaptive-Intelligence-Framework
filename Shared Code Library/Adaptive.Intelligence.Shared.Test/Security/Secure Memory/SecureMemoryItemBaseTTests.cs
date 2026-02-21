@@ -309,17 +309,22 @@ public class SecureMemoryItemBaseTTests
     [Fact]
     public void Value_ConcurrentReads_ShouldReturnConsistentValue()
     {
+        int testSize = 100;
+
         // Arrange
         var item = new SecureMemoryItemBaseTMock();
         item.Value = 42;
-        var results = new int[100];
-        var tasks = new Task[100];
+        var results = new int[testSize];
+        var tasks = new Task[testSize];
 
         // Act
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < testSize; i++)
         {
             var index = i;
-            tasks[i] = Task.Run(() => { results[index] = item.Value; });
+            tasks[i] = Task.Run(() =>
+            {
+                results[index] = item.Value;
+            });
         }
 
         Task.WaitAll(tasks);

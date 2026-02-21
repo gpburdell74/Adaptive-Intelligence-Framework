@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
@@ -9,9 +9,9 @@
     <Description>A general use .NET Class Library</Description>
     <Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
     <ApplicationIcon>AI.ico</ApplicationIcon>
-	  <Version>0.93.200.0010</Version>
-	  <FileVersion>0.93.200.0010</FileVersion>
-	  <Authors>Sam Jones</Authors>
+    <Version>0.94</Version>
+	<FileVersion>0.94</FileVersion>
+	<Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive Intelligence Framework</Product>
     <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
@@ -66,6 +66,7 @@
   </ItemGroup>
     <PropertyGroup>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <AssemblyTitle>Adaptive Intelligence Shared Code Framework</AssemblyTitle>
     </PropertyGroup>
 
     <ItemGroup>

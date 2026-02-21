@@ -2,11 +2,10 @@
 #define MAC
 
 using AutoFixture;
-using AutoFixture.Xunit2;
+using AutoFixture.Xunit3;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
-using Xunit;
 
 namespace Adaptive.Intelligence.Shared.Test.Utility
 {
@@ -647,31 +646,28 @@ namespace Adaptive.Intelligence.Shared.Test.Utility
         public void FindTimeZoneForOffset_String_ShouldReturnCorrectTimeZone()
         {
             // Act
-            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset("-5");
+            TimeZoneInfo.GetSystemTimeZones();
+            TimeZoneInfo est = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            int easternStandardTimeOffset = est.BaseUtcOffset.Hours;
+            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset(easternStandardTimeOffset.ToString());
 
             // Assert
-            #if !MAC
             Assert.Equal("Eastern Standard Time", result.Id);
-#else
-            Assert.Equal("America/New_York", result.Id);
-            #endif
         }
 
         [Fact]
         public void FindTimeZoneForOffset_Int_ShouldReturnCorrectTimeZone()
         {
             // Arrange.
-            int EasternStandardTimeOffset = -5;
+            TimeZoneInfo.GetSystemTimeZones();
+            TimeZoneInfo est = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            int easternStandardTimeOffset = est.BaseUtcOffset.Hours;
             
             // Act
-            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset(EasternStandardTimeOffset);
+            TimeZoneInfo result = GeneralUtils.FindTimeZoneForOffset(easternStandardTimeOffset);
 
             // Assert
-            #if !MAC
             Assert.Equal("Eastern Standard Time", result.Id);
-            #else
-            Assert.Equal("America/New_York", result.Id);
-            #endif
         }
 
         [Fact]

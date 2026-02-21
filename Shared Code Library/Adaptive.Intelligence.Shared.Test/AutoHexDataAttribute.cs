@@ -1,25 +1,26 @@
-﻿using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit3;
 using System.Reflection;
+using Xunit.Sdk;
 
 namespace Adaptive.Intelligence.Shared.Test
 {
     public class AutoHexDataAttribute : AutoDataAttribute
     {
-        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        public override async ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
         {
-            IEnumerable<object[]> returnData = base.GetData(testMethod);
+            ParameterInfo[] parameterList = testMethod.GetParameters();
 
-            foreach (var paramList in returnData)
+            List<TheoryDataRow> list = new List<TheoryDataRow>();
+            List<string> dataList = new List<string>();
+            foreach (var paramList in parameterList)
             {
-                int length = paramList.Count();
-                for (int count = 0; count < length; count++)
-                {
-                    Random rnd = new Random();
-                    int v = rnd.Next(0, 255);
-                    paramList[count] = v.ToString("X2");
-                }
+                Random rnd = new Random();
+                int v = rnd.Next(0, 255);
+                string hexData = v.ToString("X2");
+                dataList.Add(hexData);
             }
-            return returnData;
+            list.Add(new TheoryDataRow(dataList.ToArray()));
+            return list;
         }
     }
 }

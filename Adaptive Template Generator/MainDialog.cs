@@ -8,19 +8,7 @@ namespace Adaptive.Template.Generator.UI;
 /// <seealso cref="AdaptiveDialogBase" />
 public partial class MainDialog : AdaptiveDialogBase
 {
-    #region Private Member Declarations    
-    /// <summary>
-    /// The last file name used.
-    /// </summary>
-    private string? _lastFileName = null;
-
-    /// <summary>
-    /// The template being created or edited.
-    /// </summary>
-    private ButtonTemplate? _template;
-    #endregion
-
-    #region    
+    #region Constructor / Dispose Methods
     /// <summary>
     /// Initializes a new instance of the <see cref="MainDialog"/> class.
     /// </summary>
@@ -40,11 +28,9 @@ public partial class MainDialog : AdaptiveDialogBase
     {
         if (!IsDisposed && disposing)
         {
-            _template?.Dispose();
             components?.Dispose();
         }
 
-        _template = null;
         components = null;
         base.Dispose(disposing);
     }
@@ -57,20 +43,22 @@ public partial class MainDialog : AdaptiveDialogBase
     /// </summary>
     protected override void AssignEventHandlers()
     {
-        NewButton.Click += HandleNewClicked;
-        OpenButton.Click += HandleOpenClicked;
-        SaveButton.Click += HandleSaveClicked;
-        SaveAsButton.Click += HandleSaveAsClicked;
+        NewButtonButton.Click += HandleNewButtonClicked;
+        OpenButtonButton.Click += HandleOpenButtonClicked;
+
+        NewPanelButton.Click += HandleNewPanelClicked;
+        OpenPanelButton.Click += HandleOpenPanelClicked;
     }
     /// <summary>
     /// Removes the event handlers for the controls on the dialog.
     /// </summary>
     protected override void RemoveEventHandlers()
     {
-        NewButton.Click -= HandleNewClicked;
-        OpenButton.Click -= HandleOpenClicked;
-        SaveButton.Click -= HandleSaveClicked;
-        SaveAsButton.Click -= HandleSaveAsClicked;
+        NewButtonButton.Click -= HandleNewButtonClicked;
+        OpenButtonButton.Click -= HandleOpenButtonClicked;
+
+        NewPanelButton.Click -= HandleNewPanelClicked;
+        OpenPanelButton.Click -= HandleOpenPanelClicked;
     }
     /// <summary>
     /// Sets the state of the UI controls before the data content is loaded.
@@ -78,8 +66,6 @@ public partial class MainDialog : AdaptiveDialogBase
     protected override void SetPreLoadState()
     {
         Cursor = Cursors.WaitCursor;
-        Toolbar.Enabled = false;
-        TemplateEditor.Enabled = false;
         SuspendLayout();
         Application.DoEvents();
     }
@@ -89,113 +75,162 @@ public partial class MainDialog : AdaptiveDialogBase
     protected override void SetPostLoadState()
     {
         Cursor = Cursors.Default;
-        Toolbar.Enabled = true;
-        TemplateEditor.Enabled = true;
         ResumeLayout();
     }
-    /// <summary>
-    /// When implemented in a derived class, sets the display state for the controls on the dialog based on
-    /// current conditions.
-    /// </summary>
-    /// <remarks>
-    /// This is called by <see cref="M:Adaptive.Intelligence.Shared.UI.AdaptiveDialogBase.SetState" /> after <see cref="M:Adaptive.Intelligence.Shared.UI.AdaptiveDialogBase.SetSecurityState" /> is called.
-    /// </remarks>
-    protected override void SetDisplayState()
-    {
-        bool fileOpen = (_template != null);
+    #endregion
 
-        SaveButton.Enabled = (!string.IsNullOrEmpty(_lastFileName));
-        SaveButton.Visible = fileOpen;
-        SaveAsButton.Visible = fileOpen;
-        TemplateEditor.Visible = fileOpen;
+    #region Private Event Handlers
+    /// <summary>
+    /// Handles the event when the New Button button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    private void HandleNewButtonClicked(object? sender, EventArgs e)
+    {
+        SetPreLoadState();
+
+        AddEditButtonTemplateDialog addEditDialog = new AddEditButtonTemplateDialog();
+        addEditDialog.ShowDialog();
+        addEditDialog.Dispose();
+
+        SetPostLoadState();
+        SetState();
+    }
+
+    /// <summary>
+    /// Handles the event when the New Panel button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    private void HandleNewPanelClicked(object? sender, EventArgs e)
+    {
+        SetPreLoadState();
+
+        AddEditPanelTemplateDialog addEditDialog = new AddEditPanelTemplateDialog();
+        addEditDialog.ShowDialog();
+        addEditDialog.Dispose();
+
+        SetPostLoadState();
+        SetState();
+    }
+
+    /// <summary>
+    /// Handles the event when the Open Button button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    private void HandleOpenButtonClicked(object? sender, EventArgs e)
+    {
+        SetPreLoadState();
+        string? fileName = GetOpenButtonTemplateFilename();
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            AddEditButtonTemplateDialog editDialog = new AddEditButtonTemplateDialog(fileName);
+            editDialog.ShowDialog();
+            editDialog.Dispose();
+        }
+
+        SetPostLoadState();
+        SetState();
+    }
+
+    /// <summary>
+    /// Handles the event when the Open Panel button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    private void HandleOpenPanelClicked(object? sender, EventArgs e)
+    {
+        SetPreLoadState();
+        string? fileName = GetOpenPanelTemplateFilename();
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            AddEditPanelTemplateDialog editDialog = new AddEditPanelTemplateDialog(fileName);
+            editDialog.ShowDialog();
+            editDialog.Dispose();
+        }
+
+        SetPostLoadState();
+        SetState();
+    }
+
+    /// <summary>
+    /// Handles the event when the Convert Button Templates button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    private void HandleConvertButtonClicked(object? sender, EventArgs e)
+    {
+        SetPreLoadState();
+        ConvertButtonTemplatesDialog dialog = new ConvertButtonTemplatesDialog();
+        dialog.ShowDialog();
+        dialog.Dispose();
+        SetPostLoadState();
+        SetState();
+    }
+
+    /// <summary>
+    /// Handles the event when the Convert Panel Templates button is clicked.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    private void HandleConvertPanelClicked(object? sender, EventArgs e)
+    {
+        SetPreLoadState();
+        ConvertPanelTemplatesDialog dialog = new ConvertPanelTemplatesDialog();
+        dialog.ShowDialog();
+        dialog.Dispose();
+        SetPostLoadState();
+        SetState();
     }
     #endregion
 
-    #region Private Event Handlers    
-    /// <summary>
-    /// Handles the event when the New button is clicked.
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-    private void HandleNewClicked(object? sender, EventArgs e)
-    {
-        SetPreLoadState();
-        _template = new ButtonTemplate();
-        TemplateEditor.Template = _template;
-        TemplateEditor.Visible = true;
-        SetPostLoadState();
-        SetState();
-    }
-    /// <summary>
-    /// Handles the event when the Open button is clicked.
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-    private void HandleOpenClicked(object? sender, EventArgs e)
-    {
-        SetPreLoadState();
-        string? fileName = GetOpenFilename();
-        if (!string.IsNullOrEmpty(fileName))
-        {
-            _template = ButtonTemplate.Load(fileName);
-            if (_template == null)
-                ShowError("Error Loading File", "Could not load the template file.");
-            else
-            {
-                _lastFileName = fileName;
-                TemplateEditor.Template = _template;
-                TemplateEditor.Visible = true;
-                Invalidate();
-            }
-        }
-        SetPostLoadState();
-        SetState();
-    }
-    /// <summary>
-    /// Handles the event when the Save button is clicked.
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-    private void HandleSaveClicked(object? sender, EventArgs e)
-    {
-        SetPreLoadState();
-        if (_lastFileName == null)
-            HandleSaveAsClicked(sender, e);
-        else
-        {
-            _template?.Save(_lastFileName);
-        }
-        SetPostLoadState();
-        SetState();
-    }
-    /// <summary>
-    /// Handles the event when the Save As button is clicked.
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-    private void HandleSaveAsClicked(object? sender, EventArgs e)
-    {
-        SetPreLoadState();
-        string? fileName = GetSaveAsFileName();
-        if (!string.IsNullOrEmpty(fileName))
-        {
-            _lastFileName = fileName;
-            _template?.Save(fileName);
-        }
-        SetPostLoadState();
-        SetState();
-    }
+    #region Private Methods / Functions
 
-    #endregion
-
-    #region Private Methods / Functions    
     /// <summary>
-    /// Gets the file name to save the edited template to.
+    /// Displays the open file dialog to allow a user to select a button template file.
     /// </summary>
     /// <returns>
-    /// A string containing the fully-qualified path and name of the file.
+    /// A string containing the new path and file name, or <b>null</b> if the user cancels.
     /// </returns>
-    private string? GetOpenFilename()
+    private string? GetOpenButtonTemplateFilename()
+    {
+        return GetOpenTemplateFileName(
+            "Open Button Template",
+            ".button.template",
+            "Button Templates (*.button.template)|*.button.template|JSON Button Templates (*.button.template.json)|*.button.template.json");
+    }
+
+    /// <summary>
+    /// Displays the open file dialog to allow a user to select a panel template file.
+    /// </summary>
+    /// <returns>
+    /// A string containing the new path and file name, or <b>null</b> if the user cancels.
+    /// </returns>
+    private string? GetOpenPanelTemplateFilename()
+    {
+        return GetOpenTemplateFileName(
+            "Open Panel Template",
+            ".panel.template",
+            "Panel Templates (*.panel.template)|*.panel.template|JSON Panel Templates (*.panel.template.json)|*.panel.template.json");
+    }
+
+    /// <summary>
+    /// Displays the open file dialog to allow a user to select a file.
+    /// </summary>
+    /// <param name="title">
+    /// A string containing the title for the dialog.
+    /// </param>
+    /// <param name="defaultExt">
+    /// A string containing the defaul extension to use for the file dialog.
+    /// </param>
+    /// <param name="filter">
+    /// A string containing the filter definition string.
+    /// </param>
+    /// <returns>
+    /// A string containing the new path and file name, or <b>null</b> if the user cancels.
+    /// </returns>
+    private string? GetOpenTemplateFileName(string title, string defaultExt, string filter)
     {
         string? fileName = null;
 
@@ -204,41 +239,11 @@ public partial class MainDialog : AdaptiveDialogBase
             AddExtension = true,
             AddToRecent = true,
             AutoUpgradeEnabled = true,
-            DefaultExt = "template",
+            DefaultExt = defaultExt,
             SupportMultiDottedExtensions = true,
-            Filter = "Button Templates (*.template)|*.template",
+            Filter = filter,
             CheckFileExists = true,
-            Title = "Open Button Template"
-        };
-        DialogResult result = dialog.ShowDialog();
-        if (result == DialogResult.OK)
-        {
-            fileName = dialog.FileName;
-        }
-        dialog.Dispose();
-
-        return fileName;
-    }
-    /// <summary>
-    /// Gets the file name to save the edited template to.
-    /// </summary>
-    /// <returns>
-    /// A string containing the fully-qualified path and name of the file.
-    /// </returns>
-    private string? GetSaveAsFileName()
-    {
-        string? fileName = null;
-
-        SaveFileDialog dialog = new SaveFileDialog()
-        {
-             AddExtension = true,
-             AddToRecent = true,
-             AutoUpgradeEnabled = true,
-             DefaultExt = "template",
-             SupportMultiDottedExtensions=true,
-             Filter = "Button Templates (*.template)|*.template",
-             CheckWriteAccess = true,
-             Title = "Save Button Template As"
+            Title = title
         };
         DialogResult result = dialog.ShowDialog();
         if (result == DialogResult.OK)
@@ -250,8 +255,4 @@ public partial class MainDialog : AdaptiveDialogBase
         return fileName;
     }
     #endregion
-
-    #region
-    #endregion
-
 }

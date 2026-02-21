@@ -1,0 +1,16 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="../../../ButtonTest/ButtonTest/ButtonTest/ButtonTest.csproj" />
+  <Project Path="../Adaptive.CodeDom/Adaptive.CodeDom.csproj" />
+  <Project Path="../Shared Code Library/Adaptive.Intelligence.Shared.Test/Adaptive.Intelligence.Shared.Test.csproj" />
+  <Project Path="../Shared Code Library/Adaptive.Intelligence.Shared/Adaptive.Intelligence.Shared.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="../Shared UI Code Library/Adaptive.Intelligence.Shared.UI.TemplatedControls/Adaptive.Intelligence.Shared.UI.TemplatedControls.csproj" />
+  <Project Path="../Shared UI Code Library/Adaptive.Intelligence.Shared.UI/Adaptive.Intelligence.Shared.UI.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>

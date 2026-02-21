@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>Adaptive.Intelligence.BlazorBasic</AssemblyName>
@@ -10,14 +10,15 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageId>Adaptive.Intelligence.BlazorBasic</PackageId>
     <Title>Blazor BASIC Library</Title>
-	  <Version>0.92.100.0001</Version>
-	  <FileVersion>0.92.100.0001</FileVersion>
+	  <Version>0.94</Version>
+	  <FileVersion>0.94</FileVersion>
 	  <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Product>Adaptive.Intelligence.BlazorBasic</Product>
     <Description>A library providing a language service and interpreter for the Blazor BASIC language.</Description>
     <Copyright>Copyright © 2024 - 2025 by Sam Jones.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://samjones.azurewebsites.net/BlazorBasic</PackageProjectUrl>
+    <AssemblyVersion>0.94</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

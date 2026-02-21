@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net9.0</TargetFramework>
+	<TargetFramework>net10.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
 	<Title>.NET CSV Processing Library for Adaptive Intelligence Applications.</Title>
 	<Description>A .NET Class Library for reading and writing CSV data files.</Description>
 	<Copyright>Copyright © 2025-2026 by Sam Jones.  All rights reserved.</Copyright>
 	<ApplicationIcon>AI.ico</ApplicationIcon>
-	<Version>0.93.200.0010</Version>
-	<FileVersion>0.93.200.0010</FileVersion>
+	<Version>0.94</Version>
+	<FileVersion>0.94</FileVersion>
 	<Authors>Sam Jones</Authors>
 	<Company>Adaptive Intelligence</Company>
 	<Product>Adaptive Intelligence Framework</Product>
@@ -28,6 +28,8 @@
 	<PackageTags>.NET C# Fast CSV</PackageTags>
 	<PackageReleaseNotes>This is an initial alpha release.</PackageReleaseNotes>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<AssemblyTitle>Adaptive Intelligence CSV Libaray</AssemblyTitle>
+	<AssemblyVersion>0.94</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
