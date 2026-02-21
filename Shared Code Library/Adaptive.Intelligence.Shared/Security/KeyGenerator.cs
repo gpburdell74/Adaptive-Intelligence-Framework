@@ -108,13 +108,14 @@ namespace Adaptive.Intelligence.Shared.Security
         /// </returns>
         public static byte[] CreateKeyData(byte[] derivedData, byte[] saltValue, int iterationCount)
         {
-            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(derivedData, saltValue, iterationCount, HashAlgorithmName.SHA256);
-
             // 32 bytes for the key and 16 for the IV.
-            byte[] keyMaterial = pdb.GetBytes(48);
-            pdb.Dispose();
+            return 
+                Rfc2898DeriveBytes.Pbkdf2(
+                    derivedData, 
+                    saltValue, 
+                    iterationCount, 
+                    HashAlgorithmName.SHA256, 48);
 
-            return keyMaterial;
         }
     }
 }

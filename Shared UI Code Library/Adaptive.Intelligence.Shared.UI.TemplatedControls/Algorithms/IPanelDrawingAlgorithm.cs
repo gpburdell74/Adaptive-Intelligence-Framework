@@ -1,10 +1,10 @@
-﻿namespace Adaptive.Intelligence.Shared.UI;
+﻿namespace Adaptive.Intelligence.Shared.UI.TemplatedControls.Algorithms;
 
 /// <summary>
-/// Provides the signature definition for implementing button drawing algorithm instances.
+/// Provides the signature definition for implementing panel drawing algorithm instances.
 /// </summary>
-/// <seealso cref="System.IDisposable" />
-public interface IButtonDrawingAlgorithm : IDisposable
+/// <seealso cref="IDisposable" />
+public interface IPanelDrawingAlgorithm : IDisposable
 {
     /// <summary>
     /// Draws the background of the control based on its state.
@@ -17,13 +17,13 @@ public interface IButtonDrawingAlgorithm : IDisposable
     void DrawBackground(Graphics g, Rectangle drawingArea);
 
     /// <summary>
-    /// Draws the button.
+    /// Draws the panel.
     /// </summary>
     /// <param name="controlReference">
-    /// The reference to the <see cref="Button"/> being drawn.
+    /// The reference to the <see cref="Panel"/> being drawn.
     /// </param>
     /// <param name="g">
     /// The <see cref="Graphics"/> reference from the button's paint methods.
     /// </param>
-    void DrawButton(Button? controlReference, Graphics? g);
+    void DrawPanel(Panel? controlReference, Graphics? g);
 }

@@ -1,4 +1,5 @@
 ﻿using Adaptive.Intelligence.Shared.UI;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls;
 using System.ComponentModel;
 
 namespace Adaptive.Template.Generator.UI;
@@ -9,21 +10,21 @@ namespace Adaptive.Template.Generator.UI;
 /// <seealso cref="AdaptiveControlBase" />
 public partial class ButtonTemplateEditorControl : AdaptiveControlBase
 {
-    #region Public Events    
+    #region Public Events
     /// <summary>
     /// Occurs when the template is modified.
     /// </summary>
     public event EventHandler? TemplateChanged;
     #endregion
 
-    #region Private Member Declarations    
+    #region Private Member Declarations
     /// <summary>
     /// The template
     /// </summary>
     private ButtonTemplate? _template;
     #endregion
 
-    #region Constructor / Dispose Methods    
+    #region Constructor / Dispose Methods
     /// <summary>
     /// Initializes a new instance of the <see cref="ButtonTemplateEditorControl"/> class.
     /// </summary>
@@ -156,9 +157,9 @@ public partial class ButtonTemplateEditorControl : AdaptiveControlBase
         SetPreLoadState();
         if (_template != null)
         {
-            TestButton.Enabled=!DisabledCheck.Checked;
+            TestButton.Enabled =! DisabledCheck.Checked;
             Invalidate();
-            OnTemplateChanged(e);
+            Refresh();
         }
         SetPostLoadState();
     }
@@ -174,7 +175,7 @@ public partial class ButtonTemplateEditorControl : AdaptiveControlBase
         {
             TestButton.Checked = CheckedCheck.Checked;
             Invalidate();
-            OnTemplateChanged(e);
+            Refresh();
         }
         SetPostLoadState();
     }

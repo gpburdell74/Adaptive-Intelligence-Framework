@@ -1,25 +1,33 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 
-namespace Adaptive.Intelligence.Shared.UI;
+namespace Adaptive.Intelligence.Shared.UI.TemplatedControls.States;
 
 /// <summary>
-/// Provides a template for a single button state.
+/// Provides the base definition for defining a template for a control in a specified UI state.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
+public abstract class ControlStateTemplateBase : DisposableObjectBase
 {
+    #region Private Member Declarations
+    /// <summary>
+    /// The font template instance.
+    /// </summary>
+    private FontTemplate? _fontTemplate;
+    #endregion
 
     #region Constructor / Dispose Methods
     /// <summary>
-    /// Initializes a new instance of the <see cref="ButtonStateTemplate"/> class.
+    /// Initializes a new instance of the <see cref="ControlTemplateBase"/> class.
     /// </summary>
     /// <remarks>
     /// This is the default constructor.
     /// </remarks>
-    public ButtonStateTemplate()
+    protected ControlStateTemplateBase()
     {
+        _fontTemplate = new FontTemplate();
     }
 
     /// <summary>
@@ -31,15 +39,15 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
     {
         if (!IsDisposed && disposing)
         {
-            Image?.Dispose();
+            _fontTemplate?.Dispose();
         }
 
-        Image = null;
+        _fontTemplate = null;
         base.Dispose(disposing);
     }
     #endregion
 
-    #region Public Properties    
+    #region Public Properties
     /// <summary>
     /// Gets or sets the border style.
     /// </summary>
@@ -108,9 +116,24 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
      Category("Appearance"),
      Localizable(true),
      AmbientValue(null),
-     Description("The font used to display text in the button.")]
-    public Font Font { get; set; } = new Font("Tahoma", 12f);
-
+     Description("The font used to display the text."),
+     Editor(typeof(FontTemplateTypeEditor), typeof(UITypeEditor))]
+    public FontTemplate Font
+    {
+        get
+        {
+            if (_fontTemplate == null)
+            {
+                _fontTemplate = new FontTemplate();
+            }
+            return _fontTemplate;
+        }
+        set
+        {
+            _fontTemplate?.Dispose();
+            _fontTemplate = value;
+        }
+    }
     /// <summary>
     /// Gets or sets the foreground color for the button.
     /// </summary>
@@ -123,31 +146,6 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
     public Color ForeColor { get; set; } = SystemColors.ControlText;
 
     /// <summary>
-    /// Gets or sets the image that is displayed on a button control.
-    /// </summary>
-    /// <value>
-    /// An <see cref="Image"/> instance, or <b>null</b>.
-    /// </value>
-    [Browsable(true),
-     Category("Appearance"),
-     Description("Get or sets the image to display in the button."),
-     DefaultValue(null)]
-    public Image? Image { get; set; } = null;
-
-    /// <summary>
-    /// Gets or sets the alignment of the image on the button control.
-    /// </summary>
-    /// <value>
-    /// A <see cref="ContentAlignment"/> enumerated value.
-    /// </value>
-    [DefaultValue(ContentAlignment.MiddleCenter)]
-    [Localizable(true)]
-    [Description("Determines how the image is aligned on the button.")]
-    [Category("Appearance")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public ContentAlignment ImageAlign { get; set; } = ContentAlignment.MiddleCenter;
-
-    /// <summary>
     /// Gets or sets the mode in how the background gradient will be drawn.
     /// </summary>
     /// <value>
@@ -157,18 +155,6 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
      Category("Appearance"),
      Description("Specifies the direction of a linear gradient for the background of the button.")]
     public LinearGradientMode Mode { get; set; } = LinearGradientMode.Horizontal;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to draw a shadow under the text on the button
-    /// </summary>
-    /// <value>
-    ///   <c>true</c> to draw a shadow under the text on the button; otherwise, <c>false</c>.
-    /// </value>
-    [Browsable(true),
-     Category("Appearance"),
-     DefaultValue(false),
-     Description("Indicates whether to draw a shadow under the text on the button.")]
-    public bool ShadowText { get; set; } = false;
 
     /// <summary>
     /// Gets or sets the color of the starting background gradient.
@@ -194,103 +180,21 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
     [RefreshProperties(RefreshProperties.Repaint)]
     public ContentAlignment TextAlign { get; set; } = ContentAlignment.MiddleCenter;
 
-    /// <summary>
-    /// Gets or sets the position of text and image relative to each other.
-    /// </summary>
-    /// <value>
-    /// An <see cref="TextImageRelation"/> enumerated value indicating the relationship. The default is 
-    /// <see cref="TextImageRelation.ImageBeforeText"/>
-    /// </value>
-    [DefaultValue(TextImageRelation.Overlay)]
-    [Localizable(true)]
-    [CategoryAttribute("Appearance")]
-    [DescriptionAttribute("The relation of positions of the image and the text.")]
-    public TextImageRelation TextImageRelation { get; set; } = TextImageRelation.ImageBeforeText;
     #endregion
 
-    #region Public Methods / Functions
-    /// <summary>
-    /// Creates a new object that is a copy of the current instance.
-    /// </summary>
-    /// <returns>
-    /// A new <see cref="ButtonStateTemplate"/> that is a copy of this instance.
-    /// </returns>
-    public ButtonStateTemplate Clone()
-    {
-        return new ButtonStateTemplate
-        {
-            BorderStyle = BorderStyle,
-            BorderColor = BorderColor,
-            EndColor = EndColor,
-            StartColor = StartColor,
-            ForeColor = ForeColor,
-            Font = Font,
-            Mode = Mode,
-            BorderWidth = BorderWidth,
-            CornerRadius = CornerRadius,
-            ShadowText = ShadowText,
-            Image = CopyImage(Image),
-            ImageAlign = ImageAlign,
-            TextAlign = TextAlign,
-            TextImageRelation = TextImageRelation
-        };
-    }
+    #region Public Methods / Functions    
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
     /// <returns>
     /// A new object that is a copy of this instance.
     /// </returns>
-    object ICloneable.Clone()
+    /// <exception cref="NotImplementedException">
+    /// This is not implemented in the base class.
+    /// </exception>
+    public virtual object Clone()
     {
-        return Clone();
-    }
-
-    /// <summary>
-    /// Copies the specified <see cref="Image"/> object into a new image object.
-    /// </summary>
-    /// <param name="source">
-    /// The <see cref="Image"/> instance containing the source image.
-    /// </param>
-    /// <returns>
-    /// An <see cref="Image"/> that is a copy of <paramref name="source"/>, or <b>null</b>.
-    /// </returns>
-    public Image? CopyImage(Image? source)
-    {
-        Image? newImage = null;
-
-        if (source != null)
-        {
-
-            // Save the current object to a memory stream.
-            MemoryStream containerStream = new MemoryStream(1000);
-            try
-            {
-                source.Save(containerStream, source.RawFormat);
-                containerStream.Flush();
-                containerStream.Seek(0, SeekOrigin.Begin);
-            }
-            catch (Exception ex)
-            {
-                ExceptionLog.LogException(ex);
-            }
-
-            // If successful, copy the data to the new object, and dispose of the stream.
-            if (containerStream != null)
-            {
-                try
-                {
-                    newImage = Image.FromStream(containerStream);
-                }
-                catch (Exception ex)
-                {
-                    ExceptionLog.LogException(ex);
-                }
-                containerStream.Dispose();
-            }
-        }
-
-        return newImage;
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -299,7 +203,7 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
     /// <returns>
     /// A <see cref="Pen"/> with the specified <see cref="BorderWidth"/> and <see cref="BorderColor"/>.
     /// </returns>
-    public Pen? CreateBorderPen()
+    public virtual Pen? CreateBorderPen()
     {
         Pen? pen = null;
 
@@ -310,10 +214,10 @@ public sealed class ButtonStateTemplate : DisposableObjectBase, ICloneable
             {
                 pen = new Pen(BorderColor, BorderWidth);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                pen = null;
                 ExceptionLog.LogException(ex);
+                pen = null;
             }
         }
         return pen;

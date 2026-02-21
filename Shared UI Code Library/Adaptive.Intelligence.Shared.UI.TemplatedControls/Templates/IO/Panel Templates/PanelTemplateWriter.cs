@@ -1,16 +1,15 @@
 ﻿using Adaptive.Intelligence.Shared.IO;
-using Adaptive.Intelligence.Shared.Logging;
-using System.Drawing.Imaging;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls.States;
 
-namespace Adaptive.Intelligence.Shared.UI;
+namespace Adaptive.Intelligence.Shared.UI.TemplatedControls.IO;
 
 /// <summary>
-/// Provides the methods and functions for writing a <see cref="ButtonTemplate"/> to an underlying stream.
+/// Provides the methods and functions for writing a <see cref="PanelTemplate"/> to an underlying stream.
 /// </summary>
 /// <seealso cref="DisposableObjectBase" />
-internal sealed class ButtonTemplateWriter : DisposableObjectBase
+internal sealed class PanelTemplateWriter : DisposableObjectBase
 {
-    #region Private Member Declarations    
+    #region Private Member Declarations
     /// <summary>
     /// The source stream to write to.
     /// </summary>
@@ -25,12 +24,12 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
     #region Constructor / Dispose Methods
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ButtonTemplateWriter"/> class.
+    /// Initializes a new instance of the <see cref="PanelTemplateWriter"/> class.
     /// </summary>
     /// <param name="destinationStream">
     /// The destination <see cref="Stream"/> instance to be written to.
     /// </param>
-    public ButtonTemplateWriter(Stream? destinationStream)
+    public PanelTemplateWriter(Stream? destinationStream)
     {
         _destinationStream = destinationStream;
         if (_destinationStream != null)
@@ -74,23 +73,21 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
     /// Attempts to write the content of the template to the underlying stream.
     /// </summary>
     /// <param name="template">
-    /// The <see cref="ButtonTemplate"/> instance to be written.
+    /// The <see cref="PanelTemplate"/> instance to be written.
     /// </param>
     /// <returns>
     /// An <see cref="OperationalResult"/> containing the result of the operation.
     /// </returns>
-    public OperationalResult Write(ButtonTemplate template)
+    public OperationalResult WriteOldFormat(PanelTemplate template)
     {
         OperationalResult result = new OperationalResult();
         result.Success = true;
 
         if (_writer != null && template != null)
         {
-            WriteStateTemplate(result, template.Checked);
             WriteStateTemplate(result, template.Disabled);
             WriteStateTemplate(result, template.Hover);
             WriteStateTemplate(result, template.Normal);
-            WriteStateTemplate(result, template.Pressed);
         }
         return result;
     }
@@ -98,15 +95,15 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
 
     #region Private Methods / Functions    
     /// <summary>
-    /// Writes the <see cref="ButtonStateTemplate"/> instance.
+    /// Writes the <see cref="StateTemplate"/> instance.
     /// </summary>
     /// <param name="result">
     /// The <see cref="OperationalResult"/> instance tracking the result of the operation.
     /// </param>
     /// <param name="stateTemplate">
-    /// The <see cref="ButtonStateTemplate"/> instance whose content is to be written.
+    /// The <see cref="StateTemplate"/> instance whose content is to be written.
     /// </param>
-    private void WriteStateTemplate(OperationalResult result, ButtonStateTemplate? stateTemplate)
+    private void WriteStateTemplate(OperationalResult result, StateTemplate? stateTemplate)
     {
         if (result.Success)
         {
@@ -126,11 +123,7 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
                 WriteIfOk(result, (int)stateTemplate.Mode);
                 WriteIfOk(result, (int)stateTemplate.BorderWidth);
                 WriteIfOk(result, (int)stateTemplate.CornerRadius);
-                WriteIfOk(result, stateTemplate.ShadowText);
-                WriteIfOk(result, stateTemplate.Image);
-                WriteIfOk(result, (int)stateTemplate.ImageAlign);
                 WriteIfOk(result, (int)stateTemplate.TextAlign);
-                WriteIfOk(result, (int)stateTemplate.TextImageRelation);
             }
         }
     }
@@ -189,7 +182,7 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
     /// <param name="font">
     /// The <see cref="Font"/> value to be written.
     /// </param>
-    private void WriteIfOk(OperationalResult result, Font? font)
+    private void WriteIfOk(OperationalResult result, FontTemplate? font)
     {
         if (result.Success)
         {
@@ -200,51 +193,13 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
             }
             else
             {
-                WriteIfOk(result, font.FontFamily.Name);
-                WriteIfOk(result, font.Name);
-                WriteIfOk(result, font.Bold);
-                WriteIfOk(result, font.Italic);
-                WriteIfOk(result, font.Underline);
+                WriteIfOk(result, font.FontFamily);
+                WriteIfOk(result, string.Empty);
+                WriteIfOk(result, false);
+                WriteIfOk(result, false);
+                WriteIfOk(result, false);
                 WriteIfOk(result, font.Size);
                 WriteIfOk(result, (int)font.Style);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Writes the <see cref="Image"/> value to the stream, if able.
-    /// </summary>
-    /// <remarks>
-    /// This method writes the font in the format of an integer length indicator, and then
-    /// an array of bytes of that specified length.
-    /// </remarks>
-    /// <param name="result">
-    /// The <see cref="OperationalResult"/> instance tracking the result of the operation.
-    /// </param>
-    /// <param name="image">
-    /// The <see cref="Image"/> instance to be written.
-    /// </param>
-    private void WriteIfOk(OperationalResult result, Image? image)
-    {
-        if (result.Success)
-        {
-            if (_writer == null || !_writer.CanWrite)
-            {
-                result.Success = false;
-                result.Message = "Unable to write to the stream.";
-            }
-            else if (image != null)
-            {
-                byte[]? imageBytes = ImageToBytes(result, image);
-                if (imageBytes != null)
-                {
-                    WriteIfOk(result, imageBytes.Length);
-                    WriteIfOk(result, imageBytes);
-                }
-            }
-            else
-            {
-                WriteIfOk(result, (int)0);
             }
         }
     }
@@ -357,32 +312,6 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
     }
 
     /// <summary>
-    /// Writes the <see cref="byte"/> array value to the stream, if able.
-    /// </summary>
-    /// <param name="result">
-    /// The <see cref="OperationalResult"/> instance tracking the result of the operation.
-    /// </param>
-    /// <param name="value">
-    /// The <see cref="byte"/> array instance to be written.
-    /// </param>
-    private void WriteIfOk(OperationalResult result, byte[] value)
-    {
-        if (result.Success)
-        {
-            if (_writer != null && _writer.CanWrite && !_writer.HasExceptions)
-            {
-                _writer.Write(value);
-            }
-            else
-            {
-                result.Success = false;
-                result.Message = "Unable to write to the stream.";
-            }
-            PostWrite(result, _writer);
-        }
-    }
-
-    /// <summary>
     /// Completes the tasks/state changes after writing data.
     /// </summary>
     /// <param name="result">
@@ -403,42 +332,6 @@ internal sealed class ButtonTemplateWriter : DisposableObjectBase
             writer.ClearExceptions();
             writer.Flush();
         }
-    }
-
-    /// <summary>
-    /// Converts the specified image object to a byte array.
-    /// </summary>
-    /// <param name="result">
-    /// The <see cref="OperationalResult"/> tracking the result of the write operations.
-    /// </param>
-    /// <param name="image">
-    /// The <see cref="Image"/> instance.
-    /// </param>
-    /// <returns>
-    /// A byte array containing the representation of the image if successful; otherwise, returns <b>null</b>.
-    /// </returns>
-    private static byte[]? ImageToBytes(OperationalResult result, Image image)
-    {
-        byte[]? imageBytes = null;
-
-        MemoryStream storageStream = new MemoryStream(2500);
-        try
-        {
-            image.Save(storageStream, ImageFormat.Png);
-            storageStream.Position = 0;
-            imageBytes = storageStream.ToArray();
-        }
-        catch (Exception ex)
-        {
-            ExceptionLog.LogException(ex);
-            result.AddException(ex);
-            result.Success = false;
-        }
-        finally
-        {
-            storageStream.Dispose();
-        }
-        return imageBytes;
     }
     #endregion
 }

@@ -1,8 +1,9 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls.States;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 
-namespace Adaptive.Intelligence.Shared.UI;
+namespace Adaptive.Intelligence.Shared.UI.TemplatedControls.Algorithms;
 
 /// <summary>
 /// Provides an implementation of the <see cref="IButtonDrawingAlgorithm"/> interface to use when 
@@ -16,7 +17,6 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
 
     #region Private Constants
 
-    private const int DefaultBorderWidth = 1;
     private const int DefaultImageHeight16 = 16;
     private const int DefaultImageHeight32 = 32;
 
@@ -40,7 +40,7 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     /// <summary>
     /// The current button state.
     /// </summary>
-    private ButtonState _state = ButtonState.Normal;
+    private ControlStates _state = ControlStates.Normal;
 
     /// <summary>
     /// The template to use.
@@ -50,7 +50,12 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     /// <summary>
     /// The current state template reference.
     /// </summary>
-    private ButtonStateTemplate? _currentState;
+    private StateTemplate? _currentState;
+
+    /// <summary>
+    /// The button image, if provided.
+    /// </summary>
+    private Image? _buttonImage;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -88,9 +93,9 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     /// Gets or sets the state of the related button.
     /// </summary>
     /// <value>
-    /// A <see cref="ButtonState"/> enumerated value indicating the state of the button.
+    /// A <see cref="ControlStates"/> enumerated value indicating the state of the button.
     /// </value>
-    public ButtonState State
+    public ControlStates State
     {
         get => _state;
         set
@@ -152,9 +157,13 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
             DrawBackground(g, area);
 
             // Set the font reference.
-            Font ? textFont = _currentState?.Font;
+            Font? textFont = _currentState?.Font.ToFont();
 
             // Draw the image.
+            if (_currentState != null)
+            {
+                //_currentState.ImageAlign = controlReference.ImageAlign;
+            }
             DrawButtonImage(g, area);
 
             // Draw the text.
@@ -166,7 +175,7 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     }
     #endregion
 
-    #region Private Methods / Functions    
+    #region Private Methods / Functions
     /// <summary>
     /// Sets the current template to used based on button state.
     /// </summary>
@@ -176,25 +185,29 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
         {
             switch (_state)
             {
-                case ButtonState.Checked:
+                case ControlStates.Checked:
                     _currentState = _template.Checked;
                     break;
 
-                case ButtonState.Disabled:
+                case ControlStates.Disabled:
                     _currentState = _template.Disabled;
                     break;
 
-                case ButtonState.Normal:
+                case ControlStates.Normal:
                     _currentState = _template.Normal;
                     break;
 
-                case ButtonState.Hover:
+                case ControlStates.Hover:
                     _currentState = _template.Hover;
                     break;
 
-                case ButtonState.Pressed:
+                case ControlStates.Pressed:
                     _currentState = _template.Pressed;
                     break;
+            }
+            if(_currentState != null &&  _currentState.Image != null)
+            {
+                _buttonImage = _currentState.Image;
             }
         }
     }
@@ -210,7 +223,7 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     /// </returns>
     private Rectangle CalculateImagePosition(Rectangle drawingArea)
     {
-        if (_currentState == null)
+        if (_buttonImage == null)
             return new Rectangle(0, 0, 0, 0);
 
         int imageX = 0;
@@ -219,13 +232,12 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
         int height = DefaultImageHeight16;
         int width = DefaultImageHeight16;
 
-        Image? image = _currentState?.Image;
-        if (image != null)
+        if (_buttonImage != null)
         {
             int imageHeight;
             try
             {
-                imageHeight = image.Height;
+                imageHeight = _buttonImage.Height;
             }
             catch
             {
@@ -405,8 +417,7 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
         int width = drawingArea.Width;
         int height = drawingArea.Height;
 
-        if (_currentState.Image == null ||
-            !ImageIsValid(_currentState.Image) || 
+        if (_buttonImage == null || !ImageIsValid(_buttonImage) ||
             _currentState.TextImageRelation == TextImageRelation.Overlay)
         {
             // Standard Positioning
@@ -420,26 +431,26 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
                     y = -2;
                     try
                     {
-                        x += _currentState.Image.Width;
-                        width -= _currentState.Image.Width;
+                        x += _buttonImage.Width;
+                        width -= _buttonImage.Width;
                     }
                     catch { }
                     
                     break;
 
                 case TextImageRelation.ImageAboveText:
-                    y += _currentState.Image.Height + 2;
+                    y += _buttonImage.Height + 2;
                     height -= y + 2;
                     break;
 
                 case TextImageRelation.TextAboveImage:
                     y = -2;
-                    height -= _currentState.Image.Height;
+                    height -= _buttonImage.Height;
                     break;
 
                 case TextImageRelation.TextBeforeImage:
                     y -= 2;
-                    width -= _currentState.Image.Width;
+                    width -= _buttonImage.Width;
                     break;
             }
         }
@@ -457,13 +468,12 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     /// </param>
     private void DrawButtonImage(Graphics g, Rectangle drawingArea)
     {
-        Image? image = _currentState?.Image;
-        if (image != null && ImageIsValid(image))
+        if (_buttonImage != null && ImageIsValid(_buttonImage))
         {
             Rectangle location = CalculateImagePosition(drawingArea);
             try
             {
-                g?.DrawImage(image, location);
+                g?.DrawImage(_buttonImage, location);
             }
             catch (Exception ex)
             {

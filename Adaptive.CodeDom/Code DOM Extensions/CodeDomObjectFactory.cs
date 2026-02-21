@@ -69,10 +69,13 @@ namespace Adaptive.CodeDom
             // Specified class.
             else
             {
-                baseClassToInherit.BaseType = baseClass.TypeName;
-                // ADd the type arguments for generics, if present.
-                if (baseClass.IsGeneric)
-                    baseClassToInherit.TypeArguments.Add(baseClass.GenericTypeName);
+                if (baseClass != null)
+                {
+                    baseClassToInherit.BaseType = baseClass.TypeName ?? string.Empty;
+                    // ADd the type arguments for generics, if present.
+                    if (baseClass.IsGeneric)
+                        baseClassToInherit.TypeArguments.Add(baseClass.GenericTypeName);
+                }
             }
 
             return baseClassToInherit;

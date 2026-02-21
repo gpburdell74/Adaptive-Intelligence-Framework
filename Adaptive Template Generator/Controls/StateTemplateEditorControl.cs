@@ -1,4 +1,6 @@
 ﻿using Adaptive.Intelligence.Shared.UI;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls.States;
 using System.ComponentModel;
 
 namespace Adaptive.Template.Generator.UI;
@@ -9,26 +11,26 @@ namespace Adaptive.Template.Generator.UI;
 /// <seealso cref="AdaptiveControlBase" />
 public partial class StateTemplateEditorControl : AdaptiveControlBase
 {
-    #region Public Events    
+    #region Public Events
     /// <summary>
     /// Occurs when the template is modified.
     /// </summary>
     public event EventHandler? TemplateChanged;
     #endregion
 
-    #region Private Member Declarations    
+    #region Private Member Declarations
     /// <summary>
     /// The button state for the template.
     /// </summary>
-    private Intelligence.Shared.UI.ButtonState _state = Intelligence.Shared.UI.ButtonState.Normal;
+    private ControlStates _state = ControlStates.Normal;
 
     /// <summary>
     /// The template to edit.
     /// </summary>
-    private ButtonStateTemplate? _template;
+    private StateTemplate? _template;
     #endregion
 
-    #region Constructor / Dispose Methods    
+    #region Constructor / Dispose Methods
     /// <summary>
     /// Initializes a new instance of the <see cref="StateTemplateEditorControl"/> class.
     /// </summary>
@@ -38,7 +40,7 @@ public partial class StateTemplateEditorControl : AdaptiveControlBase
     public StateTemplateEditorControl()
     {
         InitializeComponent();
-        _template = new ButtonStateTemplate();
+        _template = new StateTemplate();
         PropEditor.SelectedObject = _template;
     }
     /// <summary> 
@@ -58,7 +60,7 @@ public partial class StateTemplateEditorControl : AdaptiveControlBase
     }
     #endregion
 
-    #region Public Properties    
+    #region Public Properties
     /// <summary>
     /// Gets or sets the state of the button for the template.
     /// </summary>
@@ -66,7 +68,7 @@ public partial class StateTemplateEditorControl : AdaptiveControlBase
     /// A <see cref="ButtonState"/> enumerated value indicating the state of the button
     /// the template is being designed for.
     /// </value>
-    public Intelligence.Shared.UI.ButtonState ButtonState
+    public ControlStates ButtonState
     {
         get => _state;
         set
@@ -84,24 +86,24 @@ public partial class StateTemplateEditorControl : AdaptiveControlBase
     /// Gets or sets the reference to the template being edited.
     /// </summary>
     /// <value>
-    /// The <see cref="ButtonStateTemplate"/> instance.
+    /// The <see cref="StateTemplate"/> instance.
     /// </value>
     [Browsable(false),
      DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public ButtonStateTemplate? Template
+    public StateTemplate? Template
     {
         get => _template;
         set
         {
             _template = value;
             PropEditor.SelectedObject = _template;
-            ExamplePanel.Template = _template;
+            SetHeader();
             Invalidate();
         }
     }
     #endregion
 
-    #region Protected Method Overrides    
+    #region Protected Method Overrides
     /// <summary>
     /// Assigns the event handlers for the controls on the dialog.
     /// </summary>
@@ -121,11 +123,11 @@ public partial class StateTemplateEditorControl : AdaptiveControlBase
     /// </summary>
     protected override void InitializeDataContent()
     {
-        ExamplePanel.Template = _template;
+        SetHeader();
     }
     #endregion
 
-    #region Protected Event Methods    
+    #region Protected Event Methods
     /// <summary>
     /// Raises the <see cref="E:TemplateChanged" /> event.
     /// </summary>
@@ -144,12 +146,7 @@ public partial class StateTemplateEditorControl : AdaptiveControlBase
     /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
     private void HandlePropertyValueChanged(object? sender, EventArgs e)
     {
-        // If the template is null, do nothing.
-        if (_template == null)
-            return;
-        // If the template is not null, set the template to the new value.
-        ExamplePanel.Template = _template;
-        ExamplePanel.Invalidate();
+        OnTemplateChanged(EventArgs.Empty);
     }
     #endregion
 
@@ -161,27 +158,30 @@ public partial class StateTemplateEditorControl : AdaptiveControlBase
     {
         switch (_state)
         {
-            case Intelligence.Shared.UI.ButtonState.Normal:
+            case ControlStates.Normal:
                 Header.Text = "Normal State";
                 break;
 
-            case Intelligence.Shared.UI.ButtonState.Checked:
+            case ControlStates.Checked:
                 Header.Text = "Checked State";
                 break;
 
-            case Intelligence.Shared.UI.ButtonState.Disabled:
+            case ControlStates.Disabled:
                 Header.Text = "Disabled State";
                 break;
 
-            case Intelligence.Shared.UI.ButtonState.Hover:
+            case ControlStates.Hover:
                 Header.Text = "Hover State";
                 break;
 
-            case Intelligence.Shared.UI.ButtonState.Pressed:
+            case ControlStates.Pressed:
                 Header.Text = "Pressed State";
+                break;
+
+            default:
+                Header.Text = _state.ToString();
                 break;
         }
     }
     #endregion
-
 }

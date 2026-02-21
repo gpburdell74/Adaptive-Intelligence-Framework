@@ -1,24 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Adaptive.Taz</PackageId>
     <Title>Tutus Archivium ZIP</Title>
-    <Version>0.93.200.0001</Version>
-    <FileVersion>0.93.200.0001</FileVersion>
-    <AssemblyVersion>0.93.200.0001</AssemblyVersion>
-    <Copyright>Copyright © 2024 - 2026 by Sam Jones.  All rights reserved.</Copyright>
+    <Version>0.94</Version>
+    <FileVersion>0.94</FileVersion>
+    <Authors>Sam Jones</Authors>
     <Company>Adaptive Intelligence</Company>
     <Authors>Sam Jones</Authors>
     <Product>Tutus Archivium ZIP</Product>
     <Description>A library for creating file archives in ZIP format with optional encryption.</Description>
+    <Copyright>Copyright © 2024-2026 by Sam Jones. All rights reserved.</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <RootNamespace>Adaptive.Taz</RootNamespace>
     <AssemblyName>Adaptive.Taz</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <AssemblyVersion>0.94</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

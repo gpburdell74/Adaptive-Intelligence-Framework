@@ -1,6 +1,9 @@
-﻿using Adaptive.Intelligence.Shared.UI.Controls;
+﻿using Adaptive.Intelligence.Shared.Logging;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls.Algorithms;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.Text.Json;
 using System.Windows.Forms.Design;
 
 namespace Adaptive.Intelligence.Shared.UI;
@@ -17,10 +20,15 @@ public class TemplatedButton : Button
     #region Private Member Declarations
 
     /// <summary>
-    /// The template file to use.
+    /// The JSON representation of the template.
     /// </summary>
-    private string? _templateFile
-        ;
+    private string? _jsonTemplate;
+
+    /// <summary>
+    /// The last file name value.
+    /// </summary>
+    private string? _lastFile;
+
     /// <summary>
     /// The template.
     /// </summary>
@@ -75,6 +83,7 @@ public class TemplatedButton : Button
 
         _template = null;
         _painter = null;
+        _jsonTemplate = null;
 
         base.Dispose(disposing);
     }
@@ -100,83 +109,73 @@ public class TemplatedButton : Button
             _checked = value;
             if (value)
             {
-                _painter!.State = ButtonState.Checked;
+                _painter!.State = ControlStates.Checked;
             }
             else
             {
-                _painter!.State = ButtonState.Normal;
+                _painter!.State = ControlStates.Normal;
             }
             Invalidate();
         }
     }
 
     /// <summary>
-    /// Gets or sets the reference to the button template to use when drawing the button.
+    /// Gets or sets the reference to the template to be used.
     /// </summary>
     /// <value>
-    /// The <see cref="ButtonTemplate"/> instance.
+    /// The reference to the <see cref="ButtonTemplate"/> instance to use when drawing the button, or <b>null</b>."/>
     /// </value>
     [Browsable(false),
-     Category("Appearance"),
-     Description("Gets or sets the button template to use."),
-     DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+     DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ButtonTemplate? Template
     {
         get => _template;
         set
         {
-            if (_template != value)
+            _template = value;
+            if (_template != null)
             {
-                _painter?.Dispose();
-                _template = value;
-                if (_template == null)
-                    _template = new ButtonTemplate();
-                else
-                    _templateFile = null;
-
                 _painter = new TemplatedButtonDrawingAlgorithm(_template);
-                Invalidate();
+                SetImageReferences();
             }
+            Invalidate();
+            Refresh();
         }
     }
 
     /// <summary>
-    /// Gets or sets the binary source of the template data.
+    /// Gets or sets the template data by loading and reading the specified file.
     /// </summary>
     /// <value>
-    /// A byte array containing the template data, or <b>null</b>.
+    /// A string containing the path and name of the file to be read, or <b>null</b>.
     /// </value>
     [Browsable(true),
      Category("Appearance"),
-     Description("Gets or sets the data for the template to use."),
-     DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-     EditorBrowsable(EditorBrowsableState.Always),
-     Editor(typeof(ResourceImageUITypeEditor), typeof(UITypeEditor))]
-    public byte[]? TemplateSource 
+     Description("Loads the JSON button template from the specified file."),
+     Editor(typeof(FileNameEditor), typeof(UITypeEditor)),
+     DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public string? TemplateFromFile
     {
         get
         {
-            if (_template == null)
-                return null;
+            if (DesignMode)
+            {
+                return _lastFile;
+            }
             else
             {
-                return _template.ToByteArray();
+                return string.Empty;
             }
         }
         set
         {
-            if (value == null)
+            if (DesignMode)
             {
+                _lastFile = value;
                 _template?.Dispose();
-                _template = null;
-            }
-            else
-            {
-                ButtonTemplate? testTemplate = ButtonTemplate.Load(value);
-                if (testTemplate != null)
+                if (!string.IsNullOrEmpty(value) && File.Exists(value))
                 {
-                    Template = testTemplate;
-                    SetImageReferences();
+                    TemplateJson = File.ReadAllText(value);
                 }
             }
             Invalidate();
@@ -184,32 +183,32 @@ public class TemplatedButton : Button
     }
 
     /// <summary>
-    /// Gets or sets the template file.
+    /// Gets or sets the reference to the JSON text defining the button template to use 
+    /// when drawing the button.
     /// </summary>
     /// <value>
-    /// A string containing the path and name of the template to be used.
+    /// A string containing the JSON defining the template, or <b>null</b>.
     /// </value>
     [Browsable(true),
      Category("Appearance"),
-     Description("Gets or sets the button template file to use."),
-     DesignerSerializationVisibility(DesignerSerializationVisibility.Visible),
-     Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
-    public string? TemplateFile
+     Description("Gets or sets the JSON definition for the template to use."),
+     DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public string? TemplateJson
     {
-        get => _templateFile;
+        get => _jsonTemplate;
         set
         {
-            _templateFile = value;
-            if (!string.IsNullOrEmpty(_templateFile))
+            _painter?.Dispose();
+            _template?.Dispose();
+
+            DeserializeTemplate(value);
+            if (_template != null)
             {
-                ButtonTemplate? testTemplate = ButtonTemplate.Load(_templateFile);
-                if (testTemplate != null)
-                {
-                    Template = testTemplate;
-                    SetImageReferences();
-                }
+                _painter = new TemplatedButtonDrawingAlgorithm(_template);
+                SetImageReferences();
             }
             Invalidate();
+            Refresh();
         }
     }
     #endregion
@@ -227,11 +226,11 @@ public class TemplatedButton : Button
         base.OnEnabledChanged(e);
         if (!Enabled)
         {
-            _painter!.State = ButtonState.Disabled;
+            _painter!.State = ControlStates.Disabled;
         }
         else
         {
-            _painter!.State = ButtonState.Normal;
+            _painter!.State = ControlStates.Normal;
         }
         Invalidate();
     }
@@ -245,9 +244,11 @@ public class TemplatedButton : Button
     /// </param>
     protected override void OnMouseEnter(EventArgs e)
     {
-        if (Enabled && _painter!.State != ButtonState.Hover && _painter.State != ButtonState.Checked)
+        if (Enabled && 
+            _painter!.State != ControlStates.Hover && 
+            _painter.State != ControlStates.Checked)
         {
-            _painter!.State = ButtonState.Hover;
+            _painter!.State = ControlStates.Hover;
         }
         base.OnMouseEnter(e);
         Invalidate();
@@ -262,11 +263,13 @@ public class TemplatedButton : Button
     /// </param>
     protected override void OnMouseLeave(EventArgs e)
     {
-        if (Visible)
+        if (Visible && _painter != null)
         {
-            if (Enabled && _painter!.State != ButtonState.Normal && _painter.State != ButtonState.Checked)
+            if (Enabled && 
+                _painter.State != ControlStates.Normal && 
+                _painter.State != ControlStates.Checked)
             {
-                _painter!.State = ButtonState.Normal;
+                _painter.State = ControlStates.Normal;
             }
             base.OnMouseLeave(e);
             Invalidate();
@@ -282,10 +285,13 @@ public class TemplatedButton : Button
     /// </param>
     protected override void OnMouseDown(MouseEventArgs e)
     {
-        if (Enabled && _painter!.State != ButtonState.Pressed && _painter.State != ButtonState.Checked)
+        if (_painter != null && Enabled &&
+                       _painter.State != ControlStates.Pressed &&
+            _painter.State != ControlStates.Checked)
         {
-            _painter!.State = ButtonState.Pressed;
+            _painter.State = ControlStates.Pressed;
         }
+
         base.OnMouseDown(e);
         Invalidate();
     }
@@ -301,9 +307,9 @@ public class TemplatedButton : Button
     {
         if (Visible)
         {
-            if (Enabled && _painter!.State != ButtonState.Normal && _painter.State != ButtonState.Checked)
+            if (Enabled && _painter!.State != ControlStates.Normal && _painter.State != ControlStates.Checked)
             {
-                _painter!.State = ButtonState.Normal;
+                _painter!.State = ControlStates.Normal;
             }
             base.OnMouseUp(e);
             Invalidate();
@@ -339,6 +345,15 @@ public class TemplatedButton : Button
     {
         if (Visible)
         {
+            if (ImageAlign == ContentAlignment.MiddleLeft && Name == "CopyButton")
+            {
+                System.Diagnostics.Debug.WriteLine("TemplatedButton: OnPaint: ImageAlign is MiddleCenter");
+            }
+
+            {
+                // Ensure image references are set correctly.
+                SetImageReferences();
+            }
             if (_painter != null)
                 _painter.DrawButton(this, e.Graphics);
             else
@@ -361,7 +376,9 @@ public class TemplatedButton : Button
     #endregion
 
     #region Private Methods / Functions
-
+    /// <summary>
+    /// Sets the image object references for the button.
+    /// </summary>
     private void SetImageReferences()
     {
         if (Image != null && _template != null)
@@ -381,6 +398,37 @@ public class TemplatedButton : Button
             if (_template.Checked != null && _template.Checked.Image == null)
                 _template.Checked.Image = Image;
         }
+    }
+
+    /// <summary>
+    /// Deserializes the text data into a button template instance.
+    /// </summary>
+    /// <param name="jsonTemplate">
+    /// A string containing the JSON text defining the template.
+    /// </param>
+    /// <returns>
+    /// The new <see cref="ButtonTemplate"/> instance, or <b>null</b>.
+    /// </returns>
+    private ButtonTemplate? DeserializeTemplate(string? jsonTemplate)
+    {
+        _jsonTemplate = jsonTemplate;
+        if (string.IsNullOrEmpty(_jsonTemplate))
+        {
+            _template = new ButtonTemplate();
+        }
+        else
+        {
+            try
+            {
+                _template = JsonSerializer.Deserialize<ButtonTemplate>(_jsonTemplate);
+            }
+            catch (JsonException ex)
+            {
+                ExceptionLog.LogException(ex);
+                _template = new ButtonTemplate();
+            }
+        }
+        return _template;
     }
     #endregion
 }
