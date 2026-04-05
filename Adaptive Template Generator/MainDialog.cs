@@ -153,36 +153,6 @@ public partial class MainDialog : AdaptiveDialogBase
         SetPostLoadState();
         SetState();
     }
-
-    /// <summary>
-    /// Handles the event when the Convert Button Templates button is clicked.
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-    private void HandleConvertButtonClicked(object? sender, EventArgs e)
-    {
-        SetPreLoadState();
-        ConvertButtonTemplatesDialog dialog = new ConvertButtonTemplatesDialog();
-        dialog.ShowDialog();
-        dialog.Dispose();
-        SetPostLoadState();
-        SetState();
-    }
-
-    /// <summary>
-    /// Handles the event when the Convert Panel Templates button is clicked.
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-    private void HandleConvertPanelClicked(object? sender, EventArgs e)
-    {
-        SetPreLoadState();
-        ConvertPanelTemplatesDialog dialog = new ConvertPanelTemplatesDialog();
-        dialog.ShowDialog();
-        dialog.Dispose();
-        SetPostLoadState();
-        SetState();
-    }
     #endregion
 
     #region Private Methods / Functions
@@ -197,8 +167,8 @@ public partial class MainDialog : AdaptiveDialogBase
     {
         return GetOpenTemplateFileName(
             "Open Button Template",
-            ".button.template",
-            "Button Templates (*.button.template)|*.button.template|JSON Button Templates (*.button.template.json)|*.button.template.json");
+            ".button.template.json",
+            "Button Templates (*.button.template.json)|*.button.template.json");
     }
 
     /// <summary>
@@ -211,8 +181,8 @@ public partial class MainDialog : AdaptiveDialogBase
     {
         return GetOpenTemplateFileName(
             "Open Panel Template",
-            ".panel.template",
-            "Panel Templates (*.panel.template)|*.panel.template|JSON Panel Templates (*.panel.template.json)|*.panel.template.json");
+            ".panel.template.json",
+            "Panel Templates (*.panel.template.json)|*.panel.template.json");
     }
 
     /// <summary>

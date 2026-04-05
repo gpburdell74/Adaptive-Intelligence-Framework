@@ -1,4 +1,5 @@
-﻿using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.SecureApi.Sessions;
+using Adaptive.Intelligence.Shared;
 
 namespace Adaptive.Intelligence.SecureApi.Client;
 

@@ -88,7 +88,7 @@ public partial class PanelTemplateEditorControl : AdaptiveControlBase
     }
     #endregion
 
-    #region Protected Methods / Functions    
+    #region Protected Methods / Functions
     /// <summary>
     /// Assigns the event handlers for the controls on the dialog.
     /// </summary>
@@ -111,7 +111,7 @@ public partial class PanelTemplateEditorControl : AdaptiveControlBase
 
     #endregion
 
-    #region Protected Event Methods    
+    #region Protected Event Methods
     /// <summary>
     /// Raises the <see cref="E:TemplateChanged" /> event.
     /// </summary>

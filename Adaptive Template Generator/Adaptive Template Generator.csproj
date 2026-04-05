@@ -7,12 +7,33 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PackageIcon>AI.ico</PackageIcon>
+    <AssemblyTitle>Template Generator For Adaptive Intelligence Templated Controls</AssemblyTitle>
+    <ApplicationIcon>AI.ico</ApplicationIcon>
+    <Version>0.94.10</Version>
+    <Title>Adaptive Intelligence Template Generator</Title>
+    <PackageId>Adaptive.Intelligence.Template.Generator</PackageId>
+    <Authors>Sam Jones</Authors>
+    <Company>Adaptive Intelligence</Company>
+    <AssemblyVersion>0.94.10</AssemblyVersion>
+    <FileVersion>0.94.10</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Dialogs\**" />
     <EmbeddedResource Remove="Dialogs\**" />
     <None Remove="Dialogs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Shared Code Library\Adaptive.Intelligence.Shared\AI.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

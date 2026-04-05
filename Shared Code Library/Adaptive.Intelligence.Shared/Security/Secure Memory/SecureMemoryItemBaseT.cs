@@ -27,26 +27,33 @@ namespace Adaptive.Intelligence.Shared.Security
         /// The number of iterations to use when generating the private key data.
         /// </summary>
         private int _iterations = DefaultKeyIterations;
+
         /// <summary>
         /// The AES cryptographic instance.
         /// </summary>
         private Aes? _aes;
+
         /// <summary>
         /// The encryptor transformation instance to use.
         /// </summary>
         private ICryptoTransform? _encryptor;
+
         /// <summary>
         /// The decryptor transformation instance to use.
         /// </summary>
         private ICryptoTransform? _decryptor;
+
         /// <summary>
         /// The stored content.
         /// </summary>
         private byte[]? _storage;
+
         /// <summary>
         /// The size of the data storage content.
         /// </summary>
         private int _storageLength = -1;
+
+        private int _originalLength = -1;
         #endregion
 
         #region Constructor / Dispose Methods		
@@ -117,6 +124,7 @@ namespace Adaptive.Intelligence.Shared.Security
             _decryptor = null;
             _storage = null;
             _storageLength = -1;
+            _originalLength = -1;
             _iterations = 0;
             base.Dispose(disposing);
         }
@@ -130,6 +138,15 @@ namespace Adaptive.Intelligence.Shared.Security
         ///   <c>true</c> if this instance represents a <b>null</b> value; otherwise, <c>false</c>.
         /// </value>
         public bool IsNull => _storageLength < 1;
+
+        /// <summary>
+        /// Gets the size of the original data, in bytes.
+        /// </summary>
+        /// <value>
+        /// An intege specifying the length of the original data, in bytes, or -1 if no data is currently stored.
+        /// </value>
+        public int Length => _originalLength;
+
         /// <summary>
         /// Gets or sets the value being stored in memory.
         /// </summary>
@@ -322,10 +339,14 @@ namespace Adaptive.Intelligence.Shared.Security
 
             // Translate the value to a byte array.
             byte[]? data = TranslateValueToBytes(value);
-
             if (data != null)
             {
-                WriteToStorage(data);
+                _originalLength = data.Length;
+
+                if (data != null)
+                {
+                    WriteToStorage(data);
+                }
             }
         }
         /// <summary>

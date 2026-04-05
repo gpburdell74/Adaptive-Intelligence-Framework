@@ -102,7 +102,7 @@ partial class MainDialog
         NewButtonPanel.Padding = new Padding(10, 10, 10, 0);
         NewButtonPanel.Size = new Size(200, 44);
         NewButtonPanel.TabIndex = 1;
-        NewButtonPanel.TemplateFromFile = "D:\\Adaptive.Intelligence\\Win32\\Adaptive Data Vault\\Adaptive-Data-Vault\\Resources\\Button Templates\\JSON\\AI Standard.panel.template.json";
+        NewButtonPanel.TemplateFromFile = "D:\\Adaptive.Intelligence\\Win32\\Adaptive Data Vault\\Adaptive-Data-Vault\\Resources\\Button Templates\\Left Side Panel.panel.template.json";
         NewButtonPanel.TemplateJson = resources.GetString("NewButtonPanel.TemplateJson");
         // 
         // NewButtonButton
@@ -168,7 +168,7 @@ partial class MainDialog
         OpenPanelPanel.Padding = new Padding(10);
         OpenPanelPanel.Size = new Size(200, 54);
         OpenPanelPanel.TabIndex = 2;
-        OpenPanelPanel.TemplateFromFile = "D:\\Adaptive.Intelligence\\Win32\\Adaptive Data Vault\\Adaptive-Data-Vault\\Resources\\Button Templates\\JSON\\AI Standard.panel.template.json";
+        OpenPanelPanel.TemplateFromFile = "D:\\Adaptive.Intelligence\\Win32\\Adaptive Data Vault\\Adaptive-Data-Vault\\Resources\\Button Templates\\Right Side Panel.panel.template.json";
         OpenPanelPanel.TemplateJson = resources.GetString("OpenPanelPanel.TemplateJson");
         // 
         // OpenPanelButton
@@ -210,7 +210,7 @@ partial class MainDialog
         NewPanelPanel.Padding = new Padding(10, 10, 10, 0);
         NewPanelPanel.Size = new Size(200, 44);
         NewPanelPanel.TabIndex = 1;
-        NewPanelPanel.TemplateFromFile = "D:\\Adaptive.Intelligence\\Win32\\Adaptive Data Vault\\Adaptive-Data-Vault\\Resources\\Button Templates\\JSON\\AI Standard.panel.template.json";
+        NewPanelPanel.TemplateFromFile = "D:\\Adaptive.Intelligence\\Win32\\Adaptive Data Vault\\Adaptive-Data-Vault\\Resources\\Button Templates\\Right Side Panel.panel.template.json";
         NewPanelPanel.TemplateJson = resources.GetString("NewPanelPanel.TemplateJson");
         // 
         // NewPanelButton

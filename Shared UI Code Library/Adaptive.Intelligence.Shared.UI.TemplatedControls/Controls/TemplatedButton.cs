@@ -1,10 +1,12 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
 using Adaptive.Intelligence.Shared.UI.TemplatedControls;
 using Adaptive.Intelligence.Shared.UI.TemplatedControls.Algorithms;
+using Adaptive.Intelligence.Shared.UI.TemplatedControls.Templates.IO;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Text.Json;
 using System.Windows.Forms.Design;
+using static System.Windows.Forms.DataFormats;
 
 namespace Adaptive.Intelligence.Shared.UI;
 
@@ -169,6 +171,7 @@ public class TemplatedButton : Button
         }
         set
         {
+            _lastFile = string.Empty;
             if (DesignMode)
             {
                 _lastFile = value;
@@ -179,6 +182,7 @@ public class TemplatedButton : Button
                 }
             }
             Invalidate();
+            Refresh();
         }
     }
 
@@ -198,6 +202,8 @@ public class TemplatedButton : Button
         get => _jsonTemplate;
         set
         {
+            _jsonTemplate = value;
+            _lastFile = null;
             _painter?.Dispose();
             _template?.Dispose();
 
@@ -345,15 +351,8 @@ public class TemplatedButton : Button
     {
         if (Visible)
         {
-            if (ImageAlign == ContentAlignment.MiddleLeft && Name == "CopyButton")
-            {
-                System.Diagnostics.Debug.WriteLine("TemplatedButton: OnPaint: ImageAlign is MiddleCenter");
-            }
-
-            {
-                // Ensure image references are set correctly.
-                SetImageReferences();
-            }
+            // Ensure image references are set correctly.
+            SetImageReferences();
             if (_painter != null)
                 _painter.DrawButton(this, e.Graphics);
             else
@@ -420,7 +419,18 @@ public class TemplatedButton : Button
         {
             try
             {
-                _template = JsonSerializer.Deserialize<ButtonTemplate>(_jsonTemplate);
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    AllowDuplicateProperties = true,
+                    IgnoreReadOnlyProperties = true,
+                    MaxDepth = 64,
+                    AllowOutOfOrderMetadataProperties = true,
+                    WriteIndented = false
+                };
+                options.Converters.Add(new ColorJsonConverter());
+                options.Converters.Add(new ImageJsonConverter());
+                _template = JsonSerializer.Deserialize<ButtonTemplate>(_jsonTemplate, options);
             }
             catch (JsonException ex)
             {

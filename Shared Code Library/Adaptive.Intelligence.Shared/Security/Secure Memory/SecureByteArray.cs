@@ -48,7 +48,7 @@
         }
         #endregion
 
-        #region Protected Method Overrides		
+        #region Protected Method Overrides
         /// <summary>
         /// Translates provided the byte array into a byte array.
         /// </summary>

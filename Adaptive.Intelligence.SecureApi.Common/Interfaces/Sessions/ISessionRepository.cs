@@ -12,7 +12,8 @@ public interface ISessionRepository : IDisposable
     /// <returns>
     /// A new <see cref="ISecureSession"/> instance with a unique ID value.
     /// </returns>
-    Task<ISecureSession> CreateNewSessionAsync();
+    Task<ISecureApiSession> CreateNewSessionAsync();
+
     /// <summary>
     /// Deletes the session.
     /// </summary>
@@ -23,6 +24,7 @@ public interface ISessionRepository : IDisposable
     /// <b>true</b> if the session was deleted successfully; otherwise, returns <b>false</b>.
     /// </returns>
     Task<bool> DeleteSessionAsync(Guid sessionId);
+    
     /// <summary>
     /// Gets the session by the specified ID value.
     /// </summary>
@@ -33,10 +35,28 @@ public interface ISessionRepository : IDisposable
     /// The <see cref="SecureSession"/> for the matching ID value, or <b>null</b>
     /// if the operation fails.
     /// </returns>
-    Task<ISecureSession?> GetSessionAsync(Guid sessionId);
+    Task<ISecureApiSession?> GetSessionAsync(Guid sessionId);
 
     /// <summary>
-    /// Updates the session data record..
+    /// Loads the list of current sessions from the repository.
+    /// </summary>
+    /// <remarks>
+    /// This method is intended to be used during the initialization of the session management system, 
+    /// to load any existing sessions that may have been stored in a persistent storage medium (e.g., 
+    /// database, file system) before the application was restarted. 
+    /// 
+    /// The implementation should ensure that the loaded sessions are valid and can be used for subsequent 
+    /// operations.
+    /// </remarks>
+    /// <returns>
+    /// A <see cref="IEnumerable{T}"/> list of <see cref="IServerSession"/> instances containing the current
+    /// server-side session definitions if successful; otherwise, 
+    /// returns <b>null</b>.
+    /// </returns>
+    Task<IEnumerable<IServerSession>?> LoadSessionsAsync();
+
+    /// <summary>
+    /// Updates the session data record.
     /// </summary>
     /// <param name="session">
     /// The <see cref="ISecureSession"/> instance to be updated.
@@ -44,5 +64,6 @@ public interface ISessionRepository : IDisposable
     /// <returns>
     /// <b>true</b> if the session was updated successfully; otherwise, returns <b>false</b>.
     /// </returns>
-    Task<bool> UpdateSessionAsync(ISecureSession session);
+    Task<bool> UpdateSessionAsync(ISecureApiSession session);
+
 }

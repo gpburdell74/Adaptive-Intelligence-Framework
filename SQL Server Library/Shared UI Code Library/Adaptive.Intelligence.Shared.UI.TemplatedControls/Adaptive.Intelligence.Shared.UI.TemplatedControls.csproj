@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net10.0-windows</TargetFramework>
+	  <Nullable>enable</Nullable>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Platforms>AnyCPU;x64</Platforms>
+	  <Title>Adaptive Intelligence WinForms UI Templated Control Library</Title>
+	  <Version>0.94</Version>
+	  <FileVersion>0.94</FileVersion>
+	  <Authors>Sam Jones</Authors>
+	  <Company>Adaptive Intelligence</Company>
+	  <Product>Adaptive Intelligence Framework</Product>
+	  <Description>Windows Forms Templated Control Library</Description>
+	  <Copyright>Copyright © 2024-2026 by Sam Jones.  All rights reserved.</Copyright>
+	  <PackageProjectUrl>https://samjones.azurewebsites.net</PackageProjectUrl>
+	  <PackageIcon>AI.png</PackageIcon>
+	  <ApplicationIcon>AI.ico</ApplicationIcon>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Templates\State Templates\PanelStateTemplate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared Code Library\Adaptive.Intelligence.Shared\Adaptive.Intelligence.Shared.csproj" />
+    <ProjectReference Include="..\Adaptive.Intelligence.Shared.UI\Adaptive.Intelligence.Shared.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\GradientPanel.cs" />
+  </ItemGroup>
+
+</Project>

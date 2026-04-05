@@ -251,7 +251,7 @@ namespace Adaptive.Intelligence.Shared.Security
             for (var count = 0; count < ListLength; count++)
             {
                 provider.GenerateNewKey();
-                var data = provider.GetKeyData();
+                var data = provider.GetKeyData();              
                 Array.Copy(data!, 0, keyData, pos, KeyIVSize);
                 pos += KeyIVSize;
                 CryptoUtil.SecureClear(data);
@@ -281,7 +281,7 @@ namespace Adaptive.Intelligence.Shared.Security
             byte[]? keyData = null;
             if (_keyData != null && _keyData[index] != null)
             {
-                keyData = _keyData[index].GetKeyIVData();
+                keyData = _keyData[index].ConcatenateKeyIVData();
             }
 
             // If the key data is null, return an empty array.

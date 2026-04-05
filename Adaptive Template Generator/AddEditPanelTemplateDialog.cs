@@ -114,6 +114,8 @@ public partial class AddEditPanelTemplateDialog : AdaptiveDialogBase
         }
 
         Editor.Template = _template;
+        _unsavedChanges = false;
+        SetState();
         Invalidate();
     }
 
@@ -298,7 +300,7 @@ public partial class AddEditPanelTemplateDialog : AdaptiveDialogBase
 
         SaveFileDialog saveFileDialog = new SaveFileDialog
         {
-            Filter = "JSON Template Files (*.panel.template.json)|*.json|All Files (*.*)|*.*",
+            Filter = "Panel Template Files (*.panel.template.json)|*.panel.template.json",
             DefaultExt = "panel.template.json",
             AddExtension = true,
             Title = "Save Panel Template As",

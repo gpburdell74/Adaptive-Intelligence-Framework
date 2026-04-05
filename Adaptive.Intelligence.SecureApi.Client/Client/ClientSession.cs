@@ -1,6 +1,9 @@
-﻿using Adaptive.Intelligence.Shared;
-using Adaptive.Intelligence.Shared.Security;
+﻿using Adaptive.Intelligence.SecureApi.Common.Cryptography.Asymmetric;
+using Adaptive.Intelligence.SecureApi.Common.Cryptography.Symmetric;
 using Adaptive.Intelligence.SecureApi.Cryptography;
+using Adaptive.Intelligence.SecureApi.Sessions;
+using Adaptive.Intelligence.Shared;
+using Adaptive.Intelligence.Shared.Security;
 
 namespace Adaptive.Intelligence.SecureApi.Client;
 
@@ -173,7 +176,7 @@ public class ClientSession : DisposableObjectBase, IClientSession
     /// <value>
     /// A byte array containbing the primary RSA public key, or <b>null</b>.
     /// </value>
-    public byte[]? PrimaryRsaPublicKey
+    public byte[]? PrimaryAsymmetricPublicKey
     {
         get
         {
@@ -201,7 +204,7 @@ public class ClientSession : DisposableObjectBase, IClientSession
     /// <value>
     /// A byte array containbing the primary RSA public key, or <b>null</b>.
     /// </value>
-    public byte[]? SecondaryRsaPublicKey
+    public byte[]? SecondaryAsymmetricPublicKey
     {
         get
         {
@@ -230,7 +233,7 @@ public class ClientSession : DisposableObjectBase, IClientSession
     /// <value>
     /// A byte array containbing the primary RSA public key, or <b>null</b>.
     /// </value>
-    public byte[]? TertiaryRsaPublicKey
+    public byte[]? TertiaryAsymmetricPublicKey
     {
         get
         {
@@ -272,27 +275,53 @@ public class ClientSession : DisposableObjectBase, IClientSession
     #region
     #endregion
 
-    #region Public Methods / Functions    
+    #region Public Methods / Functions
     /// <summary>
     /// Creates the symmetric cryptographic provider instance from the local key data.
     /// </summary>
     /// <returns>
     /// The <see cref="ISymmetricCryptoProvider"/> instance if successful, or <b>null</b> if the keys are not set.
     /// </returns>
-    public ISymmetricCryptoProvider? CreateCryptoProvider()
+    public ISymmetricCryptoProvider? CreateAesCryptoProvider()
     {
         if (_primaryAesKey == null || _secondaryAesKey == null || _tertiaryAesKey == null)
         {
             return null; // Keys are not set, cannot create provider.
         }
 
-        return new SymmetricCryptoProvider(
+        return new AesCryptoProvider(
             new List<byte[]>
                 {
                     _primaryAesKey.Value!,
                     _secondaryAesKey.Value!,
                     _tertiaryAesKey.Value!
                 });
+    }
+
+    private IAsymmetricCryptoProvider? CreateAsymmetricCryptoProvider()
+    {
+        if (_primaryRsaPublicKey == null || _secondaryRsaPublicKey == null || _tertiaryRsaPublicKey == null)
+        {
+            return null; // Keys are not set, cannot create provider.
+        }
+
+        return new RsaCryptoProvider(
+            new List<byte[]>
+                {
+                    _primaryRsaPublicKey.Value!,
+                    _secondaryRsaPublicKey.Value!,
+                    _tertiaryRsaPublicKey.Value!
+                });
+    }
+
+    public IAsymmetricCryptoProvider? GetAsymmetricCryptoProvider()
+    {
+        return CreateAsymmetricCryptoProvider();
+    }   
+
+    public ISymmetricCryptoProvider? GetSymmetricCryptoProvider()
+    {
+        return CreateAesCryptoProvider();
     }
     #endregion
 

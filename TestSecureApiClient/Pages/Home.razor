@@ -1,4 +1,5 @@
-﻿@using Adaptive.Intelligence.Shared
+﻿@using Adaptive.Intelligence.SecureApi.Sessions
+@using Adaptive.Intelligence.Shared
 @using Adaptive.Intelligence.SecureApi.Client;
 
 @page "/"
@@ -9,7 +10,7 @@
 
 Welcome to your new app.
 
-<button id="StartSessionBUtton" onclick="HandleStartSessionClicked">Start Session</button>
+<button id="StartSessionBUtton" @onclick="HandleStartSessionClicked">Start Session</button>
 
 @code{
 
@@ -17,9 +18,9 @@ Welcome to your new app.
 	private SecureApiClient? _client = null;
 
 
-	private async Task HandleStartSessionClicked()
+	public async Task HandleStartSessionClicked()
 	{
-		_client = new SecureApiClient("https://localhost:5001/");
+		_client = new SecureApiClient("https://localhost:5132/");
 
 		OperationalResult result = new OperationalResult();
 

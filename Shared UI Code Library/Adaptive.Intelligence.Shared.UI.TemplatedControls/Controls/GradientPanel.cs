@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Text.Json;
 using System.Windows.Forms.Design;
-using static System.Windows.Forms.DataFormats;
 
 namespace Adaptive.Intelligence.Shared.UI;
 
@@ -368,7 +367,7 @@ public class TemplatedGradientPanel : Panel
                     AllowOutOfOrderMetadataProperties = true
                 };
                 options.Converters.Add(new ColorJsonConverter());
-
+                options.Converters.Add(new ImageJsonConverter());
 
                 _template = JsonSerializer.Deserialize<PanelTemplate>(_jsonTemplate, options);
             }

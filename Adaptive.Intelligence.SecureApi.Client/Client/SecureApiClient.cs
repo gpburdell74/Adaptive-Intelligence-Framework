@@ -1,4 +1,7 @@
-﻿using Adaptive.Intelligence.SecureApi.Cryptography;
+﻿using Adaptive.Intelligence.SecureApi.Common.Cryptography.Asymmetric;
+using Adaptive.Intelligence.SecureApi.Common.Cryptography.Symmetric;
+using Adaptive.Intelligence.SecureApi.Cryptography;
+using Adaptive.Intelligence.SecureApi.Sessions;
 using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Logging;
 using Adaptive.Intelligence.Shared.Security;
@@ -23,7 +26,7 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
     /// <summary>
     /// The start session API name.
     /// </summary>
-    private const string StartSessionApi = "StartSession";
+    private const string StartSessionApi = "SecureApi/StartSession";
     /// <summary>
     /// The primary key exchange API name.
     /// </summary>
@@ -145,7 +148,7 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
     #region Public Methods / Functions
 
     #region General Operations
-    /// <summary>=
+    /// <summary>
     /// Attempts to connect to the Secure API server, and performs the session initialization
     /// and key exchange process.
     /// </summary>
@@ -263,7 +266,7 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
                     _session.SessionId = envelope.SessionId;
 
                     // Store the first RSA public key value.
-                    _session.PrimaryRsaPublicKey = envelope.Data;
+                    _session.PrimaryAsymmetricPublicKey = envelope.Data;
                     result.Success = true;
                 }
                 else
@@ -299,13 +302,13 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
         }
         else
         {
-            List<byte[]?> resultList = await PerformKeyExchangeRequestAsync(result, PrimaryKexApi, _session.PrimaryRsaPublicKey)
+            List<byte[]?> resultList = await PerformKeyExchangeRequestAsync(result, PrimaryKexApi, _session.PrimaryAsymmetricPublicKey)
                 .ConfigureAwait(false);
 
             if (resultList != null && resultList.Count == 2)
             {
                 _session.PrimarySymmetricKey = resultList[0];
-                _session.SecondaryRsaPublicKey = resultList[1];
+                _session.SecondaryAsymmetricPublicKey = resultList[1];
             }
             else
             {
@@ -333,12 +336,12 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
             result.Success = false;
             result.Message = "The session is not initialized.  Cannot continue.";
         }
-        else if (_session.PrimaryRsaPublicKey == null)
+        else if (_session.PrimaryAsymmetricPublicKey == null)
         {
             result.Success = false;
             result.Message = "The primary RSA public key is not set. Cannot perform key exchange.";
         }
-        else if (_session.SecondaryRsaPublicKey == null)
+        else if (_session.SecondaryAsymmetricPublicKey == null)
         {
             result.Success = false;
             result.Message = "The secondary RSA public key is not set. Cannot perform key exchange.";
@@ -346,8 +349,8 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
         else
         {
             // Create or reference the cryptographic objects.
-            RsaProvider? rsa = AsymmetricCryptoProviderFactory.CreateRsaProvider(_session.SecondaryRsaPublicKey);
-            AesProvider? aes = SymmetricCryptoProviderFactory.CreateSymmetricProvider();
+            RsaProvider? rsa = RsaCryptoProviderFactory.CreateRsaProvider(_session.SecondaryAsymmetricPublicKey);
+            AesProvider? aes = AesCryptoProviderFactory.CreateSymmetricProvider();
 
             if (rsa == null)
             {
@@ -381,7 +384,7 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
                     IClearDataEnvelope? responseData = await ReadClearResponseAsync(result, response).ConfigureAwait(false);
                     if (responseData != null)
                     {
-                        _session.TertiaryRsaPublicKey = responseData.Data;
+                        _session.TertiaryAsymmetricPublicKey = responseData.Data;
                         responseData.Dispose();
                     }
                     response.Dispose();
@@ -410,7 +413,7 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
             result.Success = false;
             result.Message = "The session is not initialized.  Cannot continue.";
         }
-        else if (_session.TertiaryRsaPublicKey == null)
+        else if (_session.TertiaryAsymmetricPublicKey == null)
         {
             result.Success = false;
             result.Message = "The tertiary RSA public key is not set. Cannot perform key exchange.";
@@ -418,8 +421,8 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
         else
         {
             // Create or reference the cryptographic objects.
-            RsaProvider? rsa = AsymmetricCryptoProviderFactory.CreateRsaProvider(_session.TertiaryRsaPublicKey);
-            AesProvider? aes = SymmetricCryptoProviderFactory.CreateSymmetricProvider();
+            RsaProvider? rsa = RsaCryptoProviderFactory.CreateRsaProvider(_session.TertiaryAsymmetricPublicKey);
+            AesProvider? aes = AesCryptoProviderFactory.CreateSymmetricProvider();
 
             if (rsa == null)
             {
@@ -514,28 +517,17 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
             HttpRequestMessage? message = RenderClearRequest(apiName, entity);
             if (message != null)
             {
-                string? json = SerializeClearDataEnvelope(entity);
-                if (json != null)
+                try
                 {
-                    message.Content = new StringContent(json, Encoding.UTF8, MediaTypeJson);
-                    try
-                    {
-                        response = await _client.SendAsync(message).ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        result.Success = false;
-                        result.Message = $"An error occurred while sending the request: {ex.Message}";
-                        ExceptionLog.LogServerException(ex);
-                        result.AddException(ex);
-                    }
+                    response = await _client.SendAsync(message).ConfigureAwait(false);
                 }
-                else
+                catch (Exception ex)
                 {
                     result.Success = false;
-                    result.Message = "Failed to serialize the entity to JSON.";
+                    result.Message = $"An error occurred while sending the request: {ex.Message}";
+                    ExceptionLog.LogServerException(ex);
+                    result.AddException(ex);
                 }
-                message.Dispose();
             }
             else
             {
@@ -683,21 +675,22 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
     {
         HttpRequestMessage? message = null;
 
+        message = new HttpRequestMessage(
+            HttpMethod.Post,
+            Api + apiName);
+
         if (entity != null)
         {
             string? json = SerializeClearDataEnvelope(entity);
             if (json != null)
             {
-                message = new HttpRequestMessage(
-                    HttpMethod.Post,
-                    Api + apiName);
-
                 message.Content = new StringContent(
                     json,
                     Encoding.UTF8,
                     MediaTypeJson);
             }
         }
+        
         return message;
     }
     /// <summary>
@@ -746,8 +739,8 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
         if (result.Success)
         {
             // Create or reference the cryptographic objects.
-            RsaProvider? rsa = AsymmetricCryptoProviderFactory.CreateRsaProvider(rsaPublicKey);
-            AesProvider? aes = SymmetricCryptoProviderFactory.CreateSymmetricProvider();
+            RsaProvider? rsa = RsaCryptoProviderFactory.CreateRsaProvider(rsaPublicKey);
+            AesProvider? aes = AesCryptoProviderFactory.CreateSymmetricProvider();
 
             if (rsa == null)
             {
@@ -777,8 +770,8 @@ public class SecureApiClient : DisposableObjectBase, ISecureApiClient
                     }
                 }
 
-                SymmetricCryptoProviderFactory.ReleaseSymmetricProvider(aes);
-                AsymmetricCryptoProviderFactory.ReleaseRsaProvider(rsa);
+                AesCryptoProviderFactory.ReleaseSymmetricProvider(aes);
+                RsaCryptoProviderFactory.ReleaseRsaProvider(rsa);
 
             }
         }

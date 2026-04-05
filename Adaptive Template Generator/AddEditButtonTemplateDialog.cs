@@ -114,6 +114,8 @@ public partial class AddEditButtonTemplateDialog : AdaptiveDialogBase
         }
 
         TemplateEditor.Template = _template;
+        _unsavedChanges = false;
+        SetState();
         Invalidate();
     }
 
@@ -283,6 +285,7 @@ public partial class AddEditButtonTemplateDialog : AdaptiveDialogBase
                 _lastFileName = null;
             }
         }
+        _unsavedChanges = false;
     }
 
     /// <summary>

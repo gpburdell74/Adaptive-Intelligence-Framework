@@ -77,6 +77,7 @@ public static class TemplateFileManager
             WriteIndented = (format == TemplateFormats.JsonTextFormat)
         };
         options.Converters.Add(new ColorJsonConverter());
+        options.Converters.Add(new ImageJsonConverter());
 
         FileStream? destStream = OpenFileForWriting(fileName, result);
         if (result.Success && destStream != null && destStream.CanWrite)
@@ -176,6 +177,7 @@ public static class TemplateFileManager
             WriteIndented = (format == TemplateFormats.JsonTextFormat)
         };
         options.Converters.Add(new ColorJsonConverter());
+        options.Converters.Add(new ImageJsonConverter());
 
         FileStream? destStream = OpenFileForWriting(fileName, result);
         if (result.Success && destStream != null && destStream.CanWrite)
@@ -313,6 +315,7 @@ public static class TemplateFileManager
                 AllowOutOfOrderMetadataProperties = true
             };
             options.Converters.Add(new ColorJsonConverter());
+            options.Converters.Add(new ImageJsonConverter());
 
             templateInstance = JsonSerializer.Deserialize<T>(jsonText, options);
             result.Success = true;

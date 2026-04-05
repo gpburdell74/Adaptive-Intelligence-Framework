@@ -16,6 +16,7 @@ namespace Adaptive.Intelligence.Shared.Security
         /// The RSA provider instance to use.
         /// </summary>
         private RSACryptoServiceProvider? _provider;
+
         /// <summary>
         /// The RSA parameters instance containing the current key data.
         /// </summary>
@@ -275,6 +276,7 @@ namespace Adaptive.Intelligence.Shared.Security
                     Modulus = modulus,
                     Exponent = exponent
                 };
+                
                 _provider?.ImportParameters(rsaParams);
                 _currentKey = rsaParams;
             }

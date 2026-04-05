@@ -7,8 +7,8 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Platforms>AnyCPU;x64</Platforms>
 	  <Title>Adaptive Intelligence WinForms UI Templated Control Library</Title>
-	  <Version>0.94</Version>
-	  <FileVersion>0.94</FileVersion>
+	  <Version>0.95.1.0</Version>
+	  <FileVersion>0.95.1.0</FileVersion>
 	  <Authors>Sam Jones</Authors>
 	  <Company>Adaptive Intelligence</Company>
 	  <Product>Adaptive Intelligence Framework</Product>

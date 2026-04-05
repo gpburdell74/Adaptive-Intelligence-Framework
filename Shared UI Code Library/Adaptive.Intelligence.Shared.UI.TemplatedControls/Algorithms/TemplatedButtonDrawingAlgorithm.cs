@@ -160,11 +160,7 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
             Font? textFont = _currentState?.Font.ToFont();
 
             // Draw the image.
-            if (_currentState != null)
-            {
-                //_currentState.ImageAlign = controlReference.ImageAlign;
-            }
-            DrawButtonImage(g, area);
+            DrawButtonImage(g, area, controlReference.Image);
 
             // Draw the text.
             DrawText(g, area, textFont, controlReference.Text);
@@ -314,7 +310,7 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
             Pen? borderPen = _currentState.CreateBorderPen();
             if (borderPen != null)
             {
-                g.DrawRectangle(borderPen, 0, 0, drawingArea.Width - 1, drawingArea.Height - 1);
+                g.DrawRectangle(borderPen, 0, 0, drawingArea.Width - 2, drawingArea.Height - 1);
                 borderPen.Dispose();
             }
         }
@@ -466,8 +462,13 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     /// <param name="drawingArea">
     /// A <see cref="Rectangle"/> specifying the drawing area.
     /// </param>
-    private void DrawButtonImage(Graphics g, Rectangle drawingArea)
+    private void DrawButtonImage(Graphics g, Rectangle drawingArea, Image? buttonImage)
     {
+        if (buttonImage != null)
+        {
+            _buttonImage = buttonImage;
+        }
+
         if (_buttonImage != null && ImageIsValid(_buttonImage))
         {
             Rectangle location = CalculateImagePosition(drawingArea);

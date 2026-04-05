@@ -14,6 +14,7 @@ namespace Adaptive.Intelligence.Shared.Security
         /// The byte array containing the original key.
         /// </summary>
         private SecureByteArray? _original;
+
         /// <summary>
         /// The key instance.
         /// </summary>
@@ -68,6 +69,18 @@ namespace Adaptive.Intelligence.Shared.Security
 
         #region Public Methods / Functions
         /// <summary>
+        /// Clears the byte arrays, erasing the key data memory content.
+        /// </summary>
+        public void ClearKeyMemory()
+        {
+            _key?.Dispose();
+            _key = null;
+
+            _original?.Dispose();
+            _original = null;
+        }
+
+        /// <summary>
         /// Clones the current instance.
         /// </summary>
         /// <returns>
@@ -94,6 +107,23 @@ namespace Adaptive.Intelligence.Shared.Security
         {
             return Clone()!;
         }
+
+        /// <summary>
+        /// Gets the RSA public key data as a base-64 encoded string.
+        /// </summary>
+        /// <returns>
+        /// A base-64 encoded string representing a byte array containing the RSA public key.
+        /// </returns>
+        public byte[]? GetKeyData()
+        {
+            byte[]? keyData = null;
+            if (_original != null)
+            {
+                keyData = _original.Value;
+            }
+            return keyData;
+        }
+
         /// <summary>
         /// Gets the RSA public key data as a base-64 encoded string.
         /// </summary>
@@ -111,8 +141,28 @@ namespace Adaptive.Intelligence.Shared.Security
                 return Convert.ToBase64String(_original.Value!);
             }
         }
+
         /// <summary>
-        /// Sets the AES key and IV data from the specified string.
+        /// Sets the RSA public key data.
+        /// </summary>
+        /// <param name="keyData">
+        /// A byte array containing the RSA public key.
+        /// </param>
+        public void SetKeyData(byte[]? keyData)
+        {
+            if (keyData != null)
+            {
+                // Store the byte array.
+                _original?.Dispose();
+                _original = new SecureByteArray(keyData);
+
+                // Create the key object.
+                _key = CngKey.Import(keyData, CngKeyBlobFormat.GenericPublicBlob);
+            }
+        }
+
+        /// <summary>
+        /// Sets the RSA public key data from the specified string.
         /// </summary>
         /// <param name="keyData">
         /// A base-64 encoded string representing a byte array containing the RSA public key.
@@ -130,20 +180,6 @@ namespace Adaptive.Intelligence.Shared.Security
                 _key = CngKey.Import(data, CngKeyBlobFormat.GenericPublicBlob);
                 Array.Clear(data, 0, data.Length);
             }
-        }
-        #endregion
-
-        #region Private Methods / Functions
-        /// <summary>
-        /// Clears the byte arrays, erasing the key data memory content.
-        /// </summary>
-        private void ClearKeyMemory()
-        {
-            _key?.Dispose();
-            _key = null;
-
-            _original?.Dispose();
-            _original = null;
         }
         #endregion
     }
