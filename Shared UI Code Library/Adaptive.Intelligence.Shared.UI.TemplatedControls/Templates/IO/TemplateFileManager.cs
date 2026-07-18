@@ -2,9 +2,13 @@
 using Adaptive.Intelligence.Shared.Logging;
 using Adaptive.Intelligence.Shared.UI.TemplatedControls.IO;
 using System.Text.Json;
+using System.Windows.Forms.Design;
 
 namespace Adaptive.Intelligence.Shared.UI.TemplatedControls.Templates.IO;
 
+/// <summary>
+/// Provides a mechanism for managing control template files.
+/// </summary>
 public static class TemplateFileManager
 {
     /// <summary>
@@ -12,6 +16,12 @@ public static class TemplateFileManager
     /// </summary>
     /// <param name="fileName">
     /// A string containing the fully-qualified path and name of the file to be read.
+    /// </param>
+    /// <param name="format">
+    /// The <see cref="TemplateFormats"/> enumeration value specifying the file format.
+    /// </param>
+    /// <param name="result">
+    /// The <see cref="OperationalResult"/> instance used to contain the result of the operation.
     /// </param>
     /// <returns>
     /// An <see cref="OperationalResult{T}"/> containing the <see cref="ButtonTemplate"/> that was loaded
@@ -112,6 +122,12 @@ public static class TemplateFileManager
     /// </summary>
     /// <param name="fileName">
     /// A string containing the fully-qualified path and name of the file to be read.
+    /// </param>
+    /// <param name="format">
+    /// A <see cref="TemplateFormats"/> enumerated value indicating the format of the template file.
+    /// </param>
+    /// <param name="result">
+    /// An <see cref="IOperationalResult"/> instance containing the result of the operation.
     /// </param>
     /// <returns>
     /// The <see cref="PanelTemplate"/> that was loaded
@@ -342,6 +358,9 @@ public static class TemplateFileManager
     /// </param>
     /// <param name="destStream">
     /// The reference to the destination <see cref="Stream"/>.
+    /// </param>
+    /// <param name="options">
+    /// The <see cref="JsonSerializerOptions"/> instance to use.
     /// </param>
     /// <param name="result">
     /// An <see cref="OperationalResult"/> containing the result of the operation.

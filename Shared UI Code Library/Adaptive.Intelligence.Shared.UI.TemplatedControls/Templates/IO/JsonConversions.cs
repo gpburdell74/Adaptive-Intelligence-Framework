@@ -129,17 +129,20 @@ public static class JsonConversions
     {
         byte[]? data = null;
 
-        MemoryStream stream = new MemoryStream(1000);
-        try
+        if (image != null)
         {
-            image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            data = stream.ToArray();
+            MemoryStream stream = new MemoryStream(1000);
+            try
+            {
+                image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                data = stream.ToArray();
+            }
+            catch
+            {
+            }
+            stream.Close();
+            stream.Dispose();
         }
-        catch
-        {
-        }
-        stream.Close();
-        stream.Dispose();
 
         return data;
     }

@@ -15,7 +15,14 @@ namespace Adaptive.Intelligence.Shared
         public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
-        #region Dispose Method        
+        #region Dispose Method
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyAwareBase"/> class.
+        /// </summary>
+        protected PropertyAwareBase() : base()
+        {
+
+        }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>

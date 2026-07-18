@@ -159,6 +159,12 @@ public sealed class FontTemplate : DisposableObjectBase
             GdiVerticalFont);
     }
 
+    /// <summary>
+    /// Returns a <see cref="string"/> that represents the current <see cref="FontTemplate"/> object.
+    /// </summary>
+    /// <returns>
+    /// A string decribing hte font settings for storage in a control template file.
+    /// </returns>
     public override string ToString()
     {
         StringBuilder builder = new StringBuilder();

@@ -462,6 +462,9 @@ public class TemplatedButtonDrawingAlgorithm : DisposableObjectBase, IButtonDraw
     /// <param name="drawingArea">
     /// A <see cref="Rectangle"/> specifying the drawing area.
     /// </param>
+    /// <param name="buttonImage">
+    /// The <see cref="Image"/> to be drawn on the button, or <b>null</b>.
+    /// </param>
     private void DrawButtonImage(Graphics g, Rectangle drawingArea, Image? buttonImage)
     {
         if (buttonImage != null)

@@ -32,19 +32,22 @@ public sealed class ColorJsonConverter : JsonConverter<Color>
         // Read the JSON value as a string (expected to be in HEX format, e.g., "#AARRGGBB")
         string? rawText = reader.GetString();
 
-        if (rawText.StartsWith("#"))
+        if (!string.IsNullOrEmpty(rawText))
         {
-            rawText = rawText[1..]; // Remove the '#' character if present.
-        }
-        else
-        {
-            try
+            if (rawText.StartsWith("#"))
             {
-                color = Color.FromName(rawText);
+                rawText = rawText[1..]; // Remove the '#' character if present.
             }
-            catch
+            else
             {
-                color = Color.Empty;
+                try
+                {
+                    color = Color.FromName(rawText);
+                }
+                catch
+                {
+                    color = Color.Empty;
+                }
             }
         }
 

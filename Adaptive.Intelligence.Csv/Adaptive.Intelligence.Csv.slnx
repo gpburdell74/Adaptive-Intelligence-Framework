@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../Adaptive.Intelligence.Unsafe/Adaptive.Intelligence.Unsafe.csproj" />
+  <Project Path="../Shared Code Library/Adaptive.Intelligence.Shared/Adaptive.Intelligence.Shared.csproj" />
+  <Project Path="Adaptive.Intelligence.Csv.csproj" />
+</Solution>

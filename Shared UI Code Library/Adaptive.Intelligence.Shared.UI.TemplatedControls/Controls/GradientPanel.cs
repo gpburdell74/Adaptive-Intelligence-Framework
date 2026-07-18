@@ -377,10 +377,6 @@ public class TemplatedGradientPanel : Panel
                 _template = new PanelTemplate();
             }
         }
-        if (_template.Normal.StartColor.Name == "Silver")
-        {
-            System.Diagnostics.Debug.WriteLine("Default template loaded.");
-        }
 
         return _template;
     }
