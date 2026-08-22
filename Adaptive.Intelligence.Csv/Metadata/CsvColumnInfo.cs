@@ -2,7 +2,7 @@
 using Adaptive.Intelligence.Shared;
 using System.Reflection;
 
-namespace Adaptive.Intelligence.Csv.Metadata;
+namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Represents and contains meta data for a CSV column.
@@ -126,6 +126,6 @@ public sealed class CsvColumnInfo : DisposableObjectBase
     /// <value>
     ///   <c>true</c> if the property, field, or column is missing; otherwise, <c>false</c>.
     /// </value>
-    public bool PropertyMissing { get; set; } = false;
+    public bool PropertyMissing { get; set; }
     #endregion
 }

@@ -32,6 +32,10 @@
 	<IncludeSymbols>False</IncludeSymbols>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\AmEx.jpg" />
+  </ItemGroup>
   
   <ItemGroup>
     <EmbeddedResource Include="License.txt">
@@ -40,6 +44,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Readme.md" />
+    <EmbeddedResource Include="Resources\AmEx.jpg" />
   </ItemGroup>
     <PropertyGroup>
         <PackageReadmeFile>README.md</PackageReadmeFile>

@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Csv.Exceptions;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Represents an exception when an invalid .NET data type is specified.
@@ -32,7 +32,8 @@ public sealed class InvalidDataTypeException : Exception
     /// </param>
     public InvalidDataTypeException(Type specifiedType, bool conversionError = false)
     {
-
+        DataType = specifiedType;
+        ConversionError = conversionError;
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="NullStreamException"/> class.
@@ -111,9 +112,13 @@ public sealed class InvalidDataTypeException : Exception
         if (string.IsNullOrEmpty(Message))
         {
             if (InnerException == null)
+            {
                 text = ErrorMessage;
+            }
             else
+            {
                 text = InnerException.Message;
+            }
         }
         if (ConversionError)
         {

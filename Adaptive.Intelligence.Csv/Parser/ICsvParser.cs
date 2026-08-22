@@ -1,10 +1,10 @@
-﻿namespace Adaptive.Intelligence.Csv.Parser;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Provides the signature definition for implementing CSV parsing classes.
 /// </summary>
 /// <seealso cref="IDisposable" />
-public interface ICsvParser : IDisposable 
+public interface ICsvParser : IDisposable
 {
     /// <summary>
     /// Parses the line of text into the individual data elements.

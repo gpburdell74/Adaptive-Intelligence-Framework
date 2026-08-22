@@ -1,11 +1,6 @@
-﻿using Adaptive.Intelligence.Csv.Exceptions;
-using Adaptive.Intelligence.Csv.Metadata;
-using Adaptive.Intelligence.Csv.Parser;
-using Adaptive.Intelligence.Csv.Reflection;
-using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.Logging;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Adaptive.Intelligence.Csv;
 
@@ -24,17 +19,17 @@ public class CsvReader : DisposableObjectBase
     /// <summary>
     /// The stream to be read from.
     /// </summary>
-    private Stream? _stream = null;
+    private Stream? _stream;
 
     /// <summary>
     /// The text reader instance.
     /// </summary>
-    private StreamReader? _reader = null;
+    private StreamReader? _reader;
 
     /// <summary>
     /// The header flag.
     /// </summary>
-    private bool _hasHeader = false;
+    private bool _hasHeader;
 
     /// <summary>
     /// The CSV delimiter to use.
@@ -54,7 +49,7 @@ public class CsvReader : DisposableObjectBase
     /// <summary>
     /// The maximum size of the data in a cell.
     /// </summary>
-    private int _cellMemorySize;
+    private readonly int _cellMemorySize;
     #endregion
 
     #region Constructor / Dispose Methods    
@@ -86,7 +81,7 @@ public class CsvReader : DisposableObjectBase
     {
         _stream = sourceStream;
         _stream.Seek(0, SeekOrigin.Begin);
-        _cellMemorySize = DefaultMemorySize;
+        _cellMemorySize = cellMemorySize;
         _hasHeader = hasHeader;
         _parser = CreateParser();
         CreateReader();
@@ -136,6 +131,14 @@ public class CsvReader : DisposableObjectBase
     }
 
     /// <summary>
+    /// Gets a value indicating whether the first row of the CSV file contains header names.
+    /// </summary>
+    /// <value>
+    /// <b>true</b> if the file has a header, otherwise <b>false</b>.
+    /// </value>
+    public bool HasHeader => _hasHeader;
+
+    /// <summary>
     /// Gets the current position in the underlying stream.
     /// </summary>
     /// <value>
@@ -146,9 +149,13 @@ public class CsvReader : DisposableObjectBase
         get
         {
             if (_stream == null)
+            {
                 return -1;
+            }
             else
+            {
                 return _stream.Position;
+            }
         }
     }
     #endregion
@@ -197,12 +204,20 @@ public class CsvReader : DisposableObjectBase
     {
         List<string>? rowData = null;
 
-        string? lineText = SafeReadLine();
-        if (lineText != null && lineText.Length > 0)
+        ParserEngineException.ThrowIfNull(parser);
+
+        string? lineText = SafeReadLine(reader);
+        if (lineText != null)
         {
-            // Parse the data "row" to individual cells.
-            if (_parser != null)
-                rowData = _parser.ParseLine(lineText);
+            if (lineText == string.Empty)
+            {
+                rowData = [];
+            }
+            else
+            {
+                // Parse the data "row" to individual cells.
+                rowData = parser.ParseLine(lineText);
+            }
         }
         return rowData;
     }
@@ -227,12 +242,23 @@ public class CsvReader : DisposableObjectBase
     {
         List<string>? rowData = null;
 
+        _reader = reader;
+        _parser = parser;
         string? lineText = await SafeReadLineAsync().ConfigureAwait(false);
-        if (lineText != null && lineText.Length > 0)
+        if (lineText != null)
         {
-            // Parse the data "row" to individual cells.
-            if (_parser != null)
-                rowData = _parser.ParseLine(lineText);
+            if (lineText == string.Empty)
+            {
+                rowData = [];
+            }
+            else
+            {
+                // Parse the data "row" to individual cells.
+                if (_parser != null)
+                {
+                    rowData = _parser.ParseLine(lineText);
+                }
+            }
         }
         return rowData;
     }
@@ -310,28 +336,17 @@ public class CsvReader : DisposableObjectBase
     {
         List<List<string>>? dataRows = null;
 
-        // Ensure we can read from the stream.
-        if (_stream == null)
-        {
-            throw new NullStreamException();
-        }
-        else if (!_stream.CanRead)
-        {
-            throw new CantReadStreamException();
-        }
-        else if (_parser == null)
-        {
-            throw new ParserEngineException();
-        }
-        else
-        {
-            _stream.Seek(0, SeekOrigin.Begin);
-            _hasHeader = hasHeader;
+        // Ensure we can read from the stream and parse the text.
+        NullStreamException.ThrowIfNull(_stream);
+        CantReadStreamException.ThrowIfStreamCannotBeRead(_stream!);
+        ParserEngineException.ThrowIfNull(_parser);
 
-            if (_reader != null)
-            {
-                dataRows = InnerReadCsvContent(hasHeader);
-            }
+        _stream.Seek(0, SeekOrigin.Begin);
+        _hasHeader = hasHeader;
+
+        if (_reader != null)
+        {
+            dataRows = InnerReadCsvContent(hasHeader);
         }
         return dataRows;
     }
@@ -401,6 +416,8 @@ public class CsvReader : DisposableObjectBase
     {
         List<T>? dataRows = null;
 
+        NullStreamException.ThrowIfNull(_stream);
+
         // Read the raw CSV content.
         List<List<string>>? rawDataRows = InnerReadCsvContent(hasHeader);
         if (rawDataRows != null)
@@ -409,15 +426,12 @@ public class CsvReader : DisposableObjectBase
 
             // Get the cached reflection data for the specified type, and if not 
             // yet created, create and cache it.
-            UserTypeCacheInstance<T>? typeData = UserTypeCache.GetOrCreate<T>();
-            if (typeData == null)
-                throw new ParserEngineException("Could not cache the specified data type.");
-
+            UserTypeCacheInstance<T>? typeData = UserTypeCache.GetOrCreate<T>() ?? throw new ParserEngineException("Could not cache the specified data type.");
             if (_columns != null)
             {
                 // Update the meta data and order the columns as needed.
                 typeData.UpdateCsvColumnInfo(_columns);
-                List<CsvColumnInfo> orderedColumns = _columns.OrderBy(x => x.Index).ToList();
+                List<CsvColumnInfo> orderedColumns = [.. _columns.OrderBy(x => x.Index)];
 
                 int index = 0;
                 int length = rawDataRows.Count;
@@ -449,8 +463,8 @@ public class CsvReader : DisposableObjectBase
     /// </exception>
     private void ReadAndParseHeader()
     {
-        string? line = null;
-
+        ParserEngineException.ThrowIfNull(_parser);
+        string? line;
         try
         {
             line = _reader?.ReadLine();
@@ -459,18 +473,24 @@ public class CsvReader : DisposableObjectBase
         {
             throw new ReadHeaderException(ex);
         }
+
         if (line != null)
         {
-            string[]? headerNames = null;
+            string[]? headerNames;
             try
             {
-                headerNames = line.Split(_delimiter, StringSplitOptions.TrimEntries);
+                ParserEngineException.ThrowIfNull(_parser);
+                headerNames = _parser!.ParseLine(line)?.ToArray();
             }
             catch (Exception ex)
             {
                 throw new ReadHeaderException(ex);
             }
-            CreateColumnProfiles(headerNames);
+
+            if (headerNames != null)
+            {
+                CreateColumnProfiles(headerNames);
+            }
         }
     }
 
@@ -482,8 +502,9 @@ public class CsvReader : DisposableObjectBase
     /// </exception>
     private async Task ReadAndParseHeaderAsync()
     {
-        string? line = null;
+        string? line;
 
+        ParserEngineException.ThrowIfNull(_parser);
         if (_reader != null)
         {
             try
@@ -496,10 +517,10 @@ public class CsvReader : DisposableObjectBase
             }
             if (line != null)
             {
-                string[]? headerNames = null;
+                string[]? headerNames;
                 try
                 {
-                    headerNames = line.Split(_delimiter, StringSplitOptions.TrimEntries);
+                    headerNames = _parser?.ParseLine(line)?.ToArray();
                 }
                 catch (Exception ex)
                 {
@@ -519,7 +540,7 @@ public class CsvReader : DisposableObjectBase
     private void CreateColumnProfiles(string[] headerNames)
     {
         _columns?.Clear();
-        _columns = new List<CsvColumnInfo>();
+        _columns = [];
 
         int index = 0;
         foreach (string headerText in headerNames)
@@ -585,7 +606,7 @@ public class CsvReader : DisposableObjectBase
             }
 
             // Prepare the "row" container.
-            dataRows = new List<List<string>>();
+            dataRows = [];
 
             // Read each line of text, and parse the line into cells.
             List<string>? rowData = null;
@@ -595,8 +616,10 @@ public class CsvReader : DisposableObjectBase
                 if (_reader != null)
                 {
                     rowData = ReadAndParseCsvLine(_reader, _parser);
-                    if (rowData != null)
+                    if (rowData != null && rowData.Count > 0)
+                    {
                         dataRows.Add(rowData);
+                    }
                 }
             } while (rowData != null);
 
@@ -627,18 +650,21 @@ public class CsvReader : DisposableObjectBase
             }
 
             // Prepare the "row" container.
-            dataRows = new List<List<string>>();
+            dataRows = [];
 
             // Read each line of text, and parse the line into cells.
             if (_reader != null)
             {
-                while (!_reader.EndOfStream)
+                List<string>? rowData;
+                do
                 {
                     // Parse the data "row" to individual cells.
-                    List<string>? rowData = await ReadAndParseCsvLineAsync(_reader, _parser).ConfigureAwait(false);
-                    if (rowData != null)
+                    rowData = await ReadAndParseCsvLineAsync(_reader, _parser).ConfigureAwait(false);
+                    if (rowData != null && rowData.Count > 0)
+                    {
                         dataRows.Add(rowData);
-                }
+                    }
+                } while (rowData is not null);
             }
 
         }
@@ -671,11 +697,11 @@ public class CsvReader : DisposableObjectBase
 
             // Iterate over each cell applying the valeu to the property that matches the ordered column.
             int length = orderedColumns.Count;
-            for (int columnIndex = 0; columnIndex < orderedColumns.Count; columnIndex++)
+            for (int columnIndex = 0; columnIndex < length; columnIndex++)
             {
                 // Don't read past the end of the data.
                 if (columnIndex < lineData.Count)
-                { 
+                {
                     CsvColumnInfo colProfile = orderedColumns[columnIndex];
                     if (!colProfile.PropertyMissing && colProfile.PropertyData != null)
                     {
@@ -690,7 +716,7 @@ public class CsvReader : DisposableObjectBase
                             {
                                 colProfile.PropertyData.SetValue(dataObject, convertedValue);
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 ExceptionLog.LogException(ex);
                             }
@@ -718,8 +744,29 @@ public class CsvReader : DisposableObjectBase
         catch (Exception ex)
         {
             ExceptionLog.LogException(ex);
-
         }
+
+        return lineText;
+    }
+
+    /// <summary>
+    /// Safely reads a line of text from the source stream.
+    /// </summary>
+    /// <returns>
+    /// The line of text that was read, or <b>null</b>.
+    /// </returns>
+    private string? SafeReadLine(StreamReader reader)
+    {
+        string? lineText = null;
+        try
+        {
+            lineText = reader?.ReadLine();
+        }
+        catch (Exception ex)
+        {
+            ExceptionLog.LogException(ex);
+        }
+
         return lineText;
     }
 
@@ -731,20 +778,12 @@ public class CsvReader : DisposableObjectBase
     /// </returns>
     private async Task<string?> SafeReadLineAsync()
     {
-        string? lineText = null;
-        if (_reader != null)
+        if (_reader is null)
         {
-            try
-            {
-                lineText = await _reader.ReadLineAsync().ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                ExceptionLog.LogException(ex);
-
-            }
+            return null;
         }
-        return lineText;
+
+        return await _reader.ReadLineAsync().ConfigureAwait(false);
     }
     #endregion
 }

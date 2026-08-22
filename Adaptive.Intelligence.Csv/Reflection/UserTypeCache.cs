@@ -1,7 +1,6 @@
-﻿using Adaptive.Intelligence.Csv.Attributes;
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace Adaptive.Intelligence.Csv.Reflection;
+namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Provides a thread-safe mechanism for caching the reflection metadata for data types.
@@ -17,12 +16,12 @@ public static class UserTypeCache
     /// <summary>
     /// The lock for threading synchronization.
     /// </summary>
-    private static readonly object _lock = new object();
+    private static readonly Lock _lock = new();
 
     /// <summary>
     /// The type cache container.
     /// </summary>
-    private static readonly Dictionary<Type, UserTypeCacheInstance> _typeCache = new Dictionary<Type, UserTypeCacheInstance>();
+    private static readonly Dictionary<Type, UserTypeCacheInstance> _typeCache = [];
     #endregion
 
     #region Public Methods / Functions
@@ -63,7 +62,7 @@ public static class UserTypeCache
     /// A <see cref="UserTypeCacheInstance{T}"/> containing the sorted property metadata for the data type.
     /// </returns>
     public static UserTypeCacheInstance<T> CreateCacheInstance<T>(
-        bool placenNonIndexedFieldsLast = true, 
+        bool placenNonIndexedFieldsLast = true,
         BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
     {
         return new UserTypeCacheInstance<T>(placenNonIndexedFieldsLast, flags);
@@ -86,13 +85,15 @@ public static class UserTypeCache
         if (_typeCache != null)
         {
             Type type = typeof(T);
-            UserTypeCacheInstance? cacheInstance = null;
+            UserTypeCacheInstance? cacheInstance;
             lock (_lock)
             {
                 _typeCache.TryGetValue(type, out cacheInstance);
             }
             if (cacheInstance != null)
+            {
                 cachedRecord = (UserTypeCacheInstance<T>)cacheInstance;
+            }
         }
         return cachedRecord;
     }
@@ -102,12 +103,11 @@ public static class UserTypeCache
     /// instance, adds it to the cache, and returns it.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="nonIndexedFieldsLast">if set to <c>true</c> [non indexed fields last].</param>
     /// <returns>
     /// The <see cref="UserTypeCacheInstance{T}"/> for the specified data type of <typeparamref name="T"/> 
     /// if successful; otherwise, returns <b>null</b>.
     /// </returns>
-    public static UserTypeCacheInstance<T>? GetOrCreate<T>(bool nonIndexedFieldsLast = true)
+    public static UserTypeCacheInstance<T>? GetOrCreate<T>()
     {
         UserTypeCacheInstance<T>? cachedRecord = null;
 

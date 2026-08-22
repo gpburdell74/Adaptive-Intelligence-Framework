@@ -84,7 +84,7 @@ namespace Adaptive.Intelligence.Csv.Tests
         {
             var reader = new CsvReader(new MemoryStream());
             reader.Dispose();
-            Assert.Throws<Adaptive.Intelligence.Csv.Exceptions.NullStreamException>(() => reader.ReadRawDataRows());
+            Assert.Throws<Adaptive.Intelligence.Csv.NullStreamException>(() => reader.ReadRawDataRows());
         }
 
         public class TestObject

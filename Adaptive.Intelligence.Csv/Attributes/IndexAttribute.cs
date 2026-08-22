@@ -1,20 +1,17 @@
-﻿namespace Adaptive.Intelligence.Csv.Attributes;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Provides an attribute to the ordinal index of a column in a CSV file.
 /// </summary>
-public sealed class IndexAttribute : Attribute
+/// <remarks>
+/// Initializes an new instance of the <see cref="IndexAttribute"/> class.
+/// </remarks>
+/// <param name="index">
+/// A integer specifying the ordinal index of the column in the CSV file.
+/// </param>
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class IndexAttribute(int index) : Attribute
 {
-    /// <summary>
-    /// Initializes an new instance of the <see cref="IndexAttribute"/> class.
-    /// </summary>
-    /// <param name="index">
-    /// A integer specifying the ordinal index of the column in the CSV file.
-    /// </param>
-    public IndexAttribute(int index)
-    {
-        Index = index;
-    }
 
     /// <summary>
     /// Gets or sets the ordinal index of the decorated column in the CSV file.
@@ -22,5 +19,5 @@ public sealed class IndexAttribute : Attribute
     /// <value>
     /// An integer specifying the ordinal index of the column.
     /// </value>
-    public int Index { get; init; }
+    public int Index { get; init; } = index;
 }

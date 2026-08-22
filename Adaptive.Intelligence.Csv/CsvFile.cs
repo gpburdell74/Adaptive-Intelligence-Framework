@@ -1,5 +1,4 @@
-﻿using Adaptive.Intelligence.Csv.Exceptions;
-using Adaptive.Intelligence.Shared;
+﻿using Adaptive.Intelligence.Shared;
 using Adaptive.Intelligence.Shared.IO;
 using System.IO.Compression;
 
@@ -8,7 +7,16 @@ namespace Adaptive.Intelligence.Csv;
 /// <summary>
 /// Represents and manages a CSV file.
 /// </summary>
-public class CsvFile : DisposableObjectBase, IComparable
+/// <remarks>
+/// Initializes a new instance of the <see cref="CsvFile"/> class.
+/// </remarks>
+/// <param name="fileName">
+/// A string containing the fully-qualified path and name of the file.
+/// </param>
+/// <param name="hasHeader">
+/// An optional parameter indicating whether the CSV file has a header row.
+/// </param>
+public class CsvFile(string fileName, bool hasHeader = false) : LoggableBase, IComparable
 {
     #region Private Member Declarations
     /// <summary>
@@ -24,12 +32,12 @@ public class CsvFile : DisposableObjectBase, IComparable
     /// <summary>
     /// The file name.
     /// </summary>
-    private string? _fileName;
+    private string? _fileName = fileName;
 
     /// <summary>
     /// The has header flag.
     /// </summary>
-    private bool _hasHeader;
+    private bool _hasHeader = hasHeader;
 
     /// <summary>
     /// The header names list.
@@ -43,20 +51,6 @@ public class CsvFile : DisposableObjectBase, IComparable
     #endregion
 
     #region Constructor / Dispose Methods
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CsvFile"/> class.
-    /// </summary>
-    /// <param name="fileName">
-    /// A string containing the fully-qualified path and name of the file.
-    /// </param>
-    /// <param name="hasHeader">
-    /// An optional parameter indicating whether the CSV file has a header row.
-    /// </param>
-    public CsvFile(string fileName, bool hasHeader=false)
-    {
-        _fileName = fileName;
-        _hasHeader = hasHeader;
-    }
 
     /// <summary>
     /// Releases unmanaged and - optionally - managed resources.
@@ -91,9 +85,13 @@ public class CsvFile : DisposableObjectBase, IComparable
         {
             int count = -1;
             if (_headerNames != null)
+            {
                 count = _headerNames.Count;
+            }
             else if (_dataRows != null && _dataRows.Count > 0)
+            {
                 count = _dataRows[0].Count;
+            }
 
             return count;
         }
@@ -153,9 +151,13 @@ public class CsvFile : DisposableObjectBase, IComparable
         get
         {
             if (_dataRows == null)
+            {
                 return -1;
+            }
             else
+            {
                 return _dataRows.Count;
+            }
         }
     }
     #endregion
@@ -213,16 +215,22 @@ public class CsvFile : DisposableObjectBase, IComparable
         if (_fileName != null && SafeIO.FileExists(_fileName))
         {
             if (SafeIO.FileExists(compressedFileName))
+            {
                 SafeIO.DeleteFile(compressedFileName);
+            }
 
             FileStream? inputFile = SafeIO.OpenFileForExclusiveRead(_fileName);
             FileStream? outputFile = SafeIO.OpenFileForExclusiveWrite(compressedFileName);
 
             if (inputFile == null)
+            {
                 throw new NullStreamException("Could not open the specified file for reading.");
+            }
 
             if (outputFile == null)
+            {
                 throw new NullStreamException("Could not open the specified file for writing.");
+            }
 
             AdaptiveCompression.Compress(inputFile, outputFile);
 
@@ -249,16 +257,22 @@ public class CsvFile : DisposableObjectBase, IComparable
         if (_fileName != null && SafeIO.FileExists(_fileName))
         {
             if (SafeIO.FileExists(compressedFileName))
+            {
                 SafeIO.DeleteFile(compressedFileName);
+            }
 
             FileStream? inputFile = SafeIO.OpenFileForExclusiveRead(_fileName);
             FileStream? outputFile = SafeIO.OpenFileForExclusiveWrite(compressedFileName);
 
             if (inputFile == null)
+            {
                 throw new NullStreamException("Could not open the specified file for reading.");
+            }
 
             if (outputFile == null)
+            {
                 throw new NullStreamException("Could not open the specified file for writing.");
+            }
 
             await AdaptiveCompression.CompressAsync(inputFile, outputFile).ConfigureAwait(false);
 
@@ -307,19 +321,18 @@ public class CsvFile : DisposableObjectBase, IComparable
     ///     Zero: The files are identical.
     ///     Greater than zero: This instance follows <paramref name="fileToCompareTo" /> in the sort order.
     /// </returns>
+#pragma warning disable CA1822 // Mark members as static
     public int CompareTo(CsvFile? fileToCompareTo)
+#pragma warning restore CA1822 // Mark members as static
     {
-        int returnValue = 0;
-
-        if (fileToCompareTo == null)
-            returnValue = 1;
-        else
+        if (fileToCompareTo is null)
         {
-            
+            return 1;
         }
-        return returnValue;
+
+        return 0;
     }
-   
+
     /// <summary>
     /// Decompresses the content of the specified source file into an expanded CSV File.
     /// </summary>
@@ -333,21 +346,29 @@ public class CsvFile : DisposableObjectBase, IComparable
     /// <param name="destinationFileName">
     /// A string containing the fully-qualified path and name of the destination file.
     /// </param>
-    public void Decompress(string sourceFileName, string destinationFileName)
+    public static void Decompress(string sourceFileName, string destinationFileName)
     {
         if (!SafeIO.FileExists(sourceFileName))
+        {
             throw new FileNotFoundException("The specified source file does not exist.", sourceFileName);
+        }
 
         if (SafeIO.FileExists(destinationFileName))
+        {
             SafeIO.DeleteFile(destinationFileName);
+        }
 
         FileStream? inputFile = SafeIO.OpenFileForExclusiveRead(sourceFileName);
         FileStream? outputFile = SafeIO.OpenFileForExclusiveWrite(destinationFileName);
         if (inputFile == null)
+        {
             throw new NullStreamException("Could not open the specified file for reading.");
+        }
 
         if (outputFile == null)
+        {
             throw new NullStreamException("Could not open the specified file for writing.");
+        }
 
         AdaptiveCompression.Decompress(inputFile, outputFile);
 
@@ -372,21 +393,29 @@ public class CsvFile : DisposableObjectBase, IComparable
     /// <param name="destinationFileName">
     /// A string containing the fully-qualified path and name of the destination file.
     /// </param>
-    public async Task DecompressAsync(string sourceFileName, string destinationFileName)
+    public static async Task DecompressAsync(string sourceFileName, string destinationFileName)
     {
         if (!SafeIO.FileExists(sourceFileName))
+        {
             throw new FileNotFoundException("The specified source file does not exist.", sourceFileName);
+        }
 
         if (SafeIO.FileExists(destinationFileName))
+        {
             SafeIO.DeleteFile(destinationFileName);
+        }
 
         FileStream? inputFile = SafeIO.OpenFileForExclusiveRead(sourceFileName);
         FileStream? outputFile = SafeIO.OpenFileForExclusiveWrite(destinationFileName);
         if (inputFile == null)
+        {
             throw new NullStreamException("Could not open the specified file for reading.");
+        }
 
         if (outputFile == null)
+        {
             throw new NullStreamException("Could not open the specified file for writing.");
+        }
 
         await AdaptiveCompression.DecompressAsync(inputFile, outputFile).ConfigureAwait(false);
 
@@ -412,10 +441,8 @@ public class CsvFile : DisposableObjectBase, IComparable
         _hasHeader = hasHeader;
 
         FileStream? sourceStream = SafeIO.OpenFileForExclusiveRead(fileName);
-        if (sourceStream == null)
-            throw new NullStreamException("Could not open the specified file for reading.");
-
-        CsvReader reader = new CsvReader(sourceStream, _maxCellSize, hasHeader);
+        NullStreamException.ThrowIfNull(sourceStream, nameof(sourceStream), "Could not open the specified file for reading.");
+        CsvReader reader = new(sourceStream!, _maxCellSize, hasHeader);
         if (hasHeader)
         {
             _headerNames = reader.ReadHeader();
@@ -423,7 +450,7 @@ public class CsvFile : DisposableObjectBase, IComparable
 
         _dataRows = reader.ReadRawDataRows(hasHeader);
         reader.Dispose();
-        sourceStream.Dispose();
+        sourceStream?.Dispose();
     }
 
     /// <summary>
@@ -440,11 +467,8 @@ public class CsvFile : DisposableObjectBase, IComparable
         _fileName = fileName;
         _hasHeader = hasHeader;
 
-        FileStream? sourceStream = SafeIO.OpenFileForExclusiveRead(fileName);
-        if (sourceStream == null)
-            throw new NullStreamException("Could not open the specified file for reading.");
-
-        CsvReader reader = new CsvReader(sourceStream, _maxCellSize, hasHeader);
+        FileStream? sourceStream = SafeIO.OpenFileForExclusiveRead(fileName) ?? throw new NullStreamException("Could not open the specified file for reading.");
+        CsvReader reader = new(sourceStream, _maxCellSize, hasHeader);
         if (hasHeader)
         {
             _headerNames = await reader.ReadHeaderAsync().ConfigureAwait(false);
@@ -466,17 +490,18 @@ public class CsvFile : DisposableObjectBase, IComparable
         if (_dataRows != null)
         {
             if (SafeIO.FileExists(newFileName))
+            {
                 SafeIO.DeleteFile(newFileName);
-            using FileStream? outStream = SafeIO.OpenFileForExclusiveWrite(newFileName);
-            if (outStream == null)
-                throw new NullStreamException(newFileName);
-            if (!outStream.CanWrite)
-                throw new CantWriteStreamException(newFileName);
+            }
 
-            using CsvWriter writer = new CsvWriter(outStream);
+            using FileStream? outStream = SafeIO.OpenFileForExclusiveWrite(newFileName);
+            NullStreamException.ThrowIfNull(outStream, newFileName);
+            CantWriteStreamException.ThrowIfStreamCantWrite(outStream, newFileName);
+
+            using CsvWriter writer = new(outStream!);
             writer.WriteRawDataRows(_dataRows, _hasHeader);
 
-            outStream.Flush();
+            outStream?.Flush();
         }
     }
     /// <summary>
@@ -487,18 +512,22 @@ public class CsvFile : DisposableObjectBase, IComparable
     /// </returns>
     public List<int> ValidateColumnCounts()
     {
-        List<int> rowIndexValues = new List<int>();
         int expectedCount = 0;
-
-
         if (_headerNames != null)
+        {
             expectedCount = _headerNames.Count;
+        }
         else if (_dataRows != null && _dataRows.Count > 0)
+        {
             expectedCount = _dataRows[0].Count;
+        }
         else if (_dataRows == null || _dataRows.Count == 0)
+        {
             expectedCount = 0;
+        }
 
         return ValidateColumnCounts(expectedCount);
+
     }
 
     /// <summary>
@@ -512,7 +541,7 @@ public class CsvFile : DisposableObjectBase, IComparable
     /// </returns>
     public List<int> ValidateColumnCounts(int expectedCount)
     {
-        List<int> rowIndexValues = new List<int>();
+        List<int> rowIndexValues = [];
 
         if (expectedCount > 0 && _dataRows != null)
         {
@@ -521,7 +550,9 @@ public class CsvFile : DisposableObjectBase, IComparable
             {
                 List<string> row = _dataRows[rowIndex];
                 if (row.Count != expectedCount)
+                {
                     rowIndexValues.Add(rowIndex);
+                }
             }
         }
 
@@ -538,17 +569,110 @@ public class CsvFile : DisposableObjectBase, IComparable
     private string GenerateCompressedName()
     {
         if (string.IsNullOrEmpty(_fileName))
+        {
             throw new InvalidOperationException("There is no file to compress.");
+        }
 
         return _fileName + ".zip";
     }
-    
-    #endregion
 
-    #region
-    #endregion
+    /// <summary>
+    /// Determines if the specified instance is equal to this instance.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
 
-    #region
+        if (ReferenceEquals(obj, null))
+        {
+            return false;
+        }
+
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public override int GetHashCode()
+    {
+        throw new NotImplementedException();
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator ==(CsvFile left, CsvFile right)
+    {
+        if (ReferenceEquals(left, null))
+        {
+            return ReferenceEquals(right, null);
+        }
+
+        return left.Equals(right);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator !=(CsvFile left, CsvFile right)
+    {
+        return !(left == right);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator <(CsvFile left, CsvFile right)
+    {
+        return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator <=(CsvFile left, CsvFile right)
+    {
+        return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator >(CsvFile left, CsvFile right)
+    {
+        return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator >=(CsvFile left, CsvFile right)
+    {
+        return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+    }
+
     #endregion
 
 }

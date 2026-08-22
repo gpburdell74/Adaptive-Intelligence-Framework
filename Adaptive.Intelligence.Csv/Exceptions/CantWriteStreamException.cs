@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Csv.Exceptions;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Represents an exception that occurs because the <see cref="Stream"/> cannot be written to.
@@ -6,8 +6,7 @@
 public sealed class CantWriteStreamException : CsvException
 {
     private const string ErrorMessage = "The stream cannot be written to.";
-
-    private string? _fileName;
+    private readonly string? _fileName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CantWriteStreamException"/> class.
@@ -51,4 +50,18 @@ public sealed class CantWriteStreamException : CsvException
     /// A string containing the name of the file, or <b>null</b>.
     /// </value>
     public string? FileName => _fileName;
+
+    /// <summary>
+    /// Throws a <see cref="CantWriteStreamException"/> if the provided <see cref="Stream"/> is <b>null</b>.
+    /// </summary>
+    /// <param name="destinationStream"></param>
+    /// <param name="fileName"></param>
+    /// <exception cref="CantWriteStreamException"></exception>
+    public static void ThrowIfStreamCantWrite(Stream? destinationStream, string? fileName = null)
+    {
+        if (destinationStream is null)
+        {
+            throw new CantWriteStreamException(fileName);
+        }
+    }
 }
