@@ -1,5 +1,4 @@
-﻿using Adaptive.Intelligence.Csv.Exceptions;
-using Adaptive.Intelligence.Shared.Logging;
+﻿using System.Globalization;
 using System.Reflection;
 
 namespace Adaptive.Intelligence.Csv;
@@ -23,12 +22,9 @@ public static class CsvTypeConverter
     /// A value of <typeparamref name="T"/> if the conversion is sucessful; or <b>null</b> of the parameter is 
     /// <b>null</b> or the conversion fails.
     /// </returns>
-    /// <exception cref="InvalidDataTypeException">
-    /// Thrown when <typeparamref name="T"/> is an invalid or unrecognized data type.
-    /// </exception>
     public static T? Convert<T>(string sourceData)
     {
-        T? returnValue = default(T);
+        T? returnValue;
 
         switch (Type.GetTypeCode(typeof(T)))
         {
@@ -61,7 +57,7 @@ public static class CsvTypeConverter
                 break;
 
             case TypeCode.DBNull:
-                returnValue = default(T?);
+                returnValue = default;
                 break;
 
             case TypeCode.Decimal:
@@ -99,10 +95,11 @@ public static class CsvTypeConverter
             case TypeCode.Single:
                 returnValue = (T?)(object?)ToSingle(sourceData);
                 break;
-
+            case TypeCode.Empty:
             default:
                 throw new InvalidDataTypeException(typeof(T));
         }
+
         return returnValue;
     }
 
@@ -119,20 +116,16 @@ public static class CsvTypeConverter
     /// A boxed <see cref="object"/> if the conversion is sucessful; or <b>null</b> of the parameter is 
     /// <b>null</b> or the conversion fails.
     /// </returns>
-    /// <exception cref="InvalidDataTypeException">
-    /// Thrown when the property data type is an invalid or unrecognized data type.
-    /// </exception>
     public static object? ConvertType(string sourceData, PropertyInfo property)
     {
         Type dataType = property.PropertyType;
-        Type? actualType = (Nullable.GetUnderlyingType(dataType));
+        Type? actualType = Nullable.GetUnderlyingType(dataType);
         if (actualType != null)
         {
             dataType = actualType;
         }
 
-        object? returnValue = null;
-
+        object? returnValue;
         switch (Type.GetTypeCode(dataType))
         {
             case TypeCode.String:
@@ -228,8 +221,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            byte parseResult = 0;
-            if (byte.TryParse(sourceData, out parseResult))
+            if (byte.TryParse(sourceData, out byte parseResult))
             {
                 result = parseResult;
             }
@@ -237,11 +229,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToByte(sourceData);
+                    result = System.Convert.ToByte(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -263,8 +255,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            bool parseResult = false;
-            if (bool.TryParse(sourceData, out parseResult))
+            if (bool.TryParse(sourceData, out bool parseResult))
             {
                 result = parseResult;
             }
@@ -274,9 +265,9 @@ public static class CsvTypeConverter
                 {
                     result = System.Convert.ToBoolean(sourceData);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -298,10 +289,9 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            char parseResult = (char)0;
-            if (char.TryParse(sourceData, out parseResult))
+            if (char.TryParse(sourceData, out char newChar))
             {
-                result = parseResult;
+                result = newChar;
             }
             else
             {
@@ -309,9 +299,9 @@ public static class CsvTypeConverter
                 {
                     result = System.Convert.ToChar(sourceData);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -333,8 +323,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            DateTime parseResult = DateTime.MinValue;
-            if (DateTime.TryParse(sourceData, out parseResult))
+            if (DateTime.TryParse(sourceData, out DateTime parseResult))
             {
                 result = parseResult;
             }
@@ -342,11 +331,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToDateTime(sourceData);
+                    result = System.Convert.ToDateTime(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -360,16 +349,15 @@ public static class CsvTypeConverter
     /// A string containing the source data read from the CSV cell.
     /// </param>
     /// <returns>
-    /// A <see cref="Decimal"/> value representing the original data, or <b>null</b>.
+    /// A <see cref="decimal"/> value representing the original data, or <b>null</b>.
     /// </returns>
-    public static decimal? ToDecimal (string? sourceData)
+    public static decimal? ToDecimal(string? sourceData)
     {
         decimal? result = null;
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            decimal parseResult = 0;
-            if (decimal.TryParse(sourceData, out parseResult))
+            if (decimal.TryParse(sourceData, out decimal parseResult))
             {
                 result = parseResult;
             }
@@ -377,11 +365,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToDecimal(sourceData);
+                    result = System.Convert.ToDecimal(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -403,8 +391,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            double parseResult = 0;
-            if (double.TryParse(sourceData, out parseResult))
+            if (double.TryParse(sourceData, out double parseResult))
             {
                 result = parseResult;
             }
@@ -412,11 +399,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToDouble(sourceData);
+                    result = System.Convert.ToDouble(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -438,8 +425,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            short parseResult = 0;
-            if (short.TryParse(sourceData, out parseResult))
+            if (short.TryParse(sourceData, out short parseResult))
             {
                 result = parseResult;
             }
@@ -447,11 +433,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToInt16(sourceData);
+                    result = System.Convert.ToInt16(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -473,8 +459,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            int parseResult = 0;
-            if (int.TryParse(sourceData, out parseResult))
+            if (int.TryParse(sourceData, out int parseResult))
             {
                 result = parseResult;
             }
@@ -482,11 +467,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToInt32(sourceData);
+                    result = System.Convert.ToInt32(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -508,8 +493,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            long parseResult = 0;
-            if (long.TryParse(sourceData, out parseResult))
+            if (long.TryParse(sourceData, out long parseResult))
             {
                 result = parseResult;
             }
@@ -517,11 +501,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToInt64(sourceData);
+                    result = System.Convert.ToInt64(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -543,8 +527,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            ushort parseResult = 0;
-            if (ushort.TryParse(sourceData, out parseResult))
+            if (ushort.TryParse(sourceData, out ushort parseResult))
             {
                 result = parseResult;
             }
@@ -552,11 +535,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToUInt16(sourceData);
+                    result = System.Convert.ToUInt16(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -578,8 +561,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            uint parseResult = 0;
-            if (uint.TryParse(sourceData, out parseResult))
+            if (uint.TryParse(sourceData, out uint parseResult))
             {
                 result = parseResult;
             }
@@ -587,11 +569,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToUInt32(sourceData);
+                    result = System.Convert.ToUInt32(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -613,8 +595,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            ulong parseResult = 0;
-            if (ulong.TryParse(sourceData, out parseResult))
+            if (ulong.TryParse(sourceData, out ulong parseResult))
             {
                 result = parseResult;
             }
@@ -622,11 +603,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToUInt64(sourceData);
+                    result = System.Convert.ToUInt64(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -648,8 +629,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            sbyte parseResult = 0;
-            if (sbyte.TryParse(sourceData, out parseResult))
+            if (sbyte.TryParse(sourceData, out sbyte parseResult))
             {
                 result = parseResult;
             }
@@ -657,11 +637,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToSByte(sourceData);
+                    result = System.Convert.ToSByte(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }
@@ -683,8 +663,7 @@ public static class CsvTypeConverter
 
         if (!string.IsNullOrEmpty(sourceData))
         {
-            float parseResult = 0;
-            if (float.TryParse(sourceData, out parseResult))
+            if (float.TryParse(sourceData, out float parseResult))
             {
                 result = parseResult;
             }
@@ -692,11 +671,11 @@ public static class CsvTypeConverter
             {
                 try
                 {
-                    result = System.Convert.ToSingle(sourceData);
+                    result = System.Convert.ToSingle(sourceData, CultureInfo.CurrentCulture);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ExceptionLog.LogException(ex);
+                    result = null;
                 }
             }
         }

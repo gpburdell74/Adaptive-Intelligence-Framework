@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Csv.Exceptions;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Represents an exception that occurs because the <see cref="Stream"/> cannot be read from.
@@ -26,5 +26,18 @@ public sealed class CantReadStreamException : CsvException
     public CantReadStreamException(Exception innerException) : base(ErrorMessage, innerException)
     {
 
+    }
+
+    /// <summary>
+    /// Throws a <see cref="CantReadStreamException"/> if the provided <see cref="Stream"/> cannot be read from.
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <exception cref="CantReadStreamException"></exception>
+    public static void ThrowIfStreamCannotBeRead(Stream stream)
+    {
+        if (!stream.CanRead)
+        {
+            throw new CantReadStreamException();
+        }
     }
 }

@@ -1,10 +1,6 @@
-﻿using Adaptive.Intelligence.Csv.Attributes;
-using Adaptive.Intelligence.Csv.Metadata;
-using Adaptive.Intelligence.Shared;
-using Adaptive.Intelligence.Shared.Logging;
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace Adaptive.Intelligence.Csv.Reflection;
+namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Contains the metadata for a specified user/generic data type in order to speed up
@@ -19,27 +15,27 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
     /// <summary>
     /// The data type reference.
     /// </summary>
-    private Type? _userType = null;
+    private Type? _userType;
 
     /// <summary>
     /// The original list of property information objects from the original data type.
     /// </summary>
-    private List<PropertyInfo>? _originalPropertyList = null;
+    private List<PropertyInfo>? _originalPropertyList;
 
     /// <summary>
     /// The list of properties in order.
     /// </summary>
-    private List<PropertyInfo>? _orderedList = null;
+    private List<PropertyInfo>? _orderedList;
 
     /// <summary>
     /// The list of properties that have <see cref="IndexAttribute"/> decorations.
     /// </summary>
-    private List<PropertyInfo>? _indexedProperties = null;
+    private List<PropertyInfo>? _indexedProperties;
 
     /// <summary>
     /// The list of properties that do not have <see cref="IndexAttribute"/> decorations.
     /// </summary>
-    private List<PropertyInfo>? _nonIndexedProperties = null;
+    private List<PropertyInfo>? _nonIndexedProperties;
     #endregion
 
     #region Constructor / Dispose Methods
@@ -56,7 +52,7 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
     /// read from the specified data source.
     /// </param>
     public UserTypeCacheInstance(bool nonIndexedFieldsLast = true, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
-        :base(nonIndexedFieldsLast, flags)
+        : base(nonIndexedFieldsLast, flags)
     {
         // Store the data type.
         _userType = typeof(T);
@@ -189,23 +185,17 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
 
         if (_orderedList != null && columnName != null)
         {
-            try
+            propInfo = _orderedList.FirstOrDefault(
+                property => property.Name.Equals(columnName, StringComparison.OrdinalIgnoreCase));
+
+            // Search by header text if not found.
+            if (propInfo == null && headerText != null)
             {
                 propInfo = _orderedList.FirstOrDefault(
-                    property => property.Name.Equals(columnName, StringComparison.OrdinalIgnoreCase));
-
-                // Search by header text if not found.
-                if (propInfo == null && headerText != null)
-                {
-                    propInfo = _orderedList.FirstOrDefault(
-                        property => property.Name.Equals(headerText, StringComparison.OrdinalIgnoreCase));
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionLog.LogException(ex);
+                    property => property.Name.Equals(headerText, StringComparison.OrdinalIgnoreCase));
             }
         }
+
         return propInfo;
     }
 
@@ -225,8 +215,7 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
             ReadNonIndexedProperties();
 
             _orderedList?.Clear();
-            if (_orderedList == null)
-                _orderedList = new List<PropertyInfo>(_originalPropertyList.Count);
+            _orderedList ??= new List<PropertyInfo>(_originalPropertyList.Count);
 
             // If the <see cref="NonIndexedFieldsLast"/> property is false,
             // add the list of non-indexed fields first.
@@ -262,21 +251,14 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
     /// The source list <see cref="List{T}"/> of <see cref="PropertyInfo"/> instances to be copied
     /// after being sorted by name.
     /// </param>
-    private void AddNonIndexedProperties(List<PropertyInfo>? targetList, List<PropertyInfo>? sourceList)
+    private static void AddNonIndexedProperties(List<PropertyInfo>? targetList, List<PropertyInfo>? sourceList)
     {
         if (targetList != null)
         {
             if (sourceList != null && sourceList.Count > 0)
             {
-                try
-                {
-                    IOrderedEnumerable<PropertyInfo> nameOrderList = sourceList.OrderBy(property => property.Name);
-                    targetList.AddRange(nameOrderList);
-                }
-                catch (Exception ex)
-                {
-                    ExceptionLog.LogException(ex);
-                }
+                IOrderedEnumerable<PropertyInfo> nameOrderList = sourceList.OrderBy(property => property.Name);
+                targetList.AddRange(nameOrderList);
             }
         }
     }
@@ -290,19 +272,10 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
         {
             _indexedProperties?.Clear();
             _indexedProperties = null;
-            try
-            {
-                // Read the list of properties from the original data type that have been decorated
-                // with the <see cref="IndexAttribute"/>.
-                _indexedProperties = _originalPropertyList
-                    .Where(property => property.GetCustomAttribute<IndexAttribute>() != null)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                ExceptionLog.LogException(ex);
-
-            }
+            // Read the list of properties from the original data type that have been decorated
+            // with the <see cref="IndexAttribute"/>.
+            _indexedProperties = [.. _originalPropertyList
+                .Where(property => property.GetCustomAttribute<IndexAttribute>() != null)];
         }
     }
 
@@ -315,20 +288,11 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
         {
             _nonIndexedProperties?.Clear();
             _nonIndexedProperties = null;
-            try
-            {
-                // Read the list of properties from the original data type that have been decorated
-                // with the <see cref="IndexAttribute"/>.
-                _nonIndexedProperties = _originalPropertyList
-                    .Where(property => property.GetCustomAttribute<IndexAttribute>() == null)
-                    .OrderBy(property => property.Name)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                ExceptionLog.LogException(ex);
-
-            }
+            // Read the list of properties from the original data type that have been decorated
+            // with the <see cref="IndexAttribute"/>.
+            _nonIndexedProperties = [.. _originalPropertyList
+                .Where(property => property.GetCustomAttribute<IndexAttribute>() == null)
+                .OrderBy(property => property.Name)];
         }
     }
 
@@ -345,17 +309,18 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
 
         if (_indexedProperties != null)
         {
-            try
-            {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                sortedList = _indexedProperties.OrderBy(property => property.GetCustomAttribute<IndexAttribute>().Index);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-            }
-            catch (Exception ex)
-            {
-                ExceptionLog.LogException(ex);
-
-            }
+            sortedList = _indexedProperties.OrderBy(property =>
+                {
+                    var attribute = property.GetCustomAttribute<IndexAttribute>();
+                    if (attribute is null)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        return attribute.Index;
+                    }
+                });
         }
         return sortedList;
     }
@@ -372,9 +337,9 @@ public sealed class UserTypeCacheInstance<T> : UserTypeCacheInstance
         {
             try
             {
-                _originalPropertyList = _userType.GetProperties(Flags).ToList();
+                _originalPropertyList = [.. _userType.GetProperties(Flags)];
             }
-            catch 
+            catch
             {
                 _originalPropertyList = null;
             }

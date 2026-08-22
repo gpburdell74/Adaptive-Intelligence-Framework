@@ -73,7 +73,7 @@ namespace Adaptive.Intelligence.Csv.Tests
             var row = new List<string> { "1", "2" };
             var writer = new CsvWriter(new MemoryStream());
             writer.Dispose();
-            Assert.Throws<Adaptive.Intelligence.Csv.Exceptions.NullStreamException>(() => writer.WriteDataRow(row));
+            Assert.Throws<NullStreamException>(() => writer.WriteDataRow(row));
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace Adaptive.Intelligence.Csv.Tests
             var rows = new List<List<string>> { new List<string> { "A" } };
             var writer = new CsvWriter(new MemoryStream());
             writer.Dispose();
-            Assert.Throws<Adaptive.Intelligence.Csv.Exceptions.NullStreamException>(() => writer.WriteRawDataRows(rows));
+            Assert.Throws<NullStreamException>(() => writer.WriteRawDataRows(rows));
         }
 
         public class TestObject

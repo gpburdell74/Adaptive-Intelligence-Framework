@@ -1,35 +1,26 @@
 ﻿using Adaptive.Intelligence.Csv.Attributes;
-using Adaptive.Intelligence.Csv.Exceptions;
-using Adaptive.Intelligence.Csv.Metadata;
-using Adaptive.Intelligence.Csv.Reflection;
 using Adaptive.Intelligence.Shared;
-using Adaptive.Intelligence.Unsafe;
-using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Text;
 
 namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
-/// PErforms the task of writing CSV content.
+/// Performs the task of writing CSV content.
 /// </summary>
-/// <seealso cref="DisposableObjectBase" />
-public class CsvWriter : DisposableObjectBase
+/// <seealso cref="LoggableBase" />
+public class CsvWriter : LoggableBase
 {
     #region Private Member Declarations
     /// <summary>
     /// The stream to be read from.
     /// </summary>
-    private Stream? _stream = null;
+    private Stream? _stream;
 
     /// <summary>
     /// The text writer instance.
     /// </summary>
-    private StreamWriter? _writer = null;
-
-    /// <summary>
-    /// The header flag.
-    /// </summary>
-    private bool _hasHeader = false;
+    private StreamWriter? _writer;
 
     /// <summary>
     /// The CSV delimiter to use.
@@ -44,7 +35,7 @@ public class CsvWriter : DisposableObjectBase
     /// <summary>
     /// The cached builder instance.
     /// </summary>
-    private FastStringBuilder? _cachedBuilder;
+    private StringBuilder? _cachedBuilder;
     #endregion
 
     #region Constructor / Dispose Methods
@@ -112,9 +103,13 @@ public class CsvWriter : DisposableObjectBase
         get
         {
             if (_stream == null)
+            {
                 return -1;
+            }
             else
+            {
                 return _stream.Position;
+            }
         }
     }
     #endregion
@@ -127,7 +122,7 @@ public class CsvWriter : DisposableObjectBase
     {
         _columns?.Clear();
         _writer?.Dispose();
-        _cachedBuilder?.Dispose();
+        _cachedBuilder?.Clear();
     }
 
     /// <summary>
@@ -228,7 +223,6 @@ public class CsvWriter : DisposableObjectBase
         else
         {
             _stream.Seek(0, SeekOrigin.Begin);
-            _hasHeader = hasHeader;
 
             if (_writer != null)
             {
@@ -243,7 +237,7 @@ public class CsvWriter : DisposableObjectBase
                     int length = dataRows.Count;
                     for (int rowIndex = index; rowIndex < length; rowIndex++)
                     {
-                        WriteCsvLine(_writer, dataRows[rowIndex]);
+                        WriteDataRow(dataRows[rowIndex]);
                     }
                 }
             }
@@ -274,17 +268,15 @@ public class CsvWriter : DisposableObjectBase
         {
             // Get the cached reflection data for the specified type, and if not 
             // yet created, create and cache it.
-            UserTypeCacheInstance<T>? typeData = UserTypeCache.GetOrCreate<T>();
-            if (typeData == null)
-                throw new ParserEngineException("Could not cache the specified data type.");
+            UserTypeCacheInstance<T>? typeData = UserTypeCache.GetOrCreate<T>() ?? throw new ParserEngineException("Could not cache the specified data type.");
 
             // Update the meta data and order the columns as needed.
             CreateColumnProfiles(typeData.OrderedProperties);
 
             if (_columns != null)
-            { 
+            {
                 typeData.UpdateCsvColumnInfo(_columns);
-                List<CsvColumnInfo> orderedColumns = _columns.OrderBy(x => x.Index).ToList();
+                List<CsvColumnInfo> orderedColumns = [.. _columns.OrderBy(x => x.Index)];
 
                 if (hasHeader)
                 {
@@ -323,14 +315,14 @@ public class CsvWriter : DisposableObjectBase
     private void CreateColumnProfiles(List<PropertyInfo>? propertyList)
     {
         _columns?.Clear();
-        _columns = new List<CsvColumnInfo>();
+        _columns = [];
 
         if (propertyList != null)
         {
             int index = 0;
             foreach (PropertyInfo property in propertyList)
             {
-                CsvColumnInfo info = new CsvColumnInfo()
+                CsvColumnInfo info = new()
                 {
                     ColumnName = property.Name,
                     HeaderText = property.Name,
@@ -347,7 +339,6 @@ public class CsvWriter : DisposableObjectBase
             }
         }
     }
-
     /// <summary>
     /// Concatenates the values in the provided list into a single string seperated by the specified
     /// delimiter.
@@ -362,11 +353,55 @@ public class CsvWriter : DisposableObjectBase
     /// <returns></returns>
     private string ConcatenateCsvValues(List<string> dataElements)
     {
+        StringBuilder builder = CreateCachedBuilder(dataElements.Count);
+
+        for (int index = 0; index < dataElements.Count; index++)
+        {
+            string element = dataElements[index];
+
+            // Single SIMD-friendly scan: delimiter, quote, CR, LF.
+            bool mustQuote = element.AsSpan().IndexOfAny(_delimiter, '"', '\n') >= 0 || element.Contains('\r');
+
+            if (mustQuote)
+            {
+                builder.Append('"');
+                // Keep existing escape semantics.
+                builder.Append(element.Replace("\"", "\"\"", StringComparison.Ordinal));
+                builder.Append('"');
+            }
+            else
+            {
+                builder.Append(element);
+            }
+
+            if (index < dataElements.Count - 1)
+            {
+                builder.Append(_delimiter);
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    /// <summary>
+    /// Concatenates the values in the provided list into a single string seperated by the specified
+    /// delimiter.
+    /// </summary>
+    /// <remarks>
+    /// This method will enclose any data elements that are non-standard, such as those that contain the delimiter
+    /// or quote characters with a set of double-quote characters.
+    /// </remarks>
+    /// <param name="dataElements">
+    /// A <see cref="List{T}"/> of <see cref="string"/> containing the data elements to combine.
+    /// </param>
+    /// <returns></returns>
+    private string OldConcatenateCsvValues(List<string> dataElements)
+    {
         // Create a buffer large enough for the whole line.
-        FastStringBuilder builder = CreateCachedBuilder(dataElements.Count);
+        StringBuilder builder = CreateCachedBuilder(dataElements.Count);
 
         int length = dataElements.Count;
-        for(int index = 0; index < length; index++)
+        for (int index = 0; index < length; index++)
         {
             string element = dataElements[index];
             if (element.Contains(_delimiter) || element.Contains('"'))
@@ -381,7 +416,7 @@ public class CsvWriter : DisposableObjectBase
             {
                 builder.Append(element);
             }
-            if (index < length-1)
+            if (index < length - 1)
             {
                 builder.Append(_delimiter);
             }
@@ -396,10 +431,10 @@ public class CsvWriter : DisposableObjectBase
     /// <param name="headerNames">
     /// An array of strings containing the column header names.
     /// </param>
-    private void CreateColumnProfiles(string[] headerNames)
+    private void xCreateColumnProfiles(string[] headerNames)
     {
         _columns?.Clear();
-        _columns = new List<CsvColumnInfo>();
+        _columns = [];
 
         int index = 0;
         foreach (string headerText in headerNames)
@@ -447,19 +482,20 @@ public class CsvWriter : DisposableObjectBase
     /// AN integer specifying the number of columns / items in the CSV data.
     /// </param>
     /// <returns>
-    /// The refernece to the <see cref="FastStringBuilder"/> instance to use.
+    /// The refernece to the <see cref="StringBuilder"/> instance to use.
     /// </returns>
-    private FastStringBuilder CreateCachedBuilder(int itemsCount)
+    private StringBuilder CreateCachedBuilder(int itemsCount)
     {
         if (_cachedBuilder == null)
         {
-            _cachedBuilder = new FastStringBuilder(itemsCount * 65536);
+            _cachedBuilder = new StringBuilder(itemsCount * 65536);
         }
         else
         {
             _cachedBuilder.Clear();
         }
-            return _cachedBuilder;
+
+        return _cachedBuilder;
     }
 
     /// <summary>
@@ -471,14 +507,12 @@ public class CsvWriter : DisposableObjectBase
     /// <returns>
     /// A <see cref="List{T}"/> of <see cref="string"/> instances containing the header names.
     /// </returns>
-    private List<string> GetHeaderNamesList(List<CsvColumnInfo> orderedList)
+    private static List<string> GetHeaderNamesList(List<CsvColumnInfo> orderedList)
     {
-        List<string> namesList = new List<string>(orderedList.Count);
+        List<string> namesList = new(orderedList.Count);
         for (int index = 0; index < orderedList.Count; index++)
         {
-            string? value = orderedList[index].HeaderText ?? orderedList[index].ColumnName;
-            if (value == null)
-                value = string.Empty;
+            string? value = (orderedList[index].HeaderText ?? orderedList[index].ColumnName) ?? string.Empty;
             namesList.Add(value);
         }
         return namesList;
@@ -496,7 +530,7 @@ public class CsvWriter : DisposableObjectBase
     /// <returns>
     /// A <see cref="List{T}"/> of <see cref="string"/> values, or <b>null</b>.
     /// </returns>
-    private List<string>? ParseObject<T>(T? objectInstance)
+    private static List<string>? ParseObject<T>(T? objectInstance)
     {
         List<string>? valueList = null;
 
@@ -504,7 +538,9 @@ public class CsvWriter : DisposableObjectBase
         // yet created, create and cache it.
         UserTypeCacheInstance<T>? typeData = UserTypeCache.GetOrCreate<T>();
         if (typeData == null)
+        {
             throw new ParserEngineException("Could read the specified data type from the cache.");
+        }
 
         if (typeData != null && typeData.OrderedProperties != null)
         {
@@ -513,9 +549,13 @@ public class CsvWriter : DisposableObjectBase
             {
                 object? value = propData.GetValue(objectInstance);
                 if (value == null)
+                {
                     valueList.Add(string.Empty);
+                }
                 else
+                {
                     valueList.Add(value.ToString() ?? string.Empty);
+                }
             }
         }
 
@@ -523,4 +563,3 @@ public class CsvWriter : DisposableObjectBase
     }
     #endregion
 }
-

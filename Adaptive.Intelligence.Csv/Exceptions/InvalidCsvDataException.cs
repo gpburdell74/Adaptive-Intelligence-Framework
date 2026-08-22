@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Csv.Exceptions;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Represents an exception that occurs when the data in a CSV file could not be parsed and/or the

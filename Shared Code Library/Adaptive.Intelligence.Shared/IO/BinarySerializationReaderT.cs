@@ -1,5 +1,4 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
-using Adaptive.Intelligence.Shared.Properties;
 using System.Reflection;
 
 namespace Adaptive.Intelligence.Shared.IO
@@ -92,7 +91,7 @@ namespace Adaptive.Intelligence.Shared.IO
         {
             if (_reader == null)
             {
-                throw new InvalidOperationException(Resources.ErrorStreamRead);
+                throw new InvalidOperationException(Properties.Resources.ErrorStreamRead);
             }
 
             // Read the property list.

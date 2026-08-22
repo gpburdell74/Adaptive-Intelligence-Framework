@@ -1,5 +1,4 @@
 ﻿using Adaptive.Intelligence.Shared.Logging;
-using Adaptive.Intelligence.Shared.Properties;
 using System.IO.Compression;
 using System.Text;
 
@@ -47,7 +46,7 @@ public static class AdaptiveCompression
     {
         ArgumentNullException.ThrowIfNull(sourceStream);
         return !sourceStream.CanRead
-            ? throw new ArgumentOutOfRangeException(nameof(sourceStream), Resources.ErrorStreamRead)
+            ? throw new ArgumentOutOfRangeException(nameof(sourceStream), Properties.Resources.ErrorStreamRead)
             : Compress(sourceStream.ToArray());
     }
 
@@ -167,7 +166,7 @@ public static class AdaptiveCompression
         ArgumentNullException.ThrowIfNull(sourceContent);
         if (!sourceContent.CanRead)
         {
-            throw new ArgumentOutOfRangeException(nameof(sourceContent), Resources.ErrorStreamRead);
+            throw new ArgumentOutOfRangeException(nameof(sourceContent), Properties.Resources.ErrorStreamRead);
         }
 
         byte[]? result = null;
@@ -259,12 +258,12 @@ public static class AdaptiveCompression
     {
         if (!sourceStream.CanRead)
         {
-            throw new ArgumentOutOfRangeException(nameof(sourceStream), Resources.ErrorStreamRead);
+            throw new ArgumentOutOfRangeException(nameof(sourceStream), Properties.Resources.ErrorStreamRead);
         }
 
         if (!destinationStream.CanWrite)
         {
-            throw new ArgumentOutOfRangeException(nameof(destinationStream), Resources.ErrorStreamWrite);
+            throw new ArgumentOutOfRangeException(nameof(destinationStream), Properties.Resources.ErrorStreamWrite);
         }
 
         destinationStream.Seek(0, SeekOrigin.Begin);
@@ -296,12 +295,12 @@ public static class AdaptiveCompression
     {
         if (!sourceStream.CanRead)
         {
-            throw new ArgumentOutOfRangeException(nameof(sourceStream), Resources.ErrorStreamRead);
+            throw new ArgumentOutOfRangeException(nameof(sourceStream), Properties.Resources.ErrorStreamRead);
         }
 
         if (!destinationStream.CanWrite)
         {
-            throw new ArgumentOutOfRangeException(nameof(destinationStream), Resources.ErrorStreamWrite);
+            throw new ArgumentOutOfRangeException(nameof(destinationStream), Properties.Resources.ErrorStreamWrite);
         }
 
         destinationStream.Seek(0, SeekOrigin.Begin);

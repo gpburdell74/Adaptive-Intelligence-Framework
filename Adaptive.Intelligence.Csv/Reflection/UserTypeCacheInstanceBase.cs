@@ -1,7 +1,7 @@
 ﻿using Adaptive.Intelligence.Shared;
 using System.Reflection;
 
-namespace Adaptive.Intelligence.Csv.Reflection;
+namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Provides a base definition for a user-type cache instance.
@@ -10,39 +10,31 @@ namespace Adaptive.Intelligence.Csv.Reflection;
 /// The purpose of this class is to provide a base definition to each insance of this type can be
 /// referenced regardless of the generic type parameter.
 /// </remarks>
-public abstract class UserTypeCacheInstance : DisposableObjectBase
+/// <remarks>
+/// Initializes a new instance of the <see cref="UserTypeCacheInstance{T}"/> class.
+/// </remarks>
+/// <param name="nonIndexedFieldsLast">
+/// An optional parameter indicating how to place the non-indexed property list when creating
+/// the ordered list of properties.  If <b>true</b>, these properties are apppended to the 
+/// end of the list; otherwise, they are pre-pended to the start of the list.
+/// </param>
+/// <param name="flags">
+/// An opertional parameter of <see cref="BindingFlags"/> that determines which properties are 
+/// read from the specified data source.
+/// </param>
+public abstract class UserTypeCacheInstance(bool nonIndexedFieldsLast = true, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance) : DisposableObjectBase
 {
     #region Private Member Declarations
     /// <summary>
     /// A flag indicating whether to add the non-indexed list of properties at the end of the list
     /// when ordered, or not.
     /// </summary>
-    private bool _nonIndexedFieldsLast = true;
+    private bool _nonIndexedFieldsLast = nonIndexedFieldsLast;
 
     /// <summary>
     /// The binding flags that are used to query the data type for hte list of properties.
     /// </summary>
-    private BindingFlags _flags = BindingFlags.Public | BindingFlags.Instance;
-    #endregion
-
-    #region Constructor / Dispose Methods
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UserTypeCacheInstance{T}"/> class.
-    /// </summary>
-    /// <param name="nonIndexedFieldsLast">
-    /// An optional parameter indicating how to place the non-indexed property list when creating
-    /// the ordered list of properties.  If <b>true</b>, these properties are apppended to the 
-    /// end of the list; otherwise, they are pre-pended to the start of the list.
-    /// </param>
-    /// <param name="flags">
-    /// An opertional parameter of <see cref="BindingFlags"/> that determines which properties are 
-    /// read from the specified data source.
-    /// </param>
-    public UserTypeCacheInstance(bool nonIndexedFieldsLast = true, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
-    {
-        _nonIndexedFieldsLast = nonIndexedFieldsLast;
-        _flags = flags;
-    }
+    private BindingFlags _flags = flags;
     #endregion
 
     #region Public Properties

@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Csv.Exceptions;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Represents an exception that occurs because an unexpected error occured when parsing CSV content.
@@ -51,5 +51,18 @@ public sealed class ParserEngineException : CsvException
     public ParserEngineException(string message, Exception innerException) : base(message, innerException)
     {
 
+    }
+
+    /// <summary>
+    /// Throws a <see cref="ParserEngineException"/> if the provided <paramref name="parser"/> is null.
+    /// </summary>
+    /// <param name="parser"></param>
+    /// <exception cref="ParserEngineException"></exception>
+    public static void ThrowIfNull(ICsvParser? parser)
+    {
+        if (parser is null)
+        {
+            throw new ParserEngineException();
+        }
     }
 }

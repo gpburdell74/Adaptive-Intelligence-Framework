@@ -1,4 +1,4 @@
-﻿namespace Adaptive.Intelligence.Csv.Exceptions;
+﻿namespace Adaptive.Intelligence.Csv;
 
 /// <summary>
 /// Provides the base definition for CSV-related exceptions.
